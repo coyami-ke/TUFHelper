@@ -1,0 +1,180 @@
+ManifestFileVersion: 0
+CRC: 2856678601
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 09785a37995ae31a86a45400276a6b8b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: e348328fad82e94f0f6d8ec01218da69
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 09785a37995ae31a86a45400276a6b8b
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: eb8c6530fe147184b934291aae2fe0e9, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.FaceInfo_Legacy
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.FontAssetCreationSettings
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.KerningTable
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_Character
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_FontFeatureTable
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_FontWeightPair
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphAdjustmentRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphPairAdjustmentRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.TMP_GlyphValueRecord
+- AssemblyName: Unity.TextMeshPro
+  ClassName: TMPro.VertexGradient
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.ArgumentCache
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentListenerMode
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.FaceInfo
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.Glyph
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.GlyphMetrics
+- AssemblyName: UnityEngine.TextCoreFontEngineModule
+  ClassName: UnityEngine.TextCore.GlyphRect
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.AnimationTriggers
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Button/ButtonClickedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.ColorBlock
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Navigation
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.SpriteState
+Assets:
+- Assets/TUFHelper/Assets/Sprites/Button.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P3.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/unknown.png
+- Assets/TUFHelper/Assets/Fonts/NotoSansJP-VariableFont_wght.ttf
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/727.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P13.png
+- Assets/TextMesh Pro/Shaders/TMP_SDF.shader
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G6.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P6.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U16.png
+- Assets/Resources/DiffIcons/P1.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G9.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P8.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P15.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U4.png
+- Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+- Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U5.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G10.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P20.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P1.png
+- Assets/TUFHelper/Assets/Sprites/ArrowDown.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G1.png
+- Assets/TUFHelper/Assets/Sprites/Arrow Right.png
+- Assets/TUFHelper/Assets/Sprites/magnifying-glass.png
+- Assets/TUFHelper/Assets/Sprites/bg.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P14.png
+- Assets/TUFHelper/Assets/Fonts/GmarketSansMedium SDF.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G16.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U8.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/64.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U11.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/-21.png
+- Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P18.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U17.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P9.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P4.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P17.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P12.png
+- Assets/TUFHelper/Assets/Fonts/NotoSansJP-VariableFont_wght SDF.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U12.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G18.png
+- Assets/TUFHelper/Assets/Fonts/GmarketSansMedium.otf
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G12.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G14.png
+- Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G15.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G19.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P16.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P10.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U10.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U9.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G11.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U20.png
+- Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U1.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G20.png
+- Assets/TUFHelper/Assets/Fonts/NotoSansMath-Regular.ttf
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G7.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U18.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G13.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P5.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/0.9.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P7.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G8.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U13.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U7.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P2.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/-22.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U15.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G4.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U14.png
+- Assets/TUFHelper/Assets/Prefabs/LevelPrefab.prefab
+- Assets/TUFHelper/Assets/Fonts/NotoSansMath-Regular SDF.asset
+- Assets/TUFHelper/Assets/Fonts/SourceHanSansSC-Normal SDF.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U2.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U3.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P11.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G17.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G5.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G2.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U19.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/P19.png
+- Assets/TUFHelper/Assets/Sprites/Arrow Left.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/G3.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/U6.png
+- Assets/TextMesh Pro/Fonts/LiberationSans.ttf
+- Assets/TUFHelper/Assets/Fonts/SourceHanSansSC-Normal.otf
+Dependencies: []
