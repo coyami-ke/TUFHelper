@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
-  m_Name: Log 160
+  m_Name: Log 162
   m_EditorClassIdentifier: 
   pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
   creationDate:
-    ticks: 638456234557991988
+    ticks: 638456242873350837
   entries:
   - logLevel: 3
     internalTime:
-      ticks: 638456234633274575
+      ticks: 638456242941982749
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Finished
       execution'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234571512575
+      ticks: 638456242886340310
     message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Creating 2 AssetBundles'
     context:
@@ -651,19 +651,19 @@ MonoBehaviour:
 '
   - logLevel: 3
     internalTime:
-      ticks: 638456234568616011
+      ticks: 638456242883321661
     message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234568532427
+      ticks: 638456242883246511
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Build Completed: ``` ThunderKit/Libraries/TUFHelper.dll ```'
     context: []
   - logLevel: 1
     internalTime:
-      ticks: 638456234568254870
+      ticks: 638456242883168759
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Assets\TUFHelper\ModScripts\LevelLoadPatch.cs(22,29): warning CS0169: The field
       ''LevelLoadPatch.isCustomError'' is never used'
@@ -674,67 +674,67 @@ MonoBehaviour:
       warning CS0169: The field ''LevelLoadPatch.isCustomError'' is never used](exceptionsource://G:\UnityProjects\TUFHelper\Assets\TUFHelper\ModScripts\LevelLoadPatch.cs#22)'
   - logLevel: 0
     internalTime:
-      ticks: 638456234563687944
+      ticks: 638456242878757946
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Building : ThunderKit/Libraries/TUFHelper.dll'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638456234560298528
+      ticks: 638456242875529194
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638456234560247013
+      ticks: 638456242875478460
     message: '[Pipeline(2 - StageManifestFiles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234560188455
+      ticks: 638456242875420142
     message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleted G:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234560058443
+      ticks: 638456242875304764
     message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleting G:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638456234560038160
+      ticks: 638456242875274778
     message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234560008037
+      ticks: 638456242875244768
     message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleted G:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234559965689
+      ticks: 638456242875203759
     message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleting G:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638456234558885771
+      ticks: 638456242874071087
     message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638456234558865864
+      ticks: 638456242874051077
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Clearing
       PipelineJob error states'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638456234558745535
+      ticks: 638456242873941079
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Execute
       Pipeline'
     context: []

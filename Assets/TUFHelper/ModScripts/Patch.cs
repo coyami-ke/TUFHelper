@@ -137,11 +137,11 @@ namespace TUFHelper
             portal.name = "TUFHelperPortal";
             scrFloor floor = portal.GetComponent<scrFloor>();
             floor.levelnumber = 7335;
-            portal.transform.position = new Vector3(2f, 3f);
+            portal.transform.position = new Vector3(3f, 1f);
             GameObject canvasWorld = GameObject.Find("Canvas World");
 
             Transform transform = GameObject.Instantiate<Transform>(canvasWorld.transform.Find("Calibration"), canvasWorld.transform);
-            transform.position = new Vector3(2.9f, 3.7f);
+            transform.position = new Vector3(5.4f, 1f);
             transform.name = "TUFHelperPortalText";
             transform.GetComponent<scrTextChanger>().desktopText = "TUF Levels";
             transform.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
