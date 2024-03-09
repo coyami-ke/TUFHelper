@@ -8,8 +8,18 @@ namespace TUFHelper
     public class Setting : UnityModManager.ModSettings
     {
 
+        public int orderMode = 0; // 0 -> id, 1 -> difficulty
+        public int orderByIDMode = -1; // 1 -> down, -1 -> up
+        public int orderByDifficultyMode = 1; // 1 -> down, -1 -> up
+
+        public bool showLegacyRating = false, showUnratedLevels = false;
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
+            if (modEntry == null)
+            {
+                return;
+            }
             var filepath = GetPath(modEntry);
             try
             {

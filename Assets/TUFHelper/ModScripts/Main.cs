@@ -10,7 +10,7 @@ namespace TUFHelper
     public static class Main
     {
 
-        internal static string modVersion = "0.0.1";
+        internal static string modVersion = "0.0.5";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;
@@ -22,8 +22,8 @@ namespace TUFHelper
 
         public static void Initialize(ModEntry modEntry)
         {
-            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "assets.bundle"));
-            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "scenes.bundle"));
+            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_assets.bundle"));
+            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_scenes.bundle"));
 
             ModEntry = modEntry;
             Logger = modEntry.Logger;
@@ -56,11 +56,7 @@ namespace TUFHelper
 
         internal static void OnGUI(ModEntry modEntry)
         {
-            if (GUILayout.Button("test"))
-            {
-                scnEditor.levelToOpenOnLoad = "";
-                SceneManager.LoadScene("scnEditor");
-            }
+            
         }
 
         internal static void OnSaveGUI(ModEntry modEntry)

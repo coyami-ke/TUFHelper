@@ -1,11 +1,11 @@
 ManifestFileVersion: 0
-CRC: 729913768
+CRC: 3679164160
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: assets.bundle
+      Name: tuf_assets.bundle
       Dependencies: {}
     Info_1:
-      Name: scenes.bundle
+      Name: tuf_scenes.bundle
       Dependencies:
-        Dependency_0: assets.bundle
+        Dependency_0: tuf_assets.bundle

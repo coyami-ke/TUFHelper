@@ -1,4 +1,5 @@
 using DirectLevel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,8 +11,8 @@ public class LevelPrefabScript : MonoBehaviour
 {
 
     public Image difficultyIcon;
-    public TextMeshProUGUI artistText, levelNameText, creatorText;
     public Button watchButton, downloadButton, playButton;
+    public TextMeshProUGUI idText, artistText, levelNameText, creatorText, watchButtonText, downloadButtonText, playButtonText;
 
     public LevelInfo levelInfo;
 
@@ -29,36 +30,26 @@ public class LevelPrefabScript : MonoBehaviour
     {
         this.levelInfo = levelInfo;
 
+        idText.text = levelInfo.id + "";
         artistText.text = levelInfo.artist;
         levelNameText.text = levelInfo.song;
         creatorText.text = levelInfo.creator;
 
-        if (Main.assets != null)
+        difficultyIcon.sprite = Helper.getDiffSprite(levelInfo.pgu_diff);
+
+        if (levelInfo.vidLink.Equals(""))
         {
-            Sprite sprite = Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/" + levelInfo.pgu_diff + ".png");
-
-            if (sprite == null)
-            {
-                sprite = Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/unknown.png");
-            }
-
-            difficultyIcon.sprite = sprite;
-        }
-        else
-        {
-            Sprite sprite = Resources.Load<Sprite>("DiffIcons/" + levelInfo.pgu_diff);
-
-            if (sprite == null)
-            {
-                sprite = Resources.Load<Sprite>("DiffIcons/unknown");
-            }
-
-            difficultyIcon.sprite = sprite;
+            watchButton.interactable = false;
+            watchButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
         }
 
-        watchButton.interactable = !levelInfo.vidLink.Equals("");
-        downloadButton.interactable = !levelInfo.dlLink.Equals("");
-        playButton.interactable = !levelInfo.dlLink.Equals("");
+        if (levelInfo.dlLink.Equals(""))
+        {
+            downloadButton.interactable = false;
+            downloadButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+            playButton.interactable = false;
+            playButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+        }
     }
 
     public void WatchButtonClick()
@@ -73,7 +64,16 @@ public class LevelPrefabScript : MonoBehaviour
 
     public void PlayButtonClick()
     {
-        DirectLevelAPI.PlayFromID(DirectLevelAPI.ForumType.T21C, levelInfo.id + "", true);
+        try
+        {
+            Persistence.SetHideCursorWhilePlaying(false);
+            DirectLevelAPI.PlayFromID(DirectLevelAPI.ForumType.T21C, levelInfo.id + "", true, true);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogException(ex);
+            ErrorScript.ShowError(ex.Message);
+        }
     }
 
 }
