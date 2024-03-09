@@ -10,15 +10,18 @@ public class SearchScript : MonoBehaviour
 
     public static SearchScript instance;
     public static string searchText = "";
+    public static bool isShowingFavourites = false;
 
     public TextMeshProUGUI orderByIDButtonText, orderByDifficultyButtonText;
-    public TMP_InputField searchField;
     public Image orderByIDIcon, orderByDifficultyIcon;
+    public TMP_InputField searchField;
+    public Toggle showFavToggle;
 
     public void Awake()
     {
         instance = this;
         searchField.text = searchText;
+        showFavToggle.isOn = isShowingFavourites;
     }
 
     public void Update()
@@ -31,14 +34,14 @@ public class SearchScript : MonoBehaviour
 
     public void OnSearchTextChange()
     {
-        PageSwitcherScript.currentPage = 1;
+        PageSwitcherScript.cachedPage = 1;
         searchText = searchField.text;
         StartCoroutine(LevelListScript.instance.LoadLevelListCo());
     }
 
     public void OrderByIDButtonClick()
     {
-        PageSwitcherScript.currentPage = 1;
+        PageSwitcherScript.cachedPage = 1;
 
         if (Main.Setting.orderMode == 0)
         {
@@ -53,7 +56,7 @@ public class SearchScript : MonoBehaviour
 
     public void OrderByDifficultyButtonClick()
     {
-        PageSwitcherScript.currentPage = 1;
+        PageSwitcherScript.cachedPage = 1;
 
         if (Main.Setting.orderMode == 1)
         {
@@ -63,6 +66,14 @@ public class SearchScript : MonoBehaviour
         Main.Setting.Save(Main.ModEntry);
 
         LevelListScript.instance.SortLevelList();
+        StartCoroutine(LevelListScript.instance.LoadLevelListCo());
+    }
+
+    public void ShowFavToggle()
+    {
+        PageSwitcherScript.cachedPage = 1;
+
+        isShowingFavourites = showFavToggle.isOn;
         StartCoroutine(LevelListScript.instance.LoadLevelListCo());
     }
 }

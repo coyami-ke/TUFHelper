@@ -89,7 +89,7 @@ public class SettingsScript : MonoBehaviour
         cachedMinDiffDropdownValue = minDiffDropdown.value;
         cachedMaxDiffDropdownValue = maxDiffDropdown.value;
 
-        PageSwitcherScript.currentPage = 1;
+        PageSwitcherScript.cachedPage = 1;
         if (LevelListScript.instance != null)
         {
             StartCoroutine(LevelListScript.instance.LoadLevelListCo());

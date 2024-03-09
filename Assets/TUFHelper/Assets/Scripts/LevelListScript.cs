@@ -90,26 +90,36 @@ public class LevelListScript : MonoBehaviour
         List<LevelInfo> list = new List<LevelInfo>();
         foreach (LevelInfo li in Levels)
         {
-            bool isIdSearch = search.StartsWith("#");
-            if (isIdSearch)
+            if (SearchScript.isShowingFavourites)
             {
-                if (("#" + li.id).Equals(search))
+                if (Main.Setting.favouritesID.Contains(li.id))
                 {
                     list.Add(li);
                 }
             }
             else
             {
-                if (li.artist.ToLower().Contains(search.ToLower()) ||
-                    li.creator.ToLower().Contains(search.ToLower()) ||
-                    li.song.ToLower().Contains(search.ToLower()))
+                bool isIdSearch = search.StartsWith("#");
+                if (isIdSearch)
                 {
-                    if (Helper.pguDiffToSortNumber(li.pgu_diff) >= Helper.pguDiffToSortNumber(minPguDiff) &&
-                        Helper.pguDiffToSortNumber(li.pgu_diff) <= Helper.pguDiffToSortNumber(maxPguDiff))
+                    if (("#" + li.id).Equals(search))
                     {
-                        if (Main.Setting.showUnratedLevels || (!li.pgu_diff.Equals("0") && !li.pgu_diff.Equals("-2")))
+                        list.Add(li);
+                    }
+                }
+                else
+                {
+                    if (li.artist.ToLower().Contains(search.ToLower()) ||
+                        li.creator.ToLower().Contains(search.ToLower()) ||
+                        li.song.ToLower().Contains(search.ToLower()))
+                    {
+                        if (Helper.pguDiffToSortNumber(li.pgu_diff) >= Helper.pguDiffToSortNumber(minPguDiff) &&
+                            Helper.pguDiffToSortNumber(li.pgu_diff) <= Helper.pguDiffToSortNumber(maxPguDiff))
                         {
-                            list.Add(li);
+                            if (Main.Setting.showUnratedLevels || (!li.pgu_diff.Equals("0") && !li.pgu_diff.Equals("-2")))
+                            {
+                                list.Add(li);
+                            }
                         }
                     }
                 }

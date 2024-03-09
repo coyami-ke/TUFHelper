@@ -30,7 +30,7 @@ public class LevelPrefabScript : MonoBehaviour
     {
         this.levelInfo = levelInfo;
 
-        idText.text = levelInfo.id + "";
+        idText.text = "#" + levelInfo.id;
         artistText.text = levelInfo.artist;
         levelNameText.text = levelInfo.song;
         creatorText.text = levelInfo.creator;

@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1152014556
+CRC: 887100808
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a36ddbc1847e97108321db3038cdaf63
+    Hash: 295cc74a3be86e4c656ffa80b5e60370
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bd74840ca86e26816722ae6fc5551350
+    Hash: 2af7c79037d96437d19f5d4427894640
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: a36ddbc1847e97108321db3038cdaf63
+    Hash: 295cc74a3be86e4c656ffa80b5e60370
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,6 +30,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: eb8c6530fe147184b934291aae2fe0e9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fb5c977f1db04234e8e692bdcced8f5b, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -120,6 +122,7 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/10.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.2.png
 - Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
+- Assets/TUFHelper/Assets/Sprites/star_full.png
 - Assets/TUFHelper/Assets/Sprites/ArrowDown.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G10.png
 - Assets/TUFHelper/Assets/Sprites/Arrow Right.png
@@ -153,6 +156,7 @@ Assets:
 - Assets/TUFHelper/Assets/Fonts/NotoSansTC-Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G2.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.7.png
+- Assets/TUFHelper/Assets/Sprites/star.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/14.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U10.png
 - Assets/TUFHelper/Assets/Fonts/GmarketSansMedium.otf

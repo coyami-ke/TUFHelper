@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using static UnityModManagerNet.UnityModManager;
 
 namespace TUFHelper 
@@ -10,7 +9,7 @@ namespace TUFHelper
     public static class Main
     {
 
-        internal static string modVersion = "1.0.0";
+        internal static string modVersion = "1.0.1";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;

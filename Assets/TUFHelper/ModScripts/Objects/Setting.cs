@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using UnityModManagerNet;
@@ -13,6 +14,8 @@ namespace TUFHelper
         public int orderByDifficultyMode = 1; // 1 -> down, -1 -> up
 
         public bool showLegacyRating = false, showUnratedLevels = false;
+
+        public List<int> favouritesID = new List<int>();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {
