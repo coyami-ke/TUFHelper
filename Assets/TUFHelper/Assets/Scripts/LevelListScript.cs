@@ -34,11 +34,7 @@ public class LevelListScript : MonoBehaviour
             StartCoroutine(LoadLevelListCo());
         }
     }
-
-    public void Update()
-    {
-
-    }
+    
 
     public IEnumerator RequestAllLevels()
     {

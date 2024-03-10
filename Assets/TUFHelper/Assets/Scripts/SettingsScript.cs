@@ -33,12 +33,7 @@ public class SettingsScript : MonoBehaviour
 
         StartCoroutine(UpdateDifficultyDropdownsCo());
     }
-
-    public void Update()
-    {
-
-    }
-
+    
     public IEnumerator UpdateDifficultyDropdownsCo()
     {
         List<string> categories = new List<string>() { "P", "G", "U" };

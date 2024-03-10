@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ErrorScript : MonoBehaviour
 {
-
     public static ErrorScript instance;
 
     public TextMeshProUGUI errorContentText;
@@ -16,11 +15,7 @@ public class ErrorScript : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
-    public void Update()
-    {
-        
-    }
+    
 
     public void CloseButtonClick()
     {
@@ -29,6 +24,7 @@ public class ErrorScript : MonoBehaviour
 
     public static void ShowError(string message)
     {
+        DownloadPopupScript.Close();
         instance.errorContentText.text = message;
         instance.gameObject.SetActive(true);
     }
