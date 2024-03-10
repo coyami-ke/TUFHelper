@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIScript : MonoBehaviour
 {
@@ -16,6 +17,15 @@ public class UIScript : MonoBehaviour
     {
         instance = this;
         SwipeFromBlack();
+
+        var buttons = FindObjectsOfType<Button>();
+        foreach (var b in buttons)
+        {
+            b.onClick.AddListener(() =>
+            {
+                scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
+            });
+        }
     }
 
     internal static void SwipeFromBlack(Action onComplete = null)
@@ -29,8 +39,11 @@ public class UIScript : MonoBehaviour
             return;
         }
         instance.isDuringTransition = true;
+        
         JobDispatcher.AddJob(() =>
         {
+            scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeIn);
+            
             instance.panelRectTransform.gameObject.SetActive(true);
             instance.panelRectTransform.DOAnchorMax(new Vector2(0, 1), 0.3f).onComplete += () =>
             {
@@ -57,6 +70,8 @@ public class UIScript : MonoBehaviour
         instance.isDuringTransition = true;
         JobDispatcher.AddJob(() =>
         {
+            scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeOut);
+            
             instance.panelRectTransform.gameObject.SetActive(true);
             instance.panelRectTransform.DOAnchorMax(new Vector2(1, 1), 0.3f).onComplete += () =>
             {
