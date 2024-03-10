@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using DG.Tweening;
 using HarmonyLib;
+using TUFHelper.ModScripts.Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,11 +14,6 @@ namespace TUFHelper
 {
     public static class Patch
     {
-        private static void CacheBetaText()
-        {
-            var beta = Resources.FindObjectsOfTypeAll<scrEnableIfBeta>().FirstOrDefault();
-            BetaTextPatch.cacheBetaTextEnabled = beta != null && beta.gameObject.activeSelf;
-        }
 
         [HarmonyPatch]
         public static class TogetherEnter
@@ -37,7 +33,6 @@ namespace TUFHelper
             {
                 if (RDEditorUtils.CheckForKeyCombo(true, true, KeyCode.U))
                 {
-                    CacheBetaText();
                     
                     GCS.sceneToLoad = "";
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
@@ -63,8 +58,6 @@ namespace TUFHelper
                 {
                     GCS.sceneToLoad = "";
                     
-                    CacheBetaText();
-                    
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
@@ -86,8 +79,7 @@ namespace TUFHelper
                     PauseMenu.ButtonType bt = (__instance.currentButtons[___selectedIndex] as PauseButton).buttonType;
                     if (bt.ToString().Equals("Quit"))
                     {
-                        CacheBetaText();
-                        
+   
                         Time.timeScale = 1;
                         GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
                         scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
@@ -105,8 +97,7 @@ namespace TUFHelper
             {
                 if (Main.isInTUFHelper)
                 {
-                    CacheBetaText();
-                    
+
                     Time.timeScale = 1;
                     GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
@@ -124,6 +115,8 @@ namespace TUFHelper
             {
                 if (RecentDirectLevelOpend)
                 {
+                    AdofaiTweaksAPI.UpdateUI();
+                    
                     __instance.DeselectFloors();
                     __instance.LockPathEditing(true);
                     RecentDirectLevelOpend = false;

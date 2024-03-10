@@ -3,6 +3,7 @@ using HarmonyLib;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using TUFHelper.ModScripts.Helpers;
 using TUFHelper.Utils;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
@@ -40,9 +41,10 @@ namespace TUFHelper
             modEntry.OnGUI = OnGUI;
             modEntry.OnSaveGUI = OnSaveGUI;
             
+            AdofaiTweaksAPI.Init();
+            
             Application.wantsToQuit += () =>
             {
-                Debug.Log("End!!!");
                 foreach (var levelPath in removeLevels)
                     Directory.Delete(levelPath, true);
                 return true;
