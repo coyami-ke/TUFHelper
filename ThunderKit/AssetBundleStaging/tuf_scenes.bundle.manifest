@@ -1,15 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2925708221
+CRC: 3082328207
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e8bf7e01accd2b511c66bfbd73915d04
+    Hash: 077eb9a4212b34a318b162972fa66ecf
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 68e50b984082804824559aa0fff88705
-  IncrementalBuildHash:
-    serializedVersion: 2
-    Hash: e8bf7e01accd2b511c66bfbd73915d04
+    Hash: c0b18198234e99c4333d26b3c22cd956
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -63,6 +60,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 5f5e7907aa6c71c478990d8bd2d60c0e, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
@@ -82,6 +81,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 292bfd156213fe140a44c349b6fcf839, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 6be0048b94604e17936968e0cb7c892a, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -102,4 +103,4 @@ SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/TUFHelper/Scenes/TUFLevelSelect.unity
 Dependencies:
-- G:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging/tuf_assets.bundle
+- D:/Workspace/ADOFAI/TUFHelper/TUFHelper/ThunderKit/AssetBundleStaging/tuf_assets.bundle

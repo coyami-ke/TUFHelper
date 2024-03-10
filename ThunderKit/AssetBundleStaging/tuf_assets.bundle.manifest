@@ -1,15 +1,12 @@
 ManifestFileVersion: 0
-CRC: 832416961
+CRC: 4176113604
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: df04a2681f0d8bc2b14bdd922b3603e3
+    Hash: fd83fa00293b22decff24f613ae0f8a5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1ef4fd8b79b99d9bda81d9a2e97271f9
-  IncrementalBuildHash:
-    serializedVersion: 2
-    Hash: df04a2681f0d8bc2b14bdd922b3603e3
+    Hash: 99f8cc3f5cd205b943391ccafe85eaf5
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -188,8 +185,8 @@ Assets:
 - Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
 - Assets/TUFHelper/Assets/Fonts/NotoSans-Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/7.png
-- Assets/TUFHelper/Assets/Fonts/NotoSansJP-Medium SDF.asset
 - Assets/TUFHelper/Assets/Fonts/NotoSansMath-Regular.ttf
+- Assets/TUFHelper/Assets/Fonts/NotoSansJP-Medium SDF.asset
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U2.png
 - Assets/TUFHelper/Assets/Sprites/t21c_logo.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.15.png
