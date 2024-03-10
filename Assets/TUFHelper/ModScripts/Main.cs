@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using TUFHelper.Utils;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
@@ -19,6 +21,9 @@ namespace TUFHelper
 
         internal static AssetBundle assets, scenes;
         internal static bool isInTUFHelper = false;
+        
+        internal static List<string> removeLevels = new List<string>();
+        internal static SynchronizationContext mainThread;
 
         public static void Initialize(ModEntry modEntry)
         {
@@ -34,6 +39,15 @@ namespace TUFHelper
             modEntry.OnToggle = OnToggle;
             modEntry.OnGUI = OnGUI;
             modEntry.OnSaveGUI = OnSaveGUI;
+            
+            Application.wantsToQuit += () =>
+            {
+                Debug.Log("End!!!");
+                foreach (var levelPath in removeLevels)
+                    Directory.Delete(levelPath, true);
+                return true;
+            };
+            mainThread = SynchronizationContext.Current;
 
             Setting = new Setting();
             Setting = ModSettings.Load<Setting>(modEntry);
