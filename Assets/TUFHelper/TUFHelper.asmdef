@@ -18,7 +18,7 @@
         "UnityModManager.dll",
         "Newtonsoft.Json.dll",
         "System.Windows.Forms.dll",
-        "DirectLevel.dll"
+        "DotNetZip.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

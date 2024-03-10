@@ -1,9 +1,7 @@
 using DirectLevel;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using TUFHelper;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -47,6 +45,10 @@ public class LevelPrefabScript : MonoBehaviour
         {
             downloadButton.interactable = false;
             downloadButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+        }
+
+        if (!levelInfo.dlLink.Contains("drive.google") && !levelInfo.dlLink.Contains("discord") && !levelInfo.dlLink.Contains("hyonsu"))
+        {
             playButton.interactable = false;
             playButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
         }

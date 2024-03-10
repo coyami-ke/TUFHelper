@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System.IO;
 using System.Reflection;
+using TUFHelper.Utils;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
 
@@ -9,7 +10,7 @@ namespace TUFHelper
     public static class Main
     {
 
-        internal static string modVersion = "1.0.2";
+        internal static string modVersion = "1.0.3";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;
@@ -55,7 +56,13 @@ namespace TUFHelper
 
         internal static void OnGUI(ModEntry modEntry)
         {
-            
+            GUILayout.BeginHorizontal();
+
+            GUILayout.Label("Level Save Path");
+            Setting.levelSaveFolder = GUILayout.TextField(Setting.levelSaveFolder, GUILayout.MinWidth(500));
+
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
         }
 
         internal static void OnSaveGUI(ModEntry modEntry)

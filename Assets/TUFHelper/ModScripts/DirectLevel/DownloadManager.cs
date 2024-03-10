@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Text;
 using TUFHelper;
+using TUFHelper.Utils;
 using UnityEngine.SceneManagement;
 
 namespace DirectLevel
@@ -29,15 +30,15 @@ namespace DirectLevel
         public static void DownloadLevel(bool isAdofaiGG, string levelID)
         {
             currentID = levelID;
-            var directoryInfo = new DirectoryInfo($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/ADOFAI/");
+            var directoryInfo = new DirectoryInfo(Main.Setting.levelSaveFolder);
             if(!directoryInfo.Exists) directoryInfo.Create();
 
             var wc = new CookieWebClient();
             wc.Encoding = Encoding.UTF8;
             
             var downloadURL = GetDirectURL(GetURLFromLevelID(isAdofaiGG, levelID), wc);
-            var directoryInfo2 = new DirectoryInfo($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/ADOFAI/{levelID}{(isAdofaiGG?"A":"T")}");
-            var directoryInfo3 = new FileInfo($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/ADOFAI/{levelID}{(isAdofaiGG?"A":"T")}.zip");
+            var directoryInfo2 = new DirectoryInfo(Main.Setting.levelSaveFolder  + $"/{levelID}{(isAdofaiGG?"A":"T")}");
+            var directoryInfo3 = new FileInfo(Main.Setting.levelSaveFolder + $"/{levelID}{(isAdofaiGG?"A":"T")}.zip");
             if (directoryInfo3.Exists)
             {
                 File.Delete(directoryInfo3.FullName);
@@ -61,16 +62,14 @@ namespace DirectLevel
 
         public static void Download(string url, string path, WebClient wc)
         {
-
             var zipPath = $"{path}.zip";
             wc.DownloadFile(url, zipPath);
             
-            
-            Unzip(zipPath, path);
+            ZipHelper.Unzip(zipPath, path);
             File.Delete(zipPath);
         }
         
-        private static void Unzip(string zipFilePath, string location)
+        /*private static void Unzip(string zipFilePath, string location)
         {
             //Directory.CreateDirectory(location);
             //ZipFile.ExtractToDirectory(zipFilePath, location);
@@ -79,15 +78,14 @@ namespace DirectLevel
             
 
             if (zipFilePath == null) return;
-            
-            
-            using (var zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Read, Encoding.UTF8))
+
+            using (var zipArchive = System.IO.Compression.ZipFile.Open(zipFilePath, ZipArchiveMode.Read, Encoding.UTF8))
             {
                 zipArchive.ExtractToDirectory(location);
             }
             
             //ZipUtils.Unzip(zipFilePath, location);
-        }
+        }*/
 
         internal static void PlayLevel(string path, bool toEditor)
         {

@@ -13,7 +13,6 @@ namespace DirectLevel
             T21C
         }
         
-        
         public static void DownloadLevel(string url, string downloadDirectory)
         {
             var wc = new DownloadManager.CookieWebClient();
@@ -80,7 +79,7 @@ namespace DirectLevel
             
             var url = DownloadManager.GetURLFromLevelID(forumType == ForumType.ADOFAI_GG, id);
             var urlId = url.GetHashCode();
-            var directoryInfo = new DirectoryInfo($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/ADOFAI/");
+            var directoryInfo = new DirectoryInfo(Main.Setting.levelSaveFolder);
             var path = Path.Combine(directoryInfo.FullName, urlId.ToString());
             if(!directoryInfo.Exists) directoryInfo.Create();
             
@@ -99,7 +98,7 @@ namespace DirectLevel
             LevelLoadPatch.IsLoading = true;
             
             var urlId = url.GetHashCode();
-            var directoryInfo = new DirectoryInfo($"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}/ADOFAI/");
+            var directoryInfo = new DirectoryInfo(Main.Setting.levelSaveFolder);
             var path = Path.Combine(directoryInfo.FullName, urlId.ToString());
             if(!directoryInfo.Exists) directoryInfo.Create();
             

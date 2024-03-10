@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 1114990490
+CRC: 832416961
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 84f1fc4b8c407e230e8812ed8a07924b
+    Hash: df04a2681f0d8bc2b14bdd922b3603e3
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1ef4fd8b79b99d9bda81d9a2e97271f9
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 84f1fc4b8c407e230e8812ed8a07924b
+    Hash: df04a2681f0d8bc2b14bdd922b3603e3
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -101,8 +101,8 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U16.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/2.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.0.png
+- Assets/TUFHelper/Assets/Fonts/Gmarket Sans TTF Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/21.2.png
-- Assets/Resources/DiffIcons/P1.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/4.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G9.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P18.png
@@ -113,6 +113,7 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G15.png
 - Assets/TUFHelper/Assets/Fonts/NotoSansSC-Medium SDF.asset
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G19.png
+- Assets/TUFHelper/Assets/Fonts/Gmarket Sans TTF Medium SDF.asset
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G12.png
 - Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Text Component Icon.psd
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P9.png
@@ -124,6 +125,7 @@ Assets:
 - Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader
 - Assets/TUFHelper/Assets/Sprites/star_full.png
 - Assets/TUFHelper/Assets/Sprites/ArrowDown.png
+- Assets/Resources/DiffIcons/P1.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G10.png
 - Assets/TUFHelper/Assets/Sprites/Arrow Right.png
 - Assets/TUFHelper/Assets/Sprites/magnifying-glass.png
@@ -139,13 +141,12 @@ Assets:
 - Assets/TUFHelper/Assets/Fonts/NotoSansKR-Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/13.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P1.png
-- Assets/TUFHelper/Assets/Fonts/GmarketSansMedium SDF.asset
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/17.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P13.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P10.png
-- Assets/TUFHelper/Assets/Sprites/DiffIcons/17.png
+- Assets/TUFHelper/Assets/Sprites/DiffIcons/20.8.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U11.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P16.png
-- Assets/TUFHelper/Assets/Sprites/DiffIcons/20.8.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/5.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/18.5.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/8.png
@@ -159,9 +160,9 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/star.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/14.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U10.png
-- Assets/TUFHelper/Assets/Fonts/GmarketSansMedium.otf
 - Assets/TUFHelper/Assets/Fonts/NotoSans-Medium SDF.asset
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G3.png
+- Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.45.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G14.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G16.png

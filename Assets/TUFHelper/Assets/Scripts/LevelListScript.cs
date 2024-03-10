@@ -7,6 +7,8 @@ using TUFHelper;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
+using Together.Utils;
+using TUFHelper.Utils;
 
 public class LevelListScript : MonoBehaviour
 {
@@ -41,6 +43,7 @@ public class LevelListScript : MonoBehaviour
     public IEnumerator RequestAllLevels()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/levels");
+        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
