@@ -1,6 +1,9 @@
 using DirectLevel;
 using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TMPro;
+using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,19 +13,29 @@ public class LevelPrefabScript : MonoBehaviour
 
     public Image difficultyIcon;
     public Button watchButton, downloadButton, playButton;
-    public TextMeshProUGUI idText, artistText, levelNameText, creatorText, watchButtonText, downloadButtonText, playButtonText;
+
+    public TextMeshProUGUI idText,
+        artistText,
+        levelNameText,
+        creatorText,
+        watchButtonText,
+        downloadButtonText,
+        playButtonText;
 
     public LevelInfo levelInfo;
 
     public void Awake()
     {
-        
-    }
+        void ClickSfx()
+        {
+            scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
+        }
 
-    public void Update()
-    {
-        
+        watchButton.onClick.AddListener(ClickSfx);
+        downloadButton.onClick.AddListener(ClickSfx);
+        playButton.onClick.AddListener(ClickSfx);
     }
+    
 
     public void SetLevelInfo(LevelInfo levelInfo)
     {
@@ -47,7 +60,8 @@ public class LevelPrefabScript : MonoBehaviour
             downloadButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
         }
 
-        if (!levelInfo.dlLink.Contains("drive.google") && !levelInfo.dlLink.Contains("discord") && !levelInfo.dlLink.Contains("hyonsu"))
+        if (!levelInfo.dlLink.Contains("drive.google") && !levelInfo.dlLink.Contains("discord") &&
+            !levelInfo.dlLink.Contains("hyonsu"))
         {
             playButton.interactable = false;
             playButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
@@ -56,25 +70,55 @@ public class LevelPrefabScript : MonoBehaviour
 
     public void WatchButtonClick()
     {
+        if (DirectLevelAPI.IsDownloading) return;
+        
         Application.OpenURL(levelInfo.vidLink);
     }
 
     public void DownloadButtonClick()
     {
+        if (DirectLevelAPI.IsDownloading) return;
+        
         Application.OpenURL(levelInfo.dlLink);
     }
 
     public void PlayButtonClick()
     {
+        if (DirectLevelAPI.IsDownloading) return;
+            
         try
         {
+            var levelName = new Regex("[^a-zA-Z0-9 -]").Replace(levelInfo.song.ToLower(), string.Empty);
+
             Persistence.SetHideCursorWhilePlaying(false);
-            DirectLevelAPI.PlayFromID(DirectLevelAPI.ForumType.T21C, levelInfo.id + "", true, true);
+
+
+
+            DownloadPopupScript.Show();
+            DirectLevelAPI.PlayFromIDTask(DirectLevelAPI.ForumType.TUC, levelInfo.id + "", true, levelName, true,
+                (ex) =>
+                {
+                    Main.mainThread.Post(_ =>
+                    {
+                        UIScript.SwipeFromBlack();
+
+                        Debug.LogException(ex);
+                        ErrorScript.ShowError(ex.Message);
+                        
+                        DirectLevelAPI.IsDownloading = false;
+                    },null);
+                });
+            
         }
         catch (Exception ex)
         {
+
+            UIScript.SwipeFromBlack();
+
             Debug.LogException(ex);
             ErrorScript.ShowError(ex.Message);
+            
+            DirectLevelAPI.IsDownloading = false;
         }
     }
 

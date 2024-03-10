@@ -1,3 +1,4 @@
+using DirectLevel;
 using TUFHelper;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,10 +23,13 @@ public class MiscScript : MonoBehaviour
         {
             ExitButtonClick();
         }
+        
     }
 
     public void ExitButtonClick()
     {
+        if (DirectLevelAPI.IsDownloading) return;
+        
         UIScript.SwipeToBlack(() =>
         {
             Main.isInTUFHelper = false;
@@ -36,6 +40,8 @@ public class MiscScript : MonoBehaviour
 
     public void OpenURL(string url)
     {
+        if (DirectLevelAPI.IsDownloading) return;
+        
         if (new System.Random().Next(1, 100) == 1)
         {
             Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");

@@ -24,148 +24,169 @@ namespace DirectLevel
                 return r;
             }
         }
-
-        private static string currentID;
         
-        public static void DownloadLevel(bool isAdofaiGG, string levelID)
-        {
-            currentID = levelID;
-            var directoryInfo = new DirectoryInfo(Main.Setting.levelSaveFolder);
-            if(!directoryInfo.Exists) directoryInfo.Create();
-
-            var wc = new CookieWebClient();
-            wc.Encoding = Encoding.UTF8;
-            
-            var downloadURL = GetDirectURL(GetURLFromLevelID(isAdofaiGG, levelID), wc);
-            var directoryInfo2 = new DirectoryInfo(Main.Setting.levelSaveFolder  + $"/{levelID}{(isAdofaiGG?"A":"T")}");
-            var directoryInfo3 = new FileInfo(Main.Setting.levelSaveFolder + $"/{levelID}{(isAdofaiGG?"A":"T")}.zip");
-            if (directoryInfo3.Exists)
-            {
-                File.Delete(directoryInfo3.FullName);
-                
-                Download(downloadURL, directoryInfo2.FullName, wc);
-                return;
-            }
-
-            if (directoryInfo2.Exists && directoryInfo2.GetFiles().Length == 0)
-            {
-                Download(downloadURL, directoryInfo2.FullName, wc);
-                return;
-            }
-            
-            if (directoryInfo2.Exists) return;
-            directoryInfo2.Create();
-            
-            Download(downloadURL, directoryInfo2.FullName, wc);
-            
-        }
 
         public static void Download(string url, string path, WebClient wc)
         {
+            var stream = wc.OpenRead(url);
+                
+            var buffer = new byte[15];
+            stream.Read(buffer, 0, buffer.Length);
+            stream.Close();
+            
+            var isntDownloadFile = Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>";
+
+            if (isntDownloadFile)
+            {
+                if (url.Contains("google.com"))
+                    throw new Exception("This drive file is temporarily unavailable for download.");
+                
+                throw new Exception("This URL is not a download file.");
+            }
+
+
             var zipPath = $"{path}.zip";
-            wc.DownloadFile(url, zipPath);
+            wc.DownloadProgressChanged += (sender, args) =>
+            { 
+                DownloadPopupScript.ChangeMessage = $"Downloading... ({args.BytesReceived}/{args.TotalBytesToReceive})";
+            };
+            DownloadPopupScript.ChangeProgress = 3 / 6f;
+            var t = wc.DownloadFileTaskAsync(url, zipPath); 
+            t.Wait();
+            
+            DownloadPopupScript.ChangeMessage = "Unzipping";
+            DownloadPopupScript.ChangeProgress = 4 / 6f;
             
             ZipHelper.Unzip(zipPath, path);
             File.Delete(zipPath);
         }
         
-        /*private static void Unzip(string zipFilePath, string location)
+
+        internal static void PlayLevel(string path, bool toEditor, string containName)
         {
-            //Directory.CreateDirectory(location);
-            //ZipFile.ExtractToDirectory(zipFilePath, location);
+            DownloadPopupScript.ChangeProgress = 5 / 6f;
+            DownloadPopupScript.ChangeMessage = "Searching main level file";
             
-            //var encoding = System.Text.Encoding.GetEncoding("da-DK");
-            
-
-            if (zipFilePath == null) return;
-
-            using (var zipArchive = System.IO.Compression.ZipFile.Open(zipFilePath, ZipArchiveMode.Read, Encoding.UTF8))
-            {
-                zipArchive.ExtractToDirectory(location);
-            }
-            
-            //ZipUtils.Unzip(zipFilePath, location);
-        }*/
-
-        internal static void PlayLevel(string path, bool toEditor)
-        {
-            var loadpath = "";
+            var loadPath = "";
+            var containLoadPath = "";
 
             var di = new DirectoryInfo(path + "/");
             Utils.MoveLastDirectory(di, di);
-            var size = 0L;
-            var heavySize = 0L;
+
+            var containMapSize = 0L;
+            var mapSize = 0L;
+            var songSize = 0L;
 
             string ogg = null;
             foreach (var file in di.GetFiles())
             {
+                
+                // find main song file
                 if (ogg == null)
                 {
-                    if (file.Extension.ToLower().Contains("ogg") && file.Length > heavySize)
+                    if (file.Extension.ToLower().Contains("ogg") && file.Length > songSize)
                     {
                         ogg = file.FullName;
-                        heavySize = file.Length;
+                        songSize = file.Length;
                     }
                 }
                 
+                
+                //find main adofai file
                 if (!file.Extension.Contains("adofai")) continue;
                 if (file.Name.Contains("backup")) continue;
+                
                 if (file.Name.ToLower().Contains("main"))
                 {
-                    loadpath = file.FullName;
+                    loadPath = file.FullName;
                     break;
                 }
-
-                if (file.Length > size)
-                {
-                    size = file.Length;
-                    loadpath = file.FullName;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ogg))
-            {
-                /*
-                if (!File.Exists(Path.Combine(di.FullName, "song.ogg")))
-                    File.Move(ogg, Path.Combine(di.FullName, "song.ogg"));
-                Patch.SongPath = Path.Combine(di.FullName, "song.ogg");*/
                 
-                LevelLoadPatch.SongPath = ogg;
+                if (!string.IsNullOrEmpty(containName))
+                {
+                    if (containName.Contains(containName))
+                    {
+                        if (file.Length > containMapSize)
+                        {
+                            containMapSize = file.Length;
+                            containLoadPath = file.FullName;
+                        }
+                    }
+                }
+
+                if (file.Length > mapSize)
+                {
+                    mapSize = file.Length;
+                    loadPath = file.FullName;
+                }
+                
             }
+            
+            if (!string.IsNullOrEmpty(containLoadPath))
+                loadPath = containLoadPath;
 
+            
+            /*
+            if (!string.IsNullOrEmpty(ogg))
+                LevelLoadPatch.SongPath = ogg;*/
 
+            GC.Collect();
             GCS.checkpointNum = 0;
-            if (scrController.instance != null)
+            
+            //run at mainThread
+            DownloadPopupScript.ChangeMessage = "Opening a Level...";
+            DownloadPopupScript.ChangeProgress = 1;
+            
+            Main.mainThread.Post(_ =>
             {
-                if (toEditor)
+                if (scrController.instance != null)
                 {
-                    GCS.sceneToLoad = "scnEditor";
-                    SceneManager.LoadScene("scnEditor");
-                    scnEditor.levelToOpenOnLoad = loadpath;
-                    scrController.instance.StartLoadingScene();
+                    if (toEditor)
+                    {
+                        GCS.sceneToLoad = "scnEditor";
+                        SceneManager.LoadScene("scnEditor");
+                        scnEditor.levelToOpenOnLoad = loadPath;
+                        scrController.instance.StartLoadingScene();
+                    }
+                    else
+                    {
+                        scrController.instance.LoadCustomLevel(loadPath);
+                    }
                 }
                 else
                 {
-                    scrController.instance.LoadCustomLevel(loadpath);
+                    void Invoke()
+                    {
+                        Patch.RecentDirectLevelOpend = true;
+                        
+                        if (toEditor)
+                        {
+                            GCS.sceneToLoad = "scnEditor";
+                            scnEditor.levelToOpenOnLoad = loadPath;
+                            GCS.worldEntrance = null;
+                            SteamIntegration.EditorEntered();
+                            SceneManager.LoadScene("scnEditor");
+                        }
+                        else
+                        {
+                            GCS.sceneToLoad = "scnGame";
+                            SceneManager.LoadScene("scnGame");
+                            GCS.customLevelPaths = new string[1];
+                            GCS.customLevelPaths[0] = loadPath;
+                        }
+                        
+                    }
+
+                    if (SceneManager.GetActiveScene().name == "TUFLevelSelect") 
+                        UIScript.SwipeToBlack(Invoke);
+                    else
+                        Invoke();
+                    
                 }
-            }
-            else
-            {
-                if (toEditor)
-                {
-                    GCS.sceneToLoad = "scnEditor";
-                    SceneManager.LoadScene("scnEditor");
-                    scnEditor.levelToOpenOnLoad = loadpath;
-                }
-                else
-                {
-                    GCS.sceneToLoad = "scnGame";
-                    SceneManager.LoadScene("scnGame");
-                    GCS.customLevelPaths = new string[1];
-                    GCS.customLevelPaths[0] = loadpath;
-                }
-            }
+            }, null);
+            
         }
+        
         
         internal static string GetDirectURL(string url, WebClient wc)
         {
@@ -201,7 +222,7 @@ namespace DirectLevel
 
                     if (driveid == String.Empty)
                         throw new Exception(
-                            $"Google Drive id not found\n\n-----Level Info-----\nLevelID: {currentID}\nURL: ${url}");
+                            $"Google Drive id not found\n\n-----Level Info-----\nURL: ${url}");
 
                     wc.DownloadData(url);
 
@@ -243,13 +264,13 @@ namespace DirectLevel
                 if (url.StartsWith("https://drive.google.com/drive/folders/"))
                 {
                     throw new Exception(
-                        $"Google Drive folder cannot be downloaded\n\n-----Level Info-----\nLevelID: {currentID}\nURL: {url}");
+                        $"Google Drive folder cannot be downloaded\n\n-----Level Info-----\nURL: {url}");
                 }
 
                 if (url.StartsWith("https://steamcommunity.com/"))
                 {
                     throw new Exception(
-                        $"Steam Workshop cannot be downloaded\n\n-----Level Info-----\nLevelID: {currentID}\nURL: {url}");
+                        $"Steam Workshop cannot be downloaded\n\n-----Level Info-----\nURL: {url}");
                 }
 
                 return url;
@@ -257,7 +278,7 @@ namespace DirectLevel
             catch(Exception e)
             {
                 throw new Exception(
-                    $"The download link is not accessible.\n\n-----Level Info-----\nLevelID: {currentID}\nURL: {url}\nException: {e.Message}");
+                    $"The download link is not accessible.\n\n-----Level Info-----\nException: {e.Message}");
             }
         }
 
@@ -301,7 +322,7 @@ namespace DirectLevel
             }
             catch (Exception e)
             {
-                throw new Exception($"No corresponding levels found on Adofai.gg.\n\n-----Level Info-----\nLevelID: {currentID}\n"+e);
+                throw new Exception($"No corresponding levels found on {(isAdofaiGG? "Adofai.gg":"TUC")}.\n\n-----Level Info-----\n"+e);
             }
         }
     }
