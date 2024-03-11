@@ -12,7 +12,7 @@ using UnityEngine.UI;
 namespace TUFHelper
 
 {
-    public static class Patch
+    public static class MoveToLobbyPatch
     {
 
         [HarmonyPatch]
@@ -106,25 +106,8 @@ namespace TUFHelper
                 return true;
             }
         }
-
-        public static bool RecentDirectLevelOpend;
-        [HarmonyPatch(typeof(scnEditor), "Start")]
-        public static class AutoPathLock
-        {
-            public static void Postfix(scnEditor __instance)
-            {
-                if (RecentDirectLevelOpend)
-                {
-                    AdofaiTweaksAPI.UpdateUI();
-                    
-                    __instance.DeselectFloors();
-                    __instance.LockPathEditing(true);
-                    RecentDirectLevelOpend = false;
-                }
-            }
-        }
         
-
+        
         private static List<GameObject> portals = new List<GameObject>();
         private static List<Transform> transforms = new List<Transform>();
 

@@ -1,5 +1,7 @@
 using DG.Tweening;
 using System;
+using System.Threading;
+using TUFHelper;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,9 @@ public class UIScript : MonoBehaviour
 
     public void Start()
     {
+        if (Main.mainThread == null)
+            Main.mainThread = SynchronizationContext.Current;
+        
         instance = this;
         SwipeFromBlack();
 

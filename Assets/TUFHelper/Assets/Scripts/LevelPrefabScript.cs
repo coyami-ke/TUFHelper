@@ -6,6 +6,7 @@ using TMPro;
 using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelPrefabScript : MonoBehaviour
@@ -70,56 +71,93 @@ public class LevelPrefabScript : MonoBehaviour
 
     public void WatchButtonClick()
     {
-        if (DirectLevelAPI.IsDownloading) return;
+        if (DownloadPopupScript.IsDownloading) return;
         
         Application.OpenURL(levelInfo.vidLink);
     }
 
     public void DownloadButtonClick()
     {
-        if (DirectLevelAPI.IsDownloading) return;
+        if (DownloadPopupScript.IsDownloading) return;
         
         Application.OpenURL(levelInfo.dlLink);
     }
 
+    private void ExceptionCatch(Exception ex)
+    {
+        
+        Debug.LogException(ex);
+        ErrorScript.ShowError(ex.Message);
+            
+        DownloadPopupScript.IsDownloading = false;
+    }
+
     public void PlayButtonClick()
     {
-        if (DirectLevelAPI.IsDownloading) return;
+        if (DownloadPopupScript.IsDownloading) return;
             
         try
         {
-            var levelName = new Regex("[^a-zA-Z0-9 -]").Replace(levelInfo.song.ToLower(), string.Empty);
-
             Persistence.SetHideCursorWhilePlaying(false);
-
-
-
-            DownloadPopupScript.Show();
-            DirectLevelAPI.PlayFromIDTask(DirectLevelAPI.ForumType.TUC, levelInfo.id + "", true, levelName, true,
-                (ex) =>
-                {
-                    Main.mainThread.Post(_ =>
-                    {
-                        UIScript.SwipeFromBlack();
-
-                        Debug.LogException(ex);
-                        ErrorScript.ShowError(ex.Message);
-                        
-                        DirectLevelAPI.IsDownloading = false;
-                    },null);
-                });
             
+            DownloadPopupScript.Show();
+            
+            var levelDownloder = new LevelDownloader(levelInfo.dlLink);
+            levelDownloder.ErrorHandler = (ex)=>
+            {
+                DirectLevel.Utils.RunAtMainThread(()=>ExceptionCatch(ex));
+            };
+            levelDownloder.OnUpdateProgress = (progress, stateMessage) =>
+            {
+                DownloadPopupScript.ChangeProgress = progress;
+                DownloadPopupScript.ChangeMessage = stateMessage;
+            };
+            levelDownloder.OnDownloadComplete = levelList =>
+            {
+                switch (levelList.Count)
+                {
+                    case 0:
+                        throw new Exception("adofai file was not found");
+                    case 1:
+                        UIScript.SwipeToBlack(()=>TryToLoadLevel(levelList[0]));
+                        break;
+                    default:
+                        // show adofai file select window
+                        break;
+                }
+            };
+            
+            levelDownloder.OnCalculationCompleteFileSize = size =>
+            {
+                Main.Logger.Log($"File Size: {DirectLevel.Utils.ByteToStringUnit(size)}");
+                // Display a warning if the file size is too large
+            };
+            
+            levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder);
+
         }
         catch (Exception ex)
         {
-
-            UIScript.SwipeFromBlack();
-
-            Debug.LogException(ex);
-            ErrorScript.ShowError(ex.Message);
-            
-            DirectLevelAPI.IsDownloading = false;
+            ExceptionCatch(ex);
         }
+    }
+    
+    
+    public static void TryToLoadLevel(string levelFilePath)
+    {
+        HideUIFixPatch.RecentDirectLevelOpend = true;
+            
+        GCS.sceneToLoad = "scnEditor";
+        GCS.worldEntrance = null;
+        scnEditor.levelToOpenOnLoad = levelFilePath;
+        
+        SceneManager.LoadScene("scnEditor");
+        
+        /*
+        DirectLevel.Utils.RunAtMainThread(() =>
+        {
+            SceneManager.LoadScene("scnEditor");
+        });*/
     }
 
 }

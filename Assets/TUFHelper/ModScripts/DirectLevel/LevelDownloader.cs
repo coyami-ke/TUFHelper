@@ -1,19 +1,23 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using TUFHelper;
 using TUFHelper.Utils;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace DirectLevel
 {
-    public class DownloadManager
+    public class LevelDownloader
     {
-        
-        public class CookieWebClient : WebClient
+        /// <summary>
+        /// WebClient for Google Drive download
+        /// </summary>
+        private class CookieWebClient : WebClient
         {
             CookieContainer c = new CookieContainer();
 
@@ -25,60 +29,74 @@ namespace DirectLevel
             }
         }
         
-
-        public static void Download(string url, string path, WebClient wc)
+        public enum ForumType
         {
-            var stream = wc.OpenRead(url);
-                
-            var buffer = new byte[15];
-            stream.Read(buffer, 0, buffer.Length);
-            stream.Close();
-            
-            var isntDownloadFile = Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>";
+            ADOFAI_GG,
+            TUC
+        }
+        
+        private string _url;
+        private CookieWebClient _cookieWeb;
+        
+        /// <summary>
+        /// Run when an exception occurs
+        /// Runs in a thread other than the main thread!!!
+        /// </summary>
+        public Action<Exception> ErrorHandler;
+        
+        /// <summary>
+        /// Run if progress changes when downloading levels asynchronously
+        /// Runs in a thread other than the main thread!!!
+        /// </summary>
+        public Action<float, string> OnUpdateProgress;
+        
+        
+        /// <summary>
+        /// Run when asynchronously leveling down is complete.
+        /// Runs in a thread other than the main thread!!!
+        /// </summary>
+        public Action<List<string>> OnDownloadComplete;
+        
+        /// <summary>
+        /// Run when getting the size of a file from a URL.
+        /// Runs in a thread other than the main thread!!!
+        /// </summary>
+        public Action<long> OnCalculationCompleteFileSize;
 
-            if (isntDownloadFile)
-            {
-                if (url.Contains("google.com"))
-                    throw new Exception("This drive file is temporarily unavailable for download.");
-                
-                throw new Exception("This URL is not a download file.");
-            }
-
-
-            var zipPath = $"{path}.zip";
-            wc.DownloadProgressChanged += (sender, args) =>
-            { 
-                DownloadPopupScript.ChangeMessage = $"Downloading... ({args.BytesReceived}/{args.TotalBytesToReceive})";
-            };
-            DownloadPopupScript.ChangeProgress = 3 / 6f;
-            var t = wc.DownloadFileTaskAsync(url, zipPath); 
-            t.Wait();
+        
+        /// <summary>
+        /// Level Downloader
+        /// </summary>
+        /// <param name="url">URL to download, may not be a direct URL if in Google Drive</param>
+        public LevelDownloader(string url)
+        {
             
-            DownloadPopupScript.ChangeMessage = "Unzipping";
-            DownloadPopupScript.ChangeProgress = 4 / 6f;
-            
-            ZipHelper.Unzip(zipPath, path);
-            File.Delete(zipPath);
+            _cookieWeb = new CookieWebClient();
+            _cookieWeb.Encoding = Encoding.UTF8;
+            _cookieWeb.Proxy = null;
+
+            _url = url;
+
         }
         
 
-        internal static void PlayLevel(string path, bool toEditor, string containName)
+        /// <summary>
+        /// Find the .adofai files in Level folder
+        /// </summary>
+        /// <param name="path">Level Folder</param>
+        /// <returns>.adofai files</returns>
+        private static List<string> FindAdofaiFiles(string path)
         {
-            DownloadPopupScript.ChangeProgress = 5 / 6f;
-            DownloadPopupScript.ChangeMessage = "Searching main level file";
+            var result = new List<string>();
             
+            
+            // Fix it someday
             var loadPath = "";
-            var containLoadPath = "";
-
-            var di = new DirectoryInfo(path + "/");
-            Utils.MoveLastDirectory(di, di);
-
-            var containMapSize = 0L;
             var mapSize = 0L;
             var songSize = 0L;
 
             string ogg = null;
-            foreach (var file in di.GetFiles())
+            foreach (var file in new DirectoryInfo(path).GetFiles())
             {
                 
                 // find main song file
@@ -91,7 +109,6 @@ namespace DirectLevel
                     }
                 }
                 
-                
                 //find main adofai file
                 if (!file.Extension.Contains("adofai")) continue;
                 if (file.Name.Contains("backup")) continue;
@@ -102,18 +119,6 @@ namespace DirectLevel
                     break;
                 }
                 
-                if (!string.IsNullOrEmpty(containName))
-                {
-                    if (containName.Contains(containName))
-                    {
-                        if (file.Length > containMapSize)
-                        {
-                            containMapSize = file.Length;
-                            containLoadPath = file.FullName;
-                        }
-                    }
-                }
-
                 if (file.Length > mapSize)
                 {
                     mapSize = file.Length;
@@ -121,74 +126,103 @@ namespace DirectLevel
                 }
                 
             }
+            result.Add(loadPath);
             
-            if (!string.IsNullOrEmpty(containLoadPath))
-                loadPath = containLoadPath;
-
-            
-            /*
-            if (!string.IsNullOrEmpty(ogg))
-                LevelLoadPatch.SongPath = ogg;*/
-
-            GC.Collect();
-            GCS.checkpointNum = 0;
-            
-            //run at mainThread
-            DownloadPopupScript.ChangeMessage = "Opening a Level...";
-            DownloadPopupScript.ChangeProgress = 1;
-            
-            Main.mainThread.Post(_ =>
-            {
-                if (scrController.instance != null)
-                {
-                    if (toEditor)
-                    {
-                        GCS.sceneToLoad = "scnEditor";
-                        SceneManager.LoadScene("scnEditor");
-                        scnEditor.levelToOpenOnLoad = loadPath;
-                        scrController.instance.StartLoadingScene();
-                    }
-                    else
-                    {
-                        scrController.instance.LoadCustomLevel(loadPath);
-                    }
-                }
-                else
-                {
-                    void Invoke()
-                    {
-                        Patch.RecentDirectLevelOpend = true;
-                        
-                        if (toEditor)
-                        {
-                            GCS.sceneToLoad = "scnEditor";
-                            scnEditor.levelToOpenOnLoad = loadPath;
-                            GCS.worldEntrance = null;
-                            SteamIntegration.EditorEntered();
-                            SceneManager.LoadScene("scnEditor");
-                        }
-                        else
-                        {
-                            GCS.sceneToLoad = "scnGame";
-                            SceneManager.LoadScene("scnGame");
-                            GCS.customLevelPaths = new string[1];
-                            GCS.customLevelPaths[0] = loadPath;
-                        }
-                        
-                    }
-
-                    if (SceneManager.GetActiveScene().name == "TUFLevelSelect") 
-                        UIScript.SwipeToBlack(Invoke);
-                    else
-                        Invoke();
-                    
-                }
-            }, null);
-            
+            return result;
         }
         
         
-        internal static string GetDirectURL(string url, WebClient wc)
+        /// <summary>
+        /// Asynchronous level downloads
+        /// </summary>
+        /// <param name="defaultPath">Default parent path to download</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Tasks that are downloading</returns>
+        public Task DownloadWithTask(string defaultPath, CancellationToken cancellationToken)
+        {
+            return Task.Run(() =>
+            {
+                Download(defaultPath);
+            }, cancellationToken);
+        }
+        
+        
+        /// <summary>
+        /// Asynchronous level downloads
+        /// </summary>
+        /// <param name="defaultPath">Default parent path to download</param>
+        /// <returns>Tasks that are downloading</returns>
+        public Task DownloadWithTask(string defaultPath)
+        {
+            return Task.Run(() =>
+            {
+                Download(defaultPath);
+            });
+        }
+        
+
+        /// <summary>
+        /// Level downloads
+        /// </summary>
+        /// <param name="defaultPath">Default parent path to download</param>
+        private void Download(string defaultPath)
+        {
+            try
+            {
+                OnUpdateProgress?.Invoke(0, "Preparing");
+
+                GC.Collect();
+
+                var directURl = GetDirectURL(_url, _cookieWeb);
+                OnCalculationCompleteFileSize?.Invoke(Utils.GetFileSize(directURl));
+
+                var path = Path.Combine(defaultPath, directURl.GetHashCode().ToString());
+                var zipPath = $"{path}.zip";
+
+                if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
+                {
+                    OnUpdateProgress?.Invoke(1, "Downloaded");
+                    OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                    return;
+                }
+
+
+
+                if (File.Exists(zipPath)) File.Delete(zipPath);
+
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                _cookieWeb.DownloadProgressChanged += (sender, args) =>
+                {
+                    OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
+                        $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
+                };
+
+                OnUpdateProgress?.Invoke(0.3333f, "Downloading");
+                var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
+                t.Wait();
+
+                OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
+                ZipHelper.Unzip(zipPath, path);
+                File.Delete(zipPath);
+
+                Utils.MoveLastDirectory(path, path);
+                GC.Collect();
+
+                OnUpdateProgress?.Invoke(1, "Downloaded");
+                OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+
+            }
+            catch (Exception e)
+            {
+                ErrorHandler?.Invoke(e);
+            }
+        }
+
+
+
+        private static string GetDirectURL(string url, WebClient wc)
         {
             try
             {
@@ -224,7 +258,7 @@ namespace DirectLevel
                         throw new Exception(
                             $"Google Drive id not found\n\n-----Level Info-----\nURL: ${url}");
 
-                    wc.DownloadData(url);
+                    //wc.DownloadData(url);
 
                     var downloadURL = $"https://drive.google.com/u/0/uc?export=download&id={driveid}";
 
@@ -260,7 +294,7 @@ namespace DirectLevel
                     var driveid = url.GetValue("https://www.dropbox.com/s/", "?");
                     return $"https://www.dropbox.com/s/{driveid}?dl=1";
                 }
-
+    
                 if (url.StartsWith("https://drive.google.com/drive/folders/"))
                 {
                     throw new Exception(
@@ -282,26 +316,24 @@ namespace DirectLevel
             }
         }
 
+        
         private static string GetDirectURLFromGoogleLargeFile(string url, WebClient wc)
         {
             var result = wc.DownloadString(url);
-            //Main.ModLogger.Log(result);
             var id = result.GetValue("name=\"id\" value=\"", "\">");
-            //Main.ModLogger.Log(id);
             var uuid = result.GetValue("name=\"uuid\" value=\"", "\">");
-            //Main.ModLogger.Log(uuid);
-            if (result.Contains("name=\"at\" value=\""))
-            {
-                var at = result.GetValue("name=\"at\" value=\"", "\">");
+            
+            if (!result.Contains("name=\"at\" value=\""))
                 return
-                    $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}&at={at}";
-            }
-
+                    $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}";
+            var at = result.GetValue("name=\"at\" value=\"", "\">");
             return
-                $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}";
-        }
+                $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}&at={at}";
 
-        internal static string GetURLFromLevelID(bool isAdofaiGG, string levelID)
+        }
+        
+        
+        private static string GetURLFromLevelID(bool isAdofaiGG, string levelID)
         {
             try
             {
@@ -325,5 +357,6 @@ namespace DirectLevel
                 throw new Exception($"No corresponding levels found on {(isAdofaiGG? "Adofai.gg":"TUC")}.\n\n-----Level Info-----\n"+e);
             }
         }
+        
     }
 }

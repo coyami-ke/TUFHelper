@@ -28,7 +28,7 @@ public class MiscScript : MonoBehaviour
 
     public void ExitButtonClick()
     {
-        if (DirectLevelAPI.IsDownloading) return;
+        if (DownloadPopupScript.IsDownloading) return;
         
         UIScript.SwipeToBlack(() =>
         {
@@ -40,7 +40,7 @@ public class MiscScript : MonoBehaviour
 
     public void OpenURL(string url)
     {
-        if (DirectLevelAPI.IsDownloading) return;
+        if (DownloadPopupScript.IsDownloading) return;
         
         if (new System.Random().Next(1, 100) == 1)
         {

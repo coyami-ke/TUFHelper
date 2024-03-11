@@ -5,18 +5,32 @@ using UnityEngine.UI;
 
 public class DownloadPopupScript : MonoBehaviour
 {
-    public static DownloadPopupScript instance;
+    public static DownloadPopupScript instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = GameObject.Find("Canvas").transform.Find("DownloadPopup").GetComponent<DownloadPopupScript>();
+            
+            if (_instance == null)
+                _instance = FindObjectOfType<DownloadPopupScript>();
+            
+            return _instance;
+        }
+    }
 
-    
-    public Slider Progress;
-    public TextMeshProUGUI StateMessage;
-
+    private static DownloadPopupScript _instance;
+    public static bool IsDownloading;
     public static float ChangeProgress;
     public static string ChangeMessage;
     
+    public Slider Progress;
+    public TextMeshProUGUI StateMessage;
+    
+    
     public void Awake()
     {
-        instance = this;
+        _instance = this;
 
         gameObject.SetActive(false);
     }
@@ -38,8 +52,6 @@ public class DownloadPopupScript : MonoBehaviour
 
     public static void Close()
     {
-        if (instance == null)
-            instance = GameObject.Find("Canvas").transform.Find("DownloadPopup").GetComponent<DownloadPopupScript>();
         
         ChangeMessage = null;
         ChangeProgress = 0;
@@ -50,9 +62,6 @@ public class DownloadPopupScript : MonoBehaviour
     
     public static void Show()
     {
-        if (instance == null)
-            instance = GameObject.Find("Canvas").transform.Find("DownloadPopup").GetComponent<DownloadPopupScript>();
-        
 
         ChangeMessage = null;
         ChangeProgress = 0;
