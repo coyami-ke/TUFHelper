@@ -23,6 +23,10 @@ public class DownloadPopupScript : MonoBehaviour
     public static bool IsDownloading;
     public static float ChangeProgress;
     public static string ChangeMessage;
+
+    public TextMeshProUGUI WarningText;
+    public Button ContinueDownloadButton;
+    public Button CancelButton;
     
     public Slider Progress;
     public TextMeshProUGUI StateMessage;
@@ -30,9 +34,39 @@ public class DownloadPopupScript : MonoBehaviour
     
     public void Awake()
     {
-        _instance = this;
+        if (instance == null)
+        {
+            _instance = this;
+            gameObject.SetActive(false);
+        }
+    }
 
-        gameObject.SetActive(false);
+
+    public static void ShowFileWarning(long fileSize, Action continueDownload, Action cancelDownload)
+    {
+        Close();
+        
+        instance.WarningText.transform.parent.gameObject.SetActive(true);
+        instance.WarningText.text = $"This file is quite large at {DirectLevel.Utils.ByteToStringUnit(fileSize)}, are you sure you want to download it?";
+        
+        instance.ContinueDownloadButton.onClick.RemoveAllListeners();
+        instance.CancelButton.onClick.RemoveAllListeners();
+        
+        instance.ContinueDownloadButton.onClick.AddListener(()=>scrSfx.instance?.PlaySfx(SfxSound.MobileButton));
+        instance.CancelButton.onClick.AddListener(()=>scrSfx.instance?.PlaySfx(SfxSound.MobileButton));
+
+        instance.ContinueDownloadButton.onClick.AddListener(() =>
+        {
+            Show();
+            
+            continueDownload();
+            instance.WarningText.transform.parent.gameObject.SetActive(false);
+        });
+        instance.CancelButton.onClick.AddListener(() =>
+        {
+            cancelDownload();
+            instance.WarningText.transform.parent.gameObject.SetActive(false);
+        });
     }
 
     private void Update()

@@ -98,20 +98,25 @@ public class LevelPrefabScript : MonoBehaviour
             
         try
         {
+            DownloadPopupScript.IsDownloading = true;
+            
             Persistence.SetHideCursorWhilePlaying(false);
             
             DownloadPopupScript.Show();
             
             var levelDownloder = new LevelDownloader(levelInfo.dlLink);
+            
             levelDownloder.ErrorHandler = (ex)=>
             {
                 DirectLevel.Utils.RunAtMainThread(()=>ExceptionCatch(ex));
             };
+            
             levelDownloder.OnUpdateProgress = (progress, stateMessage) =>
             {
                 DownloadPopupScript.ChangeProgress = progress;
                 DownloadPopupScript.ChangeMessage = stateMessage;
             };
+            
             levelDownloder.OnDownloadComplete = levelList =>
             {
                 switch (levelList.Count)
@@ -129,11 +134,20 @@ public class LevelPrefabScript : MonoBehaviour
             
             levelDownloder.OnCalculationCompleteFileSize = size =>
             {
-                Main.Logger.Log($"File Size: {DirectLevel.Utils.ByteToStringUnit(size)}");
-                // Display a warning if the file size is too large
+                if (size > 300000000)
+                {
+                    DirectLevel.Utils.RunAtMainThread(() =>
+                    {
+                        DownloadPopupScript.ShowFileWarning(size,
+                            () => { levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, false); },
+                            () => { DownloadPopupScript.IsDownloading = false; });
+                    });
+                }
+
+                return true;
             };
             
-            levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder);
+            levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, true);
 
         }
         catch (Exception ex)
@@ -145,6 +159,7 @@ public class LevelPrefabScript : MonoBehaviour
     
     public static void TryToLoadLevel(string levelFilePath)
     {
+        DownloadPopupScript.IsDownloading = false;
         HideUIFixPatch.RecentDirectLevelOpend = true;
             
         GCS.sceneToLoad = "scnEditor";
