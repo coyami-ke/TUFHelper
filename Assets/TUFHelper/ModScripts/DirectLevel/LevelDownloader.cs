@@ -19,12 +19,35 @@ namespace DirectLevel
         /// </summary>
         private class CookieWebClient : WebClient
         {
-            CookieContainer c = new CookieContainer();
+            private class ManualCookieContainer
+            {
+                private readonly Dictionary<string, string> cookies = new Dictionary<string, string>();
+
+                public string this[Uri address]
+                {
+                    get
+                    {
+                        string cookie;
+                        return cookies.TryGetValue(address.Host, out cookie) ? cookie : null;
+                    }
+                    set
+                    {
+                        cookies[address.Host] = value;
+                    }
+                }
+            }
+            
+            private readonly ManualCookieContainer _cookies = new ManualCookieContainer();
 
             protected override WebRequest GetWebRequest(Uri u)
             {
-                var r = (HttpWebRequest)base.GetWebRequest(u);
-                r.CookieContainer = c;
+                var r = base.GetWebRequest(u);
+                if(r is HttpWebRequest request)
+                {
+                    var c = _cookies[u];
+                    if( _cookies != null )
+                        request.Headers.Set("cookie", c);
+                }
                 return r;
             }
         }
@@ -59,9 +82,10 @@ namespace DirectLevel
         
         /// <summary>
         /// Run when getting the size of a file from a URL.
+        /// The return type determines whether the download should continue or not.
         /// Runs in a thread other than the main thread!!!
         /// </summary>
-        public Action<long> OnCalculationCompleteFileSize;
+        public Func<long, bool> OnCalculationCompleteFileSize;
 
         
         /// <summary>
@@ -132,94 +156,84 @@ namespace DirectLevel
         }
         
         
-        /// <summary>
-        /// Asynchronous level downloads
-        /// </summary>
-        /// <param name="defaultPath">Default parent path to download</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Tasks that are downloading</returns>
-        public Task DownloadWithTask(string defaultPath, CancellationToken cancellationToken)
-        {
-            return Task.Run(() =>
-            {
-                Download(defaultPath);
-            }, cancellationToken);
-        }
         
         
         /// <summary>
         /// Asynchronous level downloads
         /// </summary>
         /// <param name="defaultPath">Default parent path to download</param>
+        /// <param name="checkFileSize">If true, check the file size</param>
         /// <returns>Tasks that are downloading</returns>
-        public Task DownloadWithTask(string defaultPath)
+        public Task DownloadWithTask(string defaultPath, bool checkFileSize)
         {
             return Task.Run(() =>
             {
-                Download(defaultPath);
+                try
+                {
+                    OnUpdateProgress?.Invoke(0, "Preparing");
+
+                    GC.Collect();
+
+                    var directURl = GetDirectURL(_url, _cookieWeb);
+
+                    if (checkFileSize)
+                    {
+                        if (OnCalculationCompleteFileSize != null)
+                        {
+                            var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURl));
+                            if (v)
+                            {
+                                OnUpdateProgress?.Invoke(0, "Cancelled");
+                                return;
+                            }
+                        }
+                    }
+
+                    var path = Path.Combine(defaultPath, directURl.GetHashCode().ToString());
+                    var zipPath = $"{path}.zip";
+
+                    if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
+                    {
+                        OnUpdateProgress?.Invoke(1, "Downloaded");
+                        OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                        return;
+                    }
+
+
+
+                    if (File.Exists(zipPath)) File.Delete(zipPath);
+
+                    if (!Directory.Exists(path))
+                        Directory.CreateDirectory(path);
+
+                    _cookieWeb.DownloadProgressChanged += (sender, args) =>
+                    {
+                        OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
+                            $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
+                    };
+
+                    OnUpdateProgress?.Invoke(0.3333f, "Downloading");
+                    var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
+                    t.Wait();
+
+                    OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
+                    ZipHelper.Unzip(zipPath, path);
+                    File.Delete(zipPath);
+
+                    Utils.MoveLastDirectory(path, path);
+                    GC.Collect();
+
+                    OnUpdateProgress?.Invoke(1, "Downloaded");
+                    OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+
+                }
+                catch (Exception e)
+                {
+                    ErrorHandler?.Invoke(e);
+                }
             });
         }
         
-
-        /// <summary>
-        /// Level downloads
-        /// </summary>
-        /// <param name="defaultPath">Default parent path to download</param>
-        private void Download(string defaultPath)
-        {
-            try
-            {
-                OnUpdateProgress?.Invoke(0, "Preparing");
-
-                GC.Collect();
-
-                var directURl = GetDirectURL(_url, _cookieWeb);
-                OnCalculationCompleteFileSize?.Invoke(Utils.GetFileSize(directURl));
-
-                var path = Path.Combine(defaultPath, directURl.GetHashCode().ToString());
-                var zipPath = $"{path}.zip";
-
-                if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
-                {
-                    OnUpdateProgress?.Invoke(1, "Downloaded");
-                    OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
-                    return;
-                }
-
-
-
-                if (File.Exists(zipPath)) File.Delete(zipPath);
-
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
-
-                _cookieWeb.DownloadProgressChanged += (sender, args) =>
-                {
-                    OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
-                        $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
-                };
-
-                OnUpdateProgress?.Invoke(0.3333f, "Downloading");
-                var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
-                t.Wait();
-
-                OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
-                ZipHelper.Unzip(zipPath, path);
-                File.Delete(zipPath);
-
-                Utils.MoveLastDirectory(path, path);
-                GC.Collect();
-
-                OnUpdateProgress?.Invoke(1, "Downloaded");
-                OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
-
-            }
-            catch (Exception e)
-            {
-                ErrorHandler?.Invoke(e);
-            }
-        }
-
 
 
         private static string GetDirectURL(string url, WebClient wc)
