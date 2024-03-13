@@ -95,6 +95,8 @@ public class LevelPrefabScript : MonoBehaviour
     public void PlayButtonClick()
     {
         if (DownloadPopupScript.IsDownloading) return;
+        
+        ErrorScript.instance.gameObject.SetActive(false);
             
         try
         {
@@ -127,7 +129,11 @@ public class LevelPrefabScript : MonoBehaviour
                         UIScript.SwipeToBlack(()=>TryToLoadLevel(levelList[0]));
                         break;
                     default:
-                        // show adofai file select window
+                        DirectLevel.Utils.RunAtMainThread(()=>
+                        {
+                            DownloadPopupScript.Close();
+                            ResultLevelScript.ShowList(levelList);
+                        });
                         break;
                 }
             };

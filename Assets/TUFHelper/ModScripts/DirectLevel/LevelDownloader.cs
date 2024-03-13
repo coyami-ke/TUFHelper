@@ -113,44 +113,15 @@ namespace DirectLevel
         {
             var result = new List<string>();
             
-            
-            // Fix it someday
-            var loadPath = "";
-            var mapSize = 0L;
-            var songSize = 0L;
-
-            string ogg = null;
             foreach (var file in new DirectoryInfo(path).GetFiles())
             {
                 
-                // find main song file
-                if (ogg == null)
-                {
-                    if (file.Extension.ToLower().Contains("ogg") && file.Length > songSize)
-                    {
-                        ogg = file.FullName;
-                        songSize = file.Length;
-                    }
-                }
-                
-                //find main adofai file
-                if (!file.Extension.Contains("adofai")) continue;
+                if (!file.Extension.ToLower().Contains("adofai")) continue;
                 if (file.Name.Contains("backup")) continue;
                 
-                if (file.Name.ToLower().Contains("main"))
-                {
-                    loadPath = file.FullName;
-                    break;
-                }
-                
-                if (file.Length > mapSize)
-                {
-                    mapSize = file.Length;
-                    loadPath = file.FullName;
-                }
+                result.Add(file.FullName);
                 
             }
-            result.Add(loadPath);
             
             return result;
         }
@@ -174,8 +145,18 @@ namespace DirectLevel
 
                     GC.Collect();
 
-                    var directURl = GetDirectURL(_url, _cookieWeb);
+                    var path = Path.Combine(defaultPath, _url.GetHashCode().ToString());
+                    var zipPath = $"{path}.zip";
 
+                    if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
+                    {
+                        OnUpdateProgress?.Invoke(1, "Downloaded");
+                        OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                        return;
+                    }
+                    
+                    var directURl = GetDirectURL(_url, _cookieWeb);
+                    
                     if (checkFileSize)
                     {
                         if (OnCalculationCompleteFileSize != null)
@@ -187,16 +168,6 @@ namespace DirectLevel
                                 return;
                             }
                         }
-                    }
-
-                    var path = Path.Combine(defaultPath, directURl.GetHashCode().ToString());
-                    var zipPath = $"{path}.zip";
-
-                    if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
-                    {
-                        OnUpdateProgress?.Invoke(1, "Downloaded");
-                        OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
-                        return;
                     }
 
 

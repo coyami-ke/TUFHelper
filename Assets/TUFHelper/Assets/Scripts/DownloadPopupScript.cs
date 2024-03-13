@@ -34,7 +34,7 @@ public class DownloadPopupScript : MonoBehaviour
     
     public void Awake()
     {
-        if (instance == null)
+        if (_instance == null)
         {
             _instance = this;
             gameObject.SetActive(false);
