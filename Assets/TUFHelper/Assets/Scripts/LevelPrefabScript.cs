@@ -142,9 +142,12 @@ public class LevelPrefabScript : MonoBehaviour
                             () => { levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, false); },
                             () => { DownloadPopupScript.IsDownloading = false; });
                     });
+                    return true;
                 }
 
-                return true;
+                return false;
+
+
             };
             
             levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, true);
