@@ -45,9 +45,9 @@ public class LevelPrefabScript : MonoBehaviour
         idText.text = "#" + levelInfo.id;
         artistText.text = levelInfo.artist;
         levelNameText.text = levelInfo.song;
-        creatorText.text = levelInfo.creator;
+        creatorText.text = string.IsNullOrEmpty(levelInfo.creator)? levelInfo.team : levelInfo.creator;
 
-        difficultyIcon.sprite = Helper.getDiffSprite(levelInfo.pgu_diff);
+        difficultyIcon.sprite = Helper.getDiffSprite(levelInfo.pguDiff);
 
         if (levelInfo.vidLink.Equals(""))
         {
