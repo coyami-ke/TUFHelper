@@ -21,6 +21,8 @@ MonoBehaviour:
   CreatedDateFormat: MMM/dd HH:mm:ss
   ShowLogWindow: 1
   LogPackageSourceTimings: 0
+  GenerateAssetsProject: 0
+  FixLocalDiskPackages: 0
   ImageCachePath: Library/MarkdownImageCache
   CachedImageCount: 0
   CacheSize: 0

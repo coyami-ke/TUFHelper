@@ -58,7 +58,7 @@ public class ResultLevelScript : MonoBehaviour
             b.onClick.AddListener(() =>
             {
                 scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
-                UIScript.SwipeToBlack(()=>LevelPrefabScript.TryToLoadLevel(f));
+                UIScript.SwipeToBlack(()=>LevelInfoSceneScript.TryToLoadLevel(f));
             });
             
             name.transform.Find("Text").TryGetComponent(out TextMeshProUGUI text);

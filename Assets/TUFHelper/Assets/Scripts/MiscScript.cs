@@ -23,7 +23,6 @@ public class MiscScript : MonoBehaviour
         {
             ExitButtonClick();
         }
-        
     }
 
     public void ExitButtonClick()
@@ -32,9 +31,18 @@ public class MiscScript : MonoBehaviour
         
         UIScript.SwipeToBlack(() =>
         {
-            Main.isInTUFHelper = false;
-            GCS.sceneToLoad = "";
-            SceneManager.LoadScene("scnLevelSelect");
+            if (SceneManager.GetActiveScene().name.Equals("TUFLevelInfo"))
+            {
+                Main.isInTUFHelper = false;
+                GCS.sceneToLoad = "";
+                SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+            }
+            else
+            {
+                Main.isInTUFHelper = false;
+                GCS.sceneToLoad = "";
+                SceneManager.LoadScene("scnLevelSelect");
+            }
         });
     }
 

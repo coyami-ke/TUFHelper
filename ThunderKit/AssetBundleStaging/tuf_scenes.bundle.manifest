@@ -1,12 +1,15 @@
 ManifestFileVersion: 0
-CRC: 3082328207
+CRC: 1639347181
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 077eb9a4212b34a318b162972fa66ecf
+    Hash: 2a42a4b1af273033a27888c87b9b9fcd
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c0b18198234e99c4333d26b3c22cd956
+    Hash: 113b9e81531a9a9ae0c1fe73de506c6a
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: 2a42a4b1af273033a27888c87b9b9fcd
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -46,6 +49,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: c399b64d14b6aa94bbab142a2cf57ecc, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 64738ab322535f0409a656ab7efff36f, type: 3}
@@ -53,6 +58,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: a484b98e0379cbb4ca8ad7ebf026b0b7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 70cf4e22d4b9418db3c52e0a476afa51, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
 - Class: 114
@@ -78,11 +85,17 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 292bfd156213fe140a44c349b6fcf839, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 6be0048b94604e17936968e0cb7c892a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ba47bf60932c13841bcd9b31d5de1e55, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2e20883a082a7564f874098c49e7f673, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -102,5 +115,6 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/TUFHelper/Scenes/TUFLevelSelect.unity
+- Assets/TUFHelper/Scenes/TUFLevelInfo.unity
 Dependencies:
-- D:/Workspace/ADOFAI/TUFHelper/TUFHelper/ThunderKit/AssetBundleStaging/tuf_assets.bundle
+- E:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging/tuf_assets.bundle

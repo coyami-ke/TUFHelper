@@ -20,6 +20,7 @@ MonoBehaviour:
   - assetBundleName: tuf_scenes.bundle
     assets:
     - {fileID: 102900000, guid: e91843089d6f78745920afdb4eb261c3, type: 3}
+    - {fileID: 102900000, guid: 05b98e8c9a9c43e44b3e94ef52677e49, type: 3}
 --- !u!114 &-3721598857002580121
 MonoBehaviour:
   m_ObjectHideFlags: 0

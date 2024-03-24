@@ -13,15 +13,14 @@ public class LevelPrefabScript : MonoBehaviour
 {
 
     public Image difficultyIcon;
-    public Button watchButton, downloadButton, playButton;
+    public Button downloadButton, playButton;
 
     public TextMeshProUGUI idText,
         artistText,
         levelNameText,
-        creatorText,
-        watchButtonText,
+        playButtonText,
         downloadButtonText,
-        playButtonText;
+        creatorText;
 
     public LevelInfo levelInfo;
 
@@ -32,7 +31,6 @@ public class LevelPrefabScript : MonoBehaviour
             scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
         }
 
-        watchButton.onClick.AddListener(ClickSfx);
         downloadButton.onClick.AddListener(ClickSfx);
         playButton.onClick.AddListener(ClickSfx);
     }
@@ -49,12 +47,6 @@ public class LevelPrefabScript : MonoBehaviour
 
         difficultyIcon.sprite = Helper.getDiffSprite(levelInfo.pguDiff);
 
-        if (levelInfo.vidLink.Equals(""))
-        {
-            watchButton.interactable = false;
-            watchButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
-        }
-
         if (levelInfo.dlLink.Equals(""))
         {
             downloadButton.interactable = false;
@@ -69,56 +61,59 @@ public class LevelPrefabScript : MonoBehaviour
         }
     }
 
-    public void WatchButtonClick()
+    public void InfoButtonClick()
     {
-        if (DownloadPopupScript.IsDownloading) return;
-        
-        Application.OpenURL(levelInfo.vidLink);
+        LevelInfoSceneScript.currentLevelInfo = levelInfo;
+        UIScript.SwipeToBlack(() =>
+        {
+            SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelInfo.unity");
+        });
     }
 
     public void DownloadButtonClick()
     {
         if (DownloadPopupScript.IsDownloading) return;
-        
+
         Application.OpenURL(levelInfo.dlLink);
     }
 
     private void ExceptionCatch(Exception ex)
     {
-        
+
         Debug.LogException(ex);
         ErrorScript.ShowError(ex.Message);
-            
+
         DownloadPopupScript.IsDownloading = false;
     }
 
     public void PlayButtonClick()
     {
+
         if (DownloadPopupScript.IsDownloading) return;
-        
+
         ErrorScript.instance.gameObject.SetActive(false);
-            
+
         try
         {
             DownloadPopupScript.IsDownloading = true;
-            
-            Persistence.SetHideCursorWhilePlaying(false);
-            
+
+            //Persistence.SetHideCursorWhilePlaying(false);
+
             DownloadPopupScript.Show();
-            
+
             var levelDownloder = new LevelDownloader(levelInfo.dlLink);
-            
-            levelDownloder.ErrorHandler = (ex)=>
+
+            levelDownloder.ErrorHandler = (ex) =>
             {
-                DirectLevel.Utils.RunAtMainThread(()=>ExceptionCatch(ex));
+                DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
             };
-            
+
             levelDownloder.OnUpdateProgress = (progress, stateMessage) =>
             {
                 DownloadPopupScript.ChangeProgress = progress;
                 DownloadPopupScript.ChangeMessage = stateMessage;
             };
-            
+
             levelDownloder.OnDownloadComplete = levelList =>
             {
                 switch (levelList.Count)
@@ -126,10 +121,10 @@ public class LevelPrefabScript : MonoBehaviour
                     case 0:
                         throw new Exception("adofai file was not found");
                     case 1:
-                        UIScript.SwipeToBlack(()=>TryToLoadLevel(levelList[0]));
+                        UIScript.SwipeToBlack(() => TryToLoadLevel(levelList[0]));
                         break;
                     default:
-                        DirectLevel.Utils.RunAtMainThread(()=>
+                        DirectLevel.Utils.RunAtMainThread(() =>
                         {
                             DownloadPopupScript.Close();
                             ResultLevelScript.ShowList(levelList);
@@ -137,7 +132,7 @@ public class LevelPrefabScript : MonoBehaviour
                         break;
                 }
             };
-            
+
             levelDownloder.OnCalculationCompleteFileSize = size =>
             {
                 if (size > 300000000)
@@ -155,7 +150,7 @@ public class LevelPrefabScript : MonoBehaviour
 
 
             };
-            
+
             levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, true);
 
         }
@@ -164,24 +159,23 @@ public class LevelPrefabScript : MonoBehaviour
             ExceptionCatch(ex);
         }
     }
-    
-    
+
+
     public static void TryToLoadLevel(string levelFilePath)
     {
         DownloadPopupScript.IsDownloading = false;
         HideUIFixPatch.RecentDirectLevelOpend = true;
-            
+
         GCS.sceneToLoad = "scnEditor";
         GCS.worldEntrance = null;
         scnEditor.levelToOpenOnLoad = levelFilePath;
-        
+
         SceneManager.LoadScene("scnEditor");
-        
+
         /*
         DirectLevel.Utils.RunAtMainThread(() =>
         {
             SceneManager.LoadScene("scnEditor");
         });*/
     }
-
 }

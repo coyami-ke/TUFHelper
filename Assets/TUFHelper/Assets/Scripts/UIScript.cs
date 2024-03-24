@@ -35,7 +35,7 @@ public class UIScript : MonoBehaviour
 
     internal static void SwipeFromBlack(Action onComplete = null)
     {
-        if(instance.isDuringTransition)
+        if (instance.isDuringTransition)
         {
             return;
         }
@@ -44,11 +44,11 @@ public class UIScript : MonoBehaviour
             return;
         }
         instance.isDuringTransition = true;
-        
+
         JobDispatcher.AddJob(() =>
         {
             scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeIn);
-            
+
             instance.panelRectTransform.gameObject.SetActive(true);
             instance.panelRectTransform.DOAnchorMax(new Vector2(0, 1), 0.3f).onComplete += () =>
             {

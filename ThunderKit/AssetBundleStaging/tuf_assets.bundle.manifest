@@ -1,12 +1,15 @@
 ManifestFileVersion: 0
-CRC: 4176113604
+CRC: 2620435922
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: fd83fa00293b22decff24f613ae0f8a5
+    Hash: fc88eaa7833b773e8b6fa0a88894061f
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 99f8cc3f5cd205b943391ccafe85eaf5
+    Hash: e0095382d0d853cfa447c22044d1b1ee
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: fc88eaa7833b773e8b6fa0a88894061f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -29,6 +32,8 @@ ClassTypes:
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: eb8c6530fe147184b934291aae2fe0e9, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ba47bf60932c13841bcd9b31d5de1e55, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -150,6 +155,7 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P8.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U1.png
 - Packages/com.unity.textmeshpro/Editor Resources/Gizmos/TMP - Font Asset Icon.psd
+- Assets/TUFHelper/Assets/Sprites/document.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/1.png
 - Assets/TUFHelper/Assets/Fonts/NotoSansTC-Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G2.png
@@ -185,8 +191,8 @@ Assets:
 - Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
 - Assets/TUFHelper/Assets/Fonts/NotoSans-Medium.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/7.png
-- Assets/TUFHelper/Assets/Fonts/NotoSansMath-Regular.ttf
 - Assets/TUFHelper/Assets/Fonts/NotoSansJP-Medium SDF.asset
+- Assets/TUFHelper/Assets/Fonts/NotoSansMath-Regular.ttf
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/U2.png
 - Assets/TUFHelper/Assets/Sprites/t21c_logo.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.15.png
@@ -201,6 +207,7 @@ Assets:
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.05.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/G6.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P2.png
+- Assets/TUFHelper/Assets/Prefabs/LevelName.prefab
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/6.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/P4.png
 - Assets/TUFHelper/Assets/Sprites/DiffIcons/20.1.png
