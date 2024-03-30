@@ -13,7 +13,8 @@ namespace TUFHelper
     public static class Main
     {
 
-        internal static string modVersion = "1.0.8";
+        internal static Dictionary<string, PlayerInfo> playerData = new Dictionary<string, PlayerInfo>();
+        internal static string modVersion = "1.1.0";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;

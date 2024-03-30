@@ -33,8 +33,10 @@ public class LevelListScript : MonoBehaviour
             SortLevelList();
             StartCoroutine(LoadLevelListCo());
         }
+
+        StartCoroutine(RequestAllPlayers());
     }
-    
+
 
     public IEnumerator RequestAllLevels()
     {
@@ -60,6 +62,30 @@ public class LevelListScript : MonoBehaviour
 
             SortLevelList();
             StartCoroutine(LoadLevelListCo());
+        }
+    }
+
+
+    public IEnumerator RequestAllPlayers()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/players");
+        www.certificateHandler = new CertificateWhore();
+
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Players Request Error: " + www.error);
+        }
+        else
+        {
+            JObject jo = JsonConvert.DeserializeObject<JObject>(www.downloadHandler.text);
+            JArray ja = jo.Value<JArray>("results");
+
+            foreach (PlayerInfo pi in JsonConvert.DeserializeObject<List<PlayerInfo>>(ja.ToString()))
+            {
+                Main.playerData.Add(pi.name, pi);
+            }
         }
     }
 

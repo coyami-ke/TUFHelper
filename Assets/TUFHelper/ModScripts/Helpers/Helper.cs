@@ -153,6 +153,36 @@ namespace TUFHelper.Utils
             }
         }
 
+        public static Sprite getFlagSprite(string countryCode)
+        {
+            if (Main.assets != null)
+            {
+                return Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/Flags/" + countryCode.ToLower() + ".png");
+            }
+            else
+            {
+                return Resources.Load<Sprite>("Flags/" + countryCode.ToLower());
+            }
+        }
+
+        public static float calculatePercentXAcc(int[] hitss, int checkpoints)
+        {
+            int[] hits = new int[11];
+
+            for (int i = 0;i < hitss.Length;i++)
+            {
+                hits[i] = hitss[i];
+            }
+
+            int total = 0;
+            foreach (int num in hits)
+            {
+                total += num;
+            }
+            double num5 = (1.0 * (double)hits[3] + 1.0 * (double)hits[10] + 0.75 * (double)hits[2] + 0.75 * (double)hits[4] + 0.4 * (double)hits[1] + 0.4 * (double)hits[5] + 0.2 * (double)hits[0] + 0.2 * (double)hits[6]) / total;
+            return (float)(num5 * Math.Pow(0.9875, checkpoints));
+        }
+
 
     }
 
