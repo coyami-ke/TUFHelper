@@ -2068,5 +2068,7 @@ MonoBehaviour:
   playButtonText: {fileID: 8586211814739634399}
   downloadButtonText: {fileID: 4178249272086005872}
   creatorText: {fileID: 629065681087444342}
+  highestAccT: {fileID: 4901504264187666280}
+  totalClearsT: {fileID: 561413282441221627}
   highestAccText: {fileID: 1970562188220383719}
   totalClearsText: {fileID: 7845016439966573210}

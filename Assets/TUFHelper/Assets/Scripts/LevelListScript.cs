@@ -225,12 +225,22 @@ public class LevelListScript : MonoBehaviour
             rect.sizeDelta = new Vector2(0, 120);
             rect.anchoredPosition = new Vector3(0, (cnt * -140) - 90);
 
-            List<PassInfo> passes = Main.passesData[list[i].id];
-            double bestAcc = passes.Count == 0 ? 0 : passes[0].getXAcc() * 100;
-            int totalClears = passes.Count;
+            if (Main.passesData.ContainsKey(list[i].id))
+            {
+                List<PassInfo> passes = Main.passesData[list[i].id];
+                double bestAcc = passes.Count == 0 ? 0 : passes[0].getXAcc() * 100;
+                int totalClears = passes.Count;
+                
+                LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
+                lps.SetLevelInfo(list[i], bestAcc, totalClears);
+            }
+            else
+            {
+                LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
+                lps.SetLevelInfo(list[i], 0, 0);
+            }
+            
 
-            LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
-            lps.SetLevelInfo(list[i], bestAcc, totalClears);
 
             cnt++;
         }

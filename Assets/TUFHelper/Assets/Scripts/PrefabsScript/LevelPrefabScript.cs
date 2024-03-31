@@ -19,6 +19,8 @@ public class LevelPrefabScript : MonoBehaviour
         playButtonText,
         downloadButtonText,
         creatorText,
+        highestAccT,
+        totalClearsT,
         highestAccText,
         totalClearsText;
 
@@ -62,6 +64,8 @@ public class LevelPrefabScript : MonoBehaviour
 
         if (totalClears == 0)
         {
+            highestAccT.gameObject.SetActive(false);
+            totalClearsT.gameObject.SetActive(false);
             highestAccText.gameObject.SetActive(false);
             totalClearsText.gameObject.SetActive(false);
         }
