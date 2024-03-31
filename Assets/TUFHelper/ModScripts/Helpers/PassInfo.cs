@@ -1,19 +1,53 @@
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 
 namespace TUFHelper.Utils
 {
     public class PassInfo
     {
 
-        public int id, levelId;
-        public string player, speed, vidLink;
-        public int[] judgements;
+        public int id;
+        public string player, speed, vidLink, levelId, vidUploadTime;
+        public string[] judgements;
 
         [JsonConstructor]
         public PassInfo() {
             
         }
 
+        public int[] GetJudgements()
+        {
+            try
+            {
+                int[] judge = new int[6];
+                for (int i = 0; i < 6; i++)
+                {
+                    judge[i] = int.Parse(judgements[i]);
+                }
+                return judge;
+            }
+            catch
+            {
+                return new int[] { 0, 0, 0, 0, 0, 0 };
+            }
+        }
+
+        public double getXAcc()
+        {
+            return Helper.calculatePercentXAcc(GetJudgements(), 0);
+        }
+
+        public int GetLevelId()
+        {
+            if (levelId == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return int.Parse(levelId);
+            }
+        }
     }
 
 }

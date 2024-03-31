@@ -65,7 +65,6 @@ public class LevelListScript : MonoBehaviour
         }
     }
 
-
     public IEnumerator RequestAllPlayers()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/players");
@@ -86,11 +85,69 @@ public class LevelListScript : MonoBehaviour
             {
                 Main.playerData.Add(pi.name, pi);
             }
+
+
+            StartCoroutine(RequestAllPasses());
+        }
+    }
+
+
+    public IEnumerator RequestAllPasses()
+    {
+        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/passes");
+        www.certificateHandler = new CertificateWhore();
+
+        yield return www.SendWebRequest();
+
+        if (www.result == UnityWebRequest.Result.ConnectionError || www.result == UnityWebRequest.Result.ProtocolError)
+        {
+            Debug.LogError("Passes Request Error: " + www.error);
+        }
+        else
+        {
+            JObject jo = JsonConvert.DeserializeObject<JObject>(www.downloadHandler.text);
+            JArray ja = jo.Value<JArray>("results");
+
+            Main.passesData.Clear();
+            foreach (PassInfo pi in JsonConvert.DeserializeObject<List<PassInfo>>(ja.ToString()))
+            {
+                if (pi.levelId == null)
+                {
+                    continue;
+                }
+                if (!Main.passesData.ContainsKey(pi.GetLevelId()))
+                {
+                    Main.passesData.Add(pi.GetLevelId(), new List<PassInfo>());
+                }
+
+                if (!Main.playerData.ContainsKey(pi.player))
+                {
+                    continue;
+                }
+
+                PlayerInfo playerInfo = Main.playerData[pi.player];
+                if (playerInfo.isBanned)
+                {
+                    continue;
+                }
+
+                List<PassInfo> list = Main.passesData[pi.GetLevelId()];
+                list.Add(pi);
+                list = list.OrderByDescending(x => x.getXAcc()).ToList();
+                Main.passesData[pi.GetLevelId()] = list;
+            }
+
+            SortLevelList();
+            StartCoroutine(LoadLevelListCo());
         }
     }
 
     public IEnumerator LoadLevelListCo()
     {
+        if (Main.passesData.Count == 0 || Levels.Count == 0)
+        {
+            yield break;
+        }
         yield return new WaitForEndOfFrame();
 
         loadingText.SetActive(false);
@@ -168,8 +225,12 @@ public class LevelListScript : MonoBehaviour
             rect.sizeDelta = new Vector2(0, 120);
             rect.anchoredPosition = new Vector3(0, (cnt * -140) - 90);
 
+            List<PassInfo> passes = Main.passesData[list[i].id];
+            double bestAcc = passes.Count == 0 ? 0 : passes[0].getXAcc() * 100;
+            int totalClears = passes.Count;
+
             LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
-            lps.SetLevelInfo(list[i]);
+            lps.SetLevelInfo(list[i], bestAcc, totalClears);
 
             cnt++;
         }

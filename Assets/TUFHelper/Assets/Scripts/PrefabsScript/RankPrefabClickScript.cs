@@ -21,12 +21,19 @@ public class RankPrefabClickScript : MonoBehaviour, IPointerClickHandler, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        image.DOColor(new Color(1f, 1f, 1f, 80 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        if (rps.GetPassInfo().vidLink.Contains("http"))
+        {
+            image.DOColor(new Color(1f, 1f, 1f, 80 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        image.DOColor(new Color(1f, 1f, 1f, 40 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        if (rps.GetPassInfo().vidLink.Contains("http"))
+        {
+            image.DOColor(new Color(1f, 1f, 1f, 40 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        }
+
     }
 
     public void Update()

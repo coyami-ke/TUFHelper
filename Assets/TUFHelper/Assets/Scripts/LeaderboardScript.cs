@@ -45,7 +45,7 @@ public class LeaderboardScript : MonoBehaviour
             JObject jo = JsonConvert.DeserializeObject<JObject>(www.downloadHandler.text);
             JArray ja = jo.Value<JArray>("results");
 
-            passes = JsonConvert.DeserializeObject<List<PassInfo>>(ja.ToString()).OrderByDescending(x => Helper.calculatePercentXAcc(x.judgements, 0)).ToList();
+            passes = JsonConvert.DeserializeObject<List<PassInfo>>(ja.ToString()).OrderByDescending(x => x.getXAcc()).ToList();
 
             StartCoroutine(LoadLevelPassesCo());
         }

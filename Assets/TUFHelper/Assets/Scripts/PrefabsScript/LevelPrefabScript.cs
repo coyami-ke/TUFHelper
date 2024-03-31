@@ -18,7 +18,9 @@ public class LevelPrefabScript : MonoBehaviour
         levelNameText,
         playButtonText,
         downloadButtonText,
-        creatorText;
+        creatorText,
+        highestAccText,
+        totalClearsText;
 
     public LevelInfo levelInfo;
 
@@ -34,7 +36,7 @@ public class LevelPrefabScript : MonoBehaviour
     }
     
 
-    public void SetLevelInfo(LevelInfo levelInfo)
+    public void SetLevelInfo(LevelInfo levelInfo, double highestAcc, int totalClears)
     {
         this.levelInfo = levelInfo;
 
@@ -56,6 +58,25 @@ public class LevelPrefabScript : MonoBehaviour
         {
             playButton.interactable = false;
             playButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+        }
+
+        if (totalClears == 0)
+        {
+            highestAccText.gameObject.SetActive(false);
+            totalClearsText.gameObject.SetActive(false);
+        }
+        else
+        {
+            string acc = highestAcc.ToString("F2") + "%";
+            if (acc.Equals("100.00%"))
+            {
+                highestAccText.text = "<color=#FFDA00>100.00%</color>";
+            }
+            else
+            {
+                highestAccText.text = "" + acc;
+            }
+            totalClearsText.text = "" + totalClears;
         }
     }
 
