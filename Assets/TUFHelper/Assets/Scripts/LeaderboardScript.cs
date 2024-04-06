@@ -13,13 +13,19 @@ public class LeaderboardScript : MonoBehaviour
 {
 
     public RectTransform contentRect;
-    public GameObject loadingText, rankPrefab;
+    public GameObject loadingText, rankPrefab, sortForms;
 
     public static List<PassInfo> passes = new List<PassInfo>();
+    public static LeaderboardScript instance;
+    public static string firstClear = "";
+    public static string firstClearTime = "";
 
     public void Awake()
     {
+        instance = this;
         passes.Clear();
+
+        sortForms.SetActive(false);
 
         StartCoroutine(RequestAllPasses());
     }
@@ -45,17 +51,21 @@ public class LeaderboardScript : MonoBehaviour
             JObject jo = JsonConvert.DeserializeObject<JObject>(www.downloadHandler.text);
             JArray ja = jo.Value<JArray>("results");
 
-            passes = JsonConvert.DeserializeObject<List<PassInfo>>(ja.ToString()).OrderByDescending(x => x.getXAcc()).ToList();
+            passes = JsonConvert.DeserializeObject<List<PassInfo>>(ja.ToString()).ToList();
 
-            StartCoroutine(LoadLevelPassesCo());
+            firstClear = passes.First().player;
+            firstClearTime = passes.First().vidUploadTime;
+            passes = passes.OrderByDescending(x => x.GetScoreV2()).ToList();
+            StartCoroutine(LoadLevelPassesCo(true));
         }
     }
 
-    public IEnumerator LoadLevelPassesCo()
+    public IEnumerator LoadLevelPassesCo(bool isScoreV2)
     {
         yield return new WaitForEndOfFrame();
 
         loadingText.SetActive(false);
+        sortForms.SetActive(true);
 
         for (int i = 0; i < contentRect.transform.childCount; i++)
         {
@@ -85,7 +95,7 @@ public class LeaderboardScript : MonoBehaviour
             }
 
             RankPrefabScript rps = Instantiate(rankPrefab).GetComponent<RankPrefabScript>();
-            rps.SetPassInfo(rank, playerInfo.country, pi);
+            rps.SetPassInfo(rank, playerInfo.country, pi, isScoreV2);
 
             RectTransform rect = rps.GetComponent<RectTransform>();
             rect.SetParent(contentRect.transform, false);
@@ -93,11 +103,8 @@ public class LeaderboardScript : MonoBehaviour
             rect.offsetMin = new Vector2(0, 0);
             rect.offsetMax = new Vector2(0, 0);
             rect.sizeDelta = new Vector2(0, 60);
-            rect.anchoredPosition = new Vector3(0, (rank - 1) * -60);
 
             rank++;
         }
-
-        contentRect.sizeDelta = new Vector2(0, 60 * (rank - 1));
     }
 }

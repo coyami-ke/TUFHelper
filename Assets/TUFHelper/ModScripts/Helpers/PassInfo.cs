@@ -7,12 +7,30 @@ namespace TUFHelper.Utils
     {
 
         public int id;
-        public string player, speed, vidLink, levelId, vidUploadTime;
+        public string player, speed, vidLink, levelId, vidUploadTime, scoreV2;
         public string[] judgements;
 
         [JsonConstructor]
         public PassInfo() {
             
+        }
+        
+        public void setPlayerName(string playerName)
+        {
+            player = playerName; 
+        }
+
+        public double GetScoreV2()
+        {
+            try
+            {
+                return double.Parse(scoreV2);
+            } 
+            catch
+            {
+                return 0; 
+            }
+         
         }
 
         public int[] GetJudgements()
@@ -47,6 +65,11 @@ namespace TUFHelper.Utils
             {
                 return int.Parse(levelId);
             }
+        }
+
+        public float GetSpeed()
+        {
+            return speed == null ? 1.0f : float.Parse(speed);
         }
     }
 

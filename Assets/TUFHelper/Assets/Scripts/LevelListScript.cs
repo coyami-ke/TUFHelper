@@ -5,10 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TUFHelper;
 using UnityEngine;
-using UnityEngine.Networking;
 using System.Linq;
-using Together.Utils;
 using TUFHelper.Utils;
+using UnityEngine.Networking;
 
 public class LevelListScript : MonoBehaviour
 {
@@ -41,7 +40,6 @@ public class LevelListScript : MonoBehaviour
     public IEnumerator RequestAllLevels()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/levels");
-        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
@@ -68,7 +66,6 @@ public class LevelListScript : MonoBehaviour
     public IEnumerator RequestAllPlayers()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/players");
-        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
@@ -83,6 +80,10 @@ public class LevelListScript : MonoBehaviour
 
             foreach (PlayerInfo pi in JsonConvert.DeserializeObject<List<PlayerInfo>>(ja.ToString()))
             {
+                if (Main.playerData.ContainsKey(pi.name))
+                {
+                    continue;
+                }
                 Main.playerData.Add(pi.name, pi);
             }
 
@@ -95,7 +96,6 @@ public class LevelListScript : MonoBehaviour
     public IEnumerator RequestAllPasses()
     {
         UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/passes");
-        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
@@ -135,6 +135,14 @@ public class LevelListScript : MonoBehaviour
                 list.Add(pi);
                 list = list.OrderByDescending(x => x.getXAcc()).ToList();
                 Main.passesData[pi.GetLevelId()] = list;
+            }
+
+            foreach (LevelInfo li in Levels)
+            {
+                if (Main.passesData.ContainsKey(li.id))
+                {
+                    li.clears = Main.passesData[li.id].Count;
+                }
             }
 
             SortLevelList();
@@ -200,6 +208,34 @@ public class LevelListScript : MonoBehaviour
                         {
                             if (Main.Setting.showUnratedLevels || (!li.pguDiff.Equals("0") && !li.pguDiff.Equals("-2")))
                             {
+                                if (Main.passesData.ContainsKey(li.id))
+                                {
+                                    List<PassInfo> passes = Main.passesData[li.id];
+                                    int totalClears = passes.Count;
+
+                                    if (totalClears > 0)
+                                    {
+                                        if (!SearchScript.isShowingCleared)
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!SearchScript.isShowingUncleared)
+                                        {
+                                            continue;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (!SearchScript.isShowingUncleared)
+                                    {
+                                        continue;
+                                    }
+                                }
+
                                 list.Add(li);
                             }
                         }
@@ -230,17 +266,16 @@ public class LevelListScript : MonoBehaviour
                 List<PassInfo> passes = Main.passesData[list[i].id];
                 double bestAcc = passes.Count == 0 ? 0 : passes[0].getXAcc() * 100;
                 int totalClears = passes.Count;
-                
+
                 LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
                 lps.SetLevelInfo(list[i], bestAcc, totalClears);
             }
             else
             {
+
                 LevelPrefabScript lps = level.GetComponent<LevelPrefabScript>();
                 lps.SetLevelInfo(list[i], 0, 0);
             }
-            
-
 
             cnt++;
         }
@@ -268,6 +303,17 @@ public class LevelListScript : MonoBehaviour
             else
             {
                 Levels = Levels.OrderBy(level => Helper.pguDiffToSortNumber(level.pguDiff)).ToList();
+            }
+        }
+        if (Main.Setting.orderMode == 2)
+        {
+            if (Main.Setting.orderByClearsMode == 1)
+            {
+                Levels = Levels.OrderByDescending(level => level.clears).ToList();
+            }
+            else
+            {
+                Levels = Levels.OrderBy(level => level.clears).ToList();
             }
         }
     }

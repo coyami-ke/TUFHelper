@@ -183,6 +183,26 @@ namespace TUFHelper.Utils
             return (float)(num5 * Math.Pow(0.9875, checkpoints));
         }
 
+        public static string getDate(String UTCTime)
+        {
+            Debug.Log(UTCTime);
+            DateTime utcTime = DateTime.Parse(UTCTime, null, System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime();
+
+            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
+
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, localTimeZone);
+
+            return localTime.ToString("yyyy-MM-dd HH:mm:ss");
+        }
+
+        public static long getTimeStamp(String UTCTime)
+        {
+            DateTime utcTime = DateTime.Parse(UTCTime, null, System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime();
+
+            long unixTimestamp = (long)(utcTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+
+            return unixTimestamp;
+        }
 
     }
 

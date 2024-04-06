@@ -5,13 +5,13 @@ namespace TUFHelper.Utils
     public class LevelInfo
     {
 
-        public int id;
+        public int id, clears;
         public float diff;
         public string song, artist, creator, charter, vfxer, team, pguDiff, vidLink, dlLink, workshopLink;
 
         [JsonConstructor]
         public LevelInfo() {
-            
+            clears = 0;
         }
 
         public LevelInfo(int id, float diff, string song, string artist, string creator, string charter, string vfxer, string team, string pgu_diff, string vidLink, string dlLink, string workshopLink)

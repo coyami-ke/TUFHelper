@@ -9,9 +9,10 @@ namespace TUFHelper.Utils
     public class Setting : UnityModManager.ModSettings
     {
 
-        public int orderMode = 0; // 0 -> id, 1 -> difficulty
+        public int orderMode = 0; // 0 -> id, 1 -> difficulty, 2 -> clears;
         public int orderByIDMode = -1; // 1 -> down, -1 -> up
         public int orderByDifficultyMode = 1; // 1 -> down, -1 -> up
+        public int orderByClearsMode = -1; // 1 -> down, -1 -> up
         public string levelSaveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TUFHelper\Levels";
 
         public bool showLegacyRating = false, showUnratedLevels = false;
