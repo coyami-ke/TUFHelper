@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
+  m_Name: Log 230
+  m_EditorClassIdentifier: 
+  pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  creationDate:
+    ticks: 638480358684913985
+  entries:
+  - logLevel: 2
+    internalTime:
+      ticks: 638480358688467249
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      The process cannot access the file ''5AB.dag.outputdata'' because it is being
+      used by another process.'
+    context:
+    - "Stacktrace\r\nThe process cannot access the file '5AB.dag.outputdata' because
+      it is being used by another process.\r\n\r\n  at System.IO.FileSystem.RemoveDirectoryRecursive
+      (System.String fullPath, Interop+Kernel32+WIN32_FIND_DATA& findData, System.Boolean
+      topLevel) [0x0014c] in <787acc3c9a4c471ba7d971300105af24>:0 \r\n\r\n  at System.IO.FileSystem.RemoveDirectory
+      (System.String fullPath, System.Boolean recursive) [0x00036] in <787acc3c9a4c471ba7d971300105af24>:0
+      \r\n\r\n  at System.IO.Directory.Delete (System.String path, System.Boolean
+      recursive) [0x00006] in <787acc3c9a4c471ba7d971300105af24>:0 \r\n\r\n  at UnityEditor.Compilation.AssemblyBuilder.Build
+      (UnityEditor.Scripting.ScriptCompilation.EditorCompilation editorCompilation)
+      [0x000c9] in <fe7039efe678478d9c83e73bc6a6566d>:0 \r\n\r\n  at UnityEditor.Compilation.AssemblyBuilder.Build
+      () [0x00007] in <fe7039efe678478d9c83e73bc6a6566d>:0 \r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Build
+      (ThunderKit.Core.Pipelines.Pipeline pipeline, System.String resolvedArtifactPath,
+      System.ValueTuple`4[UnityEditor.Compilation.Assembly,UnityEditorInternal.AssemblyDefinitionAsset,ThunderKit.Core.Pipelines.Jobs.StageAssemblies+AsmDef,ThunderKit.Core.Manifests.Datums.AssemblyDefinitions][]
+      definitions, System.Int32 definitionIndex) [0x00253] in [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:179](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#179)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Execute (ThunderKit.Core.Pipelines.Pipeline
+      pipeline) [0x00194] in [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:126](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#126)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Execute (ThunderKit.Core.Pipelines.Pipeline
+      pipeline) [0x0025c] in [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:130](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#130)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.ExecuteJob () [0x00023] in
+      [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs:281](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs#281)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.ExecuteManifestLoop () [0x0005b]
+      in [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs:295](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs#295)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.Execute () [0x00289] in [E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs:225](exceptionsource://E:\\UnityProjects\\ThunderKit-8.0.6\\Editor\\Core\\Pipelines\\Pipeline.cs#225) "
+  - logLevel: 3
+    internalTime:
+      ticks: 638480358687102893
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638480358687061217
+    message: '[Pipeline(2 - StageManifestFiles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638480358687013737
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleted E:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638480358686953472
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting E:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638480358686932119
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638480358686900237
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleted E:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638480358686862198
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting E:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638480358685716533
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638480358685696534
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Clearing
+      PipelineJob error states'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638480358685606164
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Execute
+      Pipeline'
+    context: []
