@@ -37,7 +37,7 @@ public class LeaderboardScript : MonoBehaviour
 
     public IEnumerator RequestAllPasses()
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/passes?levelId=" + LevelInfoSceneScript.currentLevelInfo.id);
+        UnityWebRequest www = UnityWebRequest.Get("https://be.tuforums.com/passes?levelId=" + LevelInfoSceneScript.currentLevelInfo.id);
         www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();

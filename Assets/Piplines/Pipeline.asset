@@ -18,7 +18,7 @@ MonoBehaviour:
   Manifests: []
   Recursive: 0
   IsFatal: 0
-  Path: E:\UnityProjects\TUFHelper\ThunderKit\Libraries\TUFHelper.dll
+  Path: G:\UnityProjects\TUFHelper\ThunderKit\Libraries\TUFHelper.dll
 --- !u!114 &-5816112456853921094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
   Manifests: []
   Recursive: 1
   IsFatal: 0
-  Path: E:\UnityProjects\TUFHelper\ThunderKit\AssetBundleStaging
+  Path: G:\UnityProjects\TUFHelper\ThunderKit\AssetBundleStaging
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

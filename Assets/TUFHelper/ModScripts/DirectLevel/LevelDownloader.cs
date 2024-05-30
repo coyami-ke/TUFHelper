@@ -332,7 +332,7 @@ namespace DirectLevel
                 }
                 else
                 {
-                    var html = wc.DownloadString($"https://be.t21c.kro.kr/levels/{levelID}");
+                    var html = wc.DownloadString($"https://be.tuforums.com/levels/{levelID}");
                     var download = html.GetValue("\"dlLink\":\"", "\",\"");
                     return download;
                 }

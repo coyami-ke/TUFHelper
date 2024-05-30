@@ -7,7 +7,7 @@
       "dependencies": {}
     },
     "com.passivepicasso.thunderkit": {
-      "version": "file:E:/UnityProjects/ThunderKit-8.0.6",
+      "version": "file:G:/ThunderKit",
       "depth": 0,
       "source": "local",
       "dependencies": {

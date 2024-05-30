@@ -8,6 +8,7 @@ using UnityEngine;
 using System.Linq;
 using TUFHelper.Utils;
 using UnityEngine.Networking;
+using Together.Utils;
 
 public class LevelListScript : MonoBehaviour
 {
@@ -39,7 +40,8 @@ public class LevelListScript : MonoBehaviour
 
     public IEnumerator RequestAllLevels()
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/levels");
+        UnityWebRequest www = UnityWebRequest.Get("https://be.tuforums.com/levels");
+        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
@@ -65,7 +67,8 @@ public class LevelListScript : MonoBehaviour
 
     public IEnumerator RequestAllPlayers()
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/players");
+        UnityWebRequest www = UnityWebRequest.Get("https://be.tuforums.com/players");
+        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
@@ -95,7 +98,8 @@ public class LevelListScript : MonoBehaviour
 
     public IEnumerator RequestAllPasses()
     {
-        UnityWebRequest www = UnityWebRequest.Get("https://be.t21c.kro.kr/passes");
+        UnityWebRequest www = UnityWebRequest.Get("https://be.tuforums.com/passes");
+        www.certificateHandler = new CertificateWhore();
 
         yield return www.SendWebRequest();
 
