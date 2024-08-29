@@ -101,6 +101,7 @@ namespace TUFHelper.Utils
                 case "U12": diffAsString = "21.25"; break;
                 case "U13": diffAsString = "21.3"; break;
                 case "U14": diffAsString = "21.3"; break;
+                case "MA": diffAsString = "21.21"; break;
                 case "64": diffAsString = "64"; break;
                 case "727": diffAsString = "727"; break;
                 case "-22": diffAsString = "-22"; break;
