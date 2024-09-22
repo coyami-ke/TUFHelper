@@ -38,6 +38,8 @@ public class SettingsScript : MonoBehaviour
     {
         List<string> categories = new List<string>() { "P", "G", "U" };
         List<OptionData> options = new List<OptionData>();
+        options.Add(new OptionData("0", Helper.getDiffSprite("0")));
+
         foreach (string category in categories)
         {
             for (int i = 1; i <= 20; i++)
@@ -48,7 +50,7 @@ public class SettingsScript : MonoBehaviour
                     {
                         i++; // skip one
                     }
-                    if (i > 14)
+                    if (i > 20)
                     {
                         continue;
                     }

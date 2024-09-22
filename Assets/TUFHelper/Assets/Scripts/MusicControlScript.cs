@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Image muteIcon, image;
-    public AudioSource audio;
+    public AudioSource audioSource;
     bool isPlaying = true;
 
     void Start()
@@ -17,12 +17,12 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         if (isPlaying)
         {
-            audio.Pause();
+            audioSource.Pause();
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
         } else
         {
-            audio.Play();
+            audioSource.Play();
             isPlaying = true;
             muteIcon.gameObject.SetActive(false);
         }

@@ -34,8 +34,8 @@ MonoBehaviour:
   Active: 1
   AssetBundleBuildOptions: 0
   buildTarget: 19
-  recurseDirectories: 0
   simulate: 0
+  copyManifest: 1
   BundleArtifactPath: <AssetBundleStaging>
 --- !u!114 &-3026783556013047608
 MonoBehaviour:
@@ -102,6 +102,7 @@ MonoBehaviour:
   m_Name: StageAssemblies
   m_EditorClassIdentifier: 
   Active: 1
+  defines: []
   stageDebugDatabases: 0
   releaseBuild: 0
   assemblyArtifactPath: <AssemblyStaging>

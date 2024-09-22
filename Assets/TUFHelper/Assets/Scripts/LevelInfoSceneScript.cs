@@ -30,8 +30,6 @@ public class LevelInfoSceneScript : MonoBehaviour
         playButtonText,
         debug;
 
-
-    // Start is called before the first frame update
     public void Awake()
     {
         void ClickSfx()
@@ -42,7 +40,7 @@ public class LevelInfoSceneScript : MonoBehaviour
         downloadButton.onClick.AddListener(ClickSfx);
         playButton.onClick.AddListener(ClickSfx);
 
-        difficultyIcon.sprite = Helper.getDiffSprite(currentLevelInfo.pguDiff);
+        difficultyIcon.sprite = Helper.getDiffSprite(currentLevelInfo.newDiff);
         songText.text = currentLevelInfo.artist + " - " + currentLevelInfo.song;
         creatorText.text = "Level By: " + currentLevelInfo.creator;
 

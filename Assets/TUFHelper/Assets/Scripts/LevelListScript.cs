@@ -207,10 +207,10 @@ public class LevelListScript : MonoBehaviour
                         li.creator.ToLower().Contains(search.ToLower()) ||
                         li.song.ToLower().Contains(search.ToLower()))
                     {
-                        if (Helper.pguDiffToSortNumber(li.pguDiff) >= Helper.pguDiffToSortNumber(minPguDiff) &&
-                            Helper.pguDiffToSortNumber(li.pguDiff) <= Helper.pguDiffToSortNumber(maxPguDiff))
+                        if (Helper.newDiffToSortNumber(li.newDiff) >= Helper.newDiffToSortNumber(Helper.pguDiffToNewDiff(minPguDiff)) &&
+                            Helper.newDiffToSortNumber(li.newDiff) <= Helper.newDiffToSortNumber(Helper.pguDiffToNewDiff(maxPguDiff)))
                         {
-                            if (Main.Setting.showUnratedLevels || (!li.pguDiff.Equals("0") && !li.pguDiff.Equals("-2")))
+                            if (Main.Setting.showUnratedLevels || (li.newDiff != 0 && li.newDiff != -2))
                             {
                                 if (Main.passesData.ContainsKey(li.id))
                                 {
@@ -302,11 +302,11 @@ public class LevelListScript : MonoBehaviour
         {
             if (Main.Setting.orderByDifficultyMode == 1)
             {
-                Levels = Levels.OrderByDescending(level => Helper.pguDiffToSortNumber(level.pguDiff)).ToList();
+                Levels = Levels.OrderByDescending(level => Helper.newDiffToSortNumber(level.newDiff)).ToList();
             }
             else
             {
-                Levels = Levels.OrderBy(level => Helper.pguDiffToSortNumber(level.pguDiff)).ToList();
+                Levels = Levels.OrderBy(level => Helper.newDiffToSortNumber(level.newDiff)).ToList();
             }
         }
         if (Main.Setting.orderMode == 2)

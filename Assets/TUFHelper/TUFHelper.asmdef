@@ -17,8 +17,7 @@
         "0Harmony.dll",
         "UnityModManager.dll",
         "Newtonsoft.Json.dll",
-        "System.Windows.Forms.dll",
-        "DotNetZip.dll"
+        "System.Windows.Forms.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

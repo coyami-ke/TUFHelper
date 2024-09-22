@@ -5,47 +5,81 @@ namespace TUFHelper.Utils
 {
     public static class Helper
     {
-        public static double pguDiffToSortNumber(string pgu)
+
+        public static int newDiffToSortNumber(int newDiff)
         {
-            if (pgu.Equals("0.9"))
+            switch (newDiff)
             {
-                return 100;
+                case -1: return 61; // epic
+                case -22: return 62; // mp
+                case -21: return int.MaxValue; // -21
+                default: return newDiff;
             }
-            else if (pgu.Equals("64"))
-            {
-                return 200;
-            }
-            else if (pgu.Equals("727"))
-            {
-                return 300;
-            }
-            else if (pgu.Equals("-22"))
-            {
-                return 400;
-            }
-            else if (pgu.Equals("-21"))
-            {
-                return 500;
-            }
-            else if (pgu.StartsWith("P"))
-            {
-                return double.Parse(pgu.Substring(1));
-            }
-            else if (pgu.StartsWith("G"))
-            {
-                return double.Parse(pgu.Substring(1)) + 20;
-            }
-            else if (pgu.StartsWith("U"))
-            {
-                return double.Parse(pgu.Substring(1)) + 40;
-            }
-            return 250;
         }
 
-        public static string pguToLegacyDiff(string pgu)
+        public static string newDiffToPguDiff(int newDiff)
+        {
+            switch (newDiff)
+            {
+                case -22: return "MP";
+                case -1: return "Epic";
+                case 0: return "0";
+                case -21: return "-21";
+                case 100: return "Grande";
+                case 101: return "DesertBus";
+                case 102: return "MA";
+                default:
+                    if (newDiff >= 1 && newDiff <= 20)
+                        return $"P{newDiff}";
+                    else if (newDiff >= 21 && newDiff <= 40)
+                        return $"G{newDiff - 20}";
+                    else if (newDiff >= 41 && newDiff <= 60)
+                        return $"U{newDiff - 40}";
+                    else
+                        return "Unknown";
+            }
+        }
+
+        public static int pguDiffToNewDiff(string pguDiff)
+        {
+            if (string.IsNullOrWhiteSpace(pguDiff))
+                return int.MinValue;
+
+            switch (pguDiff.ToUpper())
+            {
+                case "MP": return -22;
+                case "EPIC": return -1;
+                case "GRANDE": return 100;
+                case "DESERTBUS": return 101;
+                case "MA": return 102;
+                case "0": return 0;
+                case "-21": return -21;
+            }
+
+            if (pguDiff.Length >= 2)
+            {
+                char prefix = char.ToUpper(pguDiff[0]);
+                if (int.TryParse(pguDiff.Substring(1), out int number))
+                {
+                    switch (prefix)
+                    {
+                        case 'P' when number >= 1 && number <= 20:
+                            return number;
+                        case 'G' when number >= 1 && number <= 20:
+                            return number + 20;
+                        case 'U' when number >= 1 && number <= 20:
+                            return number + 40;
+                    }
+                }
+            }
+
+            return int.MinValue; // Unknown
+        }
+
+        public static string pguDiffToLegacyDiff(string pguDiff)
         {
             string diffAsString;
-            switch (pgu)
+            switch (pguDiff)
             {
                 case "P1": diffAsString = "1"; break;
                 case "P2": diffAsString = "3"; break;
@@ -101,30 +135,36 @@ namespace TUFHelper.Utils
                 case "U12": diffAsString = "21.25"; break;
                 case "U13": diffAsString = "21.3"; break;
                 case "U14": diffAsString = "21.3"; break;
-                case "MA": diffAsString = "21.21"; break;
-                case "64": diffAsString = "64"; break;
-                case "727": diffAsString = "727"; break;
-                case "-22": diffAsString = "-22"; break;
-                case "-21": diffAsString = "-21"; break;
-                case "0.9": diffAsString = "0.9"; break;
+                case "MA": diffAsString = "MA"; break;
+                case "Grande": diffAsString = "Grande"; break;
+                case "DesertBus": diffAsString = "DesertBus"; break;
+                case "Epic": diffAsString = "Epic"; break;
+                case "MP": diffAsString = "MP"; break;
                 case "0": diffAsString = "0"; break;
                 case "-2": diffAsString = "-2"; break;
+                case "-21": diffAsString = "-21"; break;
                 default: diffAsString = "unknown"; break;
             }
             return diffAsString;
         }
 
-        public static Sprite getDiffSprite(string pgu)
+        public static Sprite getDiffSprite(int newDiff)
         {
+            return getDiffSprite(newDiffToPguDiff(newDiff));
+        }
+
+        public static Sprite getDiffSprite(string pguDiff)
+        {
+            string legacyDiff = pguDiffToLegacyDiff(pguDiff);
             if (Main.assets != null)
             {
                 if (Main.Setting.showLegacyRating)
                 {
-                    return Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/" + pguToLegacyDiff(pgu) + ".png");
+                    return Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/" + legacyDiff + ".png");
                 }
                 else
                 {
-                    Sprite sprite = Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/" + pgu + ".png");
+                    Sprite sprite = Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/DiffIcons/" + pguDiff + ".png");
 
                     if (sprite == null)
                     {
@@ -138,11 +178,11 @@ namespace TUFHelper.Utils
             {
                 if (Main.Setting.showLegacyRating)
                 {
-                    return Resources.Load<Sprite>("DiffIcons/" + pguToLegacyDiff(pgu));
+                    return Resources.Load<Sprite>("DiffIcons/" + legacyDiff);
                 }
                 else
                 {
-                    Sprite sprite = Resources.Load<Sprite>("DiffIcons/" + pgu);
+                    Sprite sprite = Resources.Load<Sprite>("DiffIcons/" + pguDiff);
 
                     if (sprite == null)
                     {
