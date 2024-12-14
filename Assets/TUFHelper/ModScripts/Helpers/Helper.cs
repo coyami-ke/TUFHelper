@@ -5,6 +5,10 @@ namespace TUFHelper.Utils
 {
     public static class Helper
     {
+        public static Sprite getDiffSprite(int newDiff)
+        {
+            return getDiffSprite(newDiffToPguDiff(newDiff));
+        }
 
         public static int newDiffToSortNumber(int newDiff)
         {
@@ -17,7 +21,7 @@ namespace TUFHelper.Utils
             }
         }
 
-        public static string newDiffToPguDiff(int newDiff)
+        internal static string newDiffToPguDiff(int newDiff)
         {
             switch (newDiff)
             {
@@ -76,7 +80,7 @@ namespace TUFHelper.Utils
             return int.MinValue; // Unknown
         }
 
-        public static string pguDiffToLegacyDiff(string pguDiff)
+        internal static string pguDiffToLegacyDiff(string pguDiff)
         {
             string diffAsString;
             switch (pguDiff)
@@ -146,11 +150,6 @@ namespace TUFHelper.Utils
                 default: diffAsString = "unknown"; break;
             }
             return diffAsString;
-        }
-
-        public static Sprite getDiffSprite(int newDiff)
-        {
-            return getDiffSprite(newDiffToPguDiff(newDiff));
         }
 
         public static Sprite getDiffSprite(string pguDiff)
@@ -238,11 +237,19 @@ namespace TUFHelper.Utils
 
         public static long getTimeStamp(String UTCTime)
         {
-            DateTime utcTime = DateTime.Parse(UTCTime, null, System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime();
+            try
+            {
+                Debug.Log(UTCTime);
+                DateTime utcTime = DateTime.Parse(UTCTime, null, System.Globalization.DateTimeStyles.RoundtripKind).ToUniversalTime();
+                long unixTimestamp = (long)(utcTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
 
-            long unixTimestamp = (long)(utcTime - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalSeconds;
+                return unixTimestamp;
+            } catch
+            {
+                Debug.Log(UTCTime);
+                return 0;
+            }
 
-            return unixTimestamp;
         }
 
     }

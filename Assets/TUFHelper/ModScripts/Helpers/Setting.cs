@@ -15,7 +15,7 @@ namespace TUFHelper.Utils
         public int orderByClearsMode = -1; // 1 -> down, -1 -> up
         public string levelSaveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TUFHelper\Levels";
 
-        public bool showLegacyRating = false, showUnratedLevels = false;
+        public bool showLegacyRating = false, showUnratedLevels = false, playingLobbyMusic = true;
 
         public List<int> favouritesID = new List<int>();
 

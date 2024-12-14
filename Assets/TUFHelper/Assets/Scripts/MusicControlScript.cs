@@ -1,4 +1,6 @@
 using DG.Tweening;
+using TUFHelper;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +13,13 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
 
     void Start()
     {
+        if (!Main.Setting.playingLobbyMusic) 
+        {
+            audioSource.Pause();
+            isPlaying = false;
+            muteIcon.gameObject.SetActive(true);
+            Main.Setting.playingLobbyMusic = false;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -20,12 +29,15 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
             audioSource.Pause();
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
+            Main.Setting.playingLobbyMusic = false;
         } else
         {
             audioSource.Play();
             isPlaying = true;
             muteIcon.gameObject.SetActive(false);
+            Main.Setting.playingLobbyMusic = true;
         }
+        Main.Setting.Save(Main.ModEntry);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

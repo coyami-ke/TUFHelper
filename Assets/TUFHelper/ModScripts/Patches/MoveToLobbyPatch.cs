@@ -47,14 +47,14 @@ namespace TUFHelper
         [HarmonyPatch(typeof(scrController), "OnLandOnPortal")]
         public static class OnLandOnPortal
         {
-            public static bool Prefix(int portalDestination)
+            public static bool Prefix(string portalArguments)
             {
-                return Prefix_(portalDestination);
+                return Prefix_(portalArguments);
             }
 
-            private static bool Prefix_(int portalDestination)
+            private static bool Prefix_(string portalArguments)
             {
-                if (portalDestination == 7335)
+                if (portalArguments.Equals("TUFHelperPortalFloor"))
                 {
                     GCS.sceneToLoad = "";
                     
@@ -143,7 +143,8 @@ namespace TUFHelper
             GameObject portal = GameObject.Instantiate<GameObject>(ring.transform.Find("FloorCalibration").gameObject, ring.transform);
             portal.name = "TUFHelperPortal";
             scrFloor floor = portal.GetComponent<scrFloor>();
-            floor.levelnumber = 7335;
+            floor.levelnumber = Portal.None;
+            floor.arguments = "TUFHelperPortalFloor";
             portal.transform.position = new Vector3(3f, 1f);
             GameObject canvasWorld = GameObject.Find("Canvas World");
 

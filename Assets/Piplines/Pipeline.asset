@@ -18,7 +18,7 @@ MonoBehaviour:
   Manifests: []
   Recursive: 0
   IsFatal: 0
-  Path: E:\UnityProjects\TUFHelper\ThunderKit\Libraries\TUFHelper.dll
+  Path: E:\Github\TUFHelper\ThunderKit\Libraries\TUFHelper.dll
 --- !u!114 &-5816112456853921094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34,8 +34,8 @@ MonoBehaviour:
   Active: 1
   AssetBundleBuildOptions: 0
   buildTarget: 19
+  recurseDirectories: 0
   simulate: 0
-  copyManifest: 1
   BundleArtifactPath: <AssetBundleStaging>
 --- !u!114 &-3026783556013047608
 MonoBehaviour:
@@ -55,7 +55,7 @@ MonoBehaviour:
   Manifests: []
   Recursive: 1
   IsFatal: 0
-  Path: E:\UnityProjects\TUFHelper\ThunderKit\AssetBundleStaging
+  Path: E:\Github\TUFHelper\ThunderKit\AssetBundleStaging
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,7 +102,6 @@ MonoBehaviour:
   m_Name: StageAssemblies
   m_EditorClassIdentifier: 
   Active: 1
-  defines: []
   stageDebugDatabases: 0
   releaseBuild: 0
   assemblyArtifactPath: <AssemblyStaging>

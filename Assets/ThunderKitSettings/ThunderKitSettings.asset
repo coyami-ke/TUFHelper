@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirstLoad: 1
   ShowOnStartup: 1
-  GameExecutable: A Dance of Fire and Ice.exe
-  GamePath: C:\Program Files (x86)\Steam\steamapps\common\A Dance of Fire and Ice
-  Is64Bit: 1
+  GameExecutable: 
+  GamePath: 
+  Is64Bit: 0
   DateTimeFormat: HH:mm:ss:fff
   CreatedDateFormat: MMM/dd HH:mm:ss
   ShowLogWindow: 1
@@ -32,4 +32,4 @@ MonoBehaviour:
   QuickAccessPipelines:
   - {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
   QuickAccessManifests: []
-  ImportConfiguration: {fileID: 11400000, guid: 91cf0d9b46584b64ca47ae0f89364670, type: 2}
+  ImportConfiguration: {fileID: 0}
