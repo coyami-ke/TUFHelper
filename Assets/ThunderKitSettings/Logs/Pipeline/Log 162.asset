@@ -1,0 +1,740 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
+  m_Name: Log 162
+  m_EditorClassIdentifier: 
+  pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  creationDate:
+    ticks: 638456242873350837
+  entries:
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242941982749
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Finished
+      execution'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242886340310
+    message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Creating 2 AssetBundles'
+    context:
+    - 'tuf_assets.bundle
+
+      [GmarketSansMedium SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fGmarketSansMedium+SDF.asset)
+
+      
+
+      [GmarketSansMedium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fGmarketSansMedium.otf)
+
+      
+
+      [NotoSans-Medium
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSans-Medium+SDF.asset)
+
+      
+
+      [NotoSans-Medium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSans-Medium.ttf)
+
+      
+
+      [NotoSansJP-Medium
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansJP-Medium+SDF.asset)
+
+      
+
+      [NotoSansJP-Medium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansJP-Medium.ttf)
+
+      
+
+      [NotoSansKR-Medium
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansKR-Medium+SDF.asset)
+
+      
+
+      [NotoSansKR-Medium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansKR-Medium.ttf)
+
+      
+
+      [NotoSansMath-Regular
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansMath-Regular+SDF.asset)
+
+      
+
+      [NotoSansMath-Regular](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansMath-Regular.ttf)
+
+      
+
+      [NotoSansSC-Medium
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansSC-Medium+SDF.asset)
+
+      
+
+      [NotoSansSC-Medium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansSC-Medium.ttf)
+
+      
+
+      [NotoSansTC-Medium
+      SDF](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansTC-Medium+SDF.asset)
+
+      
+
+      [NotoSansTC-Medium](assetlink://Assets%2fTUFHelper%2fAssets%2fFonts%2fNotoSansTC-Medium.ttf)
+
+      
+
+      [LevelPrefab](assetlink://Assets%2fTUFHelper%2fAssets%2fPrefabs%2fLevelPrefab.prefab)
+
+      
+
+      [Arrow
+      Left](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fArrow+Left.png)
+
+      
+
+      [Arrow
+      Right](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fArrow+Right.png)
+
+      
+
+      [ArrowDown](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fArrowDown.png)
+
+      
+
+      [bg](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fbg.png)
+
+      
+
+      [Button](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fButton.png)
+
+      
+
+      [checkmark](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fcheckmark.png)
+
+      
+
+      [magnifying-glass](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fmagnifying-glass.png)
+
+      
+
+      [star](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fstar.png)
+
+      
+
+      [star_full](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fstar_full.png)
+
+      
+
+      [t21c_logo](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2ft21c_logo.png)
+
+      
+
+      [tuf_logo](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2ftuf_logo.png)
+
+      
+
+      [-2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f-2.png)
+
+      
+
+      [-21](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f-21.png)
+
+      
+
+      [-22](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f-22.png)
+
+      
+
+      [0.9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f0.9.png)
+
+      
+
+      [0](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f0.png)
+
+      
+
+      [1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f1.png)
+
+      
+
+      [10](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f10.png)
+
+      
+
+      [11](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f11.png)
+
+      
+
+      [12](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f12.png)
+
+      
+
+      [13](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f13.png)
+
+      
+
+      [14](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f14.png)
+
+      
+
+      [15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f15.png)
+
+      
+
+      [16](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f16.png)
+
+      
+
+      [17](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f17.png)
+
+      
+
+      [18.5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f18.5.png)
+
+      
+
+      [18](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f18.png)
+
+      
+
+      [19.5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f19.5.png)
+
+      
+
+      [19](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f19.png)
+
+      
+
+      [2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f2.png)
+
+      
+
+      [20.0](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.0.png)
+
+      
+
+      [20.05](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.05.png)
+
+      
+
+      [20.1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.1.png)
+
+      
+
+      [20.15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.15.png)
+
+      
+
+      [20.2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.2.png)
+
+      
+
+      [20.25](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.25.png)
+
+      
+
+      [20.3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.3.png)
+
+      
+
+      [20.35](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.35.png)
+
+      
+
+      [20.4](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.4.png)
+
+      
+
+      [20.45](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.45.png)
+
+      
+
+      [20.5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.5.png)
+
+      
+
+      [20.55](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.55.png)
+
+      
+
+      [20.6](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.6.png)
+
+      
+
+      [20.65](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.65.png)
+
+      
+
+      [20.7](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.7.png)
+
+      
+
+      [20.75](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.75.png)
+
+      
+
+      [20.8](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.8.png)
+
+      
+
+      [20.85](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.85.png)
+
+      
+
+      [20.9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.9.png)
+
+      
+
+      [20.95](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f20.95.png)
+
+      
+
+      [21.05](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.05.png)
+
+      
+
+      [21.1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.1.png)
+
+      
+
+      [21.15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.15.png)
+
+      
+
+      [21.2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.2.png)
+
+      
+
+      [21.25](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.25.png)
+
+      
+
+      [21.3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.3.png)
+
+      
+
+      [21](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f21.png)
+
+      
+
+      [3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f3.png)
+
+      
+
+      [4](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f4.png)
+
+      
+
+      [5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f5.png)
+
+      
+
+      [6](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f6.png)
+
+      
+
+      [64](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f64.png)
+
+      
+
+      [7](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f7.png)
+
+      
+
+      [727](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f727.png)
+
+      
+
+      [8](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f8.png)
+
+      
+
+      [9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2f9.png)
+
+      
+
+      [G1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG1.png)
+
+      
+
+      [G10](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG10.png)
+
+      
+
+      [G11](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG11.png)
+
+      
+
+      [G12](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG12.png)
+
+      
+
+      [G13](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG13.png)
+
+      
+
+      [G14](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG14.png)
+
+      
+
+      [G15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG15.png)
+
+      
+
+      [G16](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG16.png)
+
+      
+
+      [G17](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG17.png)
+
+      
+
+      [G18](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG18.png)
+
+      
+
+      [G19](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG19.png)
+
+      
+
+      [G2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG2.png)
+
+      
+
+      [G20](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG20.png)
+
+      
+
+      [G3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG3.png)
+
+      
+
+      [G4](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG4.png)
+
+      
+
+      [G5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG5.png)
+
+      
+
+      [G6](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG6.png)
+
+      
+
+      [G7](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG7.png)
+
+      
+
+      [G8](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG8.png)
+
+      
+
+      [G9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fG9.png)
+
+      
+
+      [P1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP1.png)
+
+      
+
+      [P10](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP10.png)
+
+      
+
+      [P11](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP11.png)
+
+      
+
+      [P12](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP12.png)
+
+      
+
+      [P13](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP13.png)
+
+      
+
+      [P14](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP14.png)
+
+      
+
+      [P15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP15.png)
+
+      
+
+      [P16](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP16.png)
+
+      
+
+      [P17](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP17.png)
+
+      
+
+      [P18](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP18.png)
+
+      
+
+      [P19](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP19.png)
+
+      
+
+      [P2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP2.png)
+
+      
+
+      [P20](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP20.png)
+
+      
+
+      [P3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP3.png)
+
+      
+
+      [P4](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP4.png)
+
+      
+
+      [P5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP5.png)
+
+      
+
+      [P6](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP6.png)
+
+      
+
+      [P7](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP7.png)
+
+      
+
+      [P8](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP8.png)
+
+      
+
+      [P9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fP9.png)
+
+      
+
+      [U1](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU1.png)
+
+      
+
+      [U10](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU10.png)
+
+      
+
+      [U11](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU11.png)
+
+      
+
+      [U12](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU12.png)
+
+      
+
+      [U13](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU13.png)
+
+      
+
+      [U14](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU14.png)
+
+      
+
+      [U15](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU15.png)
+
+      
+
+      [U16](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU16.png)
+
+      
+
+      [U17](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU17.png)
+
+      
+
+      [U18](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU18.png)
+
+      
+
+      [U19](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU19.png)
+
+      
+
+      [U2](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU2.png)
+
+      
+
+      [U20](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU20.png)
+
+      
+
+      [U3](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU3.png)
+
+      
+
+      [U4](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU4.png)
+
+      
+
+      [U5](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU5.png)
+
+      
+
+      [U6](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU6.png)
+
+      
+
+      [U7](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU7.png)
+
+      
+
+      [U8](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU8.png)
+
+      
+
+      [U9](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2fU9.png)
+
+      
+
+      [unknown](assetlink://Assets%2fTUFHelper%2fAssets%2fSprites%2fDiffIcons%2funknown.png)
+
+      
+
+      [TMP_SDF](assetlink://Assets%2fTextMesh+Pro%2fShaders%2fTMP_SDF.shader)
+
+      
+
+      [TMP
+      - Font Asset Icon](assetlink://Packages%2fcom.unity.textmeshpro%2fEditor+Resources%2fGizmos%2fTMP+-+Font+Asset+Icon.psd)
+
+      
+
+      [TMP_SDF-Mobile](assetlink://Assets%2fTextMesh+Pro%2fShaders%2fTMP_SDF-Mobile.shader)
+
+      
+
+      [LiberationSans
+      SDF - Fallback](assetlink://Assets%2fTextMesh+Pro%2fResources%2fFonts+%26+Materials%2fLiberationSans+SDF+-+Fallback.asset)
+
+      
+
+      [LiberationSans](assetlink://Assets%2fTextMesh+Pro%2fFonts%2fLiberationSans.ttf)
+
+      
+
+      [P1](assetlink://Assets%2fResources%2fDiffIcons%2fP1.png)
+
+      
+
+      [TMP
+      - Text Component Icon](assetlink://Packages%2fcom.unity.textmeshpro%2fEditor+Resources%2fGizmos%2fTMP+-+Text+Component+Icon.psd)
+
+      
+
+      
+
+'
+    - 'tuf_scenes.bundle
+
+      [TUFLevelSelect](assetlink://Assets%2fTUFHelper%2fScenes%2fTUFLevelSelect.unity)
+
+      
+
+      
+
+'
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242883321661
+    message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242883246511
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Build Completed: ``` ThunderKit/Libraries/TUFHelper.dll ```'
+    context: []
+  - logLevel: 1
+    internalTime:
+      ticks: 638456242883168759
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Assets\TUFHelper\ModScripts\LevelLoadPatch.cs(22,29): warning CS0169: The field
+      ''LevelLoadPatch.isCustomError'' is never used'
+    context:
+    - 'Assets\TUFHelper\ModScripts\LevelLoadPatch.cs (22:29)
+
+      [Assets\TUFHelper\ModScripts\LevelLoadPatch.cs(22,29):
+      warning CS0169: The field ''LevelLoadPatch.isCustomError'' is never used](exceptionsource://G:\UnityProjects\TUFHelper\Assets\TUFHelper\ModScripts\LevelLoadPatch.cs#22)'
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242878757946
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Building : ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242875529194
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242875478460
+    message: '[Pipeline(2 - StageManifestFiles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242875420142
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleted G:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242875304764
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting G:/UnityProjects/TUFHelper/ThunderKit/AssetBundleStaging'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242875274778
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242875244768
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleted G:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242875203759
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting G:/UnityProjects/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242874071087
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638456242874051077
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Clearing
+      PipelineJob error states'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638456242873941079
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Execute
+      Pipeline'
+    context: []
