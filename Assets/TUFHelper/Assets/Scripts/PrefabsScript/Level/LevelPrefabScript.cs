@@ -1,97 +1,152 @@
+using DG.Tweening;
 using DirectLevel;
 using System;
+using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.Utils;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LevelPrefabScript : MonoBehaviour
+public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    private void Awake()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+    }
+    public void Init(GameObject scrollViewObj)
+    {
+        scrollView = scrollViewObj;
+        _scrollRect = scrollView.GetComponent<ScrollRect>();
+    }
 
-    public Image difficultyIcon;
-    public Button downloadButton, playButton;
+    private static readonly Color SelectedColor = new(1f, 1f, 1f, 50f / 255f);
+    private static readonly Color DeselectedColor = new(1f, 1f, 1f, 10f / 255f);
+    private RectTransform _rectTransform;
+    private ScrollRect _scrollRect;
+    private bool _isSelected = false;
+    public bool IsSelected 
+    {
+        get => _isSelected;
+        set 
+        {
+            if (_isSelected == value) return;
+            _isSelected = value;
 
+            background.DOColor(value ? SelectedColor : DeselectedColor, 0.3f).SetEase(Ease.OutExpo);
+
+            Vector2 targetPos = new(value ? -50 : 0, _rectTransform.anchoredPosition.y);
+            _rectTransform.DOAnchorPos(targetPos, 0.3f).SetEase(Ease.OutBack);
+
+            if (value)
+            {
+                // i need to scroll to the this prefab
+                ScrollToSelf();
+            }
+
+        }
+    }
+    
+    private bool _canPlay = true;
+    public bool CanPlay
+    {
+        get => _canPlay;
+        set 
+        {
+            _canPlay = value;
+            canPlayImage.gameObject.SetActive(value);
+        }
+    }
+
+    private bool _canDownload = true;
+    public bool CanDownload
+    {
+        get => _canDownload;
+        set 
+        {
+            _canDownload = value;
+            canDownloadImage.gameObject.SetActive(value);
+        }
+    }
+
+    public Image difficultyIcon, background, canDownloadImage, canPlayImage;
     public TextMeshProUGUI idText,
         artistText,
         levelNameText,
-        playButtonText,
-        downloadButtonText,
         creatorText,
-        highestAccT,
         totalClearsT,
-        highestAccText,
         totalClearsText;
+    public GameObject scrollView;
 
     public LevelListInfoElementJson levelInfo;
 
-    public void Awake()
+    public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
     {
-        void ClickSfx()
+        if (string.IsNullOrEmpty(levelInfo.DlLink))
         {
-            scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
+            CanDownload = false;
+        }
+        if (levelInfo.DlLink == null ||
+            (!levelInfo.DlLink.Contains("drive.google") &&
+            !levelInfo.DlLink.Contains("discord") &&
+            !levelInfo.DlLink.Contains("hyonsu")))
+        {
+            CanPlay = false;
         }
 
-        downloadButton.onClick.AddListener(ClickSfx);
-        playButton.onClick.AddListener(ClickSfx);
-    }
-    
-
-    public void SetLevelInfo(LevelListInfoElementJson levelInfo, double highestAcc, int totalClears)
-    {
         this.levelInfo = levelInfo;
 
         idText.text = "#" + levelInfo.ID;
         artistText.text = levelInfo.Artist;
         levelNameText.text = levelInfo.Song;
-        creatorText.text = string.IsNullOrEmpty(levelInfo.Creator)? levelInfo.Team : levelInfo.Creator;
-
-        difficultyIcon.sprite = Helper.getDiffSprite(levelInfo.DiffId);
-
-        if (string.IsNullOrEmpty(levelInfo.DlLink))
+        if (!string.IsNullOrEmpty(levelInfo.Team))
         {
-            downloadButton.interactable = false;
-            downloadButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
+            creatorText.text = levelInfo.Team;
         }
-
-        if (!levelInfo.DlLink.Contains("drive.google") && !levelInfo.DlLink.Contains("discord") &&
-            !levelInfo.DlLink.Contains("hyonsu"))
+        else 
         {
-            playButton.interactable = false;
-            playButtonText.color = new Color(150 / 255f, 150 / 255f, 150 / 255f);
-        }
+            creatorText.text = levelInfo.Creator;
+        } 
+
+        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
 
         if (totalClears == 0)
         {
-            highestAccT.gameObject.SetActive(false);
             totalClearsT.gameObject.SetActive(false);
-            highestAccText.gameObject.SetActive(false);
             totalClearsText.gameObject.SetActive(false);
         }
         else
         {
-            string acc = highestAcc.ToString("F2") + "%";
-            if (acc.Equals("100.00%"))
-            {
-                highestAccText.text = "<color=#FFDA00>100.00%</color>";
-            }
-            else
-            {
-                highestAccText.text = "" + acc;
-            }
+            totalClearsT.gameObject.SetActive(true);
+            totalClearsText.gameObject.SetActive(true);
+
             totalClearsText.text = "" + totalClears;
         }
     }
 
     public void InfoButtonClick()
     {
-        LevelInfoSceneScript.currentLevelInfo = levelInfo;
-        UIScript.SwipeToBlack(() =>
+        LeaderboardScript.instance.LoadPasses(levelInfo.ID);
+        if (!IsSelected) 
         {
-            SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelInfo.unity");
-        });
+            foreach (var level in LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>()) 
+            {
+                if (level != this)
+                {
+                    level.IsSelected = false;
+                }
+            }
+
+            IsSelected = true;
+            LeaderboardScript.instance.LoadPasses(levelInfo.ID);
+        }
+        else 
+        {
+            PlayButtonClick();
+        }
     }
 
     public void DownloadButtonClick()
@@ -112,16 +167,15 @@ public class LevelPrefabScript : MonoBehaviour
 
     public void PlayButtonClick()
     {
-
+        if (!CanDownload || !CanPlay) return;
         if (DownloadPopupScript.IsDownloading) return;
 
         ErrorScript.instance.gameObject.SetActive(false);
 
         try
         {
-            DownloadPopupScript.IsDownloading = true;
 
-            //Persistence.SetHideCursorWhilePlaying(false);
+            DownloadPopupScript.IsDownloading = true;
 
             DownloadPopupScript.Show();
 
@@ -145,7 +199,7 @@ public class LevelPrefabScript : MonoBehaviour
                     case 0:
                         throw new Exception("adofai file was not found");
                     case 1:
-                        UIScript.SwipeToBlack(() => TryToLoadLevel(levelList[0]));
+                        if (CanPlay) UIScript.SwipeToBlack(() => TryToLoadLevel(levelList[0]));
                         break;
                     default:
                         DirectLevel.Utils.RunAtMainThread(() =>
@@ -195,11 +249,42 @@ public class LevelPrefabScript : MonoBehaviour
         scnEditor.levelToOpenOnLoad = levelFilePath;
 
         SceneManager.LoadScene("scnEditor");
+    }
 
-        /*
-        DirectLevel.Utils.RunAtMainThread(() =>
-        {
-            SceneManager.LoadScene("scnEditor");
-        });*/
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        InfoButtonClick(); 
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (!IsSelected) background.DOColor(new Color(1f, 1f, 1f, 20 / 255f), 0.5f).SetEase(Ease.OutExpo); 
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (!IsSelected) background.DOColor(new Color(1f, 1f, 1f, 10 / 255f), 0.5f).SetEase(Ease.OutExpo); 
+    }
+
+    private void ScrollToSelf()
+    {
+        if (_scrollRect == null || _rectTransform == null) return;
+
+        Canvas.ForceUpdateCanvases(); 
+
+        RectTransform content = _scrollRect.content;
+        RectTransform viewport = _scrollRect.viewport;
+
+        Vector2 itemLocalPos = _rectTransform.localPosition;
+        float contentHeight = content.rect.height;
+        float viewportHeight = viewport.rect.height;
+
+        float itemY = -itemLocalPos.y;
+
+        float targetNormalizedPos = Mathf.Clamp01((itemY - (viewportHeight / 2)) / (contentHeight - viewportHeight));
+
+        float finalPos = 1 - targetNormalizedPos;
+
+        _scrollRect.DOVerticalNormalizedPos(finalPos, 0.5f).SetEase(Ease.OutCubic);
     }
 }

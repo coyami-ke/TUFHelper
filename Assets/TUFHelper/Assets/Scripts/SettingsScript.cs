@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using TUFHelper;
 using TUFHelper.Utils;
@@ -11,13 +12,10 @@ public class SettingsScript : MonoBehaviour
 {
 
     public static SettingsScript instance;
-    public static int cachedMinDiffDropdownValue = 0, cachedMaxDiffDropdownValue = 0;
 
-    public Toggle legacyDiffToggle, showUnratedLevelToggle;
+    public Toggle showUnratedLevelToggle, showExtraLevelToggle, showHiddenLevelToggle;
     public Image logoImage;
     public TMP_Dropdown minDiffDropdown, maxDiffDropdown;
-
-    public Sprite tufLogoSprite, t21cLogoSprite;
 
     public void Awake()
     {
@@ -27,91 +25,39 @@ public class SettingsScript : MonoBehaviour
         }
 
         instance = this;
-        legacyDiffToggle.isOn = Main.Setting.showLegacyRating;
-        showUnratedLevelToggle.isOn = Main.Setting.showUnratedLevels;
-        logoImage.sprite = Main.Setting.showLegacyRating ? t21cLogoSprite : tufLogoSprite;
 
         StartCoroutine(UpdateDifficultyDropdownsCo());
     }
     
     public IEnumerator UpdateDifficultyDropdownsCo()
     {
-        List<string> categories = new List<string>() { "P", "G", "U" };
-        List<OptionData> options = new List<OptionData>();
-        options.Add(new OptionData("0", Helper.getDiffSprite("0")));
-
-        foreach (string category in categories)
+        List<OptionData> options = new();
+        foreach (var pair in DiffSpriteHelper.DiffIDRegister)
         {
-            for (int i = 1; i <= 20; i++)
-            {
-                if (category.Equals("U"))
-                {
-                    if (Main.Setting.showLegacyRating)
-                    {
-                        i++; // skip one
-                    }
-                    if (i > 20)
-                    {
-                        continue;
-                    }
-                }
-                string pgu = category + i;
-                options.Add(new OptionData(pgu, Helper.getDiffSprite(pgu)));
-            }
-        }
-        options.Add(new OptionData("-21", Helper.getDiffSprite("-21")));
+            int id = pair.Key;
+            string diff = pair.Value;
 
+            if (DiffSpriteHelper.IsSpecialDiff(diff)) continue;
+            Sprite sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(id));
+            options.Add(new OptionData(diff, sprite));
+        }
         minDiffDropdown.ClearOptions();
         minDiffDropdown.AddOptions(options);
 
-        options.Reverse();
         maxDiffDropdown.ClearOptions();
         maxDiffDropdown.AddOptions(options);
-
-        int minDiffVal = cachedMinDiffDropdownValue, maxDiffVal = cachedMaxDiffDropdownValue;
-        if (minDiffDropdown.value != minDiffVal)
-        {
-            minDiffDropdown.value = minDiffVal;
-        }
-
-        if (maxDiffDropdown.value != maxDiffVal)
-        {
-            maxDiffDropdown.value = maxDiffVal;
-        }
+        maxDiffDropdown.value = options.Count - 1;
+        maxDiffDropdown.RefreshShownValue();
 
         yield return null;
     }
 
     public void OnDifficultyDropdownChange()
     {
-        cachedMinDiffDropdownValue = minDiffDropdown.value;
-        cachedMaxDiffDropdownValue = maxDiffDropdown.value;
-
-        PageSwitcherScript.cachedPage = 1;
         if (LevelListScript.instance != null)
         {
-            StartCoroutine(LevelListScript.instance.LoadLevelListCo());
+            LevelListScript.instance.UpdateLevelList(SearchScript.instance.searchField.text);
         }
-    }
-
-    public void ToggleLegacyRating()
-    {
-        if (minDiffDropdown.options.Count > 10) // check is dropdown initialized
-        {
-            cachedMinDiffDropdownValue = 0;
-            cachedMaxDiffDropdownValue = 0;
-        }
-
-        Main.Setting.showLegacyRating = legacyDiffToggle.isOn;
-        logoImage.sprite = Main.Setting.showLegacyRating ? t21cLogoSprite : tufLogoSprite;
-
-        Main.Setting.Save(Main.ModEntry);
-
-        if (LevelListScript.instance != null)
-        {
-            StartCoroutine(LevelListScript.instance.LoadLevelListCo());
-        }
-        StartCoroutine(UpdateDifficultyDropdownsCo());
     }
 
     public void ToggleUnratedLevels()
@@ -119,7 +65,21 @@ public class SettingsScript : MonoBehaviour
         Main.Setting.showUnratedLevels = showUnratedLevelToggle.isOn;
         if (LevelListScript.instance != null)
         {
-            StartCoroutine(LevelListScript.instance.LoadLevelListCo());
+            LevelListScript.instance.UpdateLevelList(SearchScript.instance.searchField.text);
+        }
+    }
+    public void ToggleExtraLevels()
+    {
+        if (LevelListScript.instance != null)
+        {
+            LevelListScript.instance.UpdateLevelList(SearchScript.instance.searchField.text);
+        }
+    }
+    public void ToggleHiddenLevels()
+    {
+        if (LevelListScript.instance != null)
+        {
+            LevelListScript.instance.UpdateLevelList(SearchScript.instance.searchField.text);
         }
     }
 }

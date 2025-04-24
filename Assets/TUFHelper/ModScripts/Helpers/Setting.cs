@@ -17,8 +17,6 @@ namespace TUFHelper.Utils
 
         public bool showLegacyRating = false, showUnratedLevels = false, playingLobbyMusic = true;
 
-        public List<int> favouritesID = new List<int>();
-
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             if (modEntry == null)

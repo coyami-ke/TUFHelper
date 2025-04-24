@@ -31,7 +31,7 @@ namespace TUFHelper
 
             private static void Postfix_()
             {
-                if (RDEditorUtils.CheckForKeyCombo(true, true, KeyCode.U))
+                if (RDEditorUtils.CheckForKeyCombo(true, true, KeyCode.U)) // hotkey
                 {
                     
                     GCS.sceneToLoad = "";

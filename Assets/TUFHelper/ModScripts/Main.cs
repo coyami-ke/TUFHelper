@@ -91,5 +91,19 @@ namespace TUFHelper
             }
         }
 
+        private static Dictionary<string, Sprite> _cachedSprites = new();
+        public static Sprite GetSpriteFromAssets(string path)
+        {
+            if (_cachedSprites.ContainsKey(path))
+            {
+                return _cachedSprites[path];
+            }
+            else
+            {
+                Sprite sprite = assets.LoadAsset<Sprite>(path);
+                _cachedSprites.Add(path, sprite);
+                return sprite;
+            }
+        }
     }
 }
