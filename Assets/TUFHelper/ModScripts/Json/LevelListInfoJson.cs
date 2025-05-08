@@ -7,8 +7,8 @@ namespace TUFHelper.ModScripts.Json
 {
     public class LevelListInfoJson
     {
-        [JsonProperty("count")]
-        public int Count { get; set; }
+        [JsonProperty("hasMore")]
+        public bool HasMore { get; set; } 
         [JsonProperty("results")]
         public List<LevelListInfoElementJson> Results { get; set; }
 

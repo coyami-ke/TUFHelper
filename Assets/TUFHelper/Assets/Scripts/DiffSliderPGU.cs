@@ -7,19 +7,33 @@ using UnityEngine.EventSystems;
 
 public class DiffSliderPGU : DiffSlider
 {
+    public static DiffSliderPGU instance;
+
     public Sprite emptySprite;
 
-    private float _maxWidth = 400f;
+    private float _maxWidth = 500f;
     public override float MaxWidth
     {
         get => _maxWidth;
         protected set => _maxWidth = value;
     }
+    public override void OnMouseUp()
+    {
+        LevelListScript.instance.ClearLevels();
 
+        LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
+        LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
+
+        LevelListScript.instance.UpdateLevelList();
+    }
+    public void Awake()
+    {
+        instance = this;
+    }
     public void Start()
     {
         List<DiffSpritePair> diffs = new();
-        Debug.Log(diffs.Count); // shows
+        
         foreach (var diff in DiffSpriteHelper.DiffIDRegister)
         {
             if (!DiffSpriteHelper.IsSpecialDiff(diff.Value))
@@ -35,6 +49,5 @@ public class DiffSliderPGU : DiffSlider
         }
         
         Init(diffs);
-        Debug.LogWarning("warn"); // doesnt show
     }
 }

@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TUFHelper;
+using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,12 +54,6 @@ namespace DirectLevel
             }
         }
         
-        public enum ForumType
-        {
-            ADOFAI_GG,
-            TUC
-        }
-        
         private string _url;
         private CookieWebClient _cookieWeb;
         
@@ -71,14 +67,18 @@ namespace DirectLevel
         /// Run if progress changes when downloading levels asynchronously
         /// Runs in a thread other than the main thread!!!
         /// </summary>
-        public Action<float, string> OnUpdateProgress;
+        //public Action<float, string> OnUpdateProgress;
+        public delegate void UpdateProgressEventHandler(object sender, UpdateProgressEventArgs args);
+        public event UpdateProgressEventHandler UpdateProgress;
         
+        public delegate void DownloadCompleteEventHandler(object sender, DownloadCompleteEventArgs args);
+        public event DownloadCompleteEventHandler DownloadComplete;
         
         /// <summary>
         /// Run when asynchronously leveling down is complete.
         /// Runs in a thread other than the main thread!!!
         /// </summary>
-        public Action<List<string>> OnDownloadComplete;
+        //public Action<List<string>> OnDownloadComplete;
         
         /// <summary>
         /// Run when getting the size of a file from a URL.
@@ -141,17 +141,18 @@ namespace DirectLevel
             {
                 try
                 {
-                    OnUpdateProgress?.Invoke(0, "Preparing");
-
-                    GC.Collect();
+                    //OnUpdateProgress?.Invoke(0, "Preparing");
+                    UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
                     var path = Path.Combine(defaultPath, _url.GetHashCode().ToString());
                     var zipPath = $"{path}.zip";
 
                     if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
                     {
-                        OnUpdateProgress?.Invoke(1, "Downloaded");
-                        OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                        //OnUpdateProgress?.Invoke(1, "Downloaded");
+                        UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
+                        //OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                        DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                         return;
                     }
                     
@@ -164,7 +165,8 @@ namespace DirectLevel
                             var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURl));
                             if (v)
                             {
-                                OnUpdateProgress?.Invoke(0, "Cancelled");
+                                //OnUpdateProgress?.Invoke(0, "Cancelled");
+                                UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Cancelled));
                                 return;
                             }
                         }
@@ -179,24 +181,28 @@ namespace DirectLevel
 
                     _cookieWeb.DownloadProgressChanged += (sender, args) =>
                     {
-                        OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
-                            $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
+                        //OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
+                        //    $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
+                        UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(args.BytesReceived, args.TotalBytesToReceive));
                     };
 
-                    OnUpdateProgress?.Invoke(0.3333f, "Downloading");
+                    //OnUpdateProgress?.Invoke(0.3333f, "Downloading");
+                    UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloading));
                     var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
                     t.Wait();
 
-                    OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
+                    //OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
+                    UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Unzipping));
                     ZipHelper.Unzip(zipPath, path);
                     File.Delete(zipPath);
 
                     Utils.MoveLastDirectory(path, path);
                     GC.Collect();
 
-                    OnUpdateProgress?.Invoke(1, "Downloaded");
-                    OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
-
+                    //OnUpdateProgress?.Invoke(1, "Downloaded");
+                    UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
+                    //OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
+                    DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                 }
                 catch (Exception e)
                 {
@@ -237,13 +243,11 @@ namespace DirectLevel
                             driveid = driveid.StringSplit("&")[0];
                     }
 
-                    //Main.ModLogger.Log("DriveID: "+driveid);
 
-                    if (driveid == String.Empty)
+                    if (driveid == string.Empty)
                         throw new Exception(
                             $"Google Drive id not found\n\n-----Level Info-----\nURL: ${url}");
 
-                    //wc.DownloadData(url);
 
                     var downloadURL = $"https://drive.google.com/u/0/uc?export=download&id={driveid}";
 
@@ -252,11 +256,9 @@ namespace DirectLevel
                     stream.Read(buffer, 0, buffer.Length);
                     stream.Close();
                     
-                    //Main.ModLogger.Log(Encoding.UTF8.GetString(buffer));
 
                     if (Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>")
                     {
-                        //Main.ModLogger.Log(GetDirectURLFromGoogleLargeFile(downloadURL, wc));
                         return GetDirectURLFromGoogleLargeFile(downloadURL, wc);
                     }
 
@@ -294,7 +296,7 @@ namespace DirectLevel
 
                 return url;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new Exception(
                     $"The download link is not accessible.\n\n-----Level Info-----\nException: {e.Message}");
@@ -316,32 +318,5 @@ namespace DirectLevel
                 $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}&at={at}";
 
         }
-        
-        
-        private static string GetURLFromLevelID(bool isAdofaiGG, string levelID)
-        {
-            try
-            {
-                var wc = new WebClient();
-                wc.Encoding = Encoding.UTF8;
-                if (isAdofaiGG)
-                {
-                    var html = wc.DownloadString($"https://adofai.gg/api/v1/levels/{levelID}");
-                    var download = html.GetValue("\"download\":\"", "\",\"");
-                    return download;
-                }
-                else
-                {
-                    var html = wc.DownloadString($"https://be.tuforums.com/levels/{levelID}");
-                    var download = html.GetValue("\"dlLink\":\"", "\",\"");
-                    return download;
-                }
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"No corresponding levels found on {(isAdofaiGG? "Adofai.gg":"TUC")}.\n\n-----Level Info-----\n"+e);
-            }
-        }
-        
     }
 }

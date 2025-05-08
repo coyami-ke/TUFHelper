@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using UnityEngine;
@@ -10,12 +12,7 @@ public class SearchScript : MonoBehaviour
 
     public static SearchScript instance;
     public static string searchText = "";
-    public static bool isShowingCleared = true, isShowingUncleared = true;
-
-    public TextMeshProUGUI orderByIDButtonText, orderByDifficultyButtonText, orderByClearsButtonText;
-    public Image orderByIDIcon, orderByDifficultyIcon, orderByClearsIcon;
     public TMP_InputField searchField;
-    public Toggle showClearedToggle, showUnclearedToggle;
 
     public void Awake()
     {
@@ -23,73 +20,39 @@ public class SearchScript : MonoBehaviour
         searchField.text = searchText;
     }
 
-    public void Update()
-    {
-        orderByIDButtonText.color = Main.Setting.orderMode == 0 ? Color.white : new Color(1, 1, 1, 128 / 256f);
-        orderByDifficultyButtonText.color = Main.Setting.orderMode == 1 ? Color.white : new Color(1, 1, 1, 128 / 256f);
-        orderByClearsButtonText.color = Main.Setting.orderMode == 2 ? Color.white : new Color(1, 1, 1, 128 / 256f);
-        orderByIDIcon.transform.localScale = new Vector2(1, Main.Setting.orderByIDMode);
-        orderByDifficultyIcon.transform.localScale = new Vector2(1, Main.Setting.orderByDifficultyMode);
-        orderByClearsIcon.transform.localScale = new Vector2(1, Main.Setting.orderByClearsMode);
-    }
+
+    // public void OnSearchTextChange()
+    // {
+    //     LevelListScript.DefaultRequest.Query = searchField.text;
+    //     LevelListScript.DefaultRequest.Offset = 0;
+    //     LevelListScript.instance.ClearLevels();
+    //     LevelListScript.instance.UpdateLevelList();
+    // }
+    private CancellationTokenSource searchCancelToken;
 
     public void OnSearchTextChange()
     {
-        LevelListScript.instance.UpdateLevelList(searchField.text);
+        searchCancelToken?.Cancel();
+        searchCancelToken = new CancellationTokenSource();
+
+        _ = DebouncedSearchAsync(searchField.text, searchCancelToken.Token);
     }
 
-    public void OrderByIDButtonClick()
+    private async Task DebouncedSearchAsync(string query, CancellationToken token)
     {
-
-        if (Main.Setting.orderMode == 0)
+        try
         {
-            Main.Setting.orderByIDMode = -Main.Setting.orderByIDMode;
+            await Task.Delay(300, token); 
+            if (token.IsCancellationRequested) return;
+
+            SearchScript.searchText = query;
+            LevelListScript.DefaultRequest.Query = query;
+            LevelListScript.DefaultRequest.Offset = 0;
+            LevelListScript.instance.ClearLevels();
+            LevelListScript.instance.UpdateLevelList();
         }
-        Main.Setting.orderMode = 0;
-        Main.Setting.Save(Main.ModEntry);
-
-        LevelListScript.instance.SortLevelList();
-        LevelListScript.instance.LoadLevelList();
-    }
-
-    public void OrderByDifficultyButtonClick()
-    {
-
-        if (Main.Setting.orderMode == 1)
+        catch (TaskCanceledException)
         {
-            Main.Setting.orderByDifficultyMode = -Main.Setting.orderByDifficultyMode;
         }
-        Main.Setting.orderMode = 1;
-        Main.Setting.Save(Main.ModEntry);
-
-        LevelListScript.instance.SortLevelList();
-        LevelListScript.instance.LoadLevelList();
-    }
-    public void OrderByClearsButtonClick()
-    {
-
-        if (Main.Setting.orderMode == 2)
-        {
-            Main.Setting.orderByClearsMode = -Main.Setting.orderByClearsMode;
-        }
-        Main.Setting.orderMode = 2;
-        Main.Setting.Save(Main.ModEntry);
-        
-        LevelListScript.instance.SortLevelList();
-        LevelListScript.instance.LoadLevelList();
-    }
-
-    public void ShowClearedToggle()
-    {
-
-        isShowingCleared = showClearedToggle.isOn;
-        LevelListScript.instance.LoadLevelList();
-    }
-
-    public void ShowUnclearedToggle()
-    {
-
-        isShowingUncleared = showUnclearedToggle.isOn;
-        LevelListScript.instance.LoadLevelList();
     }
 }

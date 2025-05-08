@@ -46,8 +46,6 @@ public class LeaderboardScript : MonoBehaviour
         passes = JsonConvert.DeserializeObject<List<PassesListInfoElementJson>>(webRequest.downloadHandler.text);
         passes = passes.OrderByDescending(p => p.ScoreV2).ToList();
 
-        Main.Logger.Log($"Passes: {passes.Count}");
-
         foreach (Transform child in passListParent.transform)
             Destroy(child.gameObject);
 

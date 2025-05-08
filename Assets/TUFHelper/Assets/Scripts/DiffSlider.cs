@@ -54,8 +54,12 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
 
         minDiffRect = minDiffImage.GetComponent<RectTransform>();
         maxDiffRect = maxDiffImage.GetComponent<RectTransform>();
+
+        SelectedMinDiff = 0;
+        SelectedMaxDiff = diffPairs.Count - 1;
     }
 
+    private bool _moveMinSlider, _moveMaxSlider = false;
     public void OnPointerClick(PointerEventData eventData)
     {
         UpdateSliderValue(eventData);
@@ -63,6 +67,21 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            targetRectTransform,
+            eventData.position,
+            eventData.pressEventCamera,
+            out Vector2 localPoint))
+        {
+            float newX = localPoint.x + MaxWidth / 2;
+            int step = Mathf.Clamp(Mathf.FloorToInt(newX / lengthStep), 0, diffPairs.Count - 1);
+
+            if (Mathf.Abs(SelectedMinDiff - step) <= Mathf.Abs(SelectedMaxDiff - step) && step <= SelectedMaxDiff)
+                _moveMinSlider = true;
+            else if (step >= SelectedMinDiff)
+                _moveMaxSlider = true;
+        }
+
         isPointerHeld = true;
         currentEventData = eventData;
         StartCoroutine(UpdateWhileHeld());
@@ -71,14 +90,19 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
     public void OnPointerUp(PointerEventData eventData)
     {
         isPointerHeld = false;
+        _moveMaxSlider = false;
+        _moveMinSlider = false;
+        OnMouseUp();
     }
+
+    
 
     private IEnumerator UpdateWhileHeld()
     {
         while (isPointerHeld)
         {
             UpdateSliderValue(currentEventData);
-            yield return null; // Wait for the next frame
+            yield return null;
         }
     }
 
@@ -93,14 +117,19 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
             float newX = localPoint.x + MaxWidth / 2;
             int step = Mathf.Clamp(Mathf.FloorToInt(newX / lengthStep), 0, diffPairs.Count - 1);
 
-            if (Mathf.Abs(SelectedMinDiff - step) < Mathf.Abs(SelectedMaxDiff - step) && step <= SelectedMaxDiff) // minimum selection
+            if (_moveMinSlider && step <= SelectedMaxDiff) 
+            {
                 SelectedMinDiff = step;
-            else if (step >= SelectedMinDiff)
+            }
+            else if (_moveMaxSlider && step >= SelectedMinDiff)
+            {
                 SelectedMaxDiff = step;
-
-            Debug.Log($"localX: {localPoint.x}, adjustedX: {newX}, step: {step}, count: {diffPairs.Count}");
+            }
         }
     }
+
+    public virtual void OnMouseUp() { }
+
 }
 
 public class DiffSpritePair

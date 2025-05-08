@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -43,10 +45,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (value)
             {
-                // i need to scroll to the this prefab
                 ScrollToSelf();
             }
-
         }
     }
     
@@ -111,7 +111,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             creatorText.text = levelInfo.Creator;
         } 
 
-        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId)); //
 
         if (totalClears == 0)
         {
@@ -148,36 +148,25 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             PlayButtonClick();
         }
     }
-
-    public void DownloadButtonClick()
-    {
-        if (DownloadPopupScript.IsDownloading) return;
-
-        Application.OpenURL(levelInfo.DlLink);
-    }
-
+    
     private void ExceptionCatch(Exception ex)
     {
 
         Debug.LogException(ex);
         ErrorScript.ShowError(ex.Message);
 
-        DownloadPopupScript.IsDownloading = false;
+        //DownloadPopupScript.IsDownloading = false;
     }
 
     public void PlayButtonClick()
     {
         if (!CanDownload || !CanPlay) return;
-        if (DownloadPopupScript.IsDownloading) return;
+        if (DownloadPanel.instance.IsDownloading) return;
 
         ErrorScript.instance.gameObject.SetActive(false);
 
         try
         {
-
-            DownloadPopupScript.IsDownloading = true;
-
-            DownloadPopupScript.Show();
 
             var levelDownloder = new LevelDownloader(levelInfo.DlLink);
 
@@ -186,50 +175,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
             };
 
-            levelDownloder.OnUpdateProgress = (progress, stateMessage) =>
-            {
-                DownloadPopupScript.ChangeProgress = progress;
-                DownloadPopupScript.ChangeMessage = stateMessage;
-            };
+            DownloadPanel.instance.DownloadLevel(levelDownloder);
 
-            levelDownloder.OnDownloadComplete = levelList =>
-            {
-                switch (levelList.Count)
-                {
-                    case 0:
-                        throw new Exception("adofai file was not found");
-                    case 1:
-                        if (CanPlay) UIScript.SwipeToBlack(() => TryToLoadLevel(levelList[0]));
-                        break;
-                    default:
-                        DirectLevel.Utils.RunAtMainThread(() =>
-                        {
-                            DownloadPopupScript.Close();
-                            ResultLevelScript.ShowList(levelList);
-                        });
-                        break;
-                }
-            };
-
-            levelDownloder.OnCalculationCompleteFileSize = size =>
-            {
-                if (size > 300000000)
-                {
-                    DirectLevel.Utils.RunAtMainThread(() =>
-                    {
-                        DownloadPopupScript.ShowFileWarning(size,
-                            () => { levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, false); },
-                            () => { DownloadPopupScript.IsDownloading = false; });
-                    });
-                    return true;
-                }
-
-                return false;
-
-
-            };
-
-            levelDownloder.DownloadWithTask(Main.Setting.levelSaveFolder, true);
+            levelDownloder.DownloadComplete += OnCompleteDownload;
 
         }
         catch (Exception ex)
@@ -237,11 +185,24 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             ExceptionCatch(ex);
         }
     }
-
+    private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
+    {
+        switch (args.Levels.Count)
+        {
+            case 0:
+                throw new Exception("adofai file was not found");
+            case 1:
+                UIScript.SwipeToBlack(() => TryToLoadLevel(args.Levels[0]));
+                break;
+            default:
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
+                break;
+        }
+    }
 
     public static void TryToLoadLevel(string levelFilePath)
     {
-        DownloadPopupScript.IsDownloading = false;
+        //DownloadPopupScript.IsDownloading = false;
         HideUIFixPatch.RecentDirectLevelOpend = true;
 
         GCS.sceneToLoad = "scnEditor";

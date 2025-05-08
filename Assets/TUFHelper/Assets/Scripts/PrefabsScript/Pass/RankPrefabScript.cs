@@ -4,6 +4,7 @@ using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.Utils;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,7 +39,7 @@ public class RankPrefabScript : MonoBehaviour
         accuracyText.text = (pass.Accuracy * 100).ToString("F2") + "%"; 
         rankText.text = $"#{rank}";
 
-        flag.sprite = Helper.getFlagSprite(pass.Player.Country);
+        PassInfo = pass;
 
         if (pass.Accuracy == 1.0f)
         {
@@ -68,7 +69,7 @@ public class RankPrefabScript : MonoBehaviour
         {
             grade.sprite = GetGradeSprite(GradesScore.D);
         }
-        PassInfo = pass;
+        flag.sprite = Helper.GetFlagSprite(pass.Player.Country);
     }
     private Sprite GetGradeSprite(GradesScore grade)
     {

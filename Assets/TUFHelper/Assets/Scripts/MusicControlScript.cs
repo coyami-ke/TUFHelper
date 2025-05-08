@@ -49,5 +49,4 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
     {
         image.DOColor(new Color(0f, 0f, 0f, 40 / 255f), 0.5f).SetEase(Ease.OutExpo);
     }
-
 }

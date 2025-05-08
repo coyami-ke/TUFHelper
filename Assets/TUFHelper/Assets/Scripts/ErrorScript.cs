@@ -24,7 +24,7 @@ public class ErrorScript : MonoBehaviour
 
     public static void ShowError(string message)
     {
-        DownloadPopupScript.Close();
+        //DownloadPopupScript.Close();
         instance.errorContentText.text = message;
         instance.gameObject.SetActive(true);
     }

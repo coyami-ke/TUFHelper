@@ -8,9 +8,9 @@ public class PGUGradient : MonoBehaviour
     public RawImage targetImage;
     public int width = 512;
 
-    void Start()
+    public void Start()
     {
-        Texture2D gradientTex = new Texture2D(width, 1, TextureFormat.RGB24, false);
+        Texture2D gradientTex = new(width, 1, TextureFormat.RGB24, false);
         gradientTex.wrapMode = TextureWrapMode.Clamp;
 
         // Define key gradient colors
@@ -38,7 +38,7 @@ public class PGUGradient : MonoBehaviour
             targetImage.texture = gradientTex;
     }
 
-    Color SampleGradient(Color[] colorStops, float t)
+    private Color SampleGradient(Color[] colorStops, float t)
     {
         float step = 1f / (colorStops.Length - 1);
         int index = Mathf.Min(Mathf.FloorToInt(t / step), colorStops.Length - 2);
