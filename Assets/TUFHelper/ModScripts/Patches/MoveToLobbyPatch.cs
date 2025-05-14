@@ -33,13 +33,34 @@ namespace TUFHelper
             {
                 if (RDEditorUtils.CheckForKeyCombo(true, true, KeyCode.U)) // hotkey
                 {
-                    
                     GCS.sceneToLoad = "";
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
                         SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
                     });
+                }
+            }
+        }
+        [HarmonyPatch]
+        public static class LoadTUFHelper
+        {
+            private static bool isFirst = true;
+            public static IEnumerable<MethodBase> TargetMethods()
+            {
+                yield return AccessTools.Method(typeof(scnLevelSelect), "Start", (Type[])null, (Type[])null);
+            }
+            public static void Postfix()
+            {
+                if (isFirst && Main.Setting.StartWithGame)
+                {
+                    GCS.sceneToLoad = "";
+                    scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
+                    {
+                        Main.isInTUFHelper = true;
+                        SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                    });
+                    isFirst = false;
                 }
             }
         }
@@ -108,8 +129,8 @@ namespace TUFHelper
         }
         
         
-        private static List<GameObject> portals = new List<GameObject>();
-        private static List<Transform> transforms = new List<Transform>();
+        private static readonly List<GameObject> portals = new List<GameObject>();
+        private static readonly List<Transform> transforms = new List<Transform>();
 
         [HarmonyPatch(typeof(scnLevelSelect), "Start")]
         public static class AddPortal

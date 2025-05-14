@@ -32,7 +32,7 @@ namespace TUFHelper.ModScripts.Json
         public int DiffId { get; set; }
 
         [JsonProperty("baseScore")]
-        public int? BaseScore { get; set; }
+        public float? BaseScore { get; set; }
 
         [JsonProperty("isCleared")]
         public bool IsCleared { get; set; }
@@ -107,7 +107,7 @@ namespace TUFHelper.ModScripts.Json
         [JsonProperty("updatedAt")]
         public string UpdatedAt { get; set; }
         [JsonProperty("baseScore")]
-        public float BaseScore { get; set; }
+        public double BaseScore { get; set; }
         [JsonProperty("sortOrder")]
         public int SortOrder { get; set; }
         [JsonProperty("legacy")]

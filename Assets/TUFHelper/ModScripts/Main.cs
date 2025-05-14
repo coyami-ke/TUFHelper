@@ -22,7 +22,7 @@ namespace TUFHelper
         internal static AssetBundle assets, scenes;
         internal static bool isInTUFHelper = false;
         
-        internal static List<string> removeLevels = new List<string>();
+        internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
         public static void Initialize(ModEntry modEntry)
@@ -51,7 +51,8 @@ namespace TUFHelper
             mainThread = SynchronizationContext.Current;
 
             Setting = new Setting();
-            Setting = ModSettings.Load<Setting>(modEntry);
+            var settings = Setting.LoadFromJson(modEntry);
+            if (settings != null) Setting = settings;
         }
 
         internal static bool OnToggle(ModEntry modEntry, bool value)
@@ -74,18 +75,19 @@ namespace TUFHelper
             GUILayout.BeginHorizontal();
 
             GUILayout.Label("Level Save Path");
-            Setting.levelSaveFolder = GUILayout.TextField(Setting.levelSaveFolder, GUILayout.MinWidth(500));
+            Setting.LevelSaveFolder = GUILayout.TextField(Setting.LevelSaveFolder, GUILayout.MinWidth(500));
 
-            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            Setting.StartWithGame = GUILayout.Toggle(Setting.StartWithGame, "Start With Game");
             GUILayout.EndHorizontal();
         }
 
+
         internal static void OnSaveGUI(ModEntry modEntry)
         {
-            if (Setting != null)
-            {
-                Setting.Save(modEntry);
-            }
+            Setting?.Save(modEntry);
         }
 
         private static Dictionary<string, Sprite> _cachedSprites = new();

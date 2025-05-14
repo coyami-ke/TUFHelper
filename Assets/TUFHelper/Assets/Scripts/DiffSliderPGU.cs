@@ -24,6 +24,10 @@ public class DiffSliderPGU : DiffSlider
         LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
         LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
+        Main.Setting.MaxDiff = LevelListScript.DefaultRequest.MaxDiffPGU;
+        Main.Setting.MinDiff = LevelListScript.DefaultRequest.MinDiffPGU;
+        Main.Setting.Save(Main.ModEntry);
+
         LevelListScript.instance.UpdateLevelList();
     }
     public void Awake()
@@ -49,5 +53,13 @@ public class DiffSliderPGU : DiffSlider
         }
         
         Init(diffs);
+
+        SelectedMinDiff = Main.Setting.MinDiff - 1;
+        SelectedMaxDiff = Main.Setting.MaxDiff - 1;
+
+        LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
+        LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
+
+        LevelListScript.instance.UpdateLevelList();
     }
 }

@@ -9,18 +9,24 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
 {
     public Image muteIcon, image;
     public AudioSource audioSource;
-    bool isPlaying = true;
+    private bool isPlaying = true;
 
-    void Start()
+    public void Start()
     {
-        if (!Main.Setting.playingLobbyMusic) 
+        if (!Main.Setting.PlayBackgroundMusic) 
         {
             audioSource.Pause();
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
-            Main.Setting.playingLobbyMusic = false;
+        }
+        else
+        {
+            audioSource.Play();
+            isPlaying = true;
+            muteIcon.gameObject.SetActive(false);
         }
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -29,13 +35,13 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
             audioSource.Pause();
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
-            Main.Setting.playingLobbyMusic = false;
+            Main.Setting.PlayBackgroundMusic = false;
         } else
         {
             audioSource.Play();
             isPlaying = true;
             muteIcon.gameObject.SetActive(false);
-            Main.Setting.playingLobbyMusic = true;
+            Main.Setting.PlayBackgroundMusic = true;
         }
         Main.Setting.Save(Main.ModEntry);
     }

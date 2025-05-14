@@ -2,20 +2,30 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
+using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using UnityModManagerNet;
 
 namespace TUFHelper.Utils
 {
+    public class DownloadedLevel
+    {
+        public LevelListInfoElementJson LevelInfo { get; set; }
+        public string NameFolder { get; set; }
+    }
     public class Setting : UnityModManager.ModSettings
     {
-
-        public int orderMode = 0; // 0 -> id, 1 -> difficulty, 2 -> clears;
-        public int orderByIDMode = -1; // 1 -> down, -1 -> up
-        public int orderByDifficultyMode = 1; // 1 -> down, -1 -> up
-        public int orderByClearsMode = -1; // 1 -> down, -1 -> up
-        public string levelSaveFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TUFHelper\Levels";
-
-        public bool showLegacyRating = false, showUnratedLevels = false, playingLobbyMusic = true;
+        public string LevelSaveFolder { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TUFHelper\Levels";
+        public bool PlayBackgroundMusic { get; set; } = true;
+        public int MinDiff { get; set; } = 1;
+        public int MaxDiff { get; set; } = 60;
+        public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
+        public int SortBy { get; set; } = 0;
+        public List<string> SelectedSpecialDiffs { get; set; } = new();
+        public bool ShowOnlyDownloaded { get; set; } = false;
+        public bool StartWithGame { get; set; } = false;
+        public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {
@@ -26,11 +36,7 @@ namespace TUFHelper.Utils
             var filepath = GetPath(modEntry);
             try
             {
-                using (var writer = new StreamWriter(filepath))
-                {
-                    var serializer = new XmlSerializer(GetType());
-                    serializer.Serialize(writer, this);
-                }
+                File.WriteAllText(filepath, JsonConvert.SerializeObject(this));
             }
             catch (Exception e)
             {
@@ -38,11 +44,24 @@ namespace TUFHelper.Utils
                 modEntry.Logger.LogException(e);
             }
         }
-
+        public Setting LoadFromJson(UnityModManager.ModEntry modEntry)
+        {
+            if (!File.Exists(GetPath(modEntry))) return new();
+            if (modEntry == null) return null;
+            try
+            {
+                return JsonConvert.DeserializeObject<Setting>(File.ReadAllText(GetPath(modEntry)));
+            }
+            catch (Exception ex)
+            {
+                modEntry.Logger.Error($"Can't save {GetPath(modEntry)}.");
+                modEntry.Logger.LogException(ex);
+                return null;
+            }
+        }
         public override string GetPath(UnityModManager.ModEntry modEntry)
         {
-            return Path.Combine(modEntry.Path, GetType().Name + ".xml");
+            return Path.Combine(modEntry.Path, "Settings.json");
         }
-
     }
 }

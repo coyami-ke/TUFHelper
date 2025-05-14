@@ -19,24 +19,28 @@ public class SearchScript : MonoBehaviour
         instance = this;
         searchField.text = searchText;
     }
-
-
-    // public void OnSearchTextChange()
-    // {
-    //     LevelListScript.DefaultRequest.Query = searchField.text;
-    //     LevelListScript.DefaultRequest.Offset = 0;
-    //     LevelListScript.instance.ClearLevels();
-    //     LevelListScript.instance.UpdateLevelList();
-    // }
+    
     private CancellationTokenSource searchCancelToken;
 
-    public void OnSearchTextChange()
+    public void OnEndEdit(string text)
     {
-        searchCancelToken?.Cancel();
-        searchCancelToken = new CancellationTokenSource();
-
-        _ = DebouncedSearchAsync(searchField.text, searchCancelToken.Token);
+        if (searchText == text) return;
+        searchText = text;
+        LevelListScript.DefaultRequest.Query = text;
+        LevelListScript.DefaultRequest.Offset = 0;
+        LevelListScript.instance.ClearLevels();
+        LevelListScript.instance.UpdateLevelList();
     }
+    private string oldQuery = "";
+    // public void OnSearchTextChange()
+    // {
+    //     if (searchField.text == oldQuery) return;
+    //     searchCancelToken?.Cancel();
+    //     searchCancelToken = new CancellationTokenSource();
+
+    //     _ = DebouncedSearchAsync(searchField.text, searchCancelToken.Token);
+    //     oldQuery = searchField.text;
+    // }
 
     private async Task DebouncedSearchAsync(string query, CancellationToken token)
     {

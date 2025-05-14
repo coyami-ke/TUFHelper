@@ -1,6 +1,7 @@
 using DG.Tweening;
 using DirectLevel;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
@@ -23,6 +24,20 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         scrollView = scrollViewObj;
         _scrollRect = scrollView.GetComponent<ScrollRect>();
+    }
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
+
+            if (!isTyping)
+            {
+                if (IsSelected) PlayButtonClick();
+            }
+        }
     }
 
     private static readonly Color SelectedColor = new(1f, 1f, 1f, 50f / 255f);
@@ -111,7 +126,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             creatorText.text = levelInfo.Creator;
         } 
 
-        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId)); //
+        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
 
         if (totalClears == 0)
         {
@@ -151,11 +166,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     
     private void ExceptionCatch(Exception ex)
     {
-
-        Debug.LogException(ex);
         ErrorScript.ShowError(ex.Message);
-
-        //DownloadPopupScript.IsDownloading = false;
     }
 
     public void PlayButtonClick()
@@ -168,11 +179,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         try
         {
 
-            var levelDownloder = new LevelDownloader(levelInfo.DlLink);
-
-            levelDownloder.ErrorHandler = (ex) =>
+            LevelDownloader levelDownloder = new(levelInfo.DlLink)
             {
-                DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
+                ErrorHandler = (ex) =>
+                {
+                    DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
+                }
             };
 
             DownloadPanel.instance.DownloadLevel(levelDownloder);
@@ -192,12 +204,27 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
+                SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]));
                 UIScript.SwipeToBlack(() => TryToLoadLevel(args.Levels[0]));
                 break;
             default:
+                SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]));
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;
         }
+    }
+    private void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder)
+    {
+        foreach (var level in Main.Setting.DownloadedLevels.ToArray())
+        {
+            if (level.LevelInfo.ID == levelJson.ID) 
+            {
+                Main.Setting.DownloadedLevels.Remove(level);
+            }
+        }
+        Main.Setting.DownloadedLevels.Add(new() { LevelInfo = levelJson, NameFolder = folder } );
+        Main.Setting.Save(Main.ModEntry);
+        Main.Logger.Log($"The level has been saved in the folder");
     }
 
     public static void TryToLoadLevel(string levelFilePath)

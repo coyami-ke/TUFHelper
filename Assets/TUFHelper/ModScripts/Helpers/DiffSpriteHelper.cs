@@ -13,6 +13,11 @@ namespace TUFHelper.Utils
             { 10006123, "U13J" },
             { 1003, "Marathon" },
             { 10100, "Qq" },
+            { 10002, "Q2" },
+            { 10003, "Q2+" },
+            { 10004, "Q3" },
+            { 10005, "Q3+" },
+            { 10006, "Q4" },
             { 10101, "-21"},
             { 1000, "-2" },
             { 0, "0" },
@@ -87,7 +92,7 @@ namespace TUFHelper.Utils
             return dictionary;
         }
 
-        public static string GetSpriteFromId(int id)
+        public static string GetSpriteFromId(int id) // i cant get the sprites for the Q diffs
         {
             if (DiffIDRegister.ContainsKey(id))
             {
@@ -97,23 +102,52 @@ namespace TUFHelper.Utils
         }
         public static bool IsSpecialDiff(string diff)
         {
-            // { 1004, "Gimmick" },
-            // { 10006123, "U13J" },
-            // { 1003, "Marathon" },
-            // { 10100, "Qq" },
-            // { 8504, "-21"},
-            // { 8501, "-2" },
             return diff switch
             {
                 "0" => true,
                 "Gimmick" => true,
                 "U13J" => true,
                 "Marathon" => true,
-                "Qq" => true,
                 "-21" => true,
                 "-2" => true,
+                "Qq" => true,
+                "Q2" => true,
+                "Q2+" => true,
+                "Q3" => true,
+                "Q3+" => true,
+                "Q4" => true,
                 _ => false,
             };
+        }
+        public static bool IsSpecialDiff(int diff)
+        {
+            return diff switch
+            {
+                0 => true,
+                1004 => true,
+                10006123 => true,
+                1003 => true,
+                10100 => true,
+                10002 => true,
+                10003 => true,
+                10004 => true,
+                10005 => true,
+                10006 => true,
+                10101 => true,
+                1000 => true,
+                _ => false,
+            };
+            // { 1004, "Gimmick" },
+            // { 10006123, "U13J" },
+            // { 1003, "Marathon" },
+            // { 10100, "Qq" },
+            // { 10002, "Q2" },
+            // { 10003, "Q2+" },
+            // { 10004, "Q3" },
+            // { 10005, "Q3+" },
+            // { 10006, "Q4" },
+            // { 10101, "-21"},
+            // { 1000, "-2" },
         }
     }
 }
