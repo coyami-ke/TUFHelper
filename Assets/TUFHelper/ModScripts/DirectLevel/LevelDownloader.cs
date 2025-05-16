@@ -141,7 +141,6 @@ namespace DirectLevel
             {
                 try
                 {
-                    //OnUpdateProgress?.Invoke(0, "Preparing");
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
                     var path = Path.Combine(defaultPath, _url.GetHashCode().ToString());
@@ -149,9 +148,7 @@ namespace DirectLevel
 
                     if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
                     {
-                        //OnUpdateProgress?.Invoke(1, "Downloaded");
                         UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
-                        //OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
                         DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                         return;
                     }
@@ -165,7 +162,6 @@ namespace DirectLevel
                             var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURl));
                             if (v)
                             {
-                                //OnUpdateProgress?.Invoke(0, "Cancelled");
                                 UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Cancelled));
                                 return;
                             }
@@ -181,17 +177,13 @@ namespace DirectLevel
 
                     _cookieWeb.DownloadProgressChanged += (sender, args) =>
                     {
-                        //OnUpdateProgress?.Invoke((1 + (args.BytesReceived / (float)args.TotalBytesToReceive)) / 3,
-                        //    $"Downloading ({Utils.ByteToStringUnit(args.BytesReceived)}/{Utils.ByteToStringUnit(args.TotalBytesToReceive)})");
                         UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(args.BytesReceived, args.TotalBytesToReceive));
                     };
 
-                    //OnUpdateProgress?.Invoke(0.3333f, "Downloading");
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloading));
                     var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
                     t.Wait();
 
-                    //OnUpdateProgress?.Invoke(0.6666f, "Unzipping");
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Unzipping));
                     ZipHelper.Unzip(zipPath, path);
                     File.Delete(zipPath);
@@ -199,9 +191,7 @@ namespace DirectLevel
                     Utils.MoveLastDirectory(path, path);
                     GC.Collect();
 
-                    //OnUpdateProgress?.Invoke(1, "Downloaded");
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
-                    //OnDownloadComplete?.Invoke(FindAdofaiFiles(path));
                     DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                 }
                 catch (Exception e)

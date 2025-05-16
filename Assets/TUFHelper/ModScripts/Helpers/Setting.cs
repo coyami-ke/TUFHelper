@@ -24,7 +24,7 @@ namespace TUFHelper.Utils
         public int SortBy { get; set; } = 0;
         public List<string> SelectedSpecialDiffs { get; set; } = new();
         public bool ShowOnlyDownloaded { get; set; } = false;
-        public bool StartWithGame { get; set; } = false;
+        public bool StartWithGame { get; set; } = true;
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
