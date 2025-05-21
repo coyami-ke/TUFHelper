@@ -2,6 +2,7 @@ using DG.Tweening;
 using DirectLevel;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
@@ -145,9 +146,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public void InfoButtonClick()
     {
         LeaderboardScript.instance.LoadPasses(levelInfo.ID);
-        if (!IsSelected) 
+        if (!IsSelected)
         {
-            foreach (var level in LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>()) 
+            foreach (var level in LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>())
             {
                 if (level != this)
                 {
@@ -157,8 +158,20 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             IsSelected = true;
             LeaderboardScript.instance.LoadPasses(levelInfo.ID);
+
+            var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
+            if (levelOffline != null)
+            {
+                string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
+                if (!File.Exists(pathToBG))
+                    pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
+                if (File.Exists(pathToBG))
+                {
+                    SpriteLoader.instance.FromFile(pathToBG);
+                }
+            }
         }
-        else 
+        else
         {
             PlayButtonClick();
         }
