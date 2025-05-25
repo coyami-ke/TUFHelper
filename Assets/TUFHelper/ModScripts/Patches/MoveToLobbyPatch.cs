@@ -118,7 +118,6 @@ namespace TUFHelper
             {
                 if (Main.isInTUFHelper)
                 {
-
                     Time.timeScale = 1;
                     GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
