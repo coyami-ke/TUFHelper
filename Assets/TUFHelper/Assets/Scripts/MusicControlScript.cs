@@ -7,10 +7,14 @@ using UnityEngine.UI;
 
 public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    public static MusicControlScript instance;
     public Image muteIcon, image;
     public AudioSource audioSource;
     private bool isPlaying = true;
-
+    public void Awake()
+    {
+        instance = this;        
+    }
     public void Start()
     {
         if (!Main.Setting.PlayBackgroundMusic) 
@@ -36,7 +40,8 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
             Main.Setting.PlayBackgroundMusic = false;
-        } else
+        }
+        else
         {
             audioSource.Play();
             isPlaying = true;
