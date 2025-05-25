@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class SpriteLoader : MonoBehaviour
@@ -12,15 +13,36 @@ public class SpriteLoader : MonoBehaviour
     {
         if (instance == null) instance = this;
     }
+    public void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
     public Image image;
     public void FromFile(string path)
     {
-        Texture2D texture = new(2, 2);
-        texture.LoadImage(File.ReadAllBytes(path));
+        StartCoroutine(FromFileCoroutine(path));
+    }
 
-        Sprite sprite = Sprite.Create(texture,
-            new Rect(0, 0, texture.width, texture.height),
-            new Vector2(0.5f, 0.5f));
-        image.sprite = sprite;
+    private IEnumerator FromFileCoroutine(string path)
+    {
+        string filePath = "file:///" + path.Replace("\\", "/");
+
+        using (UnityWebRequest uwr = UnityWebRequestTexture.GetTexture(filePath))
+        {
+            yield return uwr.SendWebRequest();
+
+            if (uwr.result != UnityWebRequest.Result.Success)
+            {
+                Debug.LogError("Failed to load image: " + uwr.error);
+            }
+            else
+            {
+                Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+                Sprite sprite = Sprite.Create(texture,
+                    new Rect(0, 0, texture.width, texture.height),
+                    new Vector2(0.5f, 0.5f));
+                image.sprite = sprite;
+            }
+        }
     }
 }
