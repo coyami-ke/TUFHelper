@@ -13,6 +13,7 @@ namespace TUFHelper.Utils
     {
         public LevelListInfoElementJson LevelInfo { get; set; }
         public string NameFolder { get; set; }
+        public CustomLevelInfoJson LocalData { get; set; } 
     }
     public class Setting : UnityModManager.ModSettings
     {
@@ -24,8 +25,10 @@ namespace TUFHelper.Utils
         public int SortBy { get; set; } = 0;
         public List<string> SelectedSpecialDiffs { get; set; } = new();
         public bool ShowOnlyDownloaded { get; set; } = false;
+        public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
+        public List<int> FavoriteLevels { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

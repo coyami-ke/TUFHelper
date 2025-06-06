@@ -43,7 +43,7 @@ namespace TUFHelper.ModScripts.Web
             string order = SortAsc == AscendingOrDescending.Ascending ? "ASC" : "DESC";
             string sort = $"{SortBy}_{order}";
 
-            string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}";
+            string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0)
                 url += "&specialDifficulties=" + string.Join(",", SpecialDifficulties);
 

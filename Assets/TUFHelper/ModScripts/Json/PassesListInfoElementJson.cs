@@ -68,10 +68,14 @@ namespace TUFHelper.ModScripts.Json
         public string UpdatedAt { get; set; }
         [JsonProperty("player")]
         public PassesListInfoElementPlayerJson Player { get; set; }
-        [JsonProperty("level")]
-        public PassesListInfoElementLevelJson Level { get; set; }
+        // [JsonProperty("level")]
+        // public PassesListInfoElementLevelJson Level { get; set; }
         [JsonProperty("judgements")]
         public PassesListInfoElementJudgementsJson Judgements { get; set; }
+        [JsonProperty("scoreInfo")]
+        public PassesListInfoElementScoreJson ScoreInfo { get; set; }
+        [JsonProperty("ranks")]
+        public PassesListInfoElementRanksJson Ranks { get; set; }
     }
 
     public class PassesListInfoElementPlayerJson
@@ -191,6 +195,20 @@ namespace TUFHelper.ModScripts.Json
         public string CreatedAt { get; set; }
         [JsonProperty("updatedAt")]
         public string UpdatedAt { get; set; }
+    }
+    public class PassesListInfoElementScoreJson
+    {
+        [JsonProperty("currentRankedScore")]
+        public float CurrentRankedScore { get; set; }
+        [JsonProperty("previousRankedScore")]
+        public float PreviousRankedScore { get; set; }
+        [JsonProperty("impact")]
+        public float Impact { get; set; }
+    }
+    public class PassesListInfoElementRanksJson
+    {
+        [JsonProperty("rankedScoreRank")]
+        public int RankedScoreRank { get; set; }
     }
 }
  

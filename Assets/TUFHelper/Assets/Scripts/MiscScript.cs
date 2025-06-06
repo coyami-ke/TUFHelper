@@ -9,7 +9,7 @@ public class MiscScript : MonoBehaviour
     public static MiscScript instance;
 
     public GameObject errorObject;
-    
+
     public void Awake()
     {
         instance = this;

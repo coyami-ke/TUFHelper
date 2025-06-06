@@ -25,14 +25,14 @@ public class LeaderboardScript : MonoBehaviour
 
     public string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
 
-    public async void LoadPasses(int levelID)
+    public async void LoadPasses(LevelListInfoElementJson level)
     {
         // Cancel any ongoing request
         currentRequestToken?.Cancel();
         currentRequestToken = new CancellationTokenSource();
         CancellationToken token = currentRequestToken.Token;
 
-        string url = GetDefaultUrl(levelID);
+        string url = GetDefaultUrl(level.ID);
         using UnityWebRequest webRequest = UnityWebRequest.Get(url);
         webRequest.certificateHandler = new CertificateWhore();
         webRequest.timeout = 10;
@@ -64,7 +64,8 @@ public class LeaderboardScript : MonoBehaviour
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             var rps = obj.GetComponent<RankPrefabScript>();
-            rps.SetPassInfo(pass, rank);
+            rps.SetPassInfo(pass, level, rank);
+
 
             rect.localScale = Vector3.one;
             rect.sizeDelta = new Vector2(0, 60);

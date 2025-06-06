@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/DirectLevel/Scenes/TogetherReady.unity
     guid: 0e948e3421d83424ca085dff7fc36e73
-  - enabled: 1
+  - enabled: 0
     path: Assets/TUFHelper/Scenes/TUFLevelInfo.unity
     guid: 05b98e8c9a9c43e44b3e94ef52677e49
   m_configObjects: {}

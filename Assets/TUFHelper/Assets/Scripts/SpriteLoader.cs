@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class SpriteLoader : MonoBehaviour
     public Image image;
     public void FromFile(string path)
     {
+        image.DOColor(new Color(122 / 255f, 122 / 255f, 122 / 255f, 0), 0.5f);
+        image.DOColor(new Color(122 / 255f, 122 / 255f, 122 / 255f, 96 / 255f), 0.5f).SetDelay(0.5f);
         StartCoroutine(FromFileCoroutine(path));
     }
 

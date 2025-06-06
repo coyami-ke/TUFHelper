@@ -70,9 +70,8 @@ public class LevelSelector : MonoBehaviour
     }
     public IEnumerator LoadLevelsCo(List<string> levels)
     {
-        // Wait for TMP system to initialize
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
-        yield return new WaitForEndOfFrame(); // Optional: Give Unity a frame to catch up
+        yield return new WaitForEndOfFrame();
 
         LoadLevels(levels);
 

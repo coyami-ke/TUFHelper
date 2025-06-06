@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
 using TUFHelper;
+using System;
 
 public class CustomMusicPlayer : MonoBehaviour
 {
@@ -16,11 +17,19 @@ public class CustomMusicPlayer : MonoBehaviour
 
     public IEnumerator LoadAndPlayAudio(string path, float startTimeSeconds = -1)
     {
-        if (!Main.Setting.PlayBackgroundMusic) yield return null;
+        if (!Main.Setting.PlayBackgroundMusic)
+            yield break;
 
-        string url = "file:///" + path.Replace("\\", "/");
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource not assigned.");
+            yield break;
+        }
 
-        using UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
+        string url = "file://" + path;
+        UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
+        ((DownloadHandlerAudioClip)uwr.downloadHandler).streamAudio = true; // Enable streaming
+
         yield return uwr.SendWebRequest();
 
         if (uwr.result != UnityWebRequest.Result.Success)
@@ -30,18 +39,24 @@ public class CustomMusicPlayer : MonoBehaviour
         else
         {
             AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
+
+            MusicControlScript.instance.audioSource.Stop();
             audioSource.clip = clip;
-            if (startTimeSeconds == -1) audioSource.time = clip.length / 2;
-            else if (startTimeSeconds > 0 && startTimeSeconds < clip.length)
-            {
-                audioSource.time = startTimeSeconds;
-            }
+
+            // Important: Wait until it's ready to set time
+            while (clip.loadState != AudioDataLoadState.Loaded)
+                yield return null;
+
+            audioSource.time = (startTimeSeconds < 0)
+                ? clip.length / 2
+                : Mathf.Clamp(startTimeSeconds, 0f, clip.length);
 
             audioSource.Play();
-            MusicControlScript.instance.audioSource.Stop();
             isPlayingBackground = false;
         }
     }
+
+
     private bool isPlayingBackground = true;
     public void StopPlay()
     {

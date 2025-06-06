@@ -16,6 +16,7 @@ using UnityEngine.EventSystems;
 using System.Threading;
 using System.Threading.Tasks;
 using TUFHelper.Utils;
+using System.IO;
 
 public class LevelListViewModel
 {
@@ -64,6 +65,7 @@ public class LevelListScript : MonoBehaviour
         get => showOnlyDownloaded;
         set
         {
+            LevelInfo.instance.IsShow = value;
             if (showOnlyDownloaded == value)
                 return;
 
@@ -72,10 +74,30 @@ public class LevelListScript : MonoBehaviour
             requestCancelToken?.Cancel();
 
             isLoading = false;
-            HasMore = !value; 
+            HasMore = !value;
 
             ViewModel.Clear();
             DefaultRequest.Offset = 0;
+
+        }
+    }
+    private bool showOnlyFavorites;
+    public bool ShowOnlyFavorites
+    {
+        get => showOnlyFavorites;
+        set
+        {
+            // if (showOnlyFavorites == value)
+            //     return;
+            showOnlyFavorites = value;
+
+            requestCancelToken?.Cancel();
+
+            //isLoading = false;
+            //HasMore = !value;
+
+            ViewModel.Clear();
+            //DefaultRequest.Offset = 0;
         }
     }
 
@@ -178,11 +200,6 @@ public class LevelListScript : MonoBehaviour
         }
 
         var selected = levelPrefabs[index];
-
-        if (selected.levelInfo != null)
-        {
-            LeaderboardScript.instance.LoadPasses(selected.levelInfo.ID);
-        }
     }
     public IOrderedEnumerable<LevelListInfoElementJson> SortLevels(IEnumerable<LevelListInfoElementJson> levels)
     {
@@ -261,6 +278,14 @@ public class LevelListScript : MonoBehaviour
 
                 return true;
             }).ToList();
+
+            if (ShowOnlyDownloaded && ShowOnlyFavorites)
+            {
+                foreach (var level in filteredLevels.ToArray())
+                {
+                    if (!Main.Setting.FavoriteLevels.Contains(level.ID)) filteredLevels.Remove(level);
+                }
+            }
 
             int i = 0;
             foreach (var level in filteredLevels)

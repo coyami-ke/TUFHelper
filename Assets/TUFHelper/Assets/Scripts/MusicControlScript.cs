@@ -40,6 +40,8 @@ public class MusicControlScript : MonoBehaviour, IPointerClickHandler, IPointerE
             isPlaying = false;
             muteIcon.gameObject.SetActive(true);
             Main.Setting.PlayBackgroundMusic = false;
+            //CustomMusicPlayer.instance.StopPlay();
+            CustomMusicPlayer.instance.audioSource.Stop();
         }
         else
         {

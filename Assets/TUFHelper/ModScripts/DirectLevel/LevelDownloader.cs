@@ -112,19 +112,20 @@ namespace DirectLevel
         private static List<string> FindAdofaiFiles(string path)
         {
             var result = new List<string>();
-            
+
             foreach (var file in new DirectoryInfo(path).GetFiles())
             {
-                
                 if (!file.Extension.ToLower().Contains("adofai")) continue;
                 if (file.Name.Contains("backup")) continue;
-                
+
                 result.Add(file.FullName);
-                
             }
-            
+
+            result = result.OrderByDescending(f => new FileInfo(f).Length).ToList();
+
             return result;
         }
+
         
         
         
@@ -282,6 +283,10 @@ namespace DirectLevel
                 {
                     throw new Exception(
                         $"Steam Workshop cannot be downloaded\n\n-----Level Info-----\nURL: {url}");
+                }
+                if (url.StartsWith("https://api.tuforums.com/cdn/"))
+                {
+                    return url;
                 }
 
                 return url;

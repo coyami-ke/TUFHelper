@@ -264,7 +264,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_enableExtraPadding: 0
+  m_enableExtraPadding: 1
   checkPaddingRequired: 0
   m_isRichText: 1
   m_parseCtrlCharacters: 1
@@ -495,6 +495,7 @@ MonoBehaviour:
   rankText: {fileID: 1222982254968130541}
   flag: {fileID: 7431430626382417648}
   grade: {fileID: 4932268601852422726}
+  background: {fileID: 8001051182136124656}
 --- !u!1 &3901481579035923510
 GameObject:
   m_ObjectHideFlags: 0
