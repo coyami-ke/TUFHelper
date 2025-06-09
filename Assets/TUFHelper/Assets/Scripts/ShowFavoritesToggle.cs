@@ -9,6 +9,7 @@ public class ShowFavoritesToggle : MonoBehaviour
     public Toggle toggle;
     public void Start()
     {
+        this.gameObject.SetActive(Main.Setting.ShowOnlyDownloaded);
         toggle.isOn = Main.Setting.ShowOnlyFavorites;
     }
     public void OnValueChanged(bool value)
