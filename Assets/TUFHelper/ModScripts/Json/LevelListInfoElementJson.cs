@@ -65,7 +65,7 @@ namespace TUFHelper.ModScripts.Json
         public string RerateNum { get; set; }
 
         [JsonProperty("previousDiffId")]
-        public int PreviousDiffId { get; set; }
+        public int? PreviousDiffId { get; set; }
 
         [JsonProperty("isAnnounced")]
         public bool IsAnnounced { get; set; }
