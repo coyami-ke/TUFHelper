@@ -28,6 +28,9 @@ public class SortBySearch : MonoBehaviour
             case 2:
                 SetWebRequest("CLEARS");
                 break;
+            case 3:
+                SetWebRequest("LIKES");
+                break;
         }
     }
     public void SetWebRequest(string sortBy)

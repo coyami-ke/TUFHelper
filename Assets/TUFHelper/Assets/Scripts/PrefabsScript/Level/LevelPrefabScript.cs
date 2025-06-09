@@ -135,7 +135,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         levelNameText,
         creatorText,
         totalClearsT,
-        totalClearsText;
+        totalClearsText,
+        totalLikesText;
     public GameObject scrollView;
     public GameObject folderButton, favoriteButton;
     public Image favoriteImage;
@@ -203,6 +204,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             totalClearsText.text = "" + totalClears;
         }
+
+        totalLikesText.text = levelInfo.Likes.ToString();
     }
 
     public void InfoButtonClick()

@@ -2692,8 +2692,10 @@ MonoBehaviour:
   creatorText: {fileID: 599340700}
   totalClearsT: {fileID: 152235139}
   totalClearsText: {fileID: 1347669562}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -5738,8 +5740,10 @@ MonoBehaviour:
   creatorText: {fileID: 729008874}
   totalClearsT: {fileID: 2102096935}
   totalClearsText: {fileID: 851126631}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -6573,8 +6577,10 @@ MonoBehaviour:
   creatorText: {fileID: 211013340}
   totalClearsT: {fileID: 366109888}
   totalClearsText: {fileID: 553777090}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -7857,7 +7863,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 232616595}
   m_Direction: 2
   m_Value: 0.0000001486971
-  m_Size: 0.6579447
+  m_Size: 0.6579165
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11125,7 +11131,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.00001668185}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.000024205074}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &386710565
@@ -12695,8 +12701,10 @@ MonoBehaviour:
   creatorText: {fileID: 1597353556}
   totalClearsT: {fileID: 135601075}
   totalClearsText: {fileID: 1133440519}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -13791,8 +13799,10 @@ MonoBehaviour:
   creatorText: {fileID: 1787674707}
   totalClearsT: {fileID: 296842134}
   totalClearsText: {fileID: 1207500988}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -13864,8 +13874,10 @@ MonoBehaviour:
   creatorText: {fileID: 1276398498}
   totalClearsT: {fileID: 1815704529}
   totalClearsText: {fileID: 1271031320}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -22575,8 +22587,10 @@ MonoBehaviour:
   creatorText: {fileID: 373927651}
   totalClearsT: {fileID: 868342963}
   totalClearsText: {fileID: 1403769210}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -22857,8 +22871,10 @@ MonoBehaviour:
   creatorText: {fileID: 1455229465}
   totalClearsT: {fileID: 333480514}
   totalClearsText: {fileID: 16875747}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -24555,8 +24571,10 @@ MonoBehaviour:
   creatorText: {fileID: 1084738222}
   totalClearsT: {fileID: 983584474}
   totalClearsText: {fileID: 875490078}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -25294,8 +25312,10 @@ MonoBehaviour:
   creatorText: {fileID: 1923744211}
   totalClearsT: {fileID: 179943044}
   totalClearsText: {fileID: 980744580}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -25367,8 +25387,10 @@ MonoBehaviour:
   creatorText: {fileID: 1844838021}
   totalClearsT: {fileID: 1918077812}
   totalClearsText: {fileID: 1962577347}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -27934,8 +27956,10 @@ MonoBehaviour:
   creatorText: {fileID: 1939989050}
   totalClearsT: {fileID: 1297944908}
   totalClearsText: {fileID: 718449523}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -29530,6 +29554,8 @@ MonoBehaviour:
     - m_Text: Difficulty
       m_Image: {fileID: 0}
     - m_Text: Clears
+      m_Image: {fileID: 0}
+    - m_Text: Likes
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -31188,8 +31214,10 @@ MonoBehaviour:
   creatorText: {fileID: 41819198}
   totalClearsT: {fileID: 1476148574}
   totalClearsText: {fileID: 781938702}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -34605,8 +34633,10 @@ MonoBehaviour:
   creatorText: {fileID: 655751173}
   totalClearsT: {fileID: 1259013786}
   totalClearsText: {fileID: 1545144174}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -34678,8 +34708,10 @@ MonoBehaviour:
   creatorText: {fileID: 2073485715}
   totalClearsT: {fileID: 345814093}
   totalClearsText: {fileID: 1184468224}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -36120,8 +36152,10 @@ MonoBehaviour:
   creatorText: {fileID: 532298810}
   totalClearsT: {fileID: 2042189943}
   totalClearsText: {fileID: 588816957}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -36670,8 +36704,10 @@ MonoBehaviour:
   creatorText: {fileID: 1041914564}
   totalClearsT: {fileID: 126740575}
   totalClearsText: {fileID: 699761260}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -36877,8 +36913,10 @@ MonoBehaviour:
   creatorText: {fileID: 1684636873}
   totalClearsT: {fileID: 1942454849}
   totalClearsText: {fileID: 1449185839}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -37822,8 +37860,10 @@ MonoBehaviour:
   creatorText: {fileID: 1147407039}
   totalClearsT: {fileID: 1080891274}
   totalClearsText: {fileID: 241343437}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -38231,8 +38271,10 @@ MonoBehaviour:
   creatorText: {fileID: 1605422160}
   totalClearsT: {fileID: 1467415499}
   totalClearsText: {fileID: 1201100642}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -45314,8 +45356,10 @@ MonoBehaviour:
   creatorText: {fileID: 1977516951}
   totalClearsT: {fileID: 966599222}
   totalClearsText: {fileID: 1411776155}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -47106,8 +47150,10 @@ MonoBehaviour:
   creatorText: {fileID: 110437075}
   totalClearsT: {fileID: 167540377}
   totalClearsText: {fileID: 33901898}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -48434,8 +48480,10 @@ MonoBehaviour:
   creatorText: {fileID: 1423193190}
   totalClearsT: {fileID: 692381940}
   totalClearsText: {fileID: 910889338}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -51223,8 +51271,10 @@ MonoBehaviour:
   creatorText: {fileID: 243571017}
   totalClearsT: {fileID: 431517427}
   totalClearsText: {fileID: 1538460057}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -51394,7 +51444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000049591064, y: 102.61654}
+  m_AnchoredPosition: {x: -0.000049591064, y: 102.61652}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1457812054
@@ -51465,8 +51515,10 @@ MonoBehaviour:
   creatorText: {fileID: 1644967930}
   totalClearsT: {fileID: 1001478784}
   totalClearsText: {fileID: 1459735686}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -54364,8 +54416,10 @@ MonoBehaviour:
   creatorText: {fileID: 923807576}
   totalClearsT: {fileID: 184473876}
   totalClearsText: {fileID: 258941208}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -64252,8 +64306,10 @@ MonoBehaviour:
   creatorText: {fileID: 1031663282}
   totalClearsT: {fileID: 963290033}
   totalClearsText: {fileID: 1781434292}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -65602,8 +65658,10 @@ MonoBehaviour:
   creatorText: {fileID: 254894054}
   totalClearsT: {fileID: 2126150591}
   totalClearsText: {fileID: 889646808}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -71221,7 +71279,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.00010681152, y: 0.00001668185}
+  m_AnchoredPosition: {x: -0.00010681152, y: -0.000024205074}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &2024134519
@@ -72264,8 +72322,10 @@ MonoBehaviour:
   creatorText: {fileID: 961937653}
   totalClearsT: {fileID: 1428122642}
   totalClearsText: {fileID: 877174623}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
@@ -73568,8 +73628,10 @@ MonoBehaviour:
   creatorText: {fileID: 211325003}
   totalClearsT: {fileID: 1919321315}
   totalClearsText: {fileID: 598373791}
+  totalLikesText: {fileID: 0}
   scrollView: {fileID: 0}
   folderButton: {fileID: 0}
+  favoriteButton: {fileID: 0}
   favoriteImage: {fileID: 0}
   isFavoriteSprite: {fileID: 0}
   isNotFavoriteSprite: {fileID: 0}
