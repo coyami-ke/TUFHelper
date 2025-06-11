@@ -12,7 +12,18 @@ public class SortBySearch : MonoBehaviour
         dropdown.value = Main.Setting.SortBy;
         dropdown.RefreshShownValue();
     }
-
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (dropdown.options.Count - 1 != dropdown.value) dropdown.value++;
+                else dropdown.value = 0;
+                dropdown.RefreshShownValue();
+            }
+        }  
+    }
     public void OnValueChanged(int index)
     {
         Main.Setting.SortBy = index;

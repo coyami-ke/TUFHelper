@@ -45,6 +45,10 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
     private bool isPointerHeld = false;
     private PointerEventData currentEventData;
 
+    public int CountDiffs()
+    {
+        return diffPairs.Count;
+    }
     public void Init(List<DiffSpritePair> diffPairs)
     {
         this.diffPairs = diffPairs;

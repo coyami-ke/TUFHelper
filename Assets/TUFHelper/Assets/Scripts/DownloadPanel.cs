@@ -38,8 +38,8 @@ public class DownloadPanel : MonoBehaviour
     public TextMeshProUGUI currentState, total, received;
     public RectTransform rectTransform;
     
-    private float minPositionY = -479.65f;
-    private float maxPositonY = -379.65f;
+    private float minPositionY = -200f;
+    private float maxPositonY = -324.48f;
 
     public void Awake()
     {

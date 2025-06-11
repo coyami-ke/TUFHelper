@@ -13,6 +13,18 @@ public class SortOrderSearch : MonoBehaviour
         dropdown.value = (int)Main.Setting.SortOrder;
         dropdown.RefreshShownValue();
     }
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (dropdown.options.Count - 1 != dropdown.value) dropdown.value++;
+                else dropdown.value = 0;
+                dropdown.RefreshShownValue();
+            }
+        }
+    }
     public void OnValueChanged(int index)
     {
         switch (index)

@@ -7,6 +7,7 @@ using TMPro;
 using Together.Utils;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;

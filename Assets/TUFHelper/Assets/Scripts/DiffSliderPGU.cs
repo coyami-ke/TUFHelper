@@ -30,6 +30,7 @@ public class DiffSliderPGU : DiffSlider
 
         LevelListScript.instance.UpdateLevelList();
     }
+
     public void Awake()
     {
         instance = this;

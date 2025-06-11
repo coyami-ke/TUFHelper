@@ -40,13 +40,23 @@ public class SearchScript : MonoBehaviour
 
     //     _ = DebouncedSearchAsync(searchField.text, searchCancelToken.Token);
     //     oldQuery = searchField.text;
-    // }
+    // }'
+    public void Update()
+    {
+        if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
+        {
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                searchField.Select();
+            }
+        }       
+    }
 
     private async Task DebouncedSearchAsync(string query, CancellationToken token)
     {
         try
         {
-            await Task.Delay(300, token); 
+            await Task.Delay(300, token);
             if (token.IsCancellationRequested) return;
 
             SearchScript.searchText = query;
