@@ -232,6 +232,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     private void ExceptionCatch(Exception ex)
     {
         ErrorScript.ShowError(ex.Message);
+        Main.Logger.Error(ex.StackTrace);
     }
 
     public void PlayButtonClick()
@@ -279,7 +280,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 break;
         }
     }
-    private void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
+    public static void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
     {
         foreach (var level in Main.Setting.DownloadedLevels.ToArray())
         {
@@ -327,31 +328,56 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         var oggs = Directory.GetFiles(folder).Where(f => f.EndsWith(".ogg")).OrderByDescending(e => new FileInfo(e).Length).ToArray();
 
-        string oggFile = oggs[0];
-        if (oggFile != null)
-        {
-            StartCoroutine(GetOggLength(oggFile, length =>
-            {
-                var localData = new CustomLevelInfoJson
-                {
-                    BPM = bpm,
-                    Tiles = countTiles,
-                    Lenght = length
-                };
+        string oggFile = "";
+        CustomLevelInfoJson localInfo = new();
 
-                Main.Setting.DownloadedLevels.Add(new()
-                {
-                    LevelInfo = levelJson,
-                    NameFolder = folder,
-                    LocalData = localData
-                });
+        if (oggs.Length > 0) oggFile = oggs[0];
+        if (oggFile != "")
+        {
+            oggFile = oggs[0];
+        }
+        else
+        {
+            LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, lenght =>
+            {
+                localInfo.Lenght = lenght;
             }));
         }
+
+        // LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, length =>
+        //     {
+        //         var localData = new CustomLevelInfoJson
+        //         {
+        //             BPM = bpm,
+        //             Tiles = countTiles,
+        //             Lenght = length
+        //         };
+
+        //         Main.Setting.DownloadedLevels.Add(new()
+        //         {
+        //             LevelInfo = levelJson,
+        //             NameFolder = folder,
+        //             LocalData = localData
+        //         });
+        //     }));
+
+        if (oggFile == "") localInfo.Lenght = 0;
+        localInfo.BPM = bpm;
+        localInfo.Tiles = countTiles;
+
+        Main.Setting.DownloadedLevels.Add(new()
+        {
+            LevelInfo = levelJson,
+            NameFolder = folder,
+            LocalData = localInfo
+        });
+
+
 
         Main.Setting.Save(Main.ModEntry);
         Main.Logger.Log($"The level has been saved in the folder");
     }
-    private IEnumerator GetOggLength(string path, Action<float> onLengthReceived)
+    public static IEnumerator GetOggLength(string path, Action<float> onLengthReceived)
     {
         string url = "file:///" + path.Replace("\\", "/");
         using UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);

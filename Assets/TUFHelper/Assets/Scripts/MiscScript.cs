@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DirectLevel;
@@ -8,6 +10,7 @@ using Together.Utils;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -18,6 +21,7 @@ public class MiscScript : MonoBehaviour
     public static MiscScript instance;
 
     public GameObject errorObject;
+    private CancellationTokenSource requestCancelToken;
 
     public void Awake()
     {
@@ -69,7 +73,6 @@ public class MiscScript : MonoBehaviour
         }
     }
 
-    private CancellationTokenSource requestCancelToken;
     public async void UpdateOfflineLevels(TextMeshProUGUI textInfo)
     {
         requestCancelToken?.Cancel();
@@ -110,7 +113,7 @@ public class MiscScript : MonoBehaviour
 
                 i++;
             }
-            catch (Exception ex)
+            catch
             {
             }
         }
@@ -118,5 +121,108 @@ public class MiscScript : MonoBehaviour
         LevelListScript.instance.ClearLevels();
         LevelListScript.instance.UpdateLevelList();
         textInfo.text = "UPDATE INFO";
+    }
+
+    public async void ImFuckingLucky()
+    {
+        requestCancelToken?.Cancel();
+        requestCancelToken = new CancellationTokenSource();
+
+        CancellationToken token = requestCancelToken.Token;
+
+        LevelListInfoElementJson selectedLevel = null;
+        if (Main.Setting.ShowOnlyDownloaded)
+        {
+            UnityEngine.Random.Range(0, Main.Setting.DownloadedLevels.Count - 1);
+
+            var filteredLevels = Main.Setting.DownloadedLevels.Where(level =>
+            {
+                // Filter by difficulty
+                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId))
+                {
+                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
+                        return false;
+                }
+                else
+                {
+                    if (level.LevelInfo.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.LevelInfo.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
+                        return false;
+                }
+
+                return true;
+            }).ToList();
+
+            selectedLevel = filteredLevels[0].LevelInfo;
+        }
+        else
+        {
+            TUFAPIRequest_Levels request = new(1);
+            request.MinDiffPGU = LevelListScript.DefaultRequest.MinDiffPGU;
+            request.MaxDiffPGU = LevelListScript.DefaultRequest.MaxDiffPGU;
+            request.Query = "";
+            request.Offset = 0;
+            request.SortBy = "RANDOM";
+            request.SpecialDifficulties = new(LevelListScript.DefaultRequest.SpecialDifficulties);
+
+            await request.GetAnswerAsync(token);
+
+            var json = JsonConvert.DeserializeObject<LevelListInfoJson>(request.Answer);
+
+            if (json.Results.Count > 0)
+            {
+                var level = json.Results[0];
+
+                if (DownloadPanel.instance.IsDownloading) return;
+
+
+            }
+        
+        }
+
+        ErrorScript.instance.gameObject.SetActive(false);
+
+            try
+            {
+
+                LevelDownloader levelDownloder = new(selectedLevel.DlLink)
+                {
+                    ErrorHandler = (ex) =>
+                    {
+                        DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
+                    }
+                };
+
+                DownloadPanel.instance.DownloadLevel(levelDownloder);
+
+                lastLevel = selectedLevel;
+                levelDownloder.DownloadComplete += OnCompleteDownload;
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionCatch(ex);
+            }
+    }
+    private void ExceptionCatch(Exception ex)
+    {
+        ErrorScript.ShowError(ex.Message);
+    }
+
+    private LevelListInfoElementJson lastLevel;
+    private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
+    {
+        switch (args.Levels.Count)
+        {
+            case 0:
+                throw new Exception("adofai file was not found");
+            case 1:
+                LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
+                UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(args.Levels[0]));
+                break;
+            default:
+                LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
+                break;
+        }
     }
 }
