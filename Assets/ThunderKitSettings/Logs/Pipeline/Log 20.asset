@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
+  m_Name: Log 20
+  m_EditorClassIdentifier: 
+  pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  creationDate:
+    ticks: 638859625101287310
+  entries:
+  - logLevel: 2
+    internalTime:
+      ticks: 638859625120376717
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      StageAssemblies terminated'
+    context:
+    - "Stacktrace\r\nStageAssemblies terminated\r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Build
+      (ThunderKit.Core.Pipelines.Pipeline pipeline, System.String resolvedArtifactPath,
+      System.ValueTuple`4[UnityEditor.Compilation.Assembly,UnityEditorInternal.AssemblyDefinitionAsset,ThunderKit.Core.Pipelines.Jobs.StageAssemblies+AsmDef,ThunderKit.Core.Manifests.Datums.AssemblyDefinitions][]
+      definitions, System.Int32 definitionIndex) [0x0037f] in [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:189](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#189)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Execute (ThunderKit.Core.Pipelines.Pipeline
+      pipeline) [0x00194] in [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:126](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#126)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Jobs.StageAssemblies.Execute (ThunderKit.Core.Pipelines.Pipeline
+      pipeline) [0x0025c] in [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs:130](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Jobs\\StageAssemblies.cs#130)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.ExecuteJob () [0x00023] in
+      [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs:281](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs#281)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.ExecuteManifestLoop () [0x0005b]
+      in [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs:295](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs#295)
+      \r\n\r\n  at ThunderKit.Core.Pipelines.Pipeline.Execute () [0x00289] in [.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs:225](exceptionsource://.\\Library\\PackageCache\\com.passivepicasso.thunderkit@2f048021a1\\Editor\\Core\\Pipelines\\Pipeline.cs#225) "
+  - logLevel: 2
+    internalTime:
+      ticks: 638859625120145618
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Build Failed: ``` ThunderKit/Libraries/TUFHelper.dll ``` with 2 errors.'
+    context:
+    - 'Assets\TUFHelper\Assets\Scripts\PrefabsScript\SelectLevelPrefabScript.cs (19:55)
+
+      [Assets\TUFHelper\Assets\Scripts\PrefabsScript\SelectLevelPrefabScript.cs(19,55):
+      error CS7036: There is no argument given that corresponds to the required formal
+      parameter ''levelInfo'' of ''LevelPrefabScript.TryToLoadLevel(string, LevelListInfoElementJson)''](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\PrefabsScript\SelectLevelPrefabScript.cs#19)'
+    - 'Assets\TUFHelper\Assets\Scripts\MiscScript.cs (227:63)
+
+      [Assets\TUFHelper\Assets\Scripts\MiscScript.cs(227,63):
+      error CS7036: There is no argument given that corresponds to the required formal
+      parameter ''levelInfo'' of ''LevelPrefabScript.TryToLoadLevel(string, LevelListInfoElementJson)''](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\MiscScript.cs#227)'
+  - logLevel: 1
+    internalTime:
+      ticks: 638859625119540556
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Assets\TUFHelper\Assets\Scripts\SearchScript.cs(34,20): warning CS0414: The
+      field ''SearchScript.oldQuery'' is assigned but its value is never used'
+    context:
+    - 'Assets\TUFHelper\Assets\Scripts\SearchScript.cs (34:20)
+
+      [Assets\TUFHelper\Assets\Scripts\SearchScript.cs(34,20):
+      warning CS0414: The field ''SearchScript.oldQuery'' is assigned but its value
+      is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\SearchScript.cs#34)'
+  - logLevel: 1
+    internalTime:
+      ticks: 638859625119480273
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37): warning CS0169: The
+      field ''SearchScript.searchCancelToken'' is never used'
+    context:
+    - 'Assets\TUFHelper\Assets\Scripts\SearchScript.cs (23:37)
+
+      [Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37):
+      warning CS0169: The field ''SearchScript.searchCancelToken'' is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\SearchScript.cs#23)'
+  - logLevel: 1
+    internalTime:
+      ticks: 638859625119392409
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs(10,21): warning CS0649: Field
+      ''ParallaxObject.parallaxEffectMultiplier'' is never assigned to, and will
+      always have its default value '
+    context:
+    - 'Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs (10:21)
+
+      [Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs(10,21):
+      warning CS0649: Field ''ParallaxObject.parallaxEffectMultiplier'' is never
+      assigned to, and will always have its default value ](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs#10)'
+  - logLevel: 0
+    internalTime:
+      ticks: 638859625108881522
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
+      Building : ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638859625106802073
+    message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638859625106792123
+    message: '[Pipeline(2 - StageManifestFiles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638859625106782125
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting E:/Github/TUFHelper/ThunderKit/AssetBundleStaging'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638859625106782125
+    message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638859625106772154
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Deleting E:/Github/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638859625102362343
+    message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
+      Execute Job'
+    context: []
+  - logLevel: 0
+    internalTime:
+      ticks: 638859625102352716
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Clearing
+      PipelineJob error states'
+    context: []
+  - logLevel: 3
+    internalTime:
+      ticks: 638859625102152893
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Execute
+      Pipeline'
+    context: []
