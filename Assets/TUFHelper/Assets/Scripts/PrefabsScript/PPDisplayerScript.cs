@@ -14,14 +14,13 @@ public class PPDisplayerScript : MonoBehaviour
 
     public static List<float> currentAnglePath = new();
     public static string currentPathdata;
-
     public static int FloorCount;
 
     static ADOFAI.LevelData leveldata
     {
         get
         {
-            return scnEditor.instance.levelData;
+            return scnGame.instance.levelData;
         }
     }
 
@@ -30,14 +29,15 @@ public class PPDisplayerScript : MonoBehaviour
     {
         PP.text = string.Empty;
         Speed.text = string.Empty;
+
         currentAnglePath = leveldata.angleData;
         currentPathdata = leveldata.pathData;
     }
 
-    // Safety Measure so that the EXACT level must be played to calc score, only works when manually loading a new level tho!
+
     private void Update()
     {
-        if (currentPathdata != leveldata.pathData && currentAnglePath != leveldata.angleData) PPDisplayerPatch.IsFromTUFH = false;
+
     }
     public void ApplyPP(double Score)
     {

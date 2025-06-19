@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f9af1c6015733a42be940cc462aa7ed, type: 3}
-  m_Name: Log 64
+  m_Name: Log 67
   m_EditorClassIdentifier: 
   pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
   creationDate:
-    ticks: 638859766392773483
+    ticks: 638859774669306785
   entries:
   - logLevel: 3
     internalTime:
-      ticks: 638859766704932746
+      ticks: 638859774724118496
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Finished
       execution'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638859766442971796
+      ticks: 638859774720067328
     message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Creating 2 AssetBundles'
     context:
@@ -1655,19 +1655,19 @@ MonoBehaviour:
 '
   - logLevel: 3
     internalTime:
-      ticks: 638859766415571006
+      ticks: 638859774693118258
     message: '[Pipeline(4 - StageAssetBundles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638859766415441350
+      ticks: 638859774692938722
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Build Completed: ``` ThunderKit/Libraries/TUFHelper.dll ```'
     context: []
   - logLevel: 1
     internalTime:
-      ticks: 638859766415261830
+      ticks: 638859774692749227
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Assets\TUFHelper\Assets\Scripts\SearchScript.cs(34,20): warning CS0414: The
       field ''SearchScript.oldQuery'' is assigned but its value is never used'
@@ -1679,18 +1679,18 @@ MonoBehaviour:
       is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\SearchScript.cs#34)'
   - logLevel: 1
     internalTime:
-      ticks: 638859766415172066
+      ticks: 638859774692659493
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
-      Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37): warning CS0169: The
-      field ''SearchScript.searchCancelToken'' is never used'
+      Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs(147,37):
+      warning CS0169: The field ''LevelPrefabScript.levelInfoStatic'' is never used'
     context:
-    - 'Assets\TUFHelper\Assets\Scripts\SearchScript.cs (23:37)
+    - 'Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs (147:37)
 
-      [Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37):
-      warning CS0169: The field ''SearchScript.searchCancelToken'' is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\SearchScript.cs#23)'
+      [Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs(147,37):
+      warning CS0169: The field ''LevelPrefabScript.levelInfoStatic'' is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs#147)'
   - logLevel: 1
     internalTime:
-      ticks: 638859766415092271
+      ticks: 638859774692579677
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs(10,21): warning CS0649: Field
       ''ParallaxObject.parallaxEffectMultiplier'' is never assigned to, and will
@@ -1703,66 +1703,66 @@ MonoBehaviour:
       assigned to, and will always have its default value ](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\ParallaxObject.cs#10)'
   - logLevel: 1
     internalTime:
-      ticks: 638859766414992893
+      ticks: 638859774692469989
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
-      Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs(147,37):
-      warning CS0169: The field ''LevelPrefabScript.levelInfoStatic'' is never used'
+      Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37): warning CS0169: The
+      field ''SearchScript.searchCancelToken'' is never used'
     context:
-    - 'Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs (147:37)
+    - 'Assets\TUFHelper\Assets\Scripts\SearchScript.cs (23:37)
 
-      [Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs(147,37):
-      warning CS0169: The field ''LevelPrefabScript.levelInfoStatic'' is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\PrefabsScript\Level\LevelPrefabScript.cs#147)'
+      [Assets\TUFHelper\Assets\Scripts\SearchScript.cs(23,37):
+      warning CS0169: The field ''SearchScript.searchCancelToken'' is never used](exceptionsource://C:\Users\hokha\Documents\TUFHelper\Assets\TUFHelper\Assets\Scripts\SearchScript.cs#23)'
   - logLevel: 0
     internalTime:
-      ticks: 638859766401515707
+      ticks: 638859774677840425
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)[TUFHelperManifest](assetlink://Assets%2fTUFHelper%2fTUFHelperManifest.asset)
       Building : ThunderKit/Libraries/TUFHelper.dll'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638859766396169819
+      ticks: 638859774672656953
     message: '[Pipeline(3 - StageAssemblies)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638859766396159845
+      ticks: 638859774672637020
     message: '[Pipeline(2 - StageManifestFiles)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638859766396149874
+      ticks: 638859774672637020
     message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleting E:/Github/TUFHelper/ThunderKit/AssetBundleStaging'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638859766396149874
+      ticks: 638859774672637020
     message: '[Pipeline(1 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638859766396139901
+      ticks: 638859774672627400
     message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Deleting E:/Github/TUFHelper/ThunderKit/Libraries/TUFHelper.dll'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638859766393931957
+      ticks: 638859774670463431
     message: '[Pipeline(0 - Delete)](assetlink://Assets%2fPiplines%2fPipeline.asset)
       Execute Job'
     context: []
   - logLevel: 0
     internalTime:
-      ticks: 638859766393921703
+      ticks: 638859774670463431
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Clearing
       PipelineJob error states'
     context: []
   - logLevel: 3
     internalTime:
-      ticks: 638859766393801501
+      ticks: 638859774670332295
     message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Execute
       Pipeline'
     context: []

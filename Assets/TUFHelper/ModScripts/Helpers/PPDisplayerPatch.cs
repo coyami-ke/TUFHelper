@@ -43,7 +43,7 @@ namespace TUFHelper
         {
             get
             {
-                return scnEditor.instance.levelData;
+                return scnGame.instance.levelData;
             }
         }
 
@@ -91,7 +91,7 @@ namespace TUFHelper
                 }
                 judgements.Reset();
                 string assetName = "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab"; // Check with GetAllAssetNames
-                speed = (leveldata.pitch / 100) + (holdingcontrol ? scnEditor.instance.playbackSpeed : 0);
+                speed = (float)((leveldata.pitch / 100f) * scnEditor.instance.playbackSpeed);
 
                 if (text == null)
                 {
@@ -125,6 +125,8 @@ namespace TUFHelper
                     PPDisplayer.ApplySpped(speed);
                     PPDisplayer.ApplyPP(0);
                 }
+                // Safety Measure so that the EXACT level must be played to calc score, only works when manually loading a new level tho!
+                if (PPDisplayerScript.currentPathdata != leveldata.pathData && PPDisplayerScript.currentAnglePath != leveldata.angleData) PPDisplayerPatch.IsFromTUFH = false;
             }
         }
         [HarmonyPatch(typeof(scrMistakesManager), nameof(scrMistakesManager.AddHit))]
@@ -187,9 +189,7 @@ namespace TUFHelper
                         }
                     });
 
-                    Main.Logger.Log($"Hold Behavior is: {Persistence.holdBehavior}");
-                    Main.Logger.Log($"Judgements are: {judgements.Perfect}");
-                    Main.Logger.Log($"BaseScore passed: {Levelinfo.BaseScore}, DiffScore: {DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[Levelinfo.DiffId]]}");
+                    //Main.Logger.Log($"Hold Behavior is: {scnEditor.instance.playbackSpeed} ae sPEED is: {(float)(leveldata.pitch/100)}");
                     PPDisplayer.ApplyPP(score);
                     Main.Logger.Log(score.ToString());
                 }
