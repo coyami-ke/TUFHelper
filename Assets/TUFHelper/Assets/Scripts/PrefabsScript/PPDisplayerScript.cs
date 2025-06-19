@@ -10,7 +10,7 @@ public class PPDisplayerScript : MonoBehaviour
 {
     public TextMeshProUGUI PP, Speed;
     public LevelListInfoElementJson Levelinfo;
-    static double curScore;
+    public static double curScore;
 
     public static List<float> currentAnglePath = new();
     public static string currentPathdata;
