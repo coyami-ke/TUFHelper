@@ -90,7 +90,7 @@ namespace TUFHelper
                     return;
                 }
                 judgements.Reset();
-                string assetName = "assets/tufhelper/assets/prefabs/PPDisplayer.prefab"; // Check with GetAllAssetNames
+                string assetName = "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab"; // Check with GetAllAssetNames
                 speed = (leveldata.pitch / 100) + (holdingcontrol ? scnEditor.instance.playbackSpeed : 0);
 
                 if (text == null)
