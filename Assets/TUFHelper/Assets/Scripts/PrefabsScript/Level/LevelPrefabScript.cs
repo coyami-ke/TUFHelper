@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -138,7 +139,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         totalClearsText,
         totalLikesText;
     public GameObject scrollView;
-    public GameObject folderButton, favoriteButton;
+    public GameObject folderButton, favoriteButton, addToFolderButton;
     public Image favoriteImage;
     public Sprite isFavoriteSprite, isNotFavoriteSprite;
 
@@ -313,69 +314,48 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
 
         float bpm = levelData.Settings.BPM;
-        string pathDataString = levelData.GetPathDataAsString();
-        float[] pathDataArray = levelData.GetPathDataAsFloatArray();
+        int pathData = levelData.PathData.Length;
+        int angleData = levelData.AngleData.Count;
 
-        int countTiles = 0;
-        if (pathDataArray != null)
-        {
-            countTiles = pathDataArray.Length;
-        }
-        else if (pathDataString != null)
-        {
-            countTiles = pathDataString.Length;
-        }
+        int countTiles = pathData + angleData;
 
-        var oggs = Directory.GetFiles(folder).Where(f => f.EndsWith(".ogg")).OrderByDescending(e => new FileInfo(e).Length).ToArray();
+        var oggs = Directory.GetFiles(folder)
+            .Where(f => f.EndsWith(".ogg"))
+            .OrderByDescending(e => new FileInfo(e).Length)
+            .ToArray();
 
-        string oggFile = "";
+        string oggFile = oggs.FirstOrDefault();
         CustomLevelInfoJson localInfo = new();
 
-        if (oggs.Length > 0) oggFile = oggs[0];
-        if (oggFile != "")
+        if (!string.IsNullOrEmpty(oggFile))
         {
-            oggFile = oggs[0];
+            LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, length =>
+            {
+                localInfo.Lenght = length;
+                FinalizeLevelInfo();
+            }));
         }
         else
         {
-            LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, lenght =>
-            {
-                localInfo.Lenght = lenght;
-            }));
+            localInfo.Lenght = 0;
+            FinalizeLevelInfo();
         }
 
-        // LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, length =>
-        //     {
-        //         var localData = new CustomLevelInfoJson
-        //         {
-        //             BPM = bpm,
-        //             Tiles = countTiles,
-        //             Lenght = length
-        //         };
-
-        //         Main.Setting.DownloadedLevels.Add(new()
-        //         {
-        //             LevelInfo = levelJson,
-        //             NameFolder = folder,
-        //             LocalData = localData
-        //         });
-        //     }));
-
-        if (oggFile == "") localInfo.Lenght = 0;
-        localInfo.BPM = bpm;
-        localInfo.Tiles = countTiles;
-
-        Main.Setting.DownloadedLevels.Add(new()
+        void FinalizeLevelInfo()
         {
-            LevelInfo = levelJson,
-            NameFolder = folder,
-            LocalData = localInfo
-        });
+            localInfo.BPM = bpm;
+            localInfo.Tiles = countTiles;
 
+            Main.Setting.DownloadedLevels.Add(new()
+            {
+                LevelInfo = levelJson,
+                NameFolder = folder,
+                LocalData = localInfo
+            });
 
-
-        Main.Setting.Save(Main.ModEntry);
-        Main.Logger.Log($"The level has been saved in the folder");
+            Main.Setting.Save(Main.ModEntry);
+            Main.Logger.Log($"The level has been saved in the folder");
+        }
     }
     public static IEnumerator GetOggLength(string path, Action<float> onLengthReceived)
     {
@@ -407,6 +387,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             Main.Setting.FavoriteLevels.Add(levelInfo.ID);
         }
         Main.Setting.Save(Main.ModEntry);
+    }
+    public void OnAddOrRemoveFolderButtonClicked()
+    {
+        AddLevelToFolder.instance.SetInfo(levelInfo.ID);
     }
 
 
@@ -468,24 +452,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 internal class LevelData
 {
     [JsonProperty("pathData")]
-    public JToken PathDataRaw { get; set; }
+    public string PathData { get; set; } = "";
+    [JsonProperty("angleData")]
+    public List<float> AngleData { get; set; } = new();
 
     [JsonProperty("settings")]
     public LevelSettings Settings { get; set; }
-
-    public string GetPathDataAsString()
-    {
-        return PathDataRaw?.Type == JTokenType.String ? PathDataRaw.ToString() : null;
-    }
-
-    public float[] GetPathDataAsFloatArray()
-    {
-        if (PathDataRaw?.Type == JTokenType.Array)
-        {
-            return PathDataRaw.ToObject<float[]>();
-        }
-        return null;
-    }
 }
 
 internal class LevelSettings

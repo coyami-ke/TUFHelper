@@ -42,6 +42,12 @@ public class MiscScript : MonoBehaviour
     {
         //if (DownloadPopupScript.IsDownloading) return;
 
+        if (!WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        {
+            WindowsManager.instance.MoveToFolderList();
+            return;
+        }
+
         UIScript.SwipeToBlack(() =>
         {
             if (SceneManager.GetActiveScene().name.Equals("TUFLevelInfo"))
@@ -82,7 +88,7 @@ public class MiscScript : MonoBehaviour
 
         int count = Main.Setting.DownloadedLevels.Count;
         int i = 0;
-        foreach (var level in Main.Setting.DownloadedLevels)
+        foreach (var level in Main.Setting.DownloadedLevels.ToArray())
         {
             if (level.LevelInfo == null) continue;
             try
@@ -109,6 +115,8 @@ public class MiscScript : MonoBehaviour
                 var newLevel = JsonConvert.DeserializeObject<LevelListInfoElementJson>(json);
                 level.LevelInfo = newLevel;
 
+                LevelPrefabScript.SaveLevelToSettings(newLevel, level.NameFolder, LevelDownloader.FindAdofaiFiles(level.NameFolder)[0]);
+
                 textInfo.text = $"UPDATE INFO ({i + 1}/{count})...";
 
                 i++;
@@ -122,7 +130,6 @@ public class MiscScript : MonoBehaviour
         LevelListScript.instance.UpdateLevelList();
         textInfo.text = "UPDATE INFO";
     }
-
     public async void ImFuckingLucky()
     {
         requestCancelToken?.Cancel();
@@ -176,32 +183,32 @@ public class MiscScript : MonoBehaviour
 
 
             }
-        
+
         }
 
         ErrorScript.instance.gameObject.SetActive(false);
 
-            try
-            {
+        try
+        {
 
-                LevelDownloader levelDownloder = new(selectedLevel.DlLink)
+            LevelDownloader levelDownloder = new(selectedLevel.DlLink)
+            {
+                ErrorHandler = (ex) =>
                 {
-                    ErrorHandler = (ex) =>
-                    {
-                        DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
-                    }
-                };
+                    DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
+                }
+            };
 
-                DownloadPanel.instance.DownloadLevel(levelDownloder);
+            DownloadPanel.instance.DownloadLevel(levelDownloder);
 
-                lastLevel = selectedLevel;
-                levelDownloder.DownloadComplete += OnCompleteDownload;
+            lastLevel = selectedLevel;
+            levelDownloder.DownloadComplete += OnCompleteDownload;
 
-            }
-            catch (Exception ex)
-            {
-                ExceptionCatch(ex);
-            }
+        }
+        catch (Exception ex)
+        {
+            ExceptionCatch(ex);
+        }
     }
     private void ExceptionCatch(Exception ex)
     {
@@ -225,4 +232,5 @@ public class MiscScript : MonoBehaviour
                 break;
         }
     }
+    
 }

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ShowDownloadedToggle : MonoBehaviour
 {
     public Toggle toggle;
-    public GameObject favoriteToggle, updateLevelsButton;
+    public GameObject favoriteToggle, updateLevelsButton, groupByFoldersToggle;
     public void Start()
     {
         toggle.isOn = Main.Setting.ShowOnlyDownloaded;
@@ -29,6 +29,7 @@ public class ShowDownloadedToggle : MonoBehaviour
 
         favoriteToggle.SetActive(value);
         updateLevelsButton.SetActive(value);
+        groupByFoldersToggle.SetActive(value);
 
         LevelListScript.instance.UpdateLevelList();
 

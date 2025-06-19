@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TUFHelper.Utils;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 public class LevelListViewModel
 {
@@ -101,6 +102,19 @@ public class LevelListScript : MonoBehaviour
         }
     }
 
+    private bool groupByFolder;
+    public bool GroupByFolder
+    {
+        get => groupByFolder;
+        set
+        {
+            groupByFolder = value;
+
+            ViewModel.Clear();
+        }
+    }
+
+    public LevelFolder LevelFolder { get; set; }
 
 
     public void Awake()
@@ -214,6 +228,9 @@ public class LevelListScript : MonoBehaviour
             case "CLEARS":
                 if (DefaultRequest.SortAsc == AscendingOrDescending.Ascending) return levels.OrderBy(e => e.Clears);
                 else return levels.OrderByDescending(e => e.Clears);
+            case "LIKES":
+                if (DefaultRequest.SortAsc == AscendingOrDescending.Ascending) return levels.OrderBy(e => e.Likes);
+                else return levels.OrderByDescending(e => e.Likes);
             default:
                 return levels.OrderBy(e => e.ID);
         }
@@ -273,6 +290,12 @@ public class LevelListScript : MonoBehaviour
                     string song = level.Song.ToLower();
 
                     if (!(creator.Contains(query) || artist.Contains(query) || song.Contains(query)))
+                        return false;
+                }
+                // Filter by group
+                if (GroupByFolder)
+                {
+                    if (!LevelFolder.Levels.Contains(level.ID))
                         return false;
                 }
 

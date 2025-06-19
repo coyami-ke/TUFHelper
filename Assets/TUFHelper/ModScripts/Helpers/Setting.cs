@@ -27,8 +27,10 @@ namespace TUFHelper.Utils
         public bool ShowOnlyDownloaded { get; set; } = false;
         public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;
+        public bool GroupByFolders { get; set; } = false;
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
-        public List<int> FavoriteLevels { get; set; } = new();
+        public HashSet<int> FavoriteLevels { get; set; } = new();
+        public List<LevelFolder> LevelFolders { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

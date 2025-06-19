@@ -109,7 +109,7 @@ namespace DirectLevel
         /// </summary>
         /// <param name="path">Level Folder</param>
         /// <returns>.adofai files</returns>
-        private static List<string> FindAdofaiFiles(string path)
+        public static List<string> FindAdofaiFiles(string path)
         {
             var result = new List<string>();
 
