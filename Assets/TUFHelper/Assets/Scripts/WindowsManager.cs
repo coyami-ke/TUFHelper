@@ -46,9 +46,9 @@ public class WindowsManager : MonoBehaviour
     {
         PassInfo.SetActive(true);
 
-        AnimatePanel(LevelList, 1185f, 1f, Ease.InOutExpo, 0f);
-        AnimatePanel(PassesList, 1155f, 1f, Ease.InOutExpo, 0.2f);
-        AnimatePanel(PassInfo, 1175f, 1f, Ease.InOutExpo, 0.4f);
+        AnimatePanel(LevelList, 1185f, 1f, Ease.OutExpo, 0f);
+        AnimatePanel(PassesList, 1155f, 1f, Ease.OutExpo, 0.2f);
+        AnimatePanel(PassInfo, 1175f, 1f, Ease.OutExpo, 0.4f);
 
         FolderListActive = false;
         global::FolderList.instance.IsShow = false;
@@ -56,10 +56,10 @@ public class WindowsManager : MonoBehaviour
 
     public void MoveToLevelList()
     {
-        AnimatePanel(PassInfo, 0f, 1f, Ease.InOutExpo, 0f);
-        AnimatePanel(PassesList, 0f, 1f, Ease.InOutExpo, 0.2f);
-        AnimatePanel(LevelList, 0f, 1f, Ease.InOutExpo, 0.4f, () => PassInfo.SetActive(false));
-        AnimatePanel(FolderList, 0f, 1f, Ease.InOutExpo, 0.4f, () => FolderList.SetActive(false));
+        AnimatePanel(PassInfo, 0f, 1f, Ease.OutExpo, 0f);
+        AnimatePanel(PassesList, 0f, 1f, Ease.OutExpo, 0.2f);
+        AnimatePanel(LevelList, 0f, 1f, Ease.OutExpo, 0.4f, () => PassInfo.SetActive(false));
+        AnimatePanel(FolderList, 0f, 1f, Ease.OutExpo, 0.4f, () => FolderList.SetActive(false));
 
         FolderListActive = false;
         global::FolderList.instance.IsShow = false;
@@ -70,10 +70,10 @@ public class WindowsManager : MonoBehaviour
         if (!FolderList.activeSelf)
             FolderList.SetActive(true);
 
-        AnimatePanel(PassInfo, 0f, 1f, Ease.InOutExpo);
-        AnimatePanel(PassesList, 0f, 1f, Ease.InOutExpo);
-        AnimatePanel(LevelList, 1185f, 1f, Ease.InOutExpo);
-        AnimatePanel(FolderList, -1185f, 1f, Ease.InOutExpo);
+        AnimatePanel(PassInfo, 0f, 1f, Ease.OutExpo);
+        AnimatePanel(PassesList, 0f, 1f, Ease.OutExpo);
+        AnimatePanel(LevelList, 1185f, 1f, Ease.OutExpo);
+        AnimatePanel(FolderList, -1185f, 1f, Ease.OutExpo);
 
         FolderListActive = true;
         global::FolderList.instance.IsShow = true;
