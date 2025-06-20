@@ -16,6 +16,12 @@ MonoBehaviour:
   creationDate:
     ticks: 638859502847221164
   entries:
+  - logLevel: 3
+    internalTime:
+      ticks: 638859503507033553
+    message: '[Pipeline](assetlink://Assets%2fPiplines%2fPipeline.asset) Finished
+      execution'
+    context: []
   - logLevel: 0
     internalTime:
       ticks: 638859503001866895
