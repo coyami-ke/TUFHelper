@@ -144,6 +144,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public Sprite isFavoriteSprite, isNotFavoriteSprite;
 
     public LevelListInfoElementJson levelInfo;
+    static LevelListInfoElementJson levelInfoStatic;
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
     {
@@ -267,6 +268,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
+        // Donates Current Levelinfo to PPDisplayer & notify that play mode is from TUFHelper
+        PPDisplayerPatch.Levelinfo = levelInfo;
+        PPDisplayerPatch.IsFromTUFH = true;
+
         switch (args.Levels.Count)
         {
             case 0:
@@ -394,7 +399,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
 
 
-    public static void TryToLoadLevel(string levelFilePath)
+    public static void TryToLoadLevel(string levelFilePath = null)
     {
         //DownloadPopupScript.IsDownloading = false;
         HideUIFixPatch.RecentDirectLevelOpend = true;
