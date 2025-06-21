@@ -96,7 +96,7 @@ namespace TUFHelper.Utils
             { "Q4" , 0 },
             { "-21" , 0},
             { "-2" , 0 },
-            {"0" , 0},
+            { "0" , 0},
             { "P1" , 0.1},
             { "P2" , 0.2 },
             { "P3" , 0.3 },
@@ -169,7 +169,7 @@ namespace TUFHelper.Utils
             return dictionary;
         }
 
-        public static string GetSpriteFromId(int id) // i cant get the sprites for the Q diffs
+        public static string GetSpriteFromId(int id)
         {
             if (DiffIDRegister.ContainsKey(id))
             {

@@ -286,7 +286,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 break;
         }
 
-        IngameLeaderboardPatch.LevelID = this.levelInfo.ID;
+        IngameLeaderboardPatch.LevelInfo = this.levelInfo;
+        IngameLeaderboardPatch.IsInTUFHelper = true;
     }
     public static void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
     {

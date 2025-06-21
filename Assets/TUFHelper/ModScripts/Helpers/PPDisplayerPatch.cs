@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using ADOFAI.Editor;
+using ADOFAI.Editor.Actions;
 using HarmonyLib;
 using OggVorbisEncoder.Setup;
 using TUFHelper.ModScripts.Json;
@@ -77,6 +79,27 @@ namespace TUFHelper
                 }
             }
         }
+        internal class HideOrShowTUFHelperOverlayer : EditorAction
+        {
+            public override EditorTabKey sectionKey => EditorTabKey.None;
+
+            public override void Execute(scnEditor editor)
+            {
+                PPDisplayer.gameObject.SetActive(!PPDisplayer.gameObject.activeSelf);
+            }
+        }
+
+
+        [HarmonyPatch(typeof(scnEditor), "RegisterKeybinds")]
+        [HarmonyPostfix]
+        public static void HideOrShowElement()
+        {
+            var field = AccessTools.Field("keybindManager");
+            var manager = (EditorKeybindManager)field.GetValue(scnEditor.instance);
+            manager.RegisterKeybind(new EditorKeybind(KeyModifier.None, KeyCode.BackQuote, true), new HideOrShowTUFHelperOverlayer());
+            //if (Input.GetKeyDown(KeyCode.BackQuote)) PPDisplayer?.gameObject.SetActive(!PPDisplayer.gameObject.activeSelf);
+        } 
+
 
         [HarmonyPatch(typeof(scnGame), nameof(scnGame.instance.Play))]
         public static class EditorPlayPatch
@@ -84,6 +107,7 @@ namespace TUFHelper
             public static void Prefix()
             {
                 if (!IsFromTUFH) return;
+
                 if (judgements == null)
                 {
                     Main.Logger.Log("Jugement nulls!! Dies");
@@ -91,7 +115,7 @@ namespace TUFHelper
                 }
                 judgements.Reset();
                 string assetName = "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab"; // Check with GetAllAssetNames
-                speed = (float)((leveldata.pitch / 100f) * scnEditor.instance.playbackSpeed);
+                speed = leveldata.pitch / 100f * scnEditor.instance.playbackSpeed;
 
                 if (text == null)
                 {
@@ -121,7 +145,7 @@ namespace TUFHelper
                 }
                 else
                 {
-                    text.SetActive(true);
+                    text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
                     PPDisplayer.ApplySpped(speed);
                     PPDisplayer.ApplyPP(0);
                 }
@@ -191,7 +215,6 @@ namespace TUFHelper
 
                     //Main.Logger.Log($"Hold Behavior is: {scnEditor.instance.playbackSpeed} ae sPEED is: {(float)(leveldata.pitch/100)}");
                     PPDisplayer.ApplyPP(score);
-                    Main.Logger.Log(score.ToString());
                 }
                 else
                 {

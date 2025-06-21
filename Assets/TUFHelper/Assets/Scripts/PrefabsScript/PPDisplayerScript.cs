@@ -121,7 +121,7 @@ public class PPDisplayerScript : MonoBehaviour
             return 1 - EndDeduc / 100.0;
         }
 
-        private static double GetXaccMtp(Judgements input)
+        public static double GetXaccMtp(Judgements input)
         {
             double xacc = CalcAcc(input);
             double xaccPercentage = xacc * 100;
@@ -163,7 +163,7 @@ public class PPDisplayerScript : MonoBehaviour
         }
 
         // This Func is mind c:
-        private static double CalcAcc(Judgements input)
+        public static double CalcAcc(Judgements input)
         {
             // Total hits recorded so far (all judgements)
             int totalHits = input.EarlyDouble + input.LateDouble +

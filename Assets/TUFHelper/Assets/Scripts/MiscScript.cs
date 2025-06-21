@@ -53,12 +53,16 @@ public class MiscScript : MonoBehaviour
             if (SceneManager.GetActiveScene().name.Equals("TUFLevelInfo"))
             {
                 Main.isInTUFHelper = false;
+                IngameLeaderboardPatch.IsInTUFHelper = false;
+                PPDisplayerPatch.IsFromTUFH = false;
                 GCS.sceneToLoad = "";
                 SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
             }
             else
             {
                 Main.isInTUFHelper = false;
+                IngameLeaderboardPatch.IsInTUFHelper = false;
+                PPDisplayerPatch.IsFromTUFH = false;
                 GCS.sceneToLoad = "";
                 SceneManager.LoadScene("scnLevelSelect");
             }

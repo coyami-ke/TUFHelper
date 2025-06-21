@@ -82,6 +82,10 @@ namespace TUFHelper
             GUILayout.BeginHorizontal();
             Setting.StartWithGame = GUILayout.Toggle(Setting.StartWithGame, "Start With Game");
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            Setting.ShowTUFHelperOverlayer = GUILayout.Toggle(Setting.ShowTUFHelperOverlayer, "Show TUFHelper Overlayer");
+            GUILayout.EndHorizontal();
         }
 
 

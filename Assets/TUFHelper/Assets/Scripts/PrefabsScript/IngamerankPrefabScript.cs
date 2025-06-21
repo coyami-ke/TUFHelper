@@ -22,14 +22,8 @@ public class IngamerankPrefabScript : MonoBehaviour
         set
         {
             if (value == rank) return;
-
             rank = value;
-            rankText.text = "#" + rank.ToString();
-
-            rectTransform.localScale = Vector3.one;
-            rectTransform.sizeDelta = new Vector2(0, 60);
-
-            rectTransform.DOAnchorPosY((rank - 1) * -60 - 10, 0.5f).SetEase(Ease.OutBack);
+            rankText.text = $"#{rank}";
         }
     }
 
@@ -42,37 +36,30 @@ public class IngamerankPrefabScript : MonoBehaviour
 
     public void UpdateVisual()
     {
-        accuracyText.text = (PassInfo.Accuracy * 100).ToString("F2") + "%";
+        accuracyText.text = (PassInfo.Accuracy * 100f).ToString("F2") + "%";
         scoreText.text = PassInfo.ScoreV2.ToString("F2");
         nicknameText.text = PassInfo.Player.Name;
 
-        if (PassInfo.Accuracy == 1.0f)
-        {
-            gradeImage.sprite = X;
-        }
-        else if (PassInfo.Accuracy > 0.998f)
-        {
-            gradeImage.sprite = SS;
-        }
-        else if (PassInfo.Accuracy > 0.995f)
-        {
-            gradeImage.sprite = S;
-        }
-        else if (PassInfo.Accuracy > 0.990f)
-        {
-            gradeImage.sprite = A;
-        }
-        else if (PassInfo.Accuracy > 0.980f)
-        {
-            gradeImage.sprite = B;
-        }
-        else if (PassInfo.Accuracy > 0.975f)
-        {
-            gradeImage.sprite = C;
-        }
-        else
-        {
-            gradeImage.sprite = D;
-        }
+        if (PassInfo.Player.Name == "YOU") nicknameText.color = Color.yellow;
+
+        gradeImage.sprite = GetGradeSprite(PassInfo.Accuracy);
+    }
+
+    private Sprite GetGradeSprite(float acc)
+    {
+        if (acc == 1f) return X;
+        if (acc > 0.998f) return SS;
+        if (acc > 0.995f) return S;
+        if (acc > 0.990f) return A;
+        if (acc > 0.980f) return B;
+        if (acc > 0.975f) return C;
+        return D;
+    }
+
+    // Called from manager to update position in UI list
+    public void SetPosition(int visualIndex)
+    {
+        float y = visualIndex * -60f - 10f;
+        rectTransform.DOAnchorPosY(y, 1f).SetEase(Ease.OutExpo);
     }
 }

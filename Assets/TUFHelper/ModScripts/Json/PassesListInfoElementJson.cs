@@ -195,6 +195,8 @@ namespace TUFHelper.ModScripts.Json
         public string CreatedAt { get; set; }
         [JsonProperty("updatedAt")]
         public string UpdatedAt { get; set; }
+        [JsonProperty("deaths")]
+        public int Deaths { get; set; }
     }
     public class PassesListInfoElementScoreJson
     {
