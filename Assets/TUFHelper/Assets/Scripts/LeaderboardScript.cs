@@ -14,6 +14,7 @@ using UnityEngine.Networking;
 public class LeaderboardScript : MonoBehaviour
 {
     public GameObject scrollableParent, prefab, passListParent;
+    public List<PassesListInfoElementJson> LastLoadedPasses { get; private set; }
     public static LeaderboardScript instance;
 
     private CancellationTokenSource currentRequestToken;
@@ -23,7 +24,7 @@ public class LeaderboardScript : MonoBehaviour
         instance = this;
     }
 
-    public string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
+    public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
@@ -76,5 +77,7 @@ public class LeaderboardScript : MonoBehaviour
         RectTransform contentRect = passListParent.GetComponent<RectTransform>();
         float totalHeight = (rank - 1) * 75 + 30;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+
+        LastLoadedPasses = passes;
     }
 }

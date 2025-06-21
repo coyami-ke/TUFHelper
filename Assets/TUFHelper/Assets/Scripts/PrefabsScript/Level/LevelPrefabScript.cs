@@ -285,6 +285,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;
         }
+
+        IngameLeaderboardPatch.LevelID = this.levelInfo.ID;
     }
     public static void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
     {
@@ -410,7 +412,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         SceneManager.LoadScene("scnEditor");
     }
-
     public void OnPointerClick(PointerEventData eventData)
     {
         InfoButtonClick();

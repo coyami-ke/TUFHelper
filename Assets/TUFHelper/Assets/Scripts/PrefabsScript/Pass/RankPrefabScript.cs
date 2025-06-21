@@ -95,7 +95,7 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
         }
         flag.sprite = Helper.GetFlagSprite(pass.Player.Country);
     }
-    private Sprite GetGradeSprite(GradesScore grade)
+    public static Sprite GetGradeSprite(GradesScore grade)
     {
         string path = "Assets/TUFHelper/Assets/Sprites/Grades/Grade_" + grade + ".png";
         return Main.assets.LoadAsset<Sprite>(path);
