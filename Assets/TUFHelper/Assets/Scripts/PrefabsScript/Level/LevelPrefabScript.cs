@@ -144,7 +144,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public Sprite isFavoriteSprite, isNotFavoriteSprite;
 
     public LevelListInfoElementJson levelInfo;
-    static LevelListInfoElementJson levelInfoStatic;
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
     {
@@ -223,6 +222,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             }
 
             IsSelected = true;
+            LevelPrefabScript.PassList();
         }
         else
         {
@@ -230,6 +230,47 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
+    public static void PassList()
+    {
+
+        var list = LevelListScript.instance.GetLevelPrefabScripts();
+        bool flag = false;
+        for (int i = 0; i < list.Length; i++)
+        {
+            if (list[i].IsSelected) { flag = true; break; }
+        }
+        if (flag)
+            OpenPassList(GameObject.Find("PassesList"), GameObject.Find("LevelList"));
+        else
+            ClosePassList(GameObject.Find("PassesList"), GameObject.Find("LevelList"));
+    }
+    static void OpenPassList(GameObject passList, GameObject levelList)
+    {
+        float originalxpasslist = 588.73f;
+        float originalwidthllist = 1135f;
+        var seq = DOTween.Sequence().SetId("NewPassList");
+        RectTransform rtP = passList.GetComponent<RectTransform>();
+        RectTransform rtLevelList = levelList.GetComponent<RectTransform>();
+
+        if (rtP.anchoredPosition.x == originalxpasslist && rtLevelList.sizeDelta.x == originalwidthllist) return;
+        DOTween.Kill("NewPassList");
+        seq.Join(rtP.DOAnchorPos(new Vector2(originalxpasslist, rtP.anchoredPosition.y), 0.3f)).SetEase(Ease.OutQuad);
+        seq.Join(rtLevelList.DOSizeDelta(new Vector2(originalwidthllist, rtLevelList.sizeDelta.y), 0.3f)).SetEase(Ease.OutQuad);
+    }
+
+    static void ClosePassList(GameObject passList, GameObject levelList)
+    {
+        float awayxpasslist = 588.73f + 875;
+        float newwidthllist = 1857;
+        var seq = DOTween.Sequence().SetId("UnPassList");
+        RectTransform rtP = passList.GetComponent<RectTransform>();
+        RectTransform rtLevelList = levelList.GetComponent<RectTransform>();
+
+        if (rtP.anchoredPosition.x == awayxpasslist && rtLevelList.sizeDelta.x == newwidthllist) return;
+        DOTween.Kill("UnPassList");
+        seq.Join(rtP.DOAnchorPos(new Vector2(awayxpasslist, rtP.anchoredPosition.y), 0.3f)).SetEase(Ease.OutQuad);
+        seq.Join(rtLevelList.DOSizeDelta(new Vector2(newwidthllist, rtLevelList.sizeDelta.y), 0.3f)).SetEase(Ease.OutQuad);
+    }
 
     private void ExceptionCatch(Exception ex)
     {

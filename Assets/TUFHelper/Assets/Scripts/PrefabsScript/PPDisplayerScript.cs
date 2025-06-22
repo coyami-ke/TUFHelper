@@ -186,7 +186,6 @@ public class PPDisplayerScript : MonoBehaviour
                 (0.2 * input.LateDouble)
             ) / totalHits;
 
-            // Multiply by weighted accuracy to get progressive effective accuracy over the whole level
             return accuracy;
         }
 
