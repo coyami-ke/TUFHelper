@@ -185,17 +185,16 @@ public class MiscScript : MonoBehaviour
 
                 if (DownloadPanel.instance.IsDownloading) return;
 
-
+                selectedLevel = level; // ✅ FIX HERE
             }
-
         }
 
         ErrorScript.instance.gameObject.SetActive(false);
 
         try
         {
-
-            LevelDownloader levelDownloder = new(selectedLevel.DlLink)
+            if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL"); // selectedLevel is null ._.
+            LevelDownloader levelDownloder = new(selectedLevel.DlLink) //null exception
             {
                 ErrorHandler = (ex) =>
                 {
@@ -217,6 +216,7 @@ public class MiscScript : MonoBehaviour
     private void ExceptionCatch(Exception ex)
     {
         ErrorScript.ShowError(ex.Message);
+        Main.Logger.Error(ex.Message + ex.StackTrace);
     }
 
     private LevelListInfoElementJson lastLevel;

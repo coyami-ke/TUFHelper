@@ -103,6 +103,8 @@ namespace TUFHelper
    
                         Time.timeScale = 1;
                         GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
+                        IngameLeaderboardPatch.IsInTUFHelper = false;
+                        PPDisplayerPatch.IsFromTUFH = false;
                         scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                         return false;
                     }
@@ -120,6 +122,8 @@ namespace TUFHelper
                 {
                     Time.timeScale = 1;
                     GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
+                    IngameLeaderboardPatch.IsInTUFHelper = false;
+                    PPDisplayerPatch.IsFromTUFH = false;
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                     return false;
                 }
