@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using TUFHelper.Utils;
 using System.IO;
 using System.Runtime.CompilerServices;
+using DG.Tweening;
 
 public class LevelListViewModel
 {
@@ -214,7 +215,9 @@ public class LevelListScript : MonoBehaviour
         }
 
         var selected = levelPrefabs[index];
+        LevelPrefabScript.PassList();
     }
+
     public IOrderedEnumerable<LevelListInfoElementJson> SortLevels(IEnumerable<LevelListInfoElementJson> levels)
     {
         switch (DefaultRequest.SortBy)
@@ -242,6 +245,7 @@ public class LevelListScript : MonoBehaviour
     }
     public async Task UpdateLevelListAsync()
     {
+        DeselectAll();
         requestCancelToken?.Cancel();
         requestCancelToken = new CancellationTokenSource();
         CancellationToken token = requestCancelToken.Token;
@@ -400,6 +404,7 @@ public class LevelListScript : MonoBehaviour
         {
             isLoading = false;
         }
+        LevelPrefabScript.PassList();
     }
 
     
@@ -415,6 +420,7 @@ public class LevelListScript : MonoBehaviour
         {
             level.IsSelected = false;
         }
+        LevelPrefabScript.PassList();
     }
     public int GetIndexSelected()
     {
@@ -430,7 +436,7 @@ public class LevelListScript : MonoBehaviour
         return -1;
     }
     
-    private LevelPrefabScript[] GetLevelPrefabScripts() =>
+    public LevelPrefabScript[] GetLevelPrefabScripts() =>
     instance.levelListParent
         .GetComponentsInChildren<LevelPrefabScript>(includeInactive: false);
 }
