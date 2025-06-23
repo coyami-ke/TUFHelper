@@ -26,7 +26,7 @@ public class FolderCreator : MonoBehaviour
     }
     public void ShowMenu()
     {
-        IsMenuActive = true;
+        IsMenuActive = !IsMenuActive;
     }
     public void AddFolder()
     {

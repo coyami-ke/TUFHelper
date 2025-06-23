@@ -98,8 +98,8 @@ namespace TUFHelper
         [HarmonyPostfix]
         public static void Postfix(HitMargin hit)
         {
-            var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
             if (!IsInTUFHelper) return;
+            var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
             switch (hit)
             {
                 case HitMargin.TooEarly:

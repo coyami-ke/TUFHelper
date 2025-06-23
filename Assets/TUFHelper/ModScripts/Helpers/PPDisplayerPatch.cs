@@ -136,6 +136,7 @@ namespace TUFHelper
                         PPDisplayer = text.transform.GetComponentInChildren<PPDisplayerScript>();
                         PPDisplayer.ApplySpped(speed);
                         PPDisplayer.ApplyPP(0);
+                        text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
                         PPDisplayerScript.FloorCount = FloorCount;
                     }
                     else
