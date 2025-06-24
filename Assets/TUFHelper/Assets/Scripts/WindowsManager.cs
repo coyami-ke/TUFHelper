@@ -109,25 +109,25 @@ public class WindowsManager : MonoBehaviour
             tween.OnComplete(onComplete);
     }
 
-    public void ShowPassList()
-    {
-        var list = LevelListScript.instance.GetLevelPrefabScripts();
-        bool flag = false;
-        for (int i = 0; i < list.Length; i++)
-        {
-            if (list[i].IsSelected) { flag = true; break; }
-        }
-        if (flag)
-        {
-            AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo);
-            AnimatePanelPos(LevelList, 0f, 1f, Ease.OutExpo);
-            AnimatePanelSize(LevelList, 0f, 0f, 1f, Ease.OutExpo);
-        }
-        else
-        {
-            AnimatePanelPos(PassesList, -800f, 1f, Ease.OutExpo);
-            AnimatePanelPos(LevelList, -365f, 1f, Ease.OutExpo);
-            AnimatePanelSize(LevelList, 710f, 0f, 1f, Ease.OutExpo);
-        }
-    }
+    // public void ShowPassList()
+    // {
+    //     var list = LevelListScript.instance.GetLevelPrefabScripts();
+    //     bool flag = false;
+    //     for (int i = 0; i < list.Length; i++)
+    //     {
+    //         if (list[i].IsSelected) { flag = true; break; }
+    //     }
+    //     if (flag)
+    //     {
+    //         AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo);
+    //         AnimatePanelPos(LevelList, 0f, 1f, Ease.OutExpo);
+    //         AnimatePanelSize(LevelList, 0f, 0f, 1f, Ease.OutExpo);
+    //     }
+    //     else
+    //     {
+    //         AnimatePanelPos(PassesList, -800f, 1f, Ease.OutExpo);
+    //         AnimatePanelPos(LevelList, -365f, 1f, Ease.OutExpo);
+    //         AnimatePanelSize(LevelList, 710f, 0f, 1f, Ease.OutExpo);
+    //     }
+    // }
 }

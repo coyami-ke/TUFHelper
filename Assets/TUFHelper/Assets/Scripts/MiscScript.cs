@@ -222,6 +222,12 @@ public class MiscScript : MonoBehaviour
     private LevelListInfoElementJson lastLevel;
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
+        IngameLeaderboardPatch.LevelInfo = lastLevel;
+        IngameLeaderboardPatch.IsInTUFHelper = true;
+
+        PPDisplayerPatch.Levelinfo = lastLevel;
+        PPDisplayerPatch.IsFromTUFH = true;
+
         switch (args.Levels.Count)
         {
             case 0:
@@ -236,5 +242,4 @@ public class MiscScript : MonoBehaviour
                 break;
         }
     }
-    
 }

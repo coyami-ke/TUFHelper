@@ -215,7 +215,7 @@ public class LevelListScript : MonoBehaviour
         }
 
         var selected = levelPrefabs[index];
-        WindowsManager.instance.ShowPassList();
+        //WindowsManager.instance.ShowPassList();
     }
 
     public IOrderedEnumerable<LevelListInfoElementJson> SortLevels(IEnumerable<LevelListInfoElementJson> levels)
@@ -419,7 +419,7 @@ public class LevelListScript : MonoBehaviour
         {
             level.IsSelected = false;
         }
-        WindowsManager.instance.ShowPassList();
+        //WindowsManager.instance.ShowPassList();
     }
     public int GetIndexSelected()
     {

@@ -1881,6 +1881,7 @@ MonoBehaviour:
   scrollView: {fileID: 0}
   folderButton: {fileID: 9149335362912521862}
   favoriteButton: {fileID: 7621866151997729903}
+  addToFolderButton: {fileID: 1755774130674962495}
   favoriteImage: {fileID: 69289062868395979}
   isFavoriteSprite: {fileID: 21300000, guid: 2212b7cfd6fe52f46a173deaa6edc795, type: 3}
   isNotFavoriteSprite: {fileID: 21300000, guid: 2824c576f73ceaf45afb3e71e27d4787, type: 3}

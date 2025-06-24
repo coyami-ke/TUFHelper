@@ -152,6 +152,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             folderButton.SetActive(false);
             favoriteButton.SetActive(false);
+            addToFolderButton.SetActive(false);
         }
 
         if (string.IsNullOrEmpty(levelInfo.DlLink))
@@ -222,7 +223,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             }
 
             IsSelected = true;
-            WindowsManager.instance.ShowPassList();
+            //sWindowsManager.instance.ShowPassList();
         }
         else
         {

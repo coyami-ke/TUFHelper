@@ -51,7 +51,7 @@ namespace TUFHelper
             if (!IsInTUFHelper) return;
 
             PassesListInfoElementJson[] passes = await GetPasses(LevelInfo.ID);
-            
+
             if (IngameLeaderboardScript.instance != null)
             {
                 IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer);
@@ -162,10 +162,10 @@ namespace TUFHelper
 
                 //Main.Logger.Log($"Hold Behavior is: {scnEditor.instance.playbackSpeed} ae sPEED is: {(float)(leveldata.pitch/100)}");
                 IngameLeaderboardScript.PlayerRankPrefab.PassInfo.ScoreV2 = (float)score;
-                IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Accuracy = (float)PPDisplayerScript.ScoreCalculator.GetXaccMtp(judg) / 10;
+                IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
                 IngameLeaderboardScript.PlayerRankPrefab.UpdateVisual();
                 IngameLeaderboardScript.instance.UpdateRanks();
-                
+
                 // Main.Logger.Log(score.ToString());
             }
             else
@@ -173,5 +173,6 @@ namespace TUFHelper
                 //PPDisplayer.ApplyPP(-1310);
             }
         }
+        
     }
 }
