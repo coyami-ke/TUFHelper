@@ -68,15 +68,22 @@ public class WindowsManager : MonoBehaviour
         global::FolderList.instance.IsShow = false;
     }
 
+    private bool isTransitioning = false;
+
     public void MoveToFolderList()
     {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
         if (!FolderList.activeSelf)
             FolderList.SetActive(true);
 
         AnimatePanelPos(PassInfo, 0f, 1f, Ease.OutExpo);
         AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo);
         AnimatePanelPos(LevelList, 1185f, 1f, Ease.OutExpo);
-        AnimatePanelPos(FolderList, -1185f, 1f, Ease.OutExpo);
+        AnimatePanelPos(FolderList, -1185f, 1f, Ease.OutExpo, 0f, () => {
+            isTransitioning = false;
+        });
 
         FolderListActive = true;
         global::FolderList.instance.IsShow = true;

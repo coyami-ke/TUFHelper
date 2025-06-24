@@ -10,7 +10,7 @@ public class GroupByFoldersToggle : MonoBehaviour
 
     public void Start()
     {
-        if (toggle != null) toggle.isOn = Main.Setting.GroupByFolders;
+        //if (toggle != null) toggle.isOn = Main.Setting.GroupByFolders;
         this.gameObject.SetActive(Main.Setting.ShowOnlyDownloaded);
     }
 

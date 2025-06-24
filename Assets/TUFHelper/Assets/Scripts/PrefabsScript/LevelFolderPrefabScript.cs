@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,5 +26,14 @@ public class LevelFolderPrefabScript : MonoBehaviour, IPointerClickHandler
         LevelListScript.instance.UpdateLevelList();
 
         WindowsManager.instance.MoveToLevelList();
+    }
+
+    public void Remove()
+    {
+        Main.Setting.LevelFolders.Remove(FolderInfo);
+
+        Main.Setting.Save(Main.ModEntry);
+
+        FolderList.instance.UpdateFolderList();
     }
 }

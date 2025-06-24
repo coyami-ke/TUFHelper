@@ -299,7 +299,7 @@ public class LevelListScript : MonoBehaviour
                 // Filter by group
                 if (GroupByFolder)
                 {
-                    if (!LevelFolder.Levels.Contains(level.ID))
+                    if (LevelFolder != null && !LevelFolder.Levels.Contains(level.ID))
                         return false;
                 }
 
