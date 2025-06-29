@@ -112,20 +112,17 @@ SubShader {
 
 	Pass {
 		CGPROGRAM
-		#pragma target 3.0
-		#pragma vertex VertShader
-		#pragma fragment PixShader
-		#pragma shader_feature __ BEVEL_ON
-		#pragma shader_feature __ UNDERLAY_ON UNDERLAY_INNER
-		#pragma shader_feature __ GLOW_ON
+		// Lower shader target to be safe for Linux GPUs:
+		#pragma target 2.0
 
-		#pragma multi_compile __ UNITY_UI_CLIP_RECT
-		#pragma multi_compile __ UNITY_UI_ALPHACLIP
+		// Simplify or disable heavy features by default:
+		#pragma shader_feature_local BEVEL_ON
+		#pragma shader_feature_local UNDERLAY_ON UNDERLAY_INNER
+		#pragma shader_feature_local GLOW_ON
 
-		#include "UnityCG.cginc"
-		#include "UnityUI.cginc"
-		#include "TMPro_Properties.cginc"
-		#include "TMPro.cginc"
+		// At the end:
+		Fallback "Unlit/Transparent"
+
 
 		struct vertex_t {
 			UNITY_VERTEX_INPUT_INSTANCE_ID

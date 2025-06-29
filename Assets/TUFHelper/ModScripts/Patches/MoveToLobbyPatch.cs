@@ -14,6 +14,24 @@ namespace TUFHelper
 {
     public static class MoveToLobbyPatch
     {
+        public static void MoveToTUFMenu()
+        {
+            GCS.sceneToLoad = "";
+            scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
+            {
+                Main.isInTUFHelper = true;
+                string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
+                if (!string.IsNullOrEmpty(scenePath))
+                {
+                    SceneManager.LoadScene(scenePath);
+                }
+                else
+                {
+                    Main.Logger.Error("Scene 'TUFLevelSelect' not found in AssetBundle. :sob:");
+                }
+            });
+        }
+
 
         [HarmonyPatch]
         public static class TogetherEnter
@@ -37,7 +55,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu();// SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
                     });
                 }
             }
@@ -58,7 +76,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu(); //SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
                     });
                     isFirst = false;
                 }
@@ -82,7 +100,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu(); //SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
                     });
                     return false;
                 }
