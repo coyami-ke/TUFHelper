@@ -14,7 +14,7 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
 {
     public enum GradesScore
     {
-        X,
+        PP,
         SS,
         S,
         A,
@@ -67,7 +67,7 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
         if (pass.Accuracy == 1.0f)
         {
-            grade.sprite = GetGradeSprite(GradesScore.X);
+            grade.sprite = GetGradeSprite(GradesScore.PP);
         }
         else if (pass.Accuracy > 0.998f)
         {

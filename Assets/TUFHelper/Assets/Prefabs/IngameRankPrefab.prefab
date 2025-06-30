@@ -529,7 +529,7 @@ MonoBehaviour:
   rankText: {fileID: 1222982254968130541}
   rectTransform: {fileID: 1851850413740538374}
   gradeImage: {fileID: 7690106948850456061}
-  X: {fileID: 21300000, guid: 0229507862cd4b542b8e058105f6bcb1, type: 3}
+  PP: {fileID: 21300000, guid: 9b4c81adcaf1eeb49ba4fda65ce0e9ff, type: 3}
   SS: {fileID: 21300000, guid: 5df099a09e0b01c438c295dada6ebd22, type: 3}
   S: {fileID: 21300000, guid: bc6e5c2fc8f71ac4bbeac073b986d343, type: 3}
   A: {fileID: 21300000, guid: 06e234d5e759d274497c07b0f08d588c, type: 3}

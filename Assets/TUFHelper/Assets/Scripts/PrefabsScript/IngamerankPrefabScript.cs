@@ -11,7 +11,7 @@ public class IngamerankPrefabScript : MonoBehaviour
     public TextMeshProUGUI accuracyText, scoreText, nicknameText, rankText;
     public RectTransform rectTransform;
     public Image gradeImage;
-    public Sprite X, SS, S, A, B, C, D;
+    public Sprite PP, SS, S, A, B, C, D;
 
     public PassesListInfoElementJson PassInfo { get; private set; }
 
@@ -47,7 +47,7 @@ public class IngamerankPrefabScript : MonoBehaviour
 
     private Sprite GetGradeSprite(float acc)
     {
-        if (acc == 1f) return X;
+        if (acc == 1f) return PP;
         if (acc > 0.998f) return SS;
         if (acc > 0.995f) return S;
         if (acc > 0.990f) return A;
