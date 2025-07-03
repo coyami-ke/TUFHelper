@@ -6,6 +6,7 @@ using TMPro;
 using TUFHelper;
 using TUFHelper.AccountSystem;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class AccountScript : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class AccountScript : MonoBehaviour
 
     public GameObject background, window;
 
-    public TextMeshProUGUI nicknameText, tagText;
+    public TextMeshProUGUI nicknameText, tagText, errorMessage;
 
     public static AccountScript instance { get; private set; }
 
@@ -29,7 +30,7 @@ public class AccountScript : MonoBehaviour
     {
         try
         {
-            await GetToken(); // Await the task so exceptions are catchable
+            await GetToken();
         }
         catch (Exception ex)
         {
@@ -37,10 +38,31 @@ public class AccountScript : MonoBehaviour
         }
     }
 
+    public void HideWindow()
+    {
+        background.SetActive(false);
+        window.SetActive(false);
+    }
+
     private async Task GetToken()
     {
         await request.TryGetToken(email.text, password.text);
-        AccountInfo = await request.GetInfoAboutMe();
+
+        switch (request.LastResponseCode)
+        {
+            case 401:
+                errorMessage.text = "Wrong Email/Username or Password";
+                return;
+            case 400:
+                errorMessage.text = "Wrong formal";
+                return;
+            case 404:
+                errorMessage.text = "Hmmn, the site crashed. Please try again later. Code: 404";
+                return;
+            case 200:
+                AccountInfo = await request.GetInfoAboutMe();
+                return;
+        }
     }
 
 

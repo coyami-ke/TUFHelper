@@ -56,6 +56,8 @@ namespace TUFHelper.AccountSystem
         public const string DEFAULT_ME_URL = "https://api.tuforums.com/v2/auth/profile/me";
         public const string DEFAULT_DISCORD_LOGIN_URL = "https://api.tuforums.com/v2/auth/oauth/discord";
 
+        public int LastResponseCode { get; private set; } = 0;
+
         public string Token { get; private set; }
 
         public async Task<FullInfoAboutMyAccount> GetInfoAboutMe()
@@ -73,11 +75,16 @@ namespace TUFHelper.AccountSystem
                     var responseString = request.downloadHandler.text;
                     var jsonResponse = JsonConvert.DeserializeObject<FullInfoAboutMyAccount>(responseString);
 
+                    LastResponseCode = (int)request.responseCode;
+
                     return jsonResponse;
                 }
                 else
                 {
                     Main.Logger.Error($"The mod could not get information about your accoount.");
+
+                    LastResponseCode = (int)request.responseCode;
+
                     return null;
                 }
             }
@@ -137,6 +144,8 @@ namespace TUFHelper.AccountSystem
             {
                 Main.Logger.Error($"Exception during token retrieval: {ex.Message}");
             }
+
+            LastResponseCode = (int)request.responseCode;
         }
 
         private static Task SendWebRequestAsync(UnityWebRequest request)
