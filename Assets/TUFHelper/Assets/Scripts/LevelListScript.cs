@@ -335,7 +335,7 @@ public class LevelListScript : MonoBehaviour
             }
 
             RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-            float totalHeight = (filteredLevels.Count + 1) * 125 + 90;
+            float totalHeight = filteredLevels.Count * 125 + 90;
             contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
             ViewModel.LevelPrefabScripts.AddRange(levels.ToArray());
