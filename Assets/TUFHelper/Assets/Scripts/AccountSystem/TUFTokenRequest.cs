@@ -58,8 +58,24 @@ namespace TUFHelper.AccountSystem
 
         public int LastResponseCode { get; private set; } = 0;
 
-        public string Token { get; private set; }
+        public string Token { get; set; }
 
+        public async Task<byte[]> GetPfpFromURL(string url)
+        {
+            using UnityWebRequest www = UnityWebRequest.Get(url);
+            var operation = www.SendWebRequest();
+
+            while (!operation.isDone)
+                await Task.Yield();
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Main.Logger.Error($"Failed to download profile picture: {www.error}");
+                return null;
+            }
+
+            return www.downloadHandler.data;
+        }
         public async Task<FullInfoAboutMyAccount> GetInfoAboutMe()
         {
             using UnityWebRequest request = new(DEFAULT_ME_URL, UnityWebRequest.kHttpVerbGET);

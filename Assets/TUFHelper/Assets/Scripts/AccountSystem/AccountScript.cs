@@ -1,20 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using TUFHelper.AccountSystem;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class AccountScript : MonoBehaviour
 {
-    private readonly TUFTokenRequest request = new();
+    private TUFTokenRequest request = new();
+    private AccountSaver accountSaver = new();
 
     public TMP_InputField email, password;
 
-    public GameObject background, window;
+    public GameObject background, window, signInButton, logOutButton;
+    public Image pfpImage;
 
     public TextMeshProUGUI nicknameText, tagText, errorMessage;
 
@@ -22,10 +27,68 @@ public class AccountScript : MonoBehaviour
 
     public FullInfoAboutMyAccount AccountInfo { get; private set; }
 
+    public bool IsSignedIn { get; private set; } = false;
+
     public void Awake()
     {
         if (instance == null) instance = this;
     }
+
+    public async void LoadProfilePicture(string url)
+    {
+        byte[] imageData = await request.GetPfpFromURL(url);
+        if (imageData == null) return;
+
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(imageData);
+
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        pfpImage.sprite = sprite;
+    }
+
+    public async void Start()
+    {
+        if (File.Exists(AccountSaver.PATH_TO_ACCOUNT_FILE))
+        {
+            accountSaver = AccountSaver.GetAccount();
+            request.Token = accountSaver.Token;
+
+            AccountInfo = await request.GetInfoAboutMe();
+
+            IsSignedIn = request.LastResponseCode == 200;
+        }
+        else
+        {
+            IsSignedIn = false;
+        }
+
+        UpdateAccountVisuals();
+    }
+
+
+    public void UpdateAccountVisuals()
+    {
+        if (IsSignedIn && AccountInfo?.User != null)
+        {
+            nicknameText.text = AccountInfo.User.Username;
+            tagText.text = "@" + AccountInfo.User.Nickname;
+
+            signInButton.SetActive(false);
+            logOutButton.SetActive(true);
+            pfpImage.gameObject.SetActive(true);
+
+            LoadProfilePicture(AccountInfo.User.AvatarUrl);
+        }
+        else
+        {
+            nicknameText.text = "";
+            tagText.text = "";
+            signInButton.SetActive(true);
+            logOutButton.SetActive(false);
+            pfpImage.gameObject.SetActive(false);
+        }
+    }
+
     public async void EnterButton()
     {
         try
@@ -35,7 +98,22 @@ public class AccountScript : MonoBehaviour
         catch (Exception ex)
         {
             Main.Logger.Error("Login exception: " + ex.Message);
+            errorMessage.text = "An error occurred during login.";
         }
+    }
+
+    public void LogOut()
+    {
+        if (File.Exists(AccountSaver.PATH_TO_ACCOUNT_FILE))
+        {
+            File.Delete(AccountSaver.PATH_TO_ACCOUNT_FILE);
+        }
+
+        IsSignedIn = false;
+        request = new();
+        accountSaver = new();
+
+        UpdateAccountVisuals();
     }
 
     public void HideWindow()
@@ -54,17 +132,27 @@ public class AccountScript : MonoBehaviour
                 errorMessage.text = "Wrong Email/Username or Password";
                 return;
             case 400:
-                errorMessage.text = "Wrong formal";
+                errorMessage.text = "Invalid format or input data.";
                 return;
             case 404:
                 errorMessage.text = "Hmmn, the site crashed. Please try again later. Code: 404";
                 return;
             case 200:
                 AccountInfo = await request.GetInfoAboutMe();
+                accountSaver.Token = request.Token;
+                accountSaver.Save();
+                Main.Logger.Log("The token has been saved!");
+
+                IsSignedIn = true;
+
+                UpdateAccountVisuals();
+                HideWindow();
+                return;
+            default:
+                errorMessage.text = $"Unexpected error. Code: {request.LastResponseCode}";
                 return;
         }
     }
-
 
     public void SignInButtonClick()
     {
@@ -72,6 +160,7 @@ public class AccountScript : MonoBehaviour
         tagText.text = "";
         email.text = "";
         password.text = "";
+        errorMessage.text = "";
 
         background.SetActive(true);
         window.SetActive(true);
