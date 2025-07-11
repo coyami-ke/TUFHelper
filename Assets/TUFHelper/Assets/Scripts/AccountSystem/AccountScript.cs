@@ -14,7 +14,7 @@ using UnityEngine.UI;
 public class AccountScript : MonoBehaviour
 {
     private TUFTokenRequest request = new();
-    private AccountSaver accountSaver = new();
+    public AccountSaver AccountSaver { get; private set; } = new();
 
     public TMP_InputField email, password;
 
@@ -50,8 +50,8 @@ public class AccountScript : MonoBehaviour
     {
         if (File.Exists(AccountSaver.PATH_TO_ACCOUNT_FILE))
         {
-            accountSaver = AccountSaver.GetAccount();
-            request.Token = accountSaver.Token;
+            AccountSaver = AccountSaver.GetAccount();
+            request.Token = AccountSaver.Token;
 
             AccountInfo = await request.GetInfoAboutMe();
 
@@ -87,6 +87,8 @@ public class AccountScript : MonoBehaviour
             logOutButton.SetActive(false);
             pfpImage.gameObject.SetActive(false);
         }
+
+        AccountSettings.instance.UpdateSettings();
     }
 
     public async void EnterButton()
@@ -111,7 +113,7 @@ public class AccountScript : MonoBehaviour
 
         IsSignedIn = false;
         request = new();
-        accountSaver = new();
+        AccountSaver = new();
 
         UpdateAccountVisuals();
     }
@@ -139,8 +141,8 @@ public class AccountScript : MonoBehaviour
                 return;
             case 200:
                 AccountInfo = await request.GetInfoAboutMe();
-                accountSaver.Token = request.Token;
-                accountSaver.Save();
+                AccountSaver.Token = request.Token;
+                AccountSaver.Save();
                 Main.Logger.Log("The token has been saved!");
 
                 IsSignedIn = true;

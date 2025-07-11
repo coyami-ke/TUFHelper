@@ -27,7 +27,10 @@ public class CustomMusicPlayer : MonoBehaviour
         }
 
         string url = "file://" + path;
-        UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
+        UnityWebRequest uwr; // = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
+        if (path.EndsWith(".ogg")) uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
+        else if (path.EndsWith(".mp3")) uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.MPEG);
+        else yield break;
         ((DownloadHandlerAudioClip)uwr.downloadHandler).streamAudio = true; // Enable streaming
 
         yield return uwr.SendWebRequest();

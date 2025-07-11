@@ -27,8 +27,19 @@ namespace TUFHelper
 
         public static void Initialize(ModEntry modEntry)
         {
-            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_assets.bundle"));
-            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_scenes.bundle"));
+            string path = "";
+            var dirs = Directory.GetDirectories("Mods");
+            foreach (var dir in dirs)
+            {
+                if (dir.StartsWith("TUFHelper"))
+                {
+                    path = Path.GetDirectoryName(dir);
+                    break;
+                }
+            }
+
+            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", path, "assets", "tuf_assets.bundle"));
+            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", path, "assets", "tuf_scenes.bundle"));
 
             ModEntry = modEntry;
             Logger = modEntry.Logger;

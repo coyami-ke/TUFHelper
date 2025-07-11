@@ -24,6 +24,7 @@ namespace TUFHelper
                 if (!string.IsNullOrEmpty(scenePath))
                 {
                     SceneManager.LoadScene(scenePath);
+                    DiscordController.shouldUpdatePresence = true;
                 }
                 else
                 {

@@ -54,7 +54,7 @@ namespace TUFHelper
 
             if (IngameLeaderboardScript.instance != null)
             {
-                IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer);
+                IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer || (AccountSettings.instance != null && AccountSettings.instance.IsRatingMode));
                 IngameLeaderboardScript.instance.StartCoroutine(
                     IngameLeaderboardScript.instance.LoadLeaderboardAsync(passes)
                 );
@@ -98,7 +98,7 @@ namespace TUFHelper
         [HarmonyPostfix]
         public static void Postfix(HitMargin hit)
         {
-            if (!IsInTUFHelper) return;
+            if (!IsInTUFHelper || IngameLeaderboardScript.PlayerRankPrefab == null) return;
             var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
             switch (hit)
             {

@@ -6,7 +6,7 @@ namespace TUFHelper.Utils
 {
     public static class DiffSpriteHelper
     {
-        public const string PATH_TO_DIFF_SPRITES = "Assets/TUFHelper/Assets/Sprites/DiffIcons/";
+        public const string PATH_TO_DIFF_SPRITES = "Assets/TUFHelper/Assets/Sprites/DiffIcons/"; // https://api.tuforums.com/v2/database/difficulties
         public static readonly Dictionary<int, string> DiffIDRegister = new()
         {
             { 1004, "Gimmick" },
@@ -18,8 +18,15 @@ namespace TUFHelper.Utils
             { 10004, "Q3" },
             { 10005, "Q3+" },
             { 10006, "Q4" },
-            { 10101, "-21"},
-            { 1000, "-2" },
+            { 10101, "Impossible"},
+            { 1000, "Censored" },
+            { 12314234, "U1J" },
+            { 3434123, "U5J"},
+            { 3412343, "U6J" }, 
+            { 103293, "U7J" },
+            { 423142314, "U9J" },
+            { 12312341, "U11J" },
+            { 3452345, "U15J" },
             { 0, "0" },
             { 1, "P1" },
             { 2, "P2" },
@@ -94,8 +101,8 @@ namespace TUFHelper.Utils
             { "Q3" , 0 },
             { "Q3+" , 0 },
             { "Q4" , 0 },
-            { "-21" , 0},
-            { "-2" , 0 },
+            { "Impossible" , 0},
+            { "Censored" , 0 },
             { "0" , 0},
             { "P1" , 0.1},
             { "P2" , 0.2 },
@@ -185,8 +192,15 @@ namespace TUFHelper.Utils
                 "Gimmick" => true,
                 "U13J" => true,
                 "Marathon" => true,
-                "-21" => true,
-                "-2" => true,
+                "Impossible" => true,
+                "Censored" => true,
+                "U1J" => true,
+                "U5J" => true,
+                "U6J" => true,
+                "U7J" => true,
+                "U9J" => true,
+                "U11J" => true,
+                "U15J" => true,
                 "Qq" => true,
                 "Q2" => true,
                 "Q2+" => true,
@@ -195,14 +209,27 @@ namespace TUFHelper.Utils
                 "Q4" => true,
                 _ => false,
             };
+            // { 12314234, "U1J" },
+            // { 3434123, "U5J "},
+            // { 3412343, "U6J" }, 
+            // { 103293, "U7J" },
+            // { 423142314, "U9J" },
+            // { 12312341, "U11J" },
+            // { 3452345, "U15J" },
         }
         public static bool IsSpecialDiff(int diff)
         {
-            return diff switch
+            return diff switch// add support for other UJ difficulties and replace the old icon (-21 and -2) to the new ones
             {
                 0 => true,
                 1004 => true,
                 10006123 => true,
+                12314234 => true,
+                3434123 => true,
+                103293 => true,
+                423142314 => true,
+                12312341 => true,
+                3452345 => true,
                 1003 => true,
                 10100 => true,
                 10002 => true,
@@ -214,6 +241,13 @@ namespace TUFHelper.Utils
                 1000 => true,
                 _ => false,
             };
+            // { 12314234, "U1J" },
+            // { 3434123, "U5J "},
+            // { 3412343, "U6J" }, 
+            // { 103293, "U7J" },
+            // { 423142314, "U9J" },
+            // { 12312341, "U11J" },
+            // { 3452345, "U15J" },
             // { 1004, "Gimmick" },
             // { 10006123, "U13J" },
             // { 1003, "Marathon" },

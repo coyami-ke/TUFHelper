@@ -90,8 +90,14 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
                     string oggFile = Directory.GetFiles(levelOffline.NameFolder)
                                             .FirstOrDefault(f => f.EndsWith(".ogg"));
+                    string mp3File = Directory.GetFiles(levelOffline.NameFolder)
+                                            .FirstOrDefault(f => f.EndsWith(".mp3"));
                     if (oggFile != null)
                         StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
+                    else if (mp3File != null)
+                    {
+                        StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
+                    }
                     else if (Main.Setting.PlayBackgroundMusic)
                         CustomMusicPlayer.instance.StopPlay();
                     LevelInfo.instance.IsShow = true;
