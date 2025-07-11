@@ -38,8 +38,8 @@ namespace TUFHelper
                 }
             }
 
-            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", path, "assets", "tuf_assets.bundle"));
-            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", path, "assets", "tuf_scenes.bundle"));
+            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_assets.bundle"));
+            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_scenes.bundle"));
 
             ModEntry = modEntry;
             Logger = modEntry.Logger;

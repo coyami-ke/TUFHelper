@@ -136,7 +136,12 @@ namespace TUFHelper
                         PPDisplayer = text.transform.GetComponentInChildren<PPDisplayerScript>();
                         PPDisplayer.ApplySpped(speed);
                         PPDisplayer.ApplyPP(0);
-                        text.SetActive(Main.Setting.ShowTUFHelperOverlayer || (AccountSettings.instance != null && AccountSettings.instance.IsRatingMode));
+
+                        var account = AccountSaver.GetAccount();
+                        if (account == null) text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
+                        else text.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
+
+                        
                         PPDisplayerScript.FloorCount = FloorCount;
                     }
                     else
@@ -146,7 +151,10 @@ namespace TUFHelper
                 }
                 else
                 {
-                    text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
+                    var account = AccountSaver.GetAccount();
+                    if (account == null) text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
+                    else text.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
+
                     PPDisplayer.ApplySpped(speed);
                     PPDisplayer.ApplyPP(0);
                 }

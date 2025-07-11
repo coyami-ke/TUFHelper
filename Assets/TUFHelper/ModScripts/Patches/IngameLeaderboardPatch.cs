@@ -19,7 +19,6 @@ namespace TUFHelper
     {
         public static bool IsInTUFHelper { get; set; }
         public static LevelListInfoElementJson LevelInfo { get; set; }
-
         [HarmonyPatch(typeof(scnEditor), "Start")]
         [HarmonyPrefix]
         public static void StartEditor()
@@ -54,7 +53,10 @@ namespace TUFHelper
 
             if (IngameLeaderboardScript.instance != null)
             {
-                IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer || (AccountSettings.instance != null && AccountSettings.instance.IsRatingMode));
+                var account = AccountSaver.GetAccount();
+                if (account == null) IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer);
+                else IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
+                
                 IngameLeaderboardScript.instance.StartCoroutine(
                     IngameLeaderboardScript.instance.LoadLeaderboardAsync(passes)
                 );
