@@ -7,6 +7,7 @@ using TUFHelper.ModScripts.Helpers;
 using TUFHelper.Utils;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
+using System;
 
 namespace TUFHelper 
 {
@@ -25,24 +26,46 @@ namespace TUFHelper
         internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
-        public static void Initialize(ModEntry modEntry)
+        private static string FindTUFHelperPath()
         {
-            string path = "";
-            var dirs = Directory.GetDirectories("Mods");
-            foreach (var dir in dirs)
+            var modDirectories = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "Mods"), "*", SearchOption.AllDirectories);
+            foreach (var dir in modDirectories)
             {
-                if (dir.StartsWith("TUFHelper"))
+                if (Path.GetFileName(dir).StartsWith("TUFHelper", StringComparison.OrdinalIgnoreCase))
                 {
-                    path = Path.GetDirectoryName(dir);
-                    break;
+                    return dir;
                 }
             }
-
-            assets = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_assets.bundle"));
-            scenes = AssetBundle.LoadFromFile(Path.Combine("Mods", "TUFHelper", "assets", "tuf_scenes.bundle"));
-
+            return null;
+        }
+        public static void Initialize(ModEntry modEntry)
+        {
+            
             ModEntry = modEntry;
             Logger = modEntry.Logger;
+
+            string tufHelperPath = FindTUFHelperPath();
+
+            if (string.IsNullOrEmpty(tufHelperPath))
+            {
+                Main.Logger.Log("TUFHelper directory not found.");
+                return;
+            }
+
+            string assetsPath = Path.Combine(tufHelperPath, "assets", "tuf_assets.bundle");
+            string scenesPath = Path.Combine(tufHelperPath, "assets", "tuf_scenes.bundle");
+
+            if (!File.Exists(assetsPath) || !File.Exists(scenesPath))
+            {
+                Main.Logger.Log("Asset bundles not found in TUFHelper directory.");
+                return;
+            }
+
+            assets = AssetBundle.LoadFromFile(assetsPath);
+            scenes = AssetBundle.LoadFromFile(scenesPath);
+
+
+            Main.Logger.Log("TUFHelper assets and scenes loaded successfully.");
 
             modEntry.Info.Version = modVersion;
             modEntry.Info.DisplayName = "TUFHelper";
@@ -50,9 +73,9 @@ namespace TUFHelper
             modEntry.OnToggle = OnToggle;
             modEntry.OnGUI = OnGUI;
             modEntry.OnSaveGUI = OnSaveGUI;
-            
+
             AdofaiTweaksAPI.Init();
-            
+
             Application.wantsToQuit += () =>
             {
                 foreach (var levelPath in removeLevels)
