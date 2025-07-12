@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using TUFHelper;
+using TUFHelper.ModScripts.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,8 @@ public class LevelSelector : MonoBehaviour
     public static LevelSelector instance;
 
     public GameObject levelPrefab, levelListParent, verticalScroll;
+
+    public LevelListInfoElementJson LevelInfo { get; set; }
 
     private bool _isShow;
     public bool IsShow
@@ -35,7 +38,7 @@ public class LevelSelector : MonoBehaviour
         IsShow = false;
     }
 
-    public void LoadLevels(List<string> levels)
+    public void LoadLevels(List<string> levels, LevelListInfoElementJson info)
     {
         IsShow = true;
         for (int i = 0; i < levelListParent.transform.childCount; i++)
@@ -47,7 +50,7 @@ public class LevelSelector : MonoBehaviour
         foreach (var level in levels)
         {
             GameObject obj = Instantiate(levelPrefab);
-            obj.GetComponent<SelectLevelPrefabScript>().SetLevel(level);
+            obj.GetComponent<SelectLevelPrefabScript>().SetLevel(level, info);
 
             RectTransform rect = obj.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform);
@@ -73,7 +76,7 @@ public class LevelSelector : MonoBehaviour
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
         yield return new WaitForEndOfFrame();
 
-        LoadLevels(levels);
+        LoadLevels(levels, LevelInfo);
 
         Main.Logger.Log("Yippie");
     }

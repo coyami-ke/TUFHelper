@@ -50,22 +50,13 @@ public class MiscScript : MonoBehaviour
 
         UIScript.SwipeToBlack(() =>
         {
-            if (SceneManager.GetActiveScene().name.Equals("TUFLevelInfo"))
-            {
-                Main.isInTUFHelper = false;
-                IngameLeaderboardPatch.IsInTUFHelper = false;
-                PPDisplayerPatch.IsFromTUFH = false;
-                GCS.sceneToLoad = "";
-                SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
-            }
-            else
-            {
-                Main.isInTUFHelper = false;
-                IngameLeaderboardPatch.IsInTUFHelper = false;
-                PPDisplayerPatch.IsFromTUFH = false;
-                GCS.sceneToLoad = "";
-                SceneManager.LoadScene("scnLevelSelect");
-            }
+            Main.isInTUFHelper = false;
+            // IngameLeaderboardPatch.IsInTUFHelper = false;
+            // PPDisplayerPatch.IsFromTUFH = false;
+            ADOFAIGameplayHandler.IsFromTUFHelper = false;
+            ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
+            GCS.sceneToLoad = "";
+            SceneManager.LoadScene("scnLevelSelect");
         });
     }
 
@@ -222,11 +213,11 @@ public class MiscScript : MonoBehaviour
     private LevelListInfoElementJson lastLevel;
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
-        IngameLeaderboardPatch.LevelInfo = lastLevel;
-        IngameLeaderboardPatch.IsInTUFHelper = true;
+        // IngameLeaderboardPatch.LevelInfo = lastLevel;
+        // IngameLeaderboardPatch.IsInTUFHelper = true;
 
-        PPDisplayerPatch.Levelinfo = lastLevel;
-        PPDisplayerPatch.IsFromTUFH = true;
+        // PPDisplayerPatch.Levelinfo = lastLevel;
+        // PPDisplayerPatch.IsFromTUFH = true;
 
         switch (args.Levels.Count)
         {
@@ -234,7 +225,7 @@ public class MiscScript : MonoBehaviour
                 throw new Exception("adofai file was not found");
             case 1:
                 LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
-                UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(args.Levels[0]));
+                UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(lastLevel, args.Levels[0]));
                 break;
             default:
                 LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);

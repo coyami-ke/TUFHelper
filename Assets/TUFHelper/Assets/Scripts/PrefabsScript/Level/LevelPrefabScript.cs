@@ -275,8 +275,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
         // Donates Current Levelinfo to PPDisplayer & notify that play mode is from TUFHelper
-        PPDisplayerPatch.Levelinfo = levelInfo;
-        PPDisplayerPatch.IsFromTUFH = true;
+        // PPDisplayerPatch.Levelinfo = levelInfo;
+        // PPDisplayerPatch.IsFromTUFH = true;
 
         switch (args.Levels.Count)
         {
@@ -284,16 +284,20 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 throw new Exception("adofai file was not found");
             case 1:
                 SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
-                UIScript.SwipeToBlack(() => TryToLoadLevel(args.Levels[0]));
+                UIScript.SwipeToBlack(() => TryToLoadLevel(levelInfo, args.Levels[0]));
                 break;
             default:
                 SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
+                LevelSelector.instance.LevelInfo = this.levelInfo;
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;
         }
 
-        IngameLeaderboardPatch.LevelInfo = this.levelInfo;
-        IngameLeaderboardPatch.IsInTUFHelper = true;
+        // IngameLeaderboardPatch.LevelInfo = this.levelInfo;
+        // IngameLeaderboardPatch.IsInTUFHelper = true;
+
+        ADOFAIGameplayHandler.IsFromTUFHelper = true;
+        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
     }
     public static void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
     {
@@ -408,7 +412,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
 
 
-    public static void TryToLoadLevel(string levelFilePath = null)
+    public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
     {
         //DownloadPopupScript.IsDownloading = false;
         HideUIFixPatch.RecentDirectLevelOpend = true;
@@ -416,6 +420,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         GCS.sceneToLoad = "scnEditor";
         GCS.worldEntrance = null;
         scnEditor.levelToOpenOnLoad = levelFilePath;
+
+        ADOFAIGameplayHandler.IsFromTUFHelper = true;
+
+        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
         SceneManager.LoadScene("scnEditor");
     }

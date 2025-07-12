@@ -1,235 +1,149 @@
-using System.Collections.Generic;
-using ADOFAI.Editor;
-using ADOFAI.Editor.Actions;
+using System;
 using HarmonyLib;
-using OggVorbisEncoder.Setup;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.Utils;
+using Together.Utils;
 using UnityEngine;
 
 namespace TUFHelper
 {
-    public class PPDisplayerPatch
+    [HarmonyPatch]
+    public static class PPDisplayerPatch
     {
-        public static LevelListInfoElementJson Levelinfo;
-        static PPDisplayerScript PPDisplayer;
-        static PPDisplayerScript.Judgements judgements = new();
-        static GameObject text;
-        static float speed;
-        static bool _isFromTUFH = false;
-        public static bool IsFromTUFH
-        {
-            get => _isFromTUFH;
-            set
-            {
-                if (_isFromTUFH == value) return;
-                _isFromTUFH = value;
+        private static PPDisplayerScript ppDisplayer;
+        private static GameObject ppDisplayerObject;
+        private static PPDisplayerScript.Judgements judgements = new();
 
-                if (!value)
+        static PPDisplayerPatch()
+        {
+            ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnEditorPlayButtonPressed;
+            ADOFAIGameplayHandler.Editor_Hit += OnEditorHit;
+        }
+
+        private static float speed => scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
+        private static int FloorCount => scrLevelMaker.instance.listFloors.Count - 1;
+        private static ADOFAI.LevelData LevelData => scnGame.instance.levelData;
+
+        private static void RegisterJudgement(HitMargin hit)
+        {
+            switch (hit)
+            {
+                case HitMargin.TooEarly: judgements.EarlyDouble++; break;
+                case HitMargin.VeryEarly: judgements.EarlySingle++; break;
+                case HitMargin.EarlyPerfect: judgements.EPerfect++; break;
+                case HitMargin.Perfect: judgements.Perfect++; break;
+                case HitMargin.LatePerfect: judgements.LPerfect++; break;
+                case HitMargin.VeryLate: judgements.LateSingle++; break;
+                case HitMargin.TooLate: judgements.LateDouble++; break;
+                case HitMargin.FailMiss:
+                case HitMargin.FailOverload: judgements.Deaths++; break;
+            }
+        }
+
+        private static void LoadPPDisplayer()
+        {
+            const string assetPath = "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab";
+            GameObject prefab = Main.assets.LoadAsset<GameObject>(assetPath);
+
+            if (prefab == null)
+            {
+                Main.Logger.Error($"Failed to load prefab: {assetPath}");
+                return;
+            }
+
+            ppDisplayerObject = GameObject.Instantiate(prefab);
+            ppDisplayerObject.name = "TUFHelper_PPDisplayer";
+
+            var canvas = GameObject.Find("Canvas")?.transform;
+            if (canvas != null)
+                ppDisplayerObject.transform.SetParent(canvas, false);
+
+            var rect = ppDisplayerObject.GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(-450, 0);
+            rect.sizeDelta = new Vector2(857, 300);
+
+            ppDisplayer = ppDisplayerObject.GetComponentInChildren<PPDisplayerScript>();
+            PPDisplayerScript.FloorCount = FloorCount;
+
+            Main.Logger.Log("PPDisplayer instantiated.");
+        }
+
+        private static void UpdatePPDisplayer()
+        {
+            if (ppDisplayer == null) return;
+
+            var account = AccountSaver.GetAccount();
+            bool shouldDisplay = Main.Setting.ShowTUFHelperOverlayer && !(account?.IsRatingMode ?? false);
+            ppDisplayerObject.SetActive(shouldDisplay);
+
+            ppDisplayer.ApplySpped(speed);
+            ppDisplayer.ApplyPP(0);
+        }
+
+        private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)
+        {
+            Main.Logger.Log("Editor play button pressed.");
+            judgements.Reset();
+
+            if (ppDisplayerObject == null)
+            {
+                Main.Logger.Log("Loading PPDisplayer...");
+                LoadPPDisplayer();
+            }
+
+            UpdatePPDisplayer();
+
+            Main.Logger.Log($"PPDisplayer active: {ppDisplayerObject.activeSelf}");
+        }
+
+
+        private static void OnEditorHit(object sender, HitEventArgs e)
+        {
+            if (ppDisplayer == null) return;
+
+            RegisterJudgement(e.Hit);
+
+            if (judgements.Deaths > 0)
+            {
+                ppDisplayer.ApplyPP(-1310);
+                return;
+            }
+
+            float score = CalculateScore();
+            ppDisplayer.ApplyPP(score);
+        }
+
+        private static float CalculateScore()
+        {
+            var passData = new PPDisplayerScript.PassData
+            {
+                IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
+                Judgements = judgements,
+                Speed = speed
+            };
+
+            var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
+            var diffName = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
+            var diffScore = DiffSpriteHelper.DiffBaseScore[diffName];
+
+            var levelData = new PPDisplayerScript.LevelData
+            {
+                BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
+                Difficulty = new PPDisplayerScript.Difficulty
                 {
-                    if (text != null)
-                    {
-                        text.SetActive(false);
-                    }
+                    Name = diffName,
+                    BaseScore = diffScore
                 }
-            }
-        }
-        private static int FloorCount
-        {
-            get
-            {
-                return scrLevelMaker.instance.listFloors.Count - 1;
-            }
-        }
-        static ADOFAI.LevelData leveldata
-        {
-            get
-            {
-                return scnGame.instance.levelData;
-            }
-        }
+            };
 
-        static bool holdingcontrol
-        {
-			get { return RDInput.holdingControl; }
+            return (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(passData, levelData);
         }
-
-        [HarmonyPatch(typeof(scnEditor), "ResetScene")]
-        internal static class scnEditor_ResetScene_Patch
-        {
-            private static void Postfix()
-            {
-                if (!IsFromTUFH) return;
-                if (text != null)
-                {
-                    text.SetActive(false);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(scrController), "StartLoadingScene")]
-        internal static class scrController_StartLoadingScene_Patch
-        {
-            private static void Postfix()
-            {
-                if (!IsFromTUFH) return;
-                if (text != null)
-                {
-                    text.SetActive(false);
-                }
-            }
-        }
-        internal class HideOrShowTUFHelperOverlayer : EditorAction
-        {
-            public override EditorTabKey sectionKey => EditorTabKey.None;
-
-            public override void Execute(scnEditor editor)
-            {
-                PPDisplayer.gameObject.SetActive(!PPDisplayer.gameObject.activeSelf);
-            }
-        }
-
-
-        [HarmonyPatch(typeof(scnEditor), "RegisterKeybinds")]
+        [HarmonyPatch(typeof(scnEditor), "Start")]
         [HarmonyPostfix]
-        public static void HideOrShowElement()
+        public static void InitPPDisplayer()
         {
-            var field = AccessTools.Field("keybindManager");
-            var manager = (EditorKeybindManager)field.GetValue(scnEditor.instance);
-            manager.RegisterKeybind(new EditorKeybind(KeyModifier.None, KeyCode.BackQuote, true), new HideOrShowTUFHelperOverlayer());
-            //if (Input.GetKeyDown(KeyCode.BackQuote)) PPDisplayer?.gameObject.SetActive(!PPDisplayer.gameObject.activeSelf);
-        } 
-
-
-        [HarmonyPatch(typeof(scnGame), nameof(scnGame.instance.Play))]
-        public static class EditorPlayPatch
-        {
-            public static void Prefix()
-            {
-                if (!IsFromTUFH) return;
-
-                if (judgements == null)
-                {
-                    Main.Logger.Log("Jugement nulls!! Dies");
-                    return;
-                }
-                judgements.Reset();
-                string assetName = "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab"; // Check with GetAllAssetNames
-                speed = leveldata.pitch / 100f * scnEditor.instance.playbackSpeed;
-
-                if (text == null)
-                {
-                    // Creat Prefab
-                    GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
-                    if (prefab != null)
-                    {
-                        text = GameObject.Instantiate(prefab);
-                        Transform canvas = GameObject.Find("Canvas")?.transform;
-                        if (canvas != null)
-                            text.transform.SetParent(canvas, false);
-
-                        var rt = text.GetComponent<RectTransform>();
-                        rt.anchoredPosition = new Vector2(-450, 0);
-                        rt.sizeDelta = new Vector2(857, 300);
-                        Main.Logger.Log("Prefab instantiated successfully.");
-
-                        PPDisplayer = text.transform.GetComponentInChildren<PPDisplayerScript>();
-                        PPDisplayer.ApplySpped(speed);
-                        PPDisplayer.ApplyPP(0);
-
-                        var account = AccountSaver.GetAccount();
-                        if (account == null) text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
-                        else text.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
-
-                        
-                        PPDisplayerScript.FloorCount = FloorCount;
-                    }
-                    else
-                    {
-                        Main.Logger.Error($"Failed to load prefab from AssetBundle. ({assetName})");
-                    }
-                }
-                else
-                {
-                    var account = AccountSaver.GetAccount();
-                    if (account == null) text.SetActive(Main.Setting.ShowTUFHelperOverlayer);
-                    else text.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
-
-                    PPDisplayer.ApplySpped(speed);
-                    PPDisplayer.ApplyPP(0);
-                }
-                // Safety Measure so that the EXACT level must be played to calc score, only works when manually loading a new level tho!
-                if (PPDisplayerScript.currentPathdata != leveldata.pathData && PPDisplayerScript.currentAnglePath != leveldata.angleData) PPDisplayerPatch.IsFromTUFH = false;
-            }
-        }
-        [HarmonyPatch(typeof(scrMistakesManager), nameof(scrMistakesManager.AddHit))]
-        public static class AddHitPatch
-        {
-            // Checking Judgement each hit
-            public static void Postfix(HitMargin hit)
-            {
-                if (!IsFromTUFH) return;
-                if (judgements == null)
-                {
-                    Main.Logger.Log("Judgement is Nul!!!!");
-                    return;
-                }
-                switch (hit)
-                {
-                    case HitMargin.TooEarly:
-                        judgements.EarlyDouble++;
-                        break;
-                    case HitMargin.VeryEarly:
-                        judgements.EarlySingle++;
-                        break;
-                    case HitMargin.EarlyPerfect:
-                        judgements.EPerfect++;
-                        break;
-                    case HitMargin.Perfect:
-                        judgements.Perfect++;
-                        break;
-                    case HitMargin.LatePerfect:
-                        judgements.LPerfect++;
-                        break;
-                    case HitMargin.VeryLate:
-                        judgements.LateSingle++;
-                        break;
-                    case HitMargin.TooLate:
-                        judgements.LateDouble++;
-                        break;
-                    case HitMargin.FailMiss:
-                        judgements.Deaths++;
-                        break;
-                    case HitMargin.FailOverload:
-                        judgements.Deaths++;
-                        break;
-                }
-                bool flag = judgements.Deaths > 0;
-                if (!flag)
-                {
-                    var score = PPDisplayerScript.ScoreCalculator.GetScoreV2(new PPDisplayerScript.PassData
-                    {
-                        IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
-                        Judgements = judgements,
-                        Speed = speed
-                    }, new PPDisplayerScript.LevelData
-                    {
-                        BaseScore = (Levelinfo.BaseScore == 0 ? null : Levelinfo.BaseScore),
-                        Difficulty = new PPDisplayerScript.Difficulty
-                        {
-                            Name = DiffSpriteHelper.DiffIDRegister[Levelinfo.DiffId],
-                            BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[Levelinfo.DiffId]]
-                        }
-                    });
-
-                    //Main.Logger.Log($"Hold Behavior is: {scnEditor.instance.playbackSpeed} ae sPEED is: {(float)(leveldata.pitch/100)}");
-                    PPDisplayer.ApplyPP(score);
-                }
-                else
-                {
-                    PPDisplayer.ApplyPP(-1310);
-                }
-            }
+            // Force static constructor or call Init()
+            _ = typeof(TUFHelper.PPDisplayerPatch); // triggers static constructor
         }
     }
 }

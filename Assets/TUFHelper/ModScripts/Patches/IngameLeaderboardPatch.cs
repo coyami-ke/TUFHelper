@@ -17,59 +17,109 @@ namespace TUFHelper
     [HarmonyPatch]
     public class IngameLeaderboardPatch
     {
-        public static bool IsInTUFHelper { get; set; }
-        public static LevelListInfoElementJson LevelInfo { get; set; }
-        [HarmonyPatch(typeof(scnEditor), "Start")]
-        [HarmonyPrefix]
-        public static void StartEditor()
+        static IngameLeaderboardPatch()
         {
-            if (!IsInTUFHelper) return;
-
-            string assetName = "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab";
-
-            GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
-            if (prefab != null && IngameLeaderboardScript.instance == null)
-            {
-                var obj = GameObject.Instantiate(prefab);
-
-                Transform canvas = GameObject.Find("Canvas")?.transform;
-                if (canvas != null)
-                {
-                    obj.transform.SetParent(canvas, false);
-                }
-
-                GameObject.DontDestroyOnLoad(obj);
-                Main.Logger.Log("Leaderboard prefab instantiated successfully.");
-            }
+            // Register event handlers
+            ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnPlay;
+            ADOFAIGameplayHandler.Editor_Hit += OnHit;
         }
 
-        [HarmonyPatch(typeof(scnGame), nameof(scnGame.instance.Play))]
-        [HarmonyPrefix]
-        public static async void Play()
+        private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
-            if (!IsInTUFHelper) return;
+            LevelListInfoElementJson levelInfo = e.CurrentLevelInfo;
 
-            PassesListInfoElementJson[] passes = await GetPasses(LevelInfo.ID);
+            var passes = await GetPasses(levelInfo.ID);
 
             if (IngameLeaderboardScript.instance != null)
             {
                 var account = AccountSaver.GetAccount();
-                if (account == null) IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer);
-                else IngameLeaderboardScript.instance.gameObject.SetActive(Main.Setting.ShowTUFHelperOverlayer && !account.IsRatingMode);
-                
+                bool show = Main.Setting.ShowTUFHelperOverlayer && !(account?.IsRatingMode ?? false);
+                IngameLeaderboardScript.instance.gameObject.SetActive(show);
+
                 IngameLeaderboardScript.instance.StartCoroutine(
                     IngameLeaderboardScript.instance.LoadLeaderboardAsync(passes)
                 );
             }
         }
 
+        private static void OnHit(object sender, HitEventArgs e)
+        {
+            if (IngameLeaderboardScript.PlayerRankPrefab == null) return;
+
+            var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
+
+            if (player.Judgements.Deaths > 0) return;
+
+            var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
+
+            var judg = new PPDisplayerScript.Judgements
+            {
+                Perfect = player.Judgements.Perfect,
+                Deaths = player.Judgements.Deaths,
+                EPerfect = player.Judgements.EPerfect,
+                LPerfect = player.Judgements.LPerfect,
+                EarlySingle = player.Judgements.EarlySingle,
+                LateSingle = player.Judgements.LateSingle,
+                EarlyDouble = player.Judgements.EarlyDouble,
+                LateDouble = player.Judgements.LateDouble,
+            };
+
+            UpdateJudgements(judg, e.Hit);
+
+            var score = PPDisplayerScript.ScoreCalculator.GetScoreV2(
+                new PPDisplayerScript.PassData
+                {
+                    IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
+                    Judgements = judg,
+                    Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
+                },
+                new PPDisplayerScript.LevelData
+                {
+                    BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
+                    Difficulty = new PPDisplayerScript.Difficulty
+                    {
+                        Name = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId],
+                        BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]]
+                    }
+                });
+
+            player.ScoreV2 = (float)score;
+            player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
+
+            IngameLeaderboardScript.PlayerRankPrefab.UpdateVisual();
+            IngameLeaderboardScript.instance.UpdateRanks();
+        }
+
+        private static void UpdateJudgements(PPDisplayerScript.Judgements judgements, HitMargin hit)
+        {
+            switch (hit)
+            {
+                case HitMargin.TooEarly:
+                    judgements.EarlyDouble++; break;
+                case HitMargin.VeryEarly:
+                    judgements.EarlySingle++; break;
+                case HitMargin.EarlyPerfect:
+                    judgements.EPerfect++; break;
+                case HitMargin.Perfect:
+                    judgements.Perfect++; break;
+                case HitMargin.LatePerfect:
+                    judgements.LPerfect++; break;
+                case HitMargin.VeryLate:
+                    judgements.LateSingle++; break;
+                case HitMargin.TooLate:
+                    judgements.LateDouble++; break;
+                case HitMargin.FailMiss:
+                case HitMargin.FailOverload:
+                    judgements.Deaths++; break;
+            }
+        }
 
         private static CancellationTokenSource currentRequestToken;
         public static async Task<PassesListInfoElementJson[]> GetPasses(int levelID)
         {
             currentRequestToken?.Cancel();
             currentRequestToken = new CancellationTokenSource();
-            CancellationToken token = currentRequestToken.Token;
+            var token = currentRequestToken.Token;
 
             string url = LeaderboardScript.GetDefaultUrl(levelID);
             using UnityWebRequest webRequest = UnityWebRequest.Get(url);
@@ -82,7 +132,7 @@ namespace TUFHelper
                 await Task.Yield();
                 if (token.IsCancellationRequested)
                 {
-                    webRequest.Abort(); // Stop the request
+                    webRequest.Abort();
                     return Array.Empty<PassesListInfoElementJson>();
                 }
             }
@@ -90,91 +140,27 @@ namespace TUFHelper
             if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
                 return Array.Empty<PassesListInfoElementJson>();
 
-            List<PassesListInfoElementJson> passes = JsonConvert.DeserializeObject<List<PassesListInfoElementJson>>(webRequest.downloadHandler.text);
-            passes = passes.OrderByDescending(p => p.ScoreV2).ToList();
-
-            return passes.ToArray();
+            var passes = JsonConvert.DeserializeObject<List<PassesListInfoElementJson>>(webRequest.downloadHandler.text);
+            return passes.OrderByDescending(p => p.ScoreV2).ToArray();
         }
 
-        [HarmonyPatch(typeof(scrMistakesManager), nameof(scrMistakesManager.AddHit))]
-        [HarmonyPostfix]
-        public static void Postfix(HitMargin hit)
+        [HarmonyPatch(typeof(scnEditor), "Start")]
+        [HarmonyPrefix]
+        public static void StartEditor()
         {
-            if (!IsInTUFHelper || IngameLeaderboardScript.PlayerRankPrefab == null) return;
-            var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
-            switch (hit)
-            {
-                case HitMargin.TooEarly:
-                    player.Judgements.EarlyDouble++;
-                    break;
-                case HitMargin.VeryEarly:
-                    player.Judgements.EarlySingle++;
-                    break;
-                case HitMargin.EarlyPerfect:
-                    player.Judgements.EPerfect++;
-                    break;
-                case HitMargin.Perfect:
-                    player.Judgements.Perfect++;
-                    break;
-                case HitMargin.LatePerfect:
-                    player.Judgements.LPerfect++;
-                    break;
-                case HitMargin.VeryLate:
-                    player.Judgements.LateSingle++;
-                    break;
-                case HitMargin.TooLate:
-                    player.Judgements.LateDouble++;
-                    break;
-                case HitMargin.FailMiss:
-                    player.Judgements.Deaths++;
-                    break;
-                case HitMargin.FailOverload:
-                    player.Judgements.Deaths++;
-                    break;
-            }
-            bool flag = player.Judgements.Deaths > 0;
-            if (!flag)
-            {
-                PPDisplayerScript.Judgements judg = new()
-                {
-                    Perfect = player.Judgements.Perfect,
-                    Deaths = player.Judgements.Deaths,
-                    EPerfect = player.Judgements.EPerfect,
-                    LPerfect = player.Judgements.LPerfect,
-                    EarlySingle = player.Judgements.EarlySingle,
-                    LateSingle = player.Judgements.LateSingle,
-                    EarlyDouble = player.Judgements.EarlyDouble,
-                    LateDouble = player.Judgements.LateDouble,
-                };
+            if (!ADOFAIGameplayHandler.IsFromTUFHelper) return;
 
-                var score = PPDisplayerScript.ScoreCalculator.GetScoreV2(new PPDisplayerScript.PassData
-                {
-                    IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
-                    Judgements = judg,
-                    Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
-                }, new PPDisplayerScript.LevelData
-                {
-                    BaseScore = LevelInfo.BaseScore == 0 ? null : LevelInfo.BaseScore,
-                    Difficulty = new PPDisplayerScript.Difficulty
-                    {
-                        Name = DiffSpriteHelper.DiffIDRegister[LevelInfo.DiffId],
-                        BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[LevelInfo.DiffId]]
-                    }
-                });
-
-                //Main.Logger.Log($"Hold Behavior is: {scnEditor.instance.playbackSpeed} ae sPEED is: {(float)(leveldata.pitch/100)}");
-                IngameLeaderboardScript.PlayerRankPrefab.PassInfo.ScoreV2 = (float)score;
-                IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
-                IngameLeaderboardScript.PlayerRankPrefab.UpdateVisual();
-                IngameLeaderboardScript.instance.UpdateRanks();
-
-                // Main.Logger.Log(score.ToString());
-            }
-            else
+            string assetName = "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab";
+            GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
+            if (prefab != null && IngameLeaderboardScript.instance == null)
             {
-                //PPDisplayer.ApplyPP(-1310);
+                var obj = GameObject.Instantiate(prefab);
+                Transform canvas = GameObject.Find("Canvas")?.transform;
+                if (canvas != null)
+                    obj.transform.SetParent(canvas, false);
+                GameObject.DontDestroyOnLoad(obj);
+                Main.Logger.Log("Leaderboard prefab instantiated successfully.");
             }
         }
-        
     }
 }

@@ -5,6 +5,7 @@ using System.Reflection;
 using DG.Tweening;
 using HarmonyLib;
 using TUFHelper.ModScripts.Helpers;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -122,8 +123,9 @@ namespace TUFHelper
    
                         Time.timeScale = 1;
                         GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
-                        IngameLeaderboardPatch.IsInTUFHelper = false;
-                        PPDisplayerPatch.IsFromTUFH = false;
+                        // IngameLeaderboardPatch.IsInTUFHelper = false;
+                        // PPDisplayerPatch.IsFromTUFH = false;
+                        ADOFAIGameplayHandler.IsFromTUFHelper = false;
                         scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                         return false;
                     }
@@ -141,8 +143,9 @@ namespace TUFHelper
                 {
                     Time.timeScale = 1;
                     GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
-                    IngameLeaderboardPatch.IsInTUFHelper = false;
-                    PPDisplayerPatch.IsFromTUFH = false;
+                    // IngameLeaderboardPatch.IsInTUFHelper = false;
+                    // PPDisplayerPatch.IsFromTUFH = false;
+                    ADOFAIGameplayHandler.IsFromTUFHelper = false;
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                     return false;
                 }

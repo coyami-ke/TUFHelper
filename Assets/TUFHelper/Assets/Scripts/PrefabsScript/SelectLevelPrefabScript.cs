@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using DG.Tweening;
 using TMPro;
+using TUFHelper.ModScripts.Json;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,10 +14,11 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
     public Image background;
 
     private string fullPath;
+    private LevelListInfoElementJson levelInfo;
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(fullPath));
+        UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(levelInfo, fullPath));
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -29,9 +31,10 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
         background.DOColor(new Color(1, 1, 1, 10 / 255f), 0.4f).SetEase(Ease.OutExpo);
     }
 
-    public void SetLevel(string levelName)
+    public void SetLevel(string levelName, LevelListInfoElementJson info)
     {
         this.levelName.text = Path.GetFileName(levelName);
         fullPath = levelName;
+        levelInfo = info;
     }
 }
