@@ -11,6 +11,7 @@ public class WindowsManager : MonoBehaviour
     public GameObject PassesList;
     public GameObject PassInfo;
     public GameObject FolderList;
+    public GameObject RatingPanel;
 
     private Dictionary<GameObject, RectTransform> panelTransforms;
     private Dictionary<GameObject, Vector2> initialPositions;
@@ -66,6 +67,8 @@ public class WindowsManager : MonoBehaviour
 
         FolderListActive = false;
         global::FolderList.instance.IsShow = false;
+        RatingPanel.SetActive(false);
+        PassesList.SetActive(true);
     }
 
     private bool isTransitioning = false;
@@ -81,7 +84,8 @@ public class WindowsManager : MonoBehaviour
         AnimatePanelPos(PassInfo, 0f, 1f, Ease.OutExpo);
         AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo);
         AnimatePanelPos(LevelList, 1185f, 1f, Ease.OutExpo);
-        AnimatePanelPos(FolderList, -1185f, 1f, Ease.OutExpo, 0f, () => {
+        AnimatePanelPos(FolderList, -1185f, 1f, Ease.OutExpo, 0f, () =>
+        {
             isTransitioning = false;
         });
 
@@ -114,6 +118,23 @@ public class WindowsManager : MonoBehaviour
 
         if (onComplete != null)
             tween.OnComplete(onComplete);
+    }
+
+    public void ShowRatingPanel()
+    {
+        MoveToLevelList();
+        PassesList.SetActive(false);
+        PassInfo.SetActive(false);
+        global::FolderList.instance.IsShow = false;
+
+        RatingPanel.SetActive(true);
+    }
+    public void HideRatingPanel()
+    {
+        MoveToLevelList();
+        // PassesList.SetActive(false);
+        // PassInfo.SetActive(false);
+        // FolderList.SetActive(false);
     }
 
     // public void ShowPassList()

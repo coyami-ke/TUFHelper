@@ -145,7 +145,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         totalClearsText,
         totalLikesText;
     public GameObject scrollView;
-    public GameObject folderButton, favoriteButton, addToFolderButton;
+    public GameObject folderButton, favoriteButton, addToFolderButton, removeLevelButton;
     public Image favoriteImage;
     public Sprite isFavoriteSprite, isNotFavoriteSprite;
 
@@ -159,6 +159,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             folderButton.SetActive(false);
             favoriteButton.SetActive(false);
             addToFolderButton.SetActive(false);
+            removeLevelButton.SetActive(false);
         }
 
         if (string.IsNullOrEmpty(levelInfo.DlLink))
@@ -313,21 +314,21 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             string rawJson = File.ReadAllText(saveableLevel);
 
-            // Fix missing comma between JSON arrays/objects
+            string fixMissingCommas = @"}\s*{";
+            rawJson = Regex.Replace(rawJson, fixMissingCommas, "},\n{");
+
             string pattern = @"\](\s*)""decorations""";
             string replacement = "],$1\"decorations\"";
+            rawJson = Regex.Replace(rawJson, pattern, replacement);
 
-            if (Regex.IsMatch(rawJson, pattern))
-            {
-                rawJson = Regex.Replace(rawJson, pattern, replacement);
-                Main.Logger.Log("the level json has been fixed");
-            }
-
+            // Попытка десериализации
             levelData = JsonConvert.DeserializeObject<LevelData>(rawJson);
+
+            Main.Logger.Log("Level loaded and JSON fixed if necessary.");
         }
         catch (JsonReaderException jsonEx)
         {
-            Main.Logger.Error(jsonEx.Message);
+            Main.Logger.Error("JSON parse error: " + jsonEx.Message);
             return;
         }
 
@@ -409,6 +410,22 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public void OnAddOrRemoveFolderButtonClicked()
     {
         AddLevelToFolder.instance.SetInfo(levelInfo.ID);
+    }
+    public void RemoveLevel()
+    {
+        var info = Main.Setting.DownloadedLevels.FirstOrDefault(e => e.LevelInfo.ID == this.levelInfo.ID);
+        if (info != null)
+        {
+            if (Directory.Exists(info.NameFolder))
+            {
+                Directory.Delete(info.NameFolder, true);
+            }
+
+            Main.Setting.FavoriteLevels.Remove(this.levelInfo.ID);
+            Main.Setting.DownloadedLevels.Remove(info);
+            LevelListScript.instance.ClearLevels();
+            LevelListScript.instance.UpdateLevelList();
+        }
     }
 
 
