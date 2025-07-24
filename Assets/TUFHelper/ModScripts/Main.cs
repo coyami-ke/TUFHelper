@@ -26,7 +26,7 @@ namespace TUFHelper
         internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
-        private static string FindTUFHelperPath()
+        public static string FindTUFHelperPath()
         {
             var modDirectories = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "Mods"), "*", SearchOption.AllDirectories);
             foreach (var dir in modDirectories)

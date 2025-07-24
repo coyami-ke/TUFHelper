@@ -14,6 +14,8 @@ using UnityEngine;
 public class RatingPanel : MonoBehaviour
 {
     public GameObject scrollableParent, prefab, listParent;
+    
+    public RatingElementJson[] RatingElements { get; private set; }
 
     public static RatingPanel instance { get; private set; }
 
@@ -49,6 +51,12 @@ public class RatingPanel : MonoBehaviour
 
             i++;
         }
+
+        RectTransform contentRect = listParent.GetComponent<RectTransform>();
+        float totalHeight = (i + 1) * 155 + 30;
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+
+        RatingElements = elements.ToArray();
 
         Main.Logger.Log("Rating Elements: " + elements.Count);
     }
@@ -137,6 +145,8 @@ namespace TUFHelper.Utils
 
         [JsonProperty("nickname")]
         public string Nickname { get; set; }
+        [JsonProperty("avatarUrl")]
+        public string AvatarUrl { get; set; }
     }
     public class DifficultyInfo
     {

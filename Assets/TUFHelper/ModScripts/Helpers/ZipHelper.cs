@@ -13,9 +13,11 @@ namespace TUFHelper.Utils
                 extractFolderPath += "\\";
             }
 
+            string tufhelperPath = Main.FindTUFHelperPath();
+
             // Path to the 7-Zip executable
             // If 7z.exe is not in your system's PATH, provide the full path to the executable
-            string sevenZipPath = Path.Combine("Mods", "TUFHelper", "7zip", "7z.exe");
+            string sevenZipPath = Path.Combine(tufhelperPath, "7zip", "7z.exe");
 
             // Setup the process with the ProcessStartInfo class
             ProcessStartInfo proccessStartInfo = new()

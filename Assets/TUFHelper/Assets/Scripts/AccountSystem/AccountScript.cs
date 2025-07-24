@@ -15,6 +15,7 @@ public class AccountScript : MonoBehaviour
 {
     private TUFTokenRequest request = new();
     public AccountSaver AccountSaver { get; private set; } = new();
+    public TUFTokenRequest TokenRequest { get => request; }
 
     public TMP_InputField email, password;
 

@@ -442,6 +442,14 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
+        var account = AccountSaver.GetAccount();
+        if (account != null)
+        {
+            ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
+            ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
+        }
+        else ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
+
         SceneManager.LoadScene("scnEditor");
     }
     public void OnPointerClick(PointerEventData eventData)

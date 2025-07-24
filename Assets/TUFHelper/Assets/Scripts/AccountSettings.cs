@@ -82,6 +82,8 @@ public class AccountSettings : MonoBehaviour
         blockBottomPanelImage.SetActive(value);
 
         RatingPanel.instance?.UpdateList();
+
+        if (value) CustomMusicPlayer.instance.StopPlay();
     }
     public void ShowOrHideWindow()
     {

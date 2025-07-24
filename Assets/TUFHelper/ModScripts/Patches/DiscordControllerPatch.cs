@@ -21,15 +21,16 @@ namespace TUFHelper
 
             if (Main.isInTUFHelper)
             {
-                string detail = "Rating TUF Level";
-                string state = "pls, help";
+                string detail = "TUFHelper";
+                string state = "Beta 2.2";
                 string imageText = "A Dance of Fire and Ice";
 
                 Activity activity = default(Activity);
+                activity.Name = "milkiway - crush crush";
                 activity.State = state;
                 activity.Details = detail;
                 activity.Assets.LargeImage = "planets_icon_stars";
-                activity.Assets.LargeText = imageText;
+                activity.Assets.LargeText = "Cooking MilkyWay :fire:";
 
                 try
                 {

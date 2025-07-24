@@ -55,10 +55,55 @@ namespace TUFHelper.AccountSystem
         public const string DEFAULT_LOGIN_URL = "https://api.tuforums.com/v2/auth/login";
         public const string DEFAULT_ME_URL = "https://api.tuforums.com/v2/auth/profile/me";
         public const string DEFAULT_DISCORD_LOGIN_URL = "https://api.tuforums.com/v2/auth/oauth/discord";
+        public const string DEFAULT_SEND_RATING_URL = "https://api.tuforums.com/v2/admin/rating";
 
         public int LastResponseCode { get; private set; } = 0;
 
         public string Token { get; set; }
+
+        public async Task TrySendRating(int levelID, string comment, bool isCommunityRating, string rating)
+        {
+            string url = $"https://api.tuforums.com/v2/admin/rating/{levelID}";
+
+            // Construct the JSON payload
+            var data = new
+            {
+                comment,
+                isCommunityRating,
+                rating
+            };
+
+            string jsonData = JsonConvert.SerializeObject(data);
+
+            using UnityWebRequest www = UnityWebRequest.Put(url, jsonData);
+            www.method = UnityWebRequest.kHttpVerbPUT;
+            www.SetRequestHeader("Content-Type", "application/json");
+
+            if (!string.IsNullOrEmpty(Token))
+            {
+                www.SetRequestHeader("Authorization", $"Bearer {Token}");
+            }
+
+            var operation = www.SendWebRequest();
+
+            while (!operation.isDone)
+                await Task.Yield();
+
+            LastResponseCode = (int)www.responseCode;
+
+            // Main.Logger.Log($"Level ID: {levelID} comment: {comment} rating: {rating} isCommunityRating: {isCommunityRating}");
+            // Main.Logger.Log($"Body: {jsonData}");
+
+            if (www.result != UnityWebRequest.Result.Success)
+            {
+                Main.Logger.Error($"Failed to send rating: {www.error}");
+            }
+            else
+            {
+                Main.Logger.Log("Rating successfully sent.");
+                // Main.Logger.Log(www.downloadHandler.text);
+            }
+        }
 
         public async Task<byte[]> GetPfpFromURL(string url)
         {

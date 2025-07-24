@@ -12,9 +12,13 @@ namespace TUFHelper.Utils
     public class PlayButtonEventArgs : EventArgs
     {
         public LevelListInfoElementJson CurrentLevelInfo { get; }
-        public PlayButtonEventArgs(LevelListInfoElementJson level)
+        public bool RatingMode { get; }
+        public RatingElementJson CurrentRatingInfo { get; }
+        public PlayButtonEventArgs(LevelListInfoElementJson level, bool ratingMode = false, RatingElementJson rating = null)
         {
             CurrentLevelInfo = level;
+            RatingMode = ratingMode;
+            CurrentRatingInfo = rating;
         }
     }
     public class HitEventArgs : EventArgs
@@ -46,10 +50,12 @@ namespace TUFHelper.Utils
         public static class EditorPlayPatch
         {
             public static LevelListInfoElementJson CurrentLevelInfo { get; set; }
+            public static RatingElementJson CurrentRating { get; set; }
+            public static bool RatingMode { get; set; }
             public static void Postfix()
             {
                 if (!IsFromTUFHelper) return;
-                Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo));
+                Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, RatingMode, CurrentRating));
             }
         }
     }

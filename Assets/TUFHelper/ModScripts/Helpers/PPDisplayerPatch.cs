@@ -82,7 +82,6 @@ namespace TUFHelper
 
         private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)
         {
-            Main.Logger.Log("Editor play button pressed.");
             judgements.Reset();
 
             if (ppDisplayerObject == null)
