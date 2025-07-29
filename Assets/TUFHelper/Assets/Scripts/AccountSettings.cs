@@ -49,20 +49,33 @@ public class AccountSettings : MonoBehaviour
     public static AccountSettings instance { get; private set; }
     public void Awake()
     {
-        if (instance == null) instance = this;
+        if (instance == null)
+            instance = this;
+
+        if (ratingModeToggle == null)
+            Main.Logger.Error("RatingModeToggle is not assigned!");
 
         UpdateSettings();
-
         IsShow = false;
     }
+
     public void Start()
     {
         var account = AccountSaver.GetAccount();
         if (account == null) return;
 
-        if (ratingModeToggle != null) ratingModeToggle.isOn = account.IsRatingMode;
+        if (ratingModeToggle != null)
+        {
+            // try
+            // {
+            //     ratingModeToggle.isOn = account.IsRatingMode;
+            // }
+            // catch { }
+            OnRatingModeChanged(false);
+        }
 
-        OnRatingModeChanged(account.IsRatingMode);
+
+        OnRatingModeChanged(false);
     }
     public void UpdateSettings()
     {
@@ -75,8 +88,12 @@ public class AccountSettings : MonoBehaviour
         AccountScript.instance.AccountSaver.IsRatingMode = value;
         AccountScript.instance.AccountSaver.Save();
 
-        if (value) WindowsManager.instance.ShowRatingPanel();
-        else WindowsManager.instance.HideRatingPanel();
+        try
+        {
+            if (value) WindowsManager.instance.ShowRatingPanel();
+            else WindowsManager.instance.HideRatingPanel();
+        }
+        catch { }
 
         blockTopPanelImage.SetActive(value);
         blockBottomPanelImage.SetActive(value);

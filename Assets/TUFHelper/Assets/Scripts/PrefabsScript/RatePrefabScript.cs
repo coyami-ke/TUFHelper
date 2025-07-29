@@ -21,9 +21,12 @@ public class RatePrefabScript : MonoBehaviour
         else managerRating.text = "?";
         if (info.CommunityDifficulty != null) communityRating.text = info.CommunityDifficulty.Name;
         else communityRating.text = "?";
+        if (info.AverageDifficulty != null) yourRating.text = info.AverageDifficulty.Name;
+
         levelID.text = "#" + info.LevelID.ToString();
 
         rerateMessage.text = info.Level.RerateReason;
+        //if (info.RequestedDiffID != null) supposedRate.tag = DiffSpriteHelper.DiffIDRegister[info.RequestedDiffID.Value];
 
         if (info?.RequestedDiffID < 20) background.color = new(0.25f, 1, 0.25f, 50 / 255f);
         else if (info.Details.Count >= 4) background.color = new(1, 0.25f, 0.25f, 50 / 255f);

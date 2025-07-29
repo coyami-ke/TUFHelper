@@ -15,13 +15,25 @@ public class LeaderboardScript : MonoBehaviour
 {
     public GameObject scrollableParent, prefab, passListParent;
     public List<PassesListInfoElementJson> LastLoadedPasses { get; private set; }
+
+    public RankPrefabScript YourScore;
+
+    public RectTransform rectTransform;
+
     public static LeaderboardScript instance;
+
+    public float heightWithYourScore, heightWithoutYourScore;
+    public float posYWithYourScore, posYWithoutYourScore;
 
     private CancellationTokenSource currentRequestToken;
 
     private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
+        YourScore.gameObject.SetActive(false);
     }
 
     public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
@@ -85,5 +97,32 @@ public class LeaderboardScript : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
         LastLoadedPasses = passes;
+
+        var yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
+
+        if (yourBestScore != null)
+        {
+            Main.Logger.Log("you have a public score");
+            int yourRank = 0;
+            for (int i = 0; i < passes.Count; i++)
+            {
+                if (passes[i].PlayerID == AccountScript.instance.AccountInfo.User.PlayerID)
+                {
+                    yourRank = i + 1;
+                    break;
+                }
+            }
+
+            YourScore.SetPassInfo(yourBestScore, level, yourRank);
+            YourScore.gameObject.SetActive(true);
+            rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithYourScore);
+            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithYourScore);
+        }
+        else
+        {
+            YourScore.gameObject.SetActive(false);
+            rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithoutYourScore);
+            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithoutYourScore);
+        }
     }
 }

@@ -5,15 +5,21 @@ using System.Xml.Serialization;
 using Newtonsoft.Json;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
+using UnityEngine;
 using UnityModManagerNet;
 
 namespace TUFHelper.Utils
 {
+    public class Vector2Data
+    {
+        public float X { get; set; }
+        public float Y { get; set; }
+    }
     public class DownloadedLevel
     {
         public LevelListInfoElementJson LevelInfo { get; set; }
         public string NameFolder { get; set; }
-        public CustomLevelInfoJson LocalData { get; set; } 
+        public CustomLevelInfoJson LocalData { get; set; }
     }
     public class Setting : UnityModManager.ModSettings
     {
@@ -32,6 +38,7 @@ namespace TUFHelper.Utils
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
         public HashSet<int> FavoriteLevels { get; set; } = new();
         public List<LevelFolder> LevelFolders { get; set; } = new();
+        public Dictionary<string, Vector2Data> OverlayerElementsPositions { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using TUFHelper;
 using UnityEngine;
 
 public class WindowsManager : MonoBehaviour
@@ -95,16 +96,28 @@ public class WindowsManager : MonoBehaviour
 
     private void AnimatePanelPos(GameObject panel, float deltaX, float duration, Ease ease, float delay = 0f, TweenCallback onComplete = null)
     {
-        if (!panelTransforms.ContainsKey(panel)) return;
+        if (panel == null)
+        {
+            Main.Logger.Error("AnimatePanelPos: panel is null.");
+            return;
+        }
+
+        if (!panelTransforms.TryGetValue(panel, out var rect) || rect == null)
+        {
+            Main.Logger.Error($"AnimatePanelPos: RectTransform not found for panel '{panel.name}'");
+            return;
+        }
 
         float targetX = initialPositions[panel].x + deltaX;
-        var tween = panelTransforms[panel].DOAnchorPosX(targetX, duration)
+
+        var tween = rect.DOAnchorPosX(targetX, duration)
             .SetEase(ease)
             .SetDelay(delay);
 
         if (onComplete != null)
             tween.OnComplete(onComplete);
     }
+
 
     // Added Size Changer + Y axis support too just for the future
     private void AnimatePanelSize(GameObject panel, float deltaX, float deltaY, float duration, Ease ease, float delay = 0f, TweenCallback onComplete = null)

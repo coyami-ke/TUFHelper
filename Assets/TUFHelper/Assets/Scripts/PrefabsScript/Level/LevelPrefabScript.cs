@@ -136,7 +136,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
-    public Image difficultyIcon, background, canDownloadImage, canPlayImage;
+    public Image difficultyIcon, background, canDownloadImage, canPlayImage, likeImage;
     public TextMeshProUGUI idText,
         artistText,
         levelNameText,
@@ -427,30 +427,41 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             LevelListScript.instance.UpdateLevelList();
         }
     }
+    public void TryLikeLevel()
+    {
+        
+    }
 
 
     public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
     {
         //DownloadPopupScript.IsDownloading = false;
-        HideUIFixPatch.RecentDirectLevelOpend = true;
-
-        GCS.sceneToLoad = "scnEditor";
-        GCS.worldEntrance = null;
-        scnEditor.levelToOpenOnLoad = levelFilePath;
-
-        ADOFAIGameplayHandler.IsFromTUFHelper = true;
-
-        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
-
-        var account = AccountSaver.GetAccount();
-        if (account != null)
+        try
         {
-            ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
-            ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
-        }
-        else ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
+            HideUIFixPatch.RecentDirectLevelOpend = true;
 
-        SceneManager.LoadScene("scnEditor");
+            GCS.sceneToLoad = "scnEditor";
+            GCS.worldEntrance = null;
+            scnEditor.levelToOpenOnLoad = levelFilePath;
+
+            ADOFAIGameplayHandler.IsFromTUFHelper = true;
+
+            ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
+
+            var account = AccountSaver.GetAccount();
+            if (account != null && account.IsRatingMode)
+            {
+                ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
+                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
+            }
+            else ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
+
+            SceneManager.LoadScene("scnEditor");
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error(ex.Message + ex.Source);
+        }
     }
     public void OnPointerClick(PointerEventData eventData)
     {
