@@ -39,6 +39,11 @@ namespace TUFHelper
                 IngameLeaderboardScript.instance.StartCoroutine(
                     IngameLeaderboardScript.instance.LoadLeaderboardAsync(passes)
                 );
+
+                if (Main.Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
+                {
+                    IngameLeaderboardScript.instance.GetComponent<RectTransform>().localScale = new(Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale, Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale);
+                }
             }
         }
 

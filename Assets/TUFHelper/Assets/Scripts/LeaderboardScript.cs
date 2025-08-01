@@ -98,7 +98,9 @@ public class LeaderboardScript : MonoBehaviour
 
         LastLoadedPasses = passes;
 
-        var yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
+        PassesListInfoElementJson yourBestScore = null;
+
+        if (AccountScript.instance.AccountInfo != null) yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
 
         if (yourBestScore != null)
         {

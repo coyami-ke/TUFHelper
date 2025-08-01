@@ -1,5 +1,7 @@
+using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace TUFHelper.Utils
 {
@@ -7,38 +9,71 @@ namespace TUFHelper.Utils
     {
         public static void Unzip(string zipFilePath, string extractFolderPath)
         {
-            // Ensure the output directory ends with a backslash
-            if (!extractFolderPath.EndsWith("\\"))
+            // Normalize extract path
+            if (!extractFolderPath.EndsWith(Path.DirectorySeparatorChar))
             {
-                extractFolderPath += "\\";
+                extractFolderPath += Path.DirectorySeparatorChar;
             }
 
             string tufhelperPath = Main.FindTUFHelperPath();
 
-            // Path to the 7-Zip executable
-            // If 7z.exe is not in your system's PATH, provide the full path to the executable
-            string sevenZipPath = Path.Combine(tufhelperPath, "7zip", "7z.exe");
+            // Determine platform-specific 7-Zip binary
+            string sevenZipPath;
 
-            // Setup the process with the ProcessStartInfo class
-            ProcessStartInfo proccessStartInfo = new()
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                UseShellExecute = false,
+                sevenZipPath = Path.Combine(tufhelperPath, "7zip", "7z.exe");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) ||
+                 RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                sevenZipPath = Path.Combine(tufhelperPath, "7zip", "7zz");
+
+                if (!File.Exists(sevenZipPath))
+                    throw new FileNotFoundException($"7zz binary not found at {sevenZipPath}");
+
+                // Ensure executable
+                try
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "/bin/chmod",
+                        Arguments = $"+x \"{sevenZipPath}\"",
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    })?.WaitForExit();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Warning: Failed to chmod 7zz: {ex.Message}");
+                }
+            }
+            else
+            {
+                throw new PlatformNotSupportedException("Only Windows and Linux platforms are supported.");
+            }
+
+            // Setup the extraction process
+            ProcessStartInfo processStartInfo = new()
+            {
                 FileName = sevenZipPath,
-                CreateNoWindow = true, // Set this to false if you want to see the 7-Zip window
+                Arguments = $"x \"{zipFilePath}\" -o\"{extractFolderPath}\" -y",
+                UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
-
-                // Set arguments for the extraction command
-                // Using 'x' for full path extraction, replace with 'e' if you don't want to preserve directory structure
-                Arguments = $"x \"{zipFilePath}\" -o\"{extractFolderPath}\" -y"
+                CreateNoWindow = true
             };
 
-            using Process process = Process.Start(proccessStartInfo);
-            // Read the output (or errors)
+            using Process process = Process.Start(processStartInfo);
             string output = process.StandardOutput.ReadToEnd();
             string errors = process.StandardError.ReadToEnd();
 
-            process.WaitForExit(); // Wait for the extraction to finish
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                throw new Exception($"7-Zip extraction failed with exit code {process.ExitCode}:\n{errors}");
+            }
         }
     }
 }

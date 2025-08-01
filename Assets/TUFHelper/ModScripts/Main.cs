@@ -13,7 +13,7 @@ namespace TUFHelper
 {
     public static class Main
     {
-        internal static string modVersion = "2.2.0";
+        internal static string modVersion = "2.3.0";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;
@@ -104,6 +104,14 @@ namespace TUFHelper
             return true;
         }
 
+        public static string CreateLabeledTextField(string label, string value)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(label, GUILayout.Width(100));
+            value = GUILayout.TextField(value, GUILayout.Width(50));
+            GUILayout.EndHorizontal();
+            return value;
+        }
         internal static void OnGUI(ModEntry modEntry)
         {
             GUILayout.BeginHorizontal();
@@ -117,10 +125,41 @@ namespace TUFHelper
             Setting.StartWithGame = GUILayout.Toggle(Setting.StartWithGame, "Start With Game");
             GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
+            GUILayout.BeginVertical("box");
+            GUILayout.Label("In-game Overlayer");
+
             Setting.ShowTUFHelperOverlayer = GUILayout.Toggle(Setting.ShowTUFHelperOverlayer, "Show TUFHelper Overlayer");
-            GUILayout.EndHorizontal();
+
+            if (!Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
+                Setting.OverlayerElementsPositions["IngameLeaderboard"] = new();
+
+            GUILayout.Label($"Leaderboard Scale: {Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale:F2}");
+            Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale = Mathf.Round(
+                GUILayout.HorizontalSlider(
+                    Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale,
+                    0.5f,
+                    2.0f,
+                    GUILayout.Width(300)
+                ) * 100f
+            ) / 100f;
+
+            if (!Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
+                Setting.OverlayerElementsPositions["PPDisplayer"] = new();
+
+            GUILayout.Label($"PP Displayer Scale: {Setting.OverlayerElementsPositions["PPDisplayer"].Scale:F2}");
+            Setting.OverlayerElementsPositions["PPDisplayer"].Scale = Mathf.Round(
+                GUILayout.HorizontalSlider(
+                    Setting.OverlayerElementsPositions["PPDisplayer"].Scale,
+                    0.5f,
+                    2.0f,
+                    GUILayout.Width(300)
+                ) * 100f
+            ) / 100f;
+
+
+            GUILayout.EndVertical();
         }
+
 
 
         internal static void OnSaveGUI(ModEntry modEntry)

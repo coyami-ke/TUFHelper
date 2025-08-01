@@ -117,6 +117,8 @@ public class LevelListScript : MonoBehaviour
 
     public LevelFolder LevelFolder { get; set; }
 
+    private int randomIDLevel = -1;
+
 
     public void Awake()
     {
@@ -163,6 +165,19 @@ public class LevelListScript : MonoBehaviour
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
         float totalHeight = ViewModel.LevelPrefabScripts.Count * 125 + 90;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+
+        if (randomIDLevel == -177013 || !ShowOnlyDownloaded) return;
+
+        if (randomIDLevel == -1)
+        {
+            randomIDLevel = UnityEngine.Random.Range(0, GetLevelPrefabScripts().Length - 1);
+        }
+
+        if (randomIDLevel != -1)
+        {
+            SelectIndex(GetLevelPrefabScripts(), randomIDLevel);
+            randomIDLevel = -177013;
+        }
     }
 
     public void Update()
@@ -340,6 +355,8 @@ public class LevelListScript : MonoBehaviour
 
             ViewModel.LevelPrefabScripts.AddRange(levels.ToArray());
 
+            
+
             return;
         }
 
@@ -398,7 +415,7 @@ public class LevelListScript : MonoBehaviour
         catch (Exception ex)
         {
             Main.Logger.Error("Update failed: " + ex.Message);
-            Main.Logger.Error(DefaultRequest.Answer);
+            Main.Logger.Error(ex.Source);
         }
         finally
         {

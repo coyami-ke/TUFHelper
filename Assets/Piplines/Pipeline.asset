@@ -105,4 +105,4 @@ MonoBehaviour:
   stageDebugDatabases: 0
   releaseBuild: 0
   assemblyArtifactPath: <AssemblyStaging>
-  buildTarget: 5
+  buildTarget: 19

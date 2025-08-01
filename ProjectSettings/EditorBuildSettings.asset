@@ -8,13 +8,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/TUFHelper/Scenes/TUFLevelSelect.unity
     guid: e91843089d6f78745920afdb4eb261c3
-  - enabled: 0
-    path: Assets/DirectLevel/Scenes/TogetherLobby.unity
-    guid: 529f27e372be79b4090b9d87fd53918e
-  - enabled: 0
-    path: Assets/DirectLevel/Scenes/TogetherReady.unity
-    guid: 0e948e3421d83424ca085dff7fc36e73
-  - enabled: 0
-    path: Assets/TUFHelper/Scenes/TUFLevelInfo.unity
-    guid: 05b98e8c9a9c43e44b3e94ef52677e49
   m_configObjects: {}

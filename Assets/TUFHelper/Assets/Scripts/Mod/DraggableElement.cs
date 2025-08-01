@@ -18,7 +18,10 @@ public class DraggableElement : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
 
-        if (Main.Setting.OverlayerElementsPositions.ContainsKey(saveID)) rectTransform.localPosition = new(Main.Setting.OverlayerElementsPositions[saveID].X, Main.Setting.OverlayerElementsPositions[saveID].Y);
+        if (Main.Setting.OverlayerElementsPositions.ContainsKey(saveID))
+        {
+            rectTransform.localPosition = new(Main.Setting.OverlayerElementsPositions[saveID].X, Main.Setting.OverlayerElementsPositions[saveID].Y);
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -37,7 +40,12 @@ public class DraggableElement : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         isDragging = false;
 
-        Main.Setting.OverlayerElementsPositions[saveID] = new() { X = rectTransform.localPosition.x, Y = rectTransform.localPosition.y };
+        if (!Main.Setting.OverlayerElementsPositions.ContainsKey(saveID)) Main.Setting.OverlayerElementsPositions[saveID] = new() { X = rectTransform.localPosition.x, Y = rectTransform.localPosition.y };
+        else
+        {
+            Main.Setting.OverlayerElementsPositions[saveID].X = rectTransform.localPosition.x;
+            Main.Setting.OverlayerElementsPositions[saveID].Y = rectTransform.localPosition.y;
+        }
     }
 
 

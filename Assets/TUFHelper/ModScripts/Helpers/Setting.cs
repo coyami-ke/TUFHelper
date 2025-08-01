@@ -10,10 +10,11 @@ using UnityModManagerNet;
 
 namespace TUFHelper.Utils
 {
-    public class Vector2Data
+    public class TransformOverlayerElement
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        public float X { get; set; } = 0;
+        public float Y { get; set; } = 0;
+        public float Scale { get; set; } = 1;
     }
     public class DownloadedLevel
     {
@@ -23,7 +24,8 @@ namespace TUFHelper.Utils
     }
     public class Setting : UnityModManager.ModSettings
     {
-        public string LevelSaveFolder { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + @"\TUFHelper\Levels";
+        public string LevelSaveFolder { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TUFHelper", "Levels");
+
         public bool PlayBackgroundMusic { get; set; } = true;
         public int MinDiff { get; set; } = 1;
         public int MaxDiff { get; set; } = 60;
@@ -38,7 +40,7 @@ namespace TUFHelper.Utils
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
         public HashSet<int> FavoriteLevels { get; set; } = new();
         public List<LevelFolder> LevelFolders { get; set; } = new();
-        public Dictionary<string, Vector2Data> OverlayerElementsPositions { get; set; } = new();
+        public Dictionary<string, TransformOverlayerElement> OverlayerElementsPositions { get; set; } = new();
 
         public override void Save(UnityModManager.ModEntry modEntry)
         {

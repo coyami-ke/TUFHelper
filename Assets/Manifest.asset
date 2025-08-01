@@ -29,8 +29,8 @@ MonoBehaviour:
   m_Name: ManifestIdentity
   m_EditorClassIdentifier: 
   StagingPaths: []
-  Author: 
-  Name: 
-  Description: 
-  Version: 
+  Author: coyami-ke
+  Name: TUFHelper
+  Description: TUF Mod
+  Version: 2.3.0
   Dependencies: []

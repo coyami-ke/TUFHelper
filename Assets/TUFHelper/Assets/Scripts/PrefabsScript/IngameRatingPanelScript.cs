@@ -13,6 +13,7 @@ public class IngameRatingPanelScript : MonoBehaviour
     public TextMeshProUGUI songArtist;
     public TMP_InputField yourCommentField, yourRatingField;
     public GameObject parentVotesList, votePrefab;
+    public Button saveChangesButton;
 
     public Toggle deleteLevelInput;
 
@@ -48,6 +49,17 @@ public class IngameRatingPanelScript : MonoBehaviour
         RectTransform contentRect = parentVotesList.GetComponent<RectTransform>();
         float totalHeight = i * 70;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+    }
+    public void TextChanged(string text)
+    {
+        if (string.IsNullOrEmpty(yourRatingField.text) || string.IsNullOrEmpty(yourCommentField.text))
+        {
+            saveChangesButton.interactable = false;
+        }
+        else
+        {
+            saveChangesButton.interactable = true;
+        }
     }
 
 
