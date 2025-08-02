@@ -55,15 +55,15 @@ namespace TUFHelper
             _ = typeof(IngameRatingPatch); // triggers static constructor
         }
 
-        [HarmonyPatch(typeof(scrEnableIfBeta), "Awake")]
-        [HarmonyPostfix]
-        public static void PatchHUD()
-        {
-            var txt = GameObject.Find("txtBetaIndicator")?.transform;
-            if (txt != null)
-            {
-                txt.GetComponent<TMP_Text>().text = "tung tung tung sahur";
-            }
-        }
+        // [HarmonyPatch(typeof(scrEnableIfBeta), "Awake")]
+        // [HarmonyPostfix]
+        // public static void PatchHUD()
+        // {
+        //     var txt = GameObject.Find("txtBetaIndicator")?.transform;
+        //     if (txt != null)
+        //     {
+        //         txt.GetComponent<TMP_Text>().text = "tung tung tung sahur";
+        //     }
+        // }
     }
 }

@@ -14,6 +14,9 @@ public class WindowsManager : MonoBehaviour
     public GameObject FolderList;
     public GameObject RatingPanel;
 
+    public List<GameObject> levelSearchElements;
+    public List<GameObject> ratingSearchElements;
+
     private Dictionary<GameObject, RectTransform> panelTransforms;
     private Dictionary<GameObject, Vector2> initialPositions;
     private Dictionary<GameObject, Vector2> initialSize;
@@ -140,10 +143,32 @@ public class WindowsManager : MonoBehaviour
         PassInfo.SetActive(false);
         global::FolderList.instance.IsShow = false;
 
+        LevelList.SetActive(false);
+
         RatingPanel.SetActive(true);
+
+        foreach (var element in levelSearchElements)
+        {
+            element.SetActive(false);
+        }
+        foreach (var element in ratingSearchElements)
+        {
+            element.SetActive(true);
+        }
     }
     public void HideRatingPanel()
     {
+        LevelList.SetActive(true);
+
+        foreach (var element in levelSearchElements)
+        {
+            element.SetActive(true);
+        }
+        foreach (var element in ratingSearchElements)
+        {
+            element.SetActive(false);
+        }
+
         MoveToLevelList();
         // PassesList.SetActive(false);
         // PassInfo.SetActive(false);

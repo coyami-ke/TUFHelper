@@ -13,8 +13,6 @@ public class AccountSettings : MonoBehaviour
 {
     public Toggle ratingModeToggle;
 
-    public GameObject blockTopPanelImage, blockBottomPanelImage;
-
     public Toggle showOnlyDownloadedToggle;
     public TMP_InputField searchField;
 
@@ -29,13 +27,6 @@ public class AccountSettings : MonoBehaviour
             if (!value) windowRect.DOSizeDelta(new(windowRect.sizeDelta.x, 0), 0.5f).SetEase(Ease.OutExpo);
             else windowRect.DOSizeDelta(new(windowRect.sizeDelta.x, HeightWindow), 0.5f).SetEase(Ease.OutExpo);
             backgroundObject.SetActive(value);
-
-            if (value)
-            {
-                searchField.text = "#";
-                showOnlyDownloadedToggle.isOn = false;
-                LevelListScript.instance.ClearLevels();
-            }
         }
     }
 
@@ -95,8 +86,12 @@ public class AccountSettings : MonoBehaviour
         }
         catch { }
 
-        blockTopPanelImage.SetActive(value);
-        blockBottomPanelImage.SetActive(value);
+        if (value)
+        {
+            searchField.text = "#";
+            showOnlyDownloadedToggle.isOn = false;
+            LevelListScript.instance.ClearLevels();
+        }
 
         RatingPanel.instance?.UpdateList();
 
