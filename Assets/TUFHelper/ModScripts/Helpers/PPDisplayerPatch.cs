@@ -73,8 +73,12 @@ namespace TUFHelper
             if (ppDisplayer == null) return;
 
             var account = AccountSaver.GetAccount();
-            bool shouldDisplay = Main.Setting.ShowTUFHelperOverlayer && !(account?.IsRatingMode ?? false);
-            ppDisplayerObject.SetActive(shouldDisplay);
+            bool shouldDisplay = Main.Setting.ShowTUFHelperOverlayer &&  !(account?.IsRatingMode ?? false);
+            bool flag2 = Main.Setting.ShowIngamePPCounter == false && Main.Setting.ShowIngameSpeed == false;
+            ppDisplayerObject.SetActive(shouldDisplay || flag2);
+
+            ppDisplayer.PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
+            ppDisplayer.Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
 
             ppDisplayer.ApplySpped(speed);
             ppDisplayer.ApplyPP(0);

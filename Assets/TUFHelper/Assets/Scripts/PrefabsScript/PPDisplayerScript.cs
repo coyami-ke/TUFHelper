@@ -188,6 +188,10 @@ public class PPDisplayerScript : MonoBehaviour
 
             return accuracy;
         }
+        public static double CalcAcc(PassesListInfoElementJudgementsJson input)
+        {
+            return CalcAcc(new Judgements() { Perfect = input.Perfect, EPerfect = input.EPerfect, EarlySingle = input.EarlySingle, LateSingle = input.LateSingle, EarlyDouble = input.EarlyDouble, LateDouble = input.LateDouble, LPerfect = input.LPerfect, Deaths = input.Deaths});
+        }
 
     }
 

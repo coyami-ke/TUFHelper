@@ -129,6 +129,9 @@ namespace TUFHelper
             GUILayout.Label("In-game Overlayer");
 
             Setting.ShowTUFHelperOverlayer = GUILayout.Toggle(Setting.ShowTUFHelperOverlayer, "Show TUFHelper Overlayer");
+            Setting.ShowIngameSpeed = GUILayout.Toggle(Setting.ShowIngameSpeed, "Show In-game Speed Text");
+            Setting.ShowIngamePPCounter = GUILayout.Toggle(Setting.ShowIngamePPCounter, "Show In-game PP Counter");
+            Setting.ShowIngameLeaderboard = GUILayout.Toggle(Setting.ShowIngameLeaderboard, "Show In-game Leaderboard");
 
             if (!Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
                 Setting.OverlayerElementsPositions["IngameLeaderboard"] = new();

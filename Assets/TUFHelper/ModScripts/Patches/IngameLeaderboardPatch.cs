@@ -33,7 +33,8 @@ namespace TUFHelper
             if (IngameLeaderboardScript.instance != null)
             {
                 var account = AccountSaver.GetAccount();
-                bool show = Main.Setting.ShowTUFHelperOverlayer && !(account?.IsRatingMode ?? false);
+                bool show = Main.Setting.ShowTUFHelperOverlayer && Main.Setting.ShowIngameLeaderboard && !(account?.IsRatingMode ?? false);
+
                 IngameLeaderboardScript.instance.gameObject.SetActive(show);
 
                 IngameLeaderboardScript.instance.StartCoroutine(
@@ -42,10 +43,19 @@ namespace TUFHelper
 
                 if (Main.Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
                 {
-                    IngameLeaderboardScript.instance.GetComponent<RectTransform>().localScale = new(Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale, Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale);
+                    IngameLeaderboardScript.instance.GetComponent<RectTransform>().localScale =
+                        new(Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale,
+                            Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale);
+                }
+
+                // ✅ Reset player judgements to start fresh
+                if (IngameLeaderboardScript.PlayerRankPrefab?.PassInfo?.Judgements != null)
+                {
+                    IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Judgements = new();
                 }
             }
         }
+
 
         private static void OnHit(object sender, HitEventArgs e)
         {
@@ -57,45 +67,47 @@ namespace TUFHelper
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
 
-            var judg = new PPDisplayerScript.Judgements
+            UpdateJudgements(player.Judgements, e.Hit);
+
+            var judg = player.Judgements;
+
+            var passData = new PPDisplayerScript.PassData
             {
-                Perfect = player.Judgements.Perfect,
-                Deaths = player.Judgements.Deaths,
-                EPerfect = player.Judgements.EPerfect,
-                LPerfect = player.Judgements.LPerfect,
-                EarlySingle = player.Judgements.EarlySingle,
-                LateSingle = player.Judgements.LateSingle,
-                EarlyDouble = player.Judgements.EarlyDouble,
-                LateDouble = player.Judgements.LateDouble,
+                IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
+                Judgements = new()
+                {
+                    Perfect = judg.Perfect,
+                    LPerfect = judg.LPerfect, // ✅ FIXED!
+                    EPerfect = judg.EPerfect,
+                    EarlySingle = judg.EarlySingle,
+                    LateSingle = judg.LateSingle,
+                    EarlyDouble = judg.EarlyDouble,
+                    LateDouble = judg.LateDouble,
+                    Deaths = judg.Deaths
+                },
+                Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
             };
 
-            UpdateJudgements(judg, e.Hit);
-
-            var score = PPDisplayerScript.ScoreCalculator.GetScoreV2(
-                new PPDisplayerScript.PassData
+            var levelData = new PPDisplayerScript.LevelData
+            {
+                BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
+                Difficulty = new PPDisplayerScript.Difficulty
                 {
-                    IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
-                    Judgements = judg,
-                    Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
-                },
-                new PPDisplayerScript.LevelData
-                {
-                    BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
-                    Difficulty = new PPDisplayerScript.Difficulty
-                    {
-                        Name = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId],
-                        BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]]
-                    }
-                });
+                    Name = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId],
+                    BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]]
+                }
+            };
 
-            player.ScoreV2 = (float)score;
+            player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(passData, levelData);
             player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
 
             IngameLeaderboardScript.PlayerRankPrefab.UpdateVisual();
             IngameLeaderboardScript.instance.UpdateRanks();
         }
 
-        private static void UpdateJudgements(PPDisplayerScript.Judgements judgements, HitMargin hit)
+
+
+        private static void UpdateJudgements(PassesListInfoElementJudgementsJson judgements, HitMargin hit)
         {
             switch (hit)
             {
