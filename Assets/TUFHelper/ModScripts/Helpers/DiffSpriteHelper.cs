@@ -190,87 +190,15 @@ namespace TUFHelper.Utils
         }
         public static bool IsSpecialDiff(string diff)
         {
-            return diff switch
-            {
-                "0" => true,
-                "Gimmick" => true,
-                "U13J" => true,
-                "Marathon" => true,
-                "Impossible" => true,
-                "Censored" => true,
-                "U1J" => true,
-                "U5J" => true,
-                "U6J" => true,
-                "U7J" => true,
-                "U9J" => true,
-                "U11J" => true,
-                "U15J" => true,
-                "Qq" => true,
-                "Q2" => true,
-                "Q2+" => true,
-                "Q3" => true,
-                "Q3+" => true,
-                "Q4" => true,
-                _ => false,
-            };
-            // { 12314234, "U1J" },
-            // { 3434123, "U5J "},
-            // { 3412343, "U6J" }, 
-            // { 103293, "U7J" },
-            // { 423142314, "U9J" },
-            // { 12312341, "U11J" },
-            // { 3452345, "U15J" },
+            string diffStr = diff;
+            if (diffStr == "Gimmick") return true;
+            if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J"))) return false;
+            else return true;
         }
         public static bool IsSpecialDiff(int diff)
         {
-            return diff switch
-            {
-                0 => true,
-                1004 => true,
-                10006123 => true,
-                12314234 => true,
-                3434123 => true,
-                103293 => true,
-                423142314 => true,
-                12312341 => true,
-                3452345 => true,
-                1003 => true,
-                10010 => true,
-                10011 => true,
-                10100 => true,
-                10002 => true,
-                10003 => true,
-                10004 => true,
-                10005 => true,
-                10006 => true,
-                10101 => true,
-                1000 => true,
-                _ => false,
-            };
-            // { 12314234, "U1J" },
-            // { 3434123, "U5J "},
-            // { 3412343, "U6J" }, 
-            // { 103293, "U7J" },
-            // { 423142314, "U9J" },
-            // { 12312341, "U11J" },
-            // { 3452345, "U15J" },
-            // { 1004, "Gimmick" },
-            // { 10006123, "U13J" },
-            // { 1003, "Marathon" },
-            // { 10100, "Qq" },
-            // { 10002, "Q2" },
-            // { 10003, "Q2+" },
-            // { 10004, "Q3" },
-            // { 10005, "Q3+" },
-            // { 10006, "Q4" },
-            // { 10101, "-21"},
-            // { 1000, "-2" },
-
-            // { 10010, "Q0" },
-            // { 10011, "Q1"},
-            // { 10002, "Q2" },
-            // { 10004, "Q3" },
-            // { 10006, "Q4" },
+            string diffStr = DiffIDRegister[diff];
+            return IsSpecialDiff(diffStr);
         }
     }
 }
