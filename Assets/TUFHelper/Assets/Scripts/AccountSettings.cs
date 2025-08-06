@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -40,33 +41,23 @@ public class AccountSettings : MonoBehaviour
     public static AccountSettings instance { get; private set; }
     public void Awake()
     {
-        if (instance == null)
-            instance = this;
-
-        if (ratingModeToggle == null)
-            Main.Logger.Error("RatingModeToggle is not assigned!");
-
-        UpdateSettings();
-        IsShow = false;
+        instance = this;
     }
 
-    public void Start()
+    public void StartWindowsManager()
     {
+        UpdateSettings();
+
         var account = AccountSaver.GetAccount();
         if (account == null) return;
 
-        if (ratingModeToggle != null)
-        {
-            // try
-            // {
-            //     ratingModeToggle.isOn = account.IsRatingMode;
-            // }
-            // catch { }
-            OnRatingModeChanged(false);
-        }
+        ratingModeToggle.isOn = ADOFAIGameplayHandler.EditorPlayPatch.RatingMode;
 
+        OnRatingModeChanged(ratingModeToggle.isOn);
 
-        OnRatingModeChanged(false);
+        Main.Logger.Log(ratingModeToggle.isOn.ToString());
+
+        IsShow = false;
     }
     public void UpdateSettings()
     {
@@ -79,19 +70,14 @@ public class AccountSettings : MonoBehaviour
         AccountScript.instance.AccountSaver.IsRatingMode = value;
         AccountScript.instance.AccountSaver.Save();
 
-        try
-        {
-            if (value) WindowsManager.instance.ShowRatingPanel();
-            else WindowsManager.instance.HideRatingPanel();
-        }
-        catch { }
-
-        if (value)
-        {
-            searchField.text = "#";
-            showOnlyDownloadedToggle.isOn = false;
-            LevelListScript.instance.ClearLevels();
-        }
+        if (value) WindowsManager.instance.ShowRatingPanel();
+        else WindowsManager.instance.HideRatingPanel();
+        // if (value)
+        // {
+        //     searchField.text = "#";
+        //     showOnlyDownloadedToggle.isOn = false;
+        //     LevelListScript.instance.ClearLevels();
+        // }
 
         RatingPanel.instance?.UpdateList();
 

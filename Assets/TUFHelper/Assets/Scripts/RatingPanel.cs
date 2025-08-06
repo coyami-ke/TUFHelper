@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using Newtonsoft.Json;
 using TMPro;
@@ -10,18 +11,29 @@ using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RatingPanel : MonoBehaviour
 {
     public GameObject scrollableParent, prefab, listParent;
-    
+
+    private bool isHideRatedValue;
+    private Rating4Plus rating4PlusValue;
+
+
+    public TMP_Dropdown rating4Plus;
+    public Toggle hideRated;
+
     public RatingElementJson[] RatingElements { get; private set; }
 
     public static RatingPanel instance { get; private set; }
 
     public void Awake()
     {
-        if (instance == null) instance = this;
+        instance = this;
+
+        hideRated.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<bool>(OnHideRatedChanged));
+        rating4Plus.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<int>(On4PlusRatedChanged));
     }
 
     private CancellationToken cancellationToken;
@@ -33,12 +45,33 @@ public class RatingPanel : MonoBehaviour
         await request.GetAnswerAsync(cancellationToken);
 
         List<RatingElementJson> elements = JsonConvert.DeserializeObject<List<RatingElementJson>>(request.Answer);
-        
+
+        List<RatingElementJson> filtered = new();
+
+        foreach (var element in elements.ToArray())
+        {
+            bool passesRatingCountFilter = rating4PlusValue switch
+            {
+                Rating4Plus.Show => true,
+                Rating4Plus.Hide => element.Details.Count < 4,
+                Rating4Plus.Only => element.Details.Count >= 4,
+                _ => false
+            };
+
+            var yourRating = element.Details.FirstOrDefault(e => e.User.Username == AccountScript.instance.AccountInfo.User.Username);
+            
+            bool passesRatedFilter = !isHideRatedValue || yourRating != null;
+
+            if (passesRatingCountFilter && passesRatedFilter)
+                filtered.Add(element);
+        }
+
+
         foreach (Transform child in listParent.transform)
             Destroy(child.gameObject);
 
         int i = 0;
-        foreach (var element in elements)
+        foreach (var element in filtered)
         {
             GameObject obj = Instantiate(prefab, listParent.transform);
             RectTransform rect = obj.GetComponent<RectTransform>();
@@ -60,10 +93,34 @@ public class RatingPanel : MonoBehaviour
 
         Main.Logger.Log("Rating Elements: " + elements.Count);
     }
+
+    public void On4PlusRatedChanged(int value)
+    {
+        switch (value)
+        {
+            case 0: rating4PlusValue = Rating4Plus.Hide; break;
+            case 1: rating4PlusValue = Rating4Plus.Show; break;
+            case 2: rating4PlusValue = Rating4Plus.Only; break;
+        }
+        Main.Logger.Log(value.ToString());
+        UpdateList();
+    }
+    public void OnHideRatedChanged(bool value)
+    {
+        isHideRatedValue = value;
+        Main.Logger.Log(value.ToString());
+        UpdateList();
+    }
 }
 
 namespace TUFHelper.Utils
 {
+    public enum Rating4Plus
+    {
+        Hide,
+        Show,
+        Only,
+    }
     public class RatingElementJson
     {
         [JsonProperty("id")]

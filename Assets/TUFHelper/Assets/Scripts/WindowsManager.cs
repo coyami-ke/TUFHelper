@@ -23,8 +23,7 @@ public class WindowsManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        instance = this;
     }
 
     private void Start()
@@ -46,6 +45,8 @@ public class WindowsManager : MonoBehaviour
         }
 
         PassInfo.SetActive(false);
+
+        AccountSettings.instance.StartWindowsManager();
     }
 
     public bool FolderListActive { get; private set; } = false;
@@ -170,6 +171,7 @@ public class WindowsManager : MonoBehaviour
         }
 
         MoveToLevelList();
+        AddLevelToFolder.instance.IsShow = false;
         // PassesList.SetActive(false);
         // PassInfo.SetActive(false);
         // FolderList.SetActive(false);

@@ -435,33 +435,32 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
     {
-        //DownloadPopupScript.IsDownloading = false;
+        HideUIFixPatch.RecentDirectLevelOpend = true;
+
+        GCS.sceneToLoad = "scnEditor";
+        GCS.worldEntrance = null;
+        scnEditor.levelToOpenOnLoad = levelFilePath;
+
+        ADOFAIGameplayHandler.IsFromTUFHelper = true;
+
+        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
+
         try
         {
-            HideUIFixPatch.RecentDirectLevelOpend = true;
-
-            GCS.sceneToLoad = "scnEditor";
-            GCS.worldEntrance = null;
-            scnEditor.levelToOpenOnLoad = levelFilePath;
-
-            ADOFAIGameplayHandler.IsFromTUFHelper = true;
-
-            ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
-
             var account = AccountSaver.GetAccount();
             if (account != null && account.IsRatingMode)
             {
                 ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
                 ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
             }
-            else ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
-
-            SceneManager.LoadScene("scnEditor");
         }
-        catch (Exception ex)
+        catch
         {
-            Main.Logger.Error(ex.Message + ex.Source);
+            ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
+            ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = null;
         }
+        
+        SceneManager.LoadScene("scnEditor");
     }
     public void OnPointerClick(PointerEventData eventData)
     {

@@ -73,12 +73,16 @@ namespace TUFHelper.Utils
             { 1004, "Gimmick" },
             { 10006123, "U13J" },
             { 1003, "Marathon" },
+
             { 10100, "Qq" },
+
+            { 10010, "Q0" },
+            { 10011, "Q1"},
             { 10002, "Q2" },
-            { 10003, "Q2+" },
             { 10004, "Q3" },
-            { 10005, "Q3+" },
             { 10006, "Q4" },
+
+
             { 10101, "Impossible"},
             { 1000, "Censored" },
             { 12314234, "U1J" },
@@ -96,10 +100,10 @@ namespace TUFHelper.Utils
             { "U13J", 0},
             { "Marathon" , 0 },
             { "Qq" , 0 },
+            { "Q0" , 0 },
+            { "Q1" , 0 },
             { "Q2" , 0 },
-            { "Q2+" , 0 },
             { "Q3" , 0 },
-            { "Q3+" , 0 },
             { "Q4" , 0 },
             { "Impossible" , 0},
             { "Censored" , 0 },
@@ -219,7 +223,7 @@ namespace TUFHelper.Utils
         }
         public static bool IsSpecialDiff(int diff)
         {
-            return diff switch// add support for other UJ difficulties and replace the old icon (-21 and -2) to the new ones
+            return diff switch
             {
                 0 => true,
                 1004 => true,
@@ -231,6 +235,8 @@ namespace TUFHelper.Utils
                 12312341 => true,
                 3452345 => true,
                 1003 => true,
+                10010 => true,
+                10011 => true,
                 10100 => true,
                 10002 => true,
                 10003 => true,
@@ -259,6 +265,12 @@ namespace TUFHelper.Utils
             // { 10006, "Q4" },
             // { 10101, "-21"},
             // { 1000, "-2" },
+
+            // { 10010, "Q0" },
+            // { 10011, "Q1"},
+            // { 10002, "Q2" },
+            // { 10004, "Q3" },
+            // { 10006, "Q4" },
         }
     }
 }

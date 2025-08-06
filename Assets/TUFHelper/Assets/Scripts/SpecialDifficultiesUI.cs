@@ -15,7 +15,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     public RectTransform menuTransform;
 
     public Toggle marathonToggle, gimmickToggle, unrankedToggle, minus2Toggle, minus21Toggle;
-    public Toggle qqToggle, q2Toggle, q2PlusToggle, q3Toggle, q3PlusToggle, q4Toggle;
+    public Toggle qqToggle, q0Toggle, q1Toggle, q2Toggle, q3Toggle, q4Toggle;
 
     private readonly Color selectedColor = new(1f, 1f, 1f, 20f / 255f);
     private readonly Color unselectedColor = new(1f, 1f, 1f, 10f / 255f);
@@ -53,10 +53,10 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             { "Censored", minus2Toggle },
             { "Impossible", minus21Toggle },
             { "Qq", qqToggle },
+            { "Q0", q0Toggle },
+            { "Q1", q1Toggle },
             { "Q2", q2Toggle },
-            { "Q2+", q2PlusToggle },
             { "Q3", q3Toggle },
-            { "Q3+", q3PlusToggle },
             { "Q4", q4Toggle },
         };
 
