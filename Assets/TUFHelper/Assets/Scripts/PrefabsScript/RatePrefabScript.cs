@@ -22,6 +22,8 @@ public class RatePrefabScript : MonoBehaviour
 {
     public TextMeshProUGUI artistSong, yourRating, managerRating, communityRating, supposedRate, rerateMessage, levelID, currentRating;
 
+    public RectTransform rectTransform;
+
     public Image background;
 
     public RatingElementJson RatingInfo { get; private set; }
@@ -48,6 +50,8 @@ public class RatePrefabScript : MonoBehaviour
 
         if (info?.RequestedDiffID < 20) background.color = new(0.25f, 1, 0.25f, 50 / 255f);
         else if (info.Details.Count >= 4) background.color = new(1, 0.25f, 0.25f, 50 / 255f);
+
+        rectTransform.sizeDelta = new(1150, 150 + rerateMessage.preferredHeight);
 
         RatingInfo = info;
     }
@@ -99,6 +103,11 @@ public class RatePrefabScript : MonoBehaviour
     {
         string url = $"https://tuforums.com/admin/rating#{RatingInfo.Level.ID}";
         GUIUtility.systemCopyBuffer = url;
+    }
+    public void OpenInSite()
+    {
+        string url = $"https://tuforums.com/admin/rating#{RatingInfo.Level.ID}";
+        Application.OpenURL(url);
     }
 
     private LevelListInfoElementJson lastLevel;

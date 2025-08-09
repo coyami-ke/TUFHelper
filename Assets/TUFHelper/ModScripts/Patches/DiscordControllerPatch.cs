@@ -21,12 +21,11 @@ namespace TUFHelper
 
             if (Main.isInTUFHelper)
             {
-                string detail = "TUFHelper";
-                string state = "Beta 2.2";
-                string imageText = "A Dance of Fire and Ice";
+                string detail = "TUFHelper by coyami-ke";
+                string state = "Beta 2.3.0";
 
                 Activity activity = default(Activity);
-                activity.Name = "milkiway - crush crush";
+                activity.Name = "A Dance of Fire and Ice";
                 activity.State = state;
                 activity.Details = detail;
                 activity.Assets.LargeImage = "planets_icon_stars";

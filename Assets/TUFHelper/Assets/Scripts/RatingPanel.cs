@@ -71,22 +71,25 @@ public class RatingPanel : MonoBehaviour
             Destroy(child.gameObject);
 
         int i = 0;
+        float height = 0;
         foreach (var element in filtered)
         {
             GameObject obj = Instantiate(prefab, listParent.transform);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             rect.localScale = Vector3.one;
-            rect.anchoredPosition = new Vector2(0, i * -155 - 30);
 
             var rps = obj.GetComponent<RatePrefabScript>();
             rps.SetRateInfo(element);
+
+            rect.anchoredPosition = new Vector2(0, -height); //new Vector2(0, i * -(5 + rps.rectTransform.sizeDelta.y) - 30);
+            height += rps.rectTransform.sizeDelta.y + 5;
 
             i++;
         }
 
         RectTransform contentRect = listParent.GetComponent<RectTransform>();
-        float totalHeight = (i + 1) * 155 + 30;
+        float totalHeight = height;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
         RatingElements = elements.ToArray();
