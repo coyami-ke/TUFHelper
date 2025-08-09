@@ -105,6 +105,12 @@ public class AccountScript : MonoBehaviour
         }
     }
 
+    public void RegisterAccount()
+    {
+        string url = "https://tuforums.com/register";
+        Application.OpenURL(url);
+    }
+
     public void LogOut()
     {
         if (File.Exists(AccountSaver.PATH_TO_ACCOUNT_FILE))
