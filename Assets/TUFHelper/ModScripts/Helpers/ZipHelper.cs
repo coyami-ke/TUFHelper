@@ -72,7 +72,8 @@ namespace TUFHelper.Utils
 
             if (process.ExitCode != 0)
             {
-                throw new Exception($"7-Zip extraction failed with exit code {process.ExitCode}:\n{errors}");
+                //throw new Exception($"7-Zip extraction failed with exit code {process.ExitCode}:\n{errors}");
+                Main.Logger.Error($"7-Zip extraction failed with exit code {process.ExitCode}:\n{errors}");
             }
         }
     }

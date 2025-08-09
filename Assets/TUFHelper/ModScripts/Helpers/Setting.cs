@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using TUFHelper.ModScripts.Json;
@@ -24,7 +25,7 @@ namespace TUFHelper.Utils
     }
     public class Setting : UnityModManager.ModSettings
     {
-        public string LevelSaveFolder { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TUFHelper", "Levels");
+        public string LevelSaveFolder { get; set; } = null;
 
         public bool PlayBackgroundMusic { get; set; } = true;
         public int MinDiff { get; set; } = 1;
@@ -44,6 +45,18 @@ namespace TUFHelper.Utils
         public bool ShowIngameLeaderboard { get; set; } = true;
         public bool ShowIngameSpeed { get; set; } = true;
         public bool ShowIngamePPCounter { get; set; } = true;
+
+        public Setting()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                LevelSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TUFHelper", "Levels");
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                LevelSaveFolder = Path.Combine(Main.FindTUFHelperPath(), "SavedLevels");
+            }
+        }
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             if (modEntry == null)
