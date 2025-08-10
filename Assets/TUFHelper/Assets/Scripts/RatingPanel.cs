@@ -23,6 +23,7 @@ public class RatingPanel : MonoBehaviour
 
     public TMP_Dropdown rating4Plus;
     public Toggle hideRated;
+    public TMP_InputField searchField;
 
     public RatingElementJson[] RatingElements { get; private set; }
 
@@ -58,18 +59,31 @@ public class RatingPanel : MonoBehaviour
                 _ => false
             };
 
-            var yourRating = element.Details.FirstOrDefault(e => e.User.Username == AccountScript.instance.AccountInfo.User.Username);
-            
-            bool passesRatedFilter = !isHideRatedValue || yourRating != null;
+            var yourRating = element.Details
+                .FirstOrDefault(e => e.User.Username == AccountScript.instance.AccountInfo.User.Username);
 
-            if (passesRatingCountFilter && passesRatedFilter)
+            bool passesRatedFilter = !isHideRatedValue || yourRating == null;
+
+            bool searchFilter;
+            if (string.IsNullOrEmpty(searchField.text))
+            {
+                searchFilter = true;
+            }
+            else
+            {
+                if (element.Level.Artist.ToLower().Contains(searchField.text) || element.Level.Song.ToLower().Contains(searchField.text)) searchFilter = true;
+                else searchFilter = false;
+            }
+
+            if (passesRatingCountFilter && passesRatedFilter && searchFilter)
                 filtered.Add(element);
         }
 
 
+
         foreach (Transform child in listParent.transform)
             Destroy(child.gameObject);
-            
+
 
         float height = 0;
         foreach (var element in filtered)
@@ -108,6 +122,11 @@ public class RatingPanel : MonoBehaviour
     {
         isHideRatedValue = value;
         Main.Logger.Log(value.ToString());
+        UpdateList();
+    }
+
+    public void OnSearchEdited()
+    {
         UpdateList();
     }
 }
