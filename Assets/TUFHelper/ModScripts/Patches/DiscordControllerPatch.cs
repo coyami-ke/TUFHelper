@@ -22,7 +22,7 @@ namespace TUFHelper
             if (Main.isInTUFHelper)
             {
                 string detail = "TUFHelper by coyami-ke";
-                string state = "Beta 2.3.0";
+                string state = "Official v2.3.0";
 
                 Activity activity = default(Activity);
                 activity.Name = "A Dance of Fire and Ice";
