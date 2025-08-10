@@ -71,15 +71,19 @@ public class AccountSettings : MonoBehaviour
         AccountScript.instance.AccountSaver.Save();
 
         if (value) WindowsManager.instance.ShowRatingPanel();
-        else WindowsManager.instance.HideRatingPanel();
+        else
+        {
+            WindowsManager.instance.HideRatingPanel();
+            ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
+        }
         // if (value)
-        // {
-        //     searchField.text = "#";
-        //     showOnlyDownloadedToggle.isOn = false;
-        //     LevelListScript.instance.ClearLevels();
-        // }
+            // {
+            //     searchField.text = "#";
+            //     showOnlyDownloadedToggle.isOn = false;
+            //     LevelListScript.instance.ClearLevels();
+            // }
 
-        RatingPanel.instance?.UpdateList();
+            RatingPanel.instance?.UpdateList();
 
         if (value) CustomMusicPlayer.instance.StopPlay();
     }

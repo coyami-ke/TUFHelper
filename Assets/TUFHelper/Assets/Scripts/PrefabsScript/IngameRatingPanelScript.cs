@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using TUFHelper.Utils;
@@ -24,30 +25,28 @@ public class IngameRatingPanelScript : MonoBehaviour
     {
         if (instance == null) instance = this;
     }
-    public void SetRatingInfo(RatingElementJson info)
+    public async Task SetRatingInfo(RatingElementJson info)
     {
         songArtist.text = $"{info.Level.Song} - {info.Level.Artist}";
         RatingInfo = info;
 
-        int i = 0;
+        float height = 0;
         foreach (var vote in info.Details)
         {
             GameObject obj = Instantiate(votePrefab, parentVotesList.transform);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             rect.localScale = Vector3.one;
-            rect.anchoredPosition = new Vector2(0, i * -70);
+            rect.anchoredPosition = new Vector2(0, -height);
 
             var script = obj.GetComponent<IngameRatingVotePrefabScript>();
-            script.SetVoteInfo(vote);
+            await script.SetVoteInfo(vote);
 
-            //info.Level.ID;
-
-            i++;
+            height += script.rectTransform.sizeDelta.y;
         }
 
         RectTransform contentRect = parentVotesList.GetComponent<RectTransform>();
-        float totalHeight = i * 70;
+        float totalHeight = height;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
     public void TextChanged(string text)

@@ -69,8 +69,8 @@ public class RatingPanel : MonoBehaviour
 
         foreach (Transform child in listParent.transform)
             Destroy(child.gameObject);
+            
 
-        int i = 0;
         float height = 0;
         foreach (var element in filtered)
         {
@@ -84,8 +84,6 @@ public class RatingPanel : MonoBehaviour
 
             rect.anchoredPosition = new Vector2(0, -height); //new Vector2(0, i * -(5 + rps.rectTransform.sizeDelta.y) - 30);
             height += rps.rectTransform.sizeDelta.y + 5;
-
-            i++;
         }
 
         RectTransform contentRect = listParent.GetComponent<RectTransform>();
@@ -93,8 +91,6 @@ public class RatingPanel : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
         RatingElements = elements.ToArray();
-
-        Main.Logger.Log("Rating Elements: " + elements.Count);
     }
 
     public void On4PlusRatedChanged(int value)
