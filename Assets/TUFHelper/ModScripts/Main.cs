@@ -23,7 +23,7 @@ namespace TUFHelper
         internal static AssetBundle assets, scenes;
         internal static bool isInTUFHelper = false;
         
-        internal static List<string> removeLevels = new();
+        // internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
         public static string FindTUFHelperPath()
@@ -78,8 +78,6 @@ namespace TUFHelper
 
             Application.wantsToQuit += () =>
             {
-                foreach (var levelPath in removeLevels)
-                    Directory.Delete(levelPath, true);
                 return true;
             };
             mainThread = SynchronizationContext.Current;

@@ -64,16 +64,10 @@ public class RatingPanel : MonoBehaviour
 
             bool passesRatedFilter = !isHideRatedValue || yourRating == null;
 
-            bool searchFilter;
-            if (string.IsNullOrEmpty(searchField.text))
-            {
-                searchFilter = true;
-            }
-            else
-            {
-                if (element.Level.Artist.ToLower().Contains(searchField.text) || element.Level.Song.ToLower().Contains(searchField.text)) searchFilter = true;
-                else searchFilter = false;
-            }
+            var searchTerm = searchField.text?.ToLower() ?? "";
+            bool searchFilter = string.IsNullOrEmpty(searchTerm) ||
+                element.Level.Artist.ToLower().Contains(searchTerm) ||
+                element.Level.Song.ToLower().Contains(searchTerm);
 
             if (passesRatingCountFilter && passesRatedFilter && searchFilter)
                 filtered.Add(element);
