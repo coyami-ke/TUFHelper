@@ -143,8 +143,6 @@ namespace TUFHelper
                 {
                     Time.timeScale = 1;
                     GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
-                    // IngameLeaderboardPatch.IsInTUFHelper = false;
-                    // PPDisplayerPatch.IsFromTUFH = false;
                     ADOFAIGameplayHandler.IsFromTUFHelper = false;
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                     return false;
@@ -152,7 +150,6 @@ namespace TUFHelper
                 return true;
             }
         }
-        
         
         private static readonly List<GameObject> portals = new List<GameObject>();
         private static readonly List<Transform> transforms = new List<Transform>();
