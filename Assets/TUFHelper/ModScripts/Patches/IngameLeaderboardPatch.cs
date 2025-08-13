@@ -57,7 +57,7 @@ namespace TUFHelper
         }
 
 
-        private static void OnHit(object sender, HitEventArgs e)
+        private static void OnHit(object sender, HitMargin e)
         {
             if (IngameLeaderboardScript.PlayerRankPrefab == null) return;
 
@@ -67,7 +67,7 @@ namespace TUFHelper
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
 
-            UpdateJudgements(player.Judgements, e.Hit);
+            UpdateJudgements(player.Judgements, e);
 
             var judg = player.Judgements;
 

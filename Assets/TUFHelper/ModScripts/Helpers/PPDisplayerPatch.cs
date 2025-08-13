@@ -102,11 +102,11 @@ namespace TUFHelper
         }
 
 
-        private static void OnEditorHit(object sender, HitEventArgs e)
+        private static void OnEditorHit(object sender, HitMargin e)
         {
             if (ppDisplayer == null) return;
 
-            RegisterJudgement(e.Hit);
+            RegisterJudgement(e);
 
             if (judgements.Deaths > 0)
             {

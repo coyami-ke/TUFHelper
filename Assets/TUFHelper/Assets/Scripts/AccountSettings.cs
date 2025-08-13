@@ -49,13 +49,15 @@ public class AccountSettings : MonoBehaviour
         UpdateSettings();
 
         var account = AccountSaver.GetAccount();
-        if (account == null) return;
+        if (account == null)
+        {
+            IsShow = false;
+            return;
+        }
 
         ratingModeToggle.isOn = ADOFAIGameplayHandler.EditorPlayPatch.RatingMode;
 
         OnRatingModeChanged(ratingModeToggle.isOn);
-
-        Main.Logger.Log(ratingModeToggle.isOn.ToString());
 
         IsShow = false;
     }
@@ -76,14 +78,8 @@ public class AccountSettings : MonoBehaviour
             WindowsManager.instance.HideRatingPanel();
             ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
         }
-        // if (value)
-            // {
-            //     searchField.text = "#";
-            //     showOnlyDownloadedToggle.isOn = false;
-            //     LevelListScript.instance.ClearLevels();
-            // }
 
-            RatingPanel.instance?.UpdateList();
+        RatingPanel.instance?.UpdateList();
 
         if (value) CustomMusicPlayer.instance.StopPlay();
     }

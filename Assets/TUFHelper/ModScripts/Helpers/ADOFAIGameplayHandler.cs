@@ -21,18 +21,10 @@ namespace TUFHelper.Utils
             CurrentRatingInfo = rating;
         }
     }
-    public class HitEventArgs : EventArgs
-    {
-        public HitMargin Hit { get; }
-        public HitEventArgs(HitMargin hit)
-        {
-            Hit = hit;
-        }
-    }
     public static class ADOFAIGameplayHandler
     {
         public static event EventHandler<PlayButtonEventArgs> Editor_PlayButtonPressed;
-        public static event EventHandler<HitEventArgs> Editor_Hit;
+        public static event EventHandler<HitMargin> Editor_Hit;
 
         public static bool IsFromTUFHelper { get; set; }
 
@@ -42,7 +34,7 @@ namespace TUFHelper.Utils
             public static void Postfix(HitMargin hit)
             {
                 if (!IsFromTUFHelper) return;
-                Editor_Hit?.Invoke(null, new(hit));
+                Editor_Hit?.Invoke(null, hit);
             }
         }
 
