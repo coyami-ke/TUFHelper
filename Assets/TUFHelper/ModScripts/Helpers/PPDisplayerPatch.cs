@@ -83,7 +83,7 @@ namespace TUFHelper
             ppDisplayer.ApplySpped(speed);
             ppDisplayer.ApplyPP(0);
 
-            ppDisplayer.GetComponent<RectTransform>().localScale = new(Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale, Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale);
+            if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer")) ppDisplayer.GetComponent<RectTransform>().localScale = new(Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale, Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale);
         }
 
         private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)
