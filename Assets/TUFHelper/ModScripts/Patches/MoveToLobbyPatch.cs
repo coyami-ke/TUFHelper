@@ -57,7 +57,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        MoveToTUFMenu();// SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu();
                     });
                 }
             }
@@ -78,7 +78,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        MoveToTUFMenu(); //SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu();
                     });
                     isFirst = false;
                 }
@@ -102,7 +102,7 @@ namespace TUFHelper
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
                         Main.isInTUFHelper = true;
-                        MoveToTUFMenu(); //SceneManager.LoadScene("Assets/TUFHelper/Scenes/TUFLevelSelect.unity");
+                        MoveToTUFMenu();
                     });
                     return false;
                 }
@@ -123,8 +123,6 @@ namespace TUFHelper
    
                         Time.timeScale = 1;
                         GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
-                        // IngameLeaderboardPatch.IsInTUFHelper = false;
-                        // PPDisplayerPatch.IsFromTUFH = false;
                         ADOFAIGameplayHandler.IsFromTUFHelper = false;
                         scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
                         return false;
