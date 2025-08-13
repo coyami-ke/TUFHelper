@@ -77,7 +77,7 @@ namespace TUFHelper
                 Judgements = new()
                 {
                     Perfect = judg.Perfect,
-                    LPerfect = judg.LPerfect, // ✅ FIXED!
+                    LPerfect = judg.LPerfect,
                     EPerfect = judg.EPerfect,
                     EarlySingle = judg.EarlySingle,
                     LateSingle = judg.LateSingle,
