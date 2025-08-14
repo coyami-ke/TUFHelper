@@ -23,7 +23,7 @@ public class IngameRatingPanelScript : MonoBehaviour
 
     public void Awake()
     {
-        if (instance == null) instance = this;
+        instance = this;
     }
     public async Task SetRatingInfo(RatingElementJson info)
     {
