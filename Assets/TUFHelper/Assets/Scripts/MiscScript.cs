@@ -51,8 +51,6 @@ public class MiscScript : MonoBehaviour
         UIScript.SwipeToBlack(() =>
         {
             Main.isInTUFHelper = false;
-            // IngameLeaderboardPatch.IsInTUFHelper = false;
-            // PPDisplayerPatch.IsFromTUFH = false;
             ADOFAIGameplayHandler.IsFromTUFHelper = false;
             ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
             GCS.sceneToLoad = "";
