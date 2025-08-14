@@ -185,7 +185,47 @@ public class LevelListScript : MonoBehaviour
         var levelPrefabs = GetLevelPrefabScripts();
         int selectedIndex = GetIndexSelected();
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
+
+            if (!isTyping)
+            {
+                if (selectedIndex == -1 && levelPrefabs.Length > 0)
+                {
+                    SelectIndex(levelPrefabs, 0);
+                    return;
+                }
+
+                if (selectedIndex < levelPrefabs.Length - 1)
+                {
+                    SelectIndex(levelPrefabs, selectedIndex + 1);
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
+
+            if (!isTyping)
+            {
+                if (selectedIndex == -1 && levelPrefabs.Length > 0)
+                {
+                    SelectIndex(levelPrefabs, 0);
+                    return;
+                }
+
+                if (selectedIndex > 0)
+                {
+                    SelectIndex(levelPrefabs, selectedIndex - 1);
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             if (selectedIndex == -1 && levelPrefabs.Length > 0)
             {

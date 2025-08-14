@@ -16,7 +16,7 @@ public class ShowDownloadedToggle : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 toggle.isOn = !toggle.isOn;
             }

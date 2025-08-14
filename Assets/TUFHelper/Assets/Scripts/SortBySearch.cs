@@ -16,7 +16,7 @@ public class SortBySearch : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 if (dropdown.options.Count - 1 != dropdown.value) dropdown.value++;
                 else dropdown.value = 0;
