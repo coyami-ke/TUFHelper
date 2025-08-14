@@ -60,16 +60,19 @@ public class MiscScript : MonoBehaviour
 
     public void OpenURL(string url)
     {
-        //if (DownloadPopupScript.IsDownloading) return;
+        // if (new System.Random().Next(1, 100) == 1)
+        // {
+        //     Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        // }
+        // else
+        // {
 
-        if (new System.Random().Next(1, 100) == 1)
-        {
-            Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        }
-        else
-        {
-            Application.OpenURL(url);
-        }
+        // }
+        Application.OpenURL(url);
+    }
+    public void ShowInfoAboutHotkeys()
+    {
+        
     }
 
     public async void UpdateOfflineLevels(TextMeshProUGUI textInfo)
