@@ -176,7 +176,6 @@ namespace TUFHelper
                 if (canvas != null)
                     obj.transform.SetParent(canvas, false);
                 GameObject.DontDestroyOnLoad(obj);
-                Main.Logger.Log("Leaderboard prefab instantiated successfully.");
             }
         }
     }

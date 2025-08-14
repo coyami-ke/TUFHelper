@@ -64,8 +64,6 @@ namespace TUFHelper
 
             ppDisplayer = ppDisplayerObject.GetComponentInChildren<PPDisplayerScript>();
             PPDisplayerScript.FloorCount = FloorCount;
-
-            Main.Logger.Log("PPDisplayer instantiated.");
         }
 
         private static void UpdatePPDisplayer()
@@ -92,13 +90,10 @@ namespace TUFHelper
 
             if (ppDisplayerObject == null)
             {
-                Main.Logger.Log("Loading PPDisplayer...");
                 LoadPPDisplayer();
             }
 
             UpdatePPDisplayer();
-
-            Main.Logger.Log($"PPDisplayer active: {ppDisplayerObject.activeSelf}");
         }
 
 

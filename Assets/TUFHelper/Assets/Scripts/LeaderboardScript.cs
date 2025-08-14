@@ -104,7 +104,6 @@ public class LeaderboardScript : MonoBehaviour
 
         if (yourBestScore != null)
         {
-            Main.Logger.Log("you have a public score");
             int yourRank = 0;
             for (int i = 0; i < passes.Count; i++)
             {
