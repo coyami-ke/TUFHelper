@@ -33,7 +33,7 @@ namespace TUFHelper.Utils
         {
             public static void Postfix(HitMargin hit)
             {
-                if (!IsFromTUFHelper) return;
+                if (!IsFromTUFHelper || !Main.Setting.ShowTUFHelperOverlayer) return;
                 Editor_Hit?.Invoke(null, hit);
             }
         }
