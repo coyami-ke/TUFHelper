@@ -31,16 +31,6 @@ public class SearchScript : MonoBehaviour
         LevelListScript.instance.ClearLevels();
         LevelListScript.instance.UpdateLevelList();
     }
-    private string oldQuery = "";
-    // public void OnSearchTextChange()
-    // {
-    //     if (searchField.text == oldQuery) return;
-    //     searchCancelToken?.Cancel();
-    //     searchCancelToken = new CancellationTokenSource();
-
-    //     _ = DebouncedSearchAsync(searchField.text, searchCancelToken.Token);
-    //     oldQuery = searchField.text;
-    // }'
     public void Update()
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
@@ -50,23 +40,5 @@ public class SearchScript : MonoBehaviour
                 searchField.Select();
             }
         }       
-    }
-
-    private async Task DebouncedSearchAsync(string query, CancellationToken token)
-    {
-        try
-        {
-            await Task.Delay(300, token);
-            if (token.IsCancellationRequested) return;
-
-            SearchScript.searchText = query;
-            LevelListScript.DefaultRequest.Query = query;
-            LevelListScript.DefaultRequest.Offset = 0;
-            LevelListScript.instance.ClearLevels();
-            LevelListScript.instance.UpdateLevelList();
-        }
-        catch (TaskCanceledException)
-        {
-        }
     }
 }
