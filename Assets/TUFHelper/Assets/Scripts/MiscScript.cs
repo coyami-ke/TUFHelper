@@ -14,6 +14,7 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityModManagerNet;
 
 public class MiscScript : MonoBehaviour
 {
@@ -28,6 +29,34 @@ public class MiscScript : MonoBehaviour
         instance = this;
 
         errorObject.SetActive(true);
+
+        var keyviewer = UnityModManager.FindMod("KeyViewer");
+        if (keyviewer != null && !Main.Setting.IsShowedKeyviewerError)
+        {
+            var keyviewerAssembly = keyviewer.Assembly;
+
+            if (keyviewerAssembly == null) return;
+
+            ErrorScript.instance.errorContentText.text = "TUFHelper found the mod KeyViewer! The current version of TUFHelper doesn't have support of KeyViewer and it might cause bugs.";
+            ErrorScript.instance.gameObject.SetActive(true);
+
+            Main.Setting.IsShowedKeyviewerError = true;
+            Main.Setting.Save(Main.ModEntry);
+        }
+
+        var fmod = UnityModManager.FindMod("FMod");
+        if (fmod != null && !Main.Setting.IsShowedFmodError)
+        {
+            var fmodAssembly = fmod.Assembly;
+
+            if (fmodAssembly == null) return;
+
+            ErrorScript.instance.errorContentText.text = "TUFHelper found the mod FMod! The current version of TUFHelper doesn't have support of FMod and it might cause performance issues.";
+            ErrorScript.instance.gameObject.SetActive(true);
+
+            Main.Setting.IsShowedFmodError = true;
+            Main.Setting.Save(Main.ModEntry);
+        }
     }
 
     public void Update()
