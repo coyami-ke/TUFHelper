@@ -22,7 +22,7 @@ public class ShowDownloadedToggle : MonoBehaviour
             }
         }   
     }
-    public void OnValueChanged(bool value)
+    public async void OnValueChanged(bool value)
     {
         LevelListScript.instance.ShowOnlyDownloaded = value;
         Main.Setting.ShowOnlyDownloaded = value;
@@ -31,7 +31,7 @@ public class ShowDownloadedToggle : MonoBehaviour
         updateLevelsButton.SetActive(value);
         groupByFoldersToggle.SetActive(value);
 
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
 
     }
 }

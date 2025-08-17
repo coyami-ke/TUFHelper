@@ -22,14 +22,14 @@ public class SearchScript : MonoBehaviour
     
     private CancellationTokenSource searchCancelToken;
 
-    public void OnEndEdit(string text)
+    public async void OnEndEdit(string text)
     {
         if (searchText == text) return;
         searchText = text;
         LevelListScript.DefaultRequest.Query = text;
         LevelListScript.DefaultRequest.Offset = 0;
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
     public void Update()
     {

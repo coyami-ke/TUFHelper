@@ -411,7 +411,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         AddLevelToFolder.instance.SetInfo(levelInfo.ID);
     }
-    public void RemoveLevel()
+    public async void RemoveLevel()
     {
         var info = Main.Setting.DownloadedLevels.FirstOrDefault(e => e.LevelInfo.ID == this.levelInfo.ID);
         if (info != null)
@@ -424,7 +424,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             Main.Setting.FavoriteLevels.Remove(this.levelInfo.ID);
             Main.Setting.DownloadedLevels.Remove(info);
             LevelListScript.instance.ClearLevels();
-            LevelListScript.instance.UpdateLevelList();
+            await LevelListScript.instance.UpdateLevelListAsync();
         }
     }
     public void TryLikeLevel()

@@ -152,7 +152,7 @@ public class MiscScript : MonoBehaviour
         }
         Main.Setting.Save(Main.ModEntry);
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
         textInfo.text = "UPDATE INFO";
     }
     public async void ImFuckingLucky()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DG.Tweening;
 using TUFHelper;
 using UnityEngine;
@@ -43,7 +44,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
         instance = this;
     }
 
-    private void Start()
+    private async void Start()
     {
         toggleMap = new Dictionary<string, Toggle>
         {
@@ -66,12 +67,12 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             Toggle toggle = kvp.Value;
 
             toggle.isOn = Main.Setting.SelectedSpecialDiffs.Contains(key);
-            toggle.onValueChanged.AddListener(_ => UpdateLevelList());
+            toggle.onValueChanged.AddListener(async _ => await UpdateLevelList());
         }
 
         IsSelected = false;
 
-        UpdateLevelList();
+        await UpdateLevelList();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -87,7 +88,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
         menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
     }
 
-    public void UpdateLevelList()
+    public async Task UpdateLevelList()
     {
         var selectedDiffs = toggleMap
             .Where(kvp => kvp.Value.isOn)
@@ -99,6 +100,6 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
 
         LevelListScript.DefaultRequest.SpecialDifficulties = selectedDiffs;
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
 }
