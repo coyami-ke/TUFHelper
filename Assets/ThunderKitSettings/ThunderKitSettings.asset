@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FirstLoad: 0
   ShowOnStartup: 1
-  GameExecutable: A Dance of Fire and Ice.exe
-  GamePath: C:\Program Files (x86)\Steam\steamapps\common\A Dance of Fire and Ice
+  GameExecutable: 
+  GamePath: 
   Is64Bit: 0
   DateTimeFormat: HH:mm:ss:fff
   CreatedDateFormat: MMM/dd HH:mm:ss

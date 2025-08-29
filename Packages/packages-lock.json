@@ -6,6 +6,16 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.jofo.adofairunner": {
+      "version": "https://github.com/JofoDuh/ADOFAIRunner.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.scriptablebuildpipeline": "1.16.1",
+        "com.passivepicasso.thunderkit": "9.1.1"
+      },
+      "hash": "e3b5bd17474724c724951411f579b82faae5e36b"
+    },
     "com.passivepicasso.thunderkit": {
       "version": "git+https://github.com/PassivePicasso/ThunderKit.git",
       "depth": 0,
