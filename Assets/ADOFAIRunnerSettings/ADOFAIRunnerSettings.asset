@@ -16,10 +16,8 @@ MonoBehaviour:
   BepInExExePath: 
   UnityModManagerExePath: 
   UMMModFolderPath: 
-  ThunderkitOutputPath: 
-  AutoCheckBuild: 0
-  AvailableMods:
-  - {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  ThunderkitOutputPath: C:\Users\hokha\Documents\TUFHelper\ThunderKit
+  AvailableMods: []
   AvailableModsSelectedIndex: 0
   AvailableBuildOptions:
   - Unity Mod Manager
