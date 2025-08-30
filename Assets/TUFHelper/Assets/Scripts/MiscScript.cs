@@ -103,7 +103,7 @@ public class MiscScript : MonoBehaviour
     {
         
     }
-
+    
     public async void UpdateOfflineLevels(TextMeshProUGUI textInfo)
     {
         requestCancelToken?.Cancel();
