@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using HarmonyLib;
 using TMPro;
 using TUFHelper.Utils;
@@ -16,12 +17,10 @@ namespace TUFHelper
             ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnPlay;
         }
 
-        private static void OnPlay(object sender, PlayButtonEventArgs e)
+        private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
             if (e.RatingMode)
             {
-                Main.Logger.Log("ingame rating is enabled");
-
                 const string assetPath = "assets/tufhelper/assets/prefabs/IngameRatingPrefab.prefab";
                 GameObject prefab = Main.assets.LoadAsset<GameObject>(assetPath);
 
@@ -43,7 +42,7 @@ namespace TUFHelper
                     Main.Logger.Error("Canvas is null");
                 if (IngameRatingPanelScript.instance != null)
                 {
-                    IngameRatingPanelScript.instance.SetRatingInfo(e.CurrentRatingInfo);
+                    await IngameRatingPanelScript.instance.SetRatingInfo(e.CurrentRatingInfo);
                 }
             }
         }

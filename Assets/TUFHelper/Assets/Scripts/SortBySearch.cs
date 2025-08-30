@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class SortBySearch : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 if (dropdown.options.Count - 1 != dropdown.value) dropdown.value++;
                 else dropdown.value = 0;
@@ -24,32 +25,32 @@ public class SortBySearch : MonoBehaviour
             }
         }  
     }
-    public void OnValueChanged(int index)
+    public async void OnValueChanged(int index)
     {
         Main.Setting.SortBy = index;
         Main.Setting.Save(Main.ModEntry);
         switch (index)
         {
             case 0:
-                SetWebRequest("RECENT");
+                await SetWebRequest("RECENT");
                 break;
             case 1:
-                SetWebRequest("DIFF");
+                await SetWebRequest("DIFF");
                 break;
             case 2:
-                SetWebRequest("CLEARS");
+                await SetWebRequest("CLEARS");
                 break;
             case 3:
-                SetWebRequest("LIKES");
+                await SetWebRequest("LIKES");
                 break;
         }
     }
-    public void SetWebRequest(string sortBy)
+    public async Task SetWebRequest(string sortBy)
     {
 
         LevelListScript.DefaultRequest.SortBy = sortBy;
 
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
 }

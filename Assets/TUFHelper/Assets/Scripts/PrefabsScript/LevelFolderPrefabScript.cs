@@ -17,13 +17,13 @@ public class LevelFolderPrefabScript : MonoBehaviour, IPointerClickHandler
         nameFolderText.text = info.Name;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public async void OnPointerClick(PointerEventData eventData)
     {
         LevelListScript.instance.GroupByFolder = true;
         LevelListScript.instance.LevelFolder = FolderInfo;
 
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
 
         WindowsManager.instance.MoveToLevelList();
     }

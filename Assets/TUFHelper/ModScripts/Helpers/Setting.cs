@@ -46,6 +46,9 @@ namespace TUFHelper.Utils
         public bool ShowIngameSpeed { get; set; } = true;
         public bool ShowIngamePPCounter { get; set; } = true;
 
+        public bool IsShowedKeyviewerError { get; set; } = false;
+        public bool IsShowedFmodError { get; set; } = false;
+
         public Setting()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

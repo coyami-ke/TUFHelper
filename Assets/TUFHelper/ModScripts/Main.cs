@@ -13,7 +13,7 @@ namespace TUFHelper
 {
     public static class Main
     {
-        internal static string modVersion = "2.3.0";
+        internal static string modVersion = "2.3.1";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;

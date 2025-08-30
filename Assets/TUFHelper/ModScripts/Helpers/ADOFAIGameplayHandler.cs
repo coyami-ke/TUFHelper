@@ -31,9 +31,9 @@ namespace TUFHelper.Utils
         [HarmonyPatch(typeof(scrMistakesManager), nameof(scrMistakesManager.AddHit))]
         public static class AddHitPatch
         {
-            public static void Postfix(HitMargin hit)
+            public static void Prefix(HitMargin hit)
             {
-                if (!IsFromTUFHelper) return;
+                if (!IsFromTUFHelper || !Main.Setting.ShowTUFHelperOverlayer) return;
                 Editor_Hit?.Invoke(null, hit);
             }
         }
@@ -44,7 +44,7 @@ namespace TUFHelper.Utils
             public static LevelListInfoElementJson CurrentLevelInfo { get; set; }
             public static RatingElementJson CurrentRating { get; set; }
             public static bool RatingMode { get; set; }
-            public static void Postfix()
+            public static void Prefix()
             {
                 if (!IsFromTUFHelper) return;
                 Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, RatingMode, CurrentRating));

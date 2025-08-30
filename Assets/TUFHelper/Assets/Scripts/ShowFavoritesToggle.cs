@@ -12,12 +12,12 @@ public class ShowFavoritesToggle : MonoBehaviour
         this.gameObject.SetActive(Main.Setting.ShowOnlyDownloaded);
         toggle.isOn = Main.Setting.ShowOnlyFavorites;
     }
-    public void OnValueChanged(bool value)
+    public async void OnValueChanged(bool value)
     {
         LevelListScript.instance.ShowOnlyFavorites = value;
         Main.Setting.ShowOnlyFavorites = value;
 
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
 
         Main.Logger.Log("value changed");
     }

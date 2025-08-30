@@ -142,6 +142,7 @@ public class LevelListScript : MonoBehaviour
     public void OnLevelsAdded(LevelListInfoElementJson[] levels)
     {
         int startingIndex = levelListParent.transform.childCount;
+        int previouslySelectedIndex = GetIndexSelected();
 
         foreach (var level in levels)
         {
@@ -166,51 +167,69 @@ public class LevelListScript : MonoBehaviour
         float totalHeight = ViewModel.LevelPrefabScripts.Count * 125 + 90;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
-        if (randomIDLevel == -177013 || !ShowOnlyDownloaded) return;
-
-        if (randomIDLevel == -1)
+        if (previouslySelectedIndex >= 0 && previouslySelectedIndex < GetLevelPrefabScripts().Length)
         {
-            randomIDLevel = UnityEngine.Random.Range(0, GetLevelPrefabScripts().Length - 1);
+            SelectIndex(GetLevelPrefabScripts(), previouslySelectedIndex);
         }
 
-        if (randomIDLevel != -1)
-        {
-            SelectIndex(GetLevelPrefabScripts(), randomIDLevel);
-            randomIDLevel = -177013;
-        }
+        // if (randomIDLevel == -177013 || !ShowOnlyDownloaded) return;
+
+        // if (randomIDLevel == -1)
+        // {
+        //     randomIDLevel = UnityEngine.Random.Range(0, GetLevelPrefabScripts().Length - 1);
+        // }
+
+        // if (randomIDLevel != -1)
+        // {
+        //     SelectIndex(GetLevelPrefabScripts(), randomIDLevel);
+        //     randomIDLevel = -177013;
+        // }
     }
 
-    public void Update()
+    public async void Update()
     {
         var levelPrefabs = GetLevelPrefabScripts();
         int selectedIndex = GetIndexSelected();
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            if (selectedIndex == -1 && levelPrefabs.Length > 0)
-            {
-                SelectIndex(levelPrefabs, 0);
-                return;
-            }
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
 
-            if (selectedIndex > 0)
+            if (!isTyping && levelPrefabs.Length > 0)
             {
-                SelectIndex(levelPrefabs, selectedIndex - 1);
+                if (selectedIndex == -1)
+                {
+                    SelectIndex(levelPrefabs, 0);
+                    return;
+                }
+
+                // Wrap to 0 if at last
+                int nextIndex = (selectedIndex + 1) % levelPrefabs.Length;
+                SelectIndex(levelPrefabs, nextIndex);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            if (selectedIndex == -1 && levelPrefabs.Length > 0)
-            {
-                SelectIndex(levelPrefabs, 0);
-                return;
-            }
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
 
-            if (selectedIndex < levelPrefabs.Length - 1)
+            if (!isTyping && levelPrefabs.Length > 0)
             {
-                SelectIndex(levelPrefabs, selectedIndex + 1);
+                if (selectedIndex == -1)
+                {
+                    SelectIndex(levelPrefabs, 0);
+                    return;
+                }
+
+                // Wrap to last if at 0
+                int prevIndex = (selectedIndex - 1 + levelPrefabs.Length) % levelPrefabs.Length;
+                SelectIndex(levelPrefabs, prevIndex);
             }
         }
+
 
 
         // Handle Scroll-Based Pagination
@@ -218,7 +237,7 @@ public class LevelListScript : MonoBehaviour
         {
             isLoading = true;
             DefaultRequest.Offset = GetLevelPrefabScripts().Length;
-            UpdateLevelList();
+            await UpdateLevelListAsync();
         }
     }
 
@@ -228,10 +247,8 @@ public class LevelListScript : MonoBehaviour
         {
             levelPrefabs[i].IsSelected = i == index;
         }
-
-        var selected = levelPrefabs[index];
-        //WindowsManager.instance.ShowPassList();
     }
+
 
     public IOrderedEnumerable<LevelListInfoElementJson> SortLevels(IEnumerable<LevelListInfoElementJson> levels)
     {
@@ -254,10 +271,10 @@ public class LevelListScript : MonoBehaviour
         }
     }
 
-    public async void UpdateLevelList()
-    {
-        await UpdateLevelListAsync();
-    }
+    // public async void UpdateLevelList()
+    // {
+    //     await UpdateLevelListAsync();
+    // }
     public async Task UpdateLevelListAsync()
     {
         DeselectAll();

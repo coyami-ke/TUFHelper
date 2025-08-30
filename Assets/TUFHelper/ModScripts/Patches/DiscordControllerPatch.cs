@@ -22,7 +22,9 @@ namespace TUFHelper
             if (Main.isInTUFHelper)
             {
                 string detail = "TUFHelper by coyami-ke";
-                string state = $"Official v{Main.modVersion}";
+                string state;
+                if (scnEditor.instance == null) state = $"The TUFHelper menu";
+                else state = $"{ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo.Artist} - {ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo.Song}";
 
                 Activity activity = default(Activity);
                 activity.Name = "A Dance of Fire and Ice";

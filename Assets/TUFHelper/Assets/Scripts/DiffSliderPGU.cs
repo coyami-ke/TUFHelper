@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class DiffSliderPGU : DiffSlider
         get => _maxWidth;
         protected set => _maxWidth = value;
     }
-    public override void OnMouseUp()
+    public override async void OnMouseUp()
     {
         LevelListScript.instance.ClearLevels();
 
@@ -28,14 +29,14 @@ public class DiffSliderPGU : DiffSlider
         Main.Setting.MinDiff = LevelListScript.DefaultRequest.MinDiffPGU;
         Main.Setting.Save(Main.ModEntry);
 
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
 
     public void Awake()
     {
         instance = this;
     }
-    public void Start()
+    public async void Start()
     {
         List<DiffSpritePair> diffs = new();
         
@@ -61,6 +62,6 @@ public class DiffSliderPGU : DiffSlider
         LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
         LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
 }

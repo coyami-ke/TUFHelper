@@ -14,6 +14,7 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityModManagerNet;
 
 public class MiscScript : MonoBehaviour
 {
@@ -28,6 +29,34 @@ public class MiscScript : MonoBehaviour
         instance = this;
 
         errorObject.SetActive(true);
+
+        var keyviewer = UnityModManager.FindMod("KeyViewer");
+        if (keyviewer != null && !Main.Setting.IsShowedKeyviewerError)
+        {
+            var keyviewerAssembly = keyviewer.Assembly;
+
+            if (keyviewerAssembly == null) return;
+
+            ErrorScript.instance.errorContentText.text = "TUFHelper found the mod KeyViewer! The current version of TUFHelper doesn't have support of KeyViewer and it might cause bugs.";
+            ErrorScript.instance.gameObject.SetActive(true);
+
+            Main.Setting.IsShowedKeyviewerError = true;
+            Main.Setting.Save(Main.ModEntry);
+        }
+
+        var fmod = UnityModManager.FindMod("ADOFAI Fmod");
+        if (fmod != null && !Main.Setting.IsShowedFmodError)
+        {
+            var fmodAssembly = fmod.Assembly;
+
+            if (fmodAssembly == null) return;
+
+            ErrorScript.instance.errorContentText.text = "TUFHelper found the mod FMod! The current version of TUFHelper doesn't have support of FMod and it might cause performance issues.";
+            ErrorScript.instance.gameObject.SetActive(true);
+
+            Main.Setting.IsShowedFmodError = true;
+            Main.Setting.Save(Main.ModEntry);
+        }
     }
 
     public void Update()
@@ -51,8 +80,6 @@ public class MiscScript : MonoBehaviour
         UIScript.SwipeToBlack(() =>
         {
             Main.isInTUFHelper = false;
-            // IngameLeaderboardPatch.IsInTUFHelper = false;
-            // PPDisplayerPatch.IsFromTUFH = false;
             ADOFAIGameplayHandler.IsFromTUFHelper = false;
             ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
             GCS.sceneToLoad = "";
@@ -62,16 +89,19 @@ public class MiscScript : MonoBehaviour
 
     public void OpenURL(string url)
     {
-        //if (DownloadPopupScript.IsDownloading) return;
+        // if (new System.Random().Next(1, 100) == 1)
+        // {
+        //     Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+        // }
+        // else
+        // {
 
-        if (new System.Random().Next(1, 100) == 1)
-        {
-            Application.OpenURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-        }
-        else
-        {
-            Application.OpenURL(url);
-        }
+        // }
+        Application.OpenURL(url);
+    }
+    public void ShowInfoAboutHotkeys()
+    {
+        
     }
 
     public async void UpdateOfflineLevels(TextMeshProUGUI textInfo)
@@ -122,7 +152,7 @@ public class MiscScript : MonoBehaviour
         }
         Main.Setting.Save(Main.ModEntry);
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
         textInfo.text = "UPDATE INFO";
     }
     public async void ImFuckingLucky()

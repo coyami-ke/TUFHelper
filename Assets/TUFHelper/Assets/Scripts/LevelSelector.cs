@@ -77,8 +77,6 @@ public class LevelSelector : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         LoadLevels(levels, LevelInfo);
-
-        Main.Logger.Log("Yippie");
     }
 
     public void Hide()

@@ -28,7 +28,7 @@ public class FolderCreator : MonoBehaviour
     {
         IsMenuActive = !IsMenuActive;
     }
-    public void AddFolder()
+    public async void AddFolder()
     {
         IsMenuActive = false;
 
@@ -39,6 +39,6 @@ public class FolderCreator : MonoBehaviour
         Main.Logger.Log($"The folder {inputField.text} has been created and saved to the settings file");
 
         LevelListScript.instance.ClearLevels();
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
     }
 }

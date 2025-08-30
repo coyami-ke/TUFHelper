@@ -33,7 +33,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Active: 1
   AssetBundleBuildOptions: 0
-  buildTarget: 19
+  buildTarget: 24
   recurseDirectories: 0
   simulate: 0
   BundleArtifactPath: <AssetBundleStaging>

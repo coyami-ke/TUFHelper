@@ -16,13 +16,13 @@ public class ShowDownloadedToggle : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt))
         {
-            if (Input.GetKeyDown(KeyCode.Alpha3))
+            if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 toggle.isOn = !toggle.isOn;
             }
         }   
     }
-    public void OnValueChanged(bool value)
+    public async void OnValueChanged(bool value)
     {
         LevelListScript.instance.ShowOnlyDownloaded = value;
         Main.Setting.ShowOnlyDownloaded = value;
@@ -31,7 +31,7 @@ public class ShowDownloadedToggle : MonoBehaviour
         updateLevelsButton.SetActive(value);
         groupByFoldersToggle.SetActive(value);
 
-        LevelListScript.instance.UpdateLevelList();
+        await LevelListScript.instance.UpdateLevelListAsync();
 
     }
 }
