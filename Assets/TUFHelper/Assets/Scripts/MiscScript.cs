@@ -44,7 +44,7 @@ public class MiscScript : MonoBehaviour
             Main.Setting.Save(Main.ModEntry);
         }
 
-        var fmod = UnityModManager.FindMod("ADOFAI Fmod");
+        var fmod = UnityModManager.FindMod("FMod");
         if (fmod != null && !Main.Setting.IsShowedFmodError)
         {
             var fmodAssembly = fmod.Assembly;
