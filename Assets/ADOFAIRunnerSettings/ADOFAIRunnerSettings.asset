@@ -17,7 +17,6 @@ MonoBehaviour:
   UnityModManagerExePath: 
   UMMModFolderPath: 
   ThunderkitOutputPath: C:\Users\hokha\Documents\TUFHelper\ThunderKit
-  AutoCheckBuild: 0
   AvailableMods: []
   AvailableModsSelectedIndex: 0
   AvailableBuildOptions:
