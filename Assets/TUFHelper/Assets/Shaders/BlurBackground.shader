@@ -24,7 +24,7 @@ Shader "Custom/BlurBackground"
             ZTest Off
             Blend SrcAlpha OneMinusSrcAlpha
             */
-
+            
             Cull Off
             Lighting Off
             ZWrite Off

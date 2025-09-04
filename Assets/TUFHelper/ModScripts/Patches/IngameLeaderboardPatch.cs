@@ -136,7 +136,7 @@ namespace TUFHelper
         {
             currentRequestToken?.Cancel();
             currentRequestToken = new CancellationTokenSource();
-            var token = currentRequestToken.Token;
+            CancellationToken token = currentRequestToken.Token;
 
             string url = LeaderboardScript.GetDefaultUrl(levelID);
             using UnityWebRequest webRequest = UnityWebRequest.Get(url);
@@ -150,14 +150,14 @@ namespace TUFHelper
                 if (token.IsCancellationRequested)
                 {
                     webRequest.Abort();
-                    return Array.Empty<PassesListInfoElementJson>();
+                    return null;
                 }
             }
 
             if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
-                return Array.Empty<PassesListInfoElementJson>();
-
-            var passes = JsonConvert.DeserializeObject<List<PassesListInfoElementJson>>(webRequest.downloadHandler.text);
+                return null;
+            LevelListElementId levelDes = JsonConvert.DeserializeObject<LevelListElementId>(webRequest.downloadHandler.text);
+            List<PassesListInfoElementJson> passes = levelDes.Level.Passes;
             return passes.OrderByDescending(p => p.ScoreV2).ToArray();
         }
 

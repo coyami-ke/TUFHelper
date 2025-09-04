@@ -89,6 +89,8 @@ namespace TUFHelper.ModScripts.Json
         public int? TeamId { get; set; }
         [JsonProperty("likes")]
         public int Likes { get; set; }
+        [JsonProperty("passes")]
+        public List<PassesListInfoElementJson> Passes { get; set; }
     }
     public class LevelListInfoElementDifficultyJson
     {

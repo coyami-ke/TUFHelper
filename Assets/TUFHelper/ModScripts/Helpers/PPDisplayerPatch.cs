@@ -59,8 +59,8 @@ namespace TUFHelper
                 ppDisplayerObject.transform.SetParent(canvas, false);
 
             var rect = ppDisplayerObject.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(-450, 0);
-            rect.sizeDelta = new Vector2(857, 300);
+            //rect.anchoredPosition = new Vector2(-450, 0);
+            //rect.sizeDelta = new Vector2(857, 300);
 
             ppDisplayer = ppDisplayerObject.GetComponentInChildren<PPDisplayerScript>();
             PPDisplayerScript.FloorCount = FloorCount;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -21,14 +21,13 @@ public class SettingTabPrefabScript : MonoBehaviour, IPointerClickHandler, IPoin
         {
             if (_isSelected == value) return;
 
-            if (value)
+            // Only deselect other tabs, not this one
+            foreach (var tab in ModSettings.instance.tabs)
             {
-                foreach (var tab in ModSettings.instance.tabs)
+                if (tab != this)
                 {
-                    if (tab != this)
-                    {
-                        tab.IsSelected = false;
-                    }
+                    tab.IsSelected = false;
+                    tab.settingsObject.SetActive(false);
                 }
             }
 
@@ -38,9 +37,12 @@ public class SettingTabPrefabScript : MonoBehaviour, IPointerClickHandler, IPoin
                 .DOScaleX(value ? 1 : 0, 1)
                 .SetEase(Ease.OutExpo);
 
-            settingsObject.SetActive(value);
+            if (value) // only update CurrentTab when selecting
+                ModSettings.instance.CurrentTab = this;
+                
         }
     }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {

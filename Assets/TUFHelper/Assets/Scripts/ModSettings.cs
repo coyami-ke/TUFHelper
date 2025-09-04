@@ -1,12 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ModSettings : MonoBehaviour
 {
     public GameObject backgroundImage, window;
 
+    public TextMeshProUGUI titleTab;
+
     public SettingTabPrefabScript[] tabs;
+    private SettingTabPrefabScript _currentTab;
+    public SettingTabPrefabScript CurrentTab
+    {
+        get => _currentTab;
+        set
+        {
+            _currentTab = value;
+            titleTab.text = _currentTab.nameTab;
+            _currentTab.settingsObject.SetActive(true);
+        }
+    }
 
     public static ModSettings instance;
 
