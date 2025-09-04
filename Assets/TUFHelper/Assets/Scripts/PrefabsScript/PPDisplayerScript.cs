@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using DG.Tweening;
 using System.Collections.Generic;
 using TMPro;
@@ -79,7 +79,7 @@ public class PPDisplayerScript : MonoBehaviour
         public static double GetScoreV2(PassData passData, LevelData levelData)
         {
             var baseScore = levelData.BaseScore ?? levelData.Difficulty?.BaseScore ?? 0;
-            var xaccMtp = GetXaccMtp(passData.Judgements);
+            var xaccMtp = GetXaccMtp(passData.Judgements, baseScore);
             var speedMtp = levelData.Difficulty?.Name == "Marathon"
                 ? GetSpeedMtp(passData.Speed, true)
                 : GetSpeedMtp(passData.Speed);
@@ -121,20 +121,32 @@ public class PPDisplayerScript : MonoBehaviour
             return 1 - EndDeduc / 100.0;
         }
 
-        public static double GetXaccMtp(Judgements input)
+        public static double GetXaccMtp(Judgements input, double baseScore)
         {
             double xacc = CalcAcc(input);
             double xaccPercentage = xacc * 100;
 
+            // Below 95% accuracy → neutral multiplier
             if (xaccPercentage < 95)
                 return 1;
+
+            // Between 95% and <100% → curved reward
             if (xaccPercentage < 100)
                 return -0.027 / (xacc - 1.0054) + 0.513;
-            if (xaccPercentage == 100)
-                return 10;
+
+            // Pure Perfect (100%)
+            if (xaccPercentage >= 99.9999) // safe float check
+            {
+                double a = 2100;
+                double k = 14;
+                double h = -a / (k - 6);
+
+                return (-a) / (baseScore - h) + k;
+            }
 
             return 1;
         }
+
 
         private static double GetSpeedMtp(double speed, bool isDesBus = false)
         {
