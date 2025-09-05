@@ -10,11 +10,13 @@ public class OverlayerSettings : MonoBehaviour
     public Slider ppDisplayerSlider, ingameLeaderboardSlider;
     public RectTransform ppDisplayerRect, ingameLeaderboardRect;
 
-    public Toggle showPPDisplayerToggle, showSpeedToggle, showIngameLeaderboardToggle;
+    public Toggle showPPDisplayerToggle, showSpeedToggle, showIngameLeaderboardToggle, showOverlayerToggle;
 
     public TextMeshProUGUI ppDisplayerText, speedText;
 
     public Image leaderboardBackground;
+
+    public GameObject blockUIImage;
 
     private Color leaderboardDefaultColor;
 
@@ -28,6 +30,7 @@ public class OverlayerSettings : MonoBehaviour
         showPPDisplayerToggle.onValueChanged.AddListener(PPDisplayerShowChanged);
         showSpeedToggle.onValueChanged.AddListener(SpeedShowChanged);
         showIngameLeaderboardToggle.onValueChanged.AddListener(LeaderboardShowChanged);
+        showOverlayerToggle.onValueChanged.AddListener(ShowOverlayerChanged);
 
         if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
         {
@@ -51,6 +54,7 @@ public class OverlayerSettings : MonoBehaviour
         showPPDisplayerToggle.isOn = Main.Setting.ShowIngamePPCounter;
         showSpeedToggle.isOn = Main.Setting.ShowIngameSpeed;
         showIngameLeaderboardToggle.isOn = Main.Setting.ShowIngameLeaderboard;
+        showOverlayerToggle.isOn = Main.Setting.ShowTUFHelperOverlayer;
     }
 
     private void PPDisplayerScaleChanged(float value)
@@ -106,5 +110,11 @@ public class OverlayerSettings : MonoBehaviour
         {
             leaderboardBackground.color = new(1, 0.5f, 0.5f, 0.5f);
         }
+    }
+
+    private void ShowOverlayerChanged(bool value)
+    {
+        Main.Setting.ShowTUFHelperOverlayer = value;
+        blockUIImage.SetActive(!value);
     }
 }
