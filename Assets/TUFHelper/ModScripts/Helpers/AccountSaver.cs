@@ -22,6 +22,10 @@ namespace TUFHelper.Utils
 
         public void Save()
         {
+            if (!Directory.Exists(Path.GetDirectoryName(PATH_TO_ACCOUNT_FILE)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(PATH_TO_ACCOUNT_FILE));
+            }
             File.WriteAllText(PATH_TO_ACCOUNT_FILE, JsonConvert.SerializeObject(this));
         }
     }
