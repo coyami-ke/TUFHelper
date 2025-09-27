@@ -89,19 +89,16 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                     }
 
                     string oggFile = Directory.GetFiles(levelOffline.NameFolder)
-                                            .FirstOrDefault(f => f.EndsWith(".ogg"));
+                                                  .FirstOrDefault(f => f.EndsWith(".ogg"));
                     string mp3File = Directory.GetFiles(levelOffline.NameFolder)
-                                            .FirstOrDefault(f => f.EndsWith(".mp3"));
+                                              .FirstOrDefault(f => f.EndsWith(".mp3"));
+
                     if (oggFile != null)
                         StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
                     else if (mp3File != null)
-                    {
                         StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
-                    }
                     else if (Main.Setting.PlayBackgroundMusic)
                         CustomMusicPlayer.instance.StopPlay();
-                    LevelInfo.instance.IsShow = true;
-                    LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
                 }
                 else
                 {
@@ -136,7 +133,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
-    public Image difficultyIcon, background, canDownloadImage, canPlayImage, likeImage;
+    public Image difficultyIcon, background, canDownloadImage, canPlayImage, likeImage, curationIcon;
     public TextMeshProUGUI idText,
         artistText,
         levelNameText,
@@ -174,8 +171,16 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             CanPlay = false;
         }
+        if (levelInfo.Curation != null)
+        {
+            curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
+        }
+        else
+        {
+            curationIcon.gameObject.SetActive(false);
+        }
 
-        this.levelInfo = levelInfo;
+            this.levelInfo = levelInfo;
 
         idText.text = "#" + levelInfo.ID;
         artistText.text = levelInfo.Artist;

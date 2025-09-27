@@ -138,7 +138,7 @@ namespace DirectLevel
         /// <returns>Tasks that are downloading</returns>
         public Task DownloadWithTask(string defaultPath, bool checkFileSize)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 try
                 {
