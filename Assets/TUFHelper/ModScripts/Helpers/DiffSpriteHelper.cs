@@ -99,6 +99,7 @@ namespace TUFHelper.Utils
         {
             { "Gimmick", 0},
             { "U13J", 0},
+            { "U7J", 0 },
             { "Marathon" , 0 },
             { "Qq" , 0 },
             { "Q0" , 0 },
