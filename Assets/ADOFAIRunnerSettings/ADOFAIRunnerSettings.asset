@@ -14,14 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BepInExModFolderPath: 
   BepInExExePath: 
-  UnityModManagerExePath: C:/Program Files (x86)/Steam/steamapps/common/A Dance of
-    Fire and Ice/A Dance of Fire and Ice.exe
-  UMMModFolderPath: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire
-    and Ice/Mods
-  ThunderkitOutputPath: C:\Disk D\TUFHelper-main\ThunderKit
+  UnityModManagerExePath: 
+  UMMModFolderPath: 
+  ThunderkitOutputPath: 
   AvailableMods:
-  - {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  - ModInfo: {fileID: 11400000, guid: 0832a64c8900da74892ba975df4af479, type: 2}
+    Pipeline: {fileID: 11400000, guid: 07f19e208b5f8e34e9c0b7c6aa24dec6, type: 2}
+  - ModInfo: {fileID: 11400000, guid: fb3898ac17ec2794db4cad7048e81100, type: 2}
+    Pipeline: {fileID: 11400000, guid: 757171e1041197d43831d445bb444d87, type: 2}
   AvailableModsSelectedIndex: 0
+  IncludePDBFile: 1
   AvailableBuildOptions:
   - Unity Mod Manager
   - BepInEx
+  _AvailableBuildOptionsSelectedIndex: 0

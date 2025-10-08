@@ -6,15 +6,16 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.jofo.adofairunner": {
-      "version": "https://github.com/JofoDuh/ADOFAIRunner.git",
+    "com.jofo.adofaimoddinghelper": {
+      "version": "https://github.com/JofoDuh/ADOFAIModdingHelper.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.16.1",
-        "com.passivepicasso.thunderkit": "9.1.1"
+        "com.unity.editorcoroutines": "1.0.1",
+        "com.passivepicasso.thunderkit": "9.1.1",
+        "com.unity.scriptablebuildpipeline": "1.16.1"
       },
-      "hash": "0086b89e8970d1ec44fcb1e0be0045b87c9fccd2"
+      "hash": "8e51dad36aee98ea3aaa26b3cc75ba1d6a8704aa"
     },
     "com.passivepicasso.thunderkit": {
       "version": "git+https://github.com/PassivePicasso/ThunderKit.git",
@@ -153,6 +154,13 @@
         "com.unity.burst": "1.6.6",
         "com.unity.test-framework": "1.1.31"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.editorcoroutines": {
+      "version": "1.0.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.ext.nunit": {
