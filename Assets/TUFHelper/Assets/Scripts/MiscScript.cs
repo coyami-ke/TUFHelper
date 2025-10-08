@@ -71,7 +71,7 @@ public class MiscScript : MonoBehaviour
     {
         //if (DownloadPopupScript.IsDownloading) return;
 
-        if (!WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        if (WindowsManager.instance != null && !WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
         {
             WindowsManager.instance.MoveToFolderList();
             return;
