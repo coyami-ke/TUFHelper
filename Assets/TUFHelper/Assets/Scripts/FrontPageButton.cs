@@ -11,6 +11,8 @@ public class FrontPageButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
 
     public Image lineImage;
 
+    public GameObject showableCanvas;
+
     public void Start()
     {
         image = GetComponent<Image>();
@@ -20,6 +22,9 @@ public class FrontPageButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
     {
         image.DOColor(new Color(image.color.r, image.color.g, image.color.b, 100 / 255f), 0.35f).SetEase(Ease.OutCubic);
         lineImage.DOColor(new Color(lineImage.color.r, lineImage.color.g, lineImage.color.b, 200 / 255f), 0.35f).SetEase(Ease.OutCubic);
+
+        showableCanvas.SetActive(true);
+        FrontPageScript.instance.frontPageObject.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -129,6 +129,7 @@ public class LevelListScript : MonoBehaviour
         ViewModel.Cleared += OnLevelsCleared;
         ViewModel.AddedRange += OnLevelsAdded;
     }
+
     public void OnLevelsCleared()
     {
         for (int i = 0; i < levelListParent.transform.childCount; i++)

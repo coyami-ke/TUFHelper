@@ -88,8 +88,6 @@ public class AccountScript : MonoBehaviour
             logOutButton.SetActive(false);
             pfpImage.gameObject.SetActive(false);
         }
-
-        AccountSettings.instance.UpdateSettings();
     }
 
     public async void EnterButton()

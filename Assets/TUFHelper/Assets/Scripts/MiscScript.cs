@@ -22,6 +22,8 @@ public class MiscScript : MonoBehaviour
     public static MiscScript instance;
 
     public GameObject errorObject;
+    public GameObject frontMenuCanvas;
+    public GameObject playCanvas;
     private CancellationTokenSource requestCancelToken;
 
     public void Awake()
@@ -71,20 +73,29 @@ public class MiscScript : MonoBehaviour
     {
         //if (DownloadPopupScript.IsDownloading) return;
 
-        if (WindowsManager.instance != null && !WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        //if (WindowsManager.instance != null && !WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        //{
+        //    WindowsManager.instance.MoveToFolderList();
+        //    return;
+        //}
+
+        //UIScript.SwipeToBlack(() =>
+        //{
+        //    Main.isInTUFHelper = false;
+        //    ADOFAIGameplayHandler.IsFromTUFHelper = false;
+        //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
+        //    GCS.sceneToLoad = "";
+        //    SceneManager.LoadScene("scnLevelSelect");
+        //});
+        var frontPageButtons = frontMenuCanvas.GetComponentsInChildren<FrontPageButton>(includeInactive: true);
+        foreach (var button in frontPageButtons)
         {
-            WindowsManager.instance.MoveToFolderList();
-            return;
+            if (button.showableCanvas != null) button.showableCanvas.SetActive(false);
         }
 
-        UIScript.SwipeToBlack(() =>
-        {
-            Main.isInTUFHelper = false;
-            ADOFAIGameplayHandler.IsFromTUFHelper = false;
-            ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
-            GCS.sceneToLoad = "";
-            SceneManager.LoadScene("scnLevelSelect");
-        });
+        FrontPageScript.instance.frontPageObject.SetActive(true);
+
+        CustomMusicPlayer.instance.StopPlay();
     }
 
     public void OpenURL(string url)
@@ -150,6 +161,7 @@ public class MiscScript : MonoBehaviour
             {
             }
         }
+
         Main.Setting.Save(Main.ModEntry);
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
@@ -157,6 +169,11 @@ public class MiscScript : MonoBehaviour
     }
     public async void ImFuckingLucky()
     {
+        if (FrontPageScript.instance.frontPageObject.activeSelf) FrontPageScript.instance.frontPageObject.SetActive(false);
+
+        playCanvas.SetActive(true);
+
+
         requestCancelToken?.Cancel();
         requestCancelToken = new CancellationTokenSource();
 
@@ -214,8 +231,8 @@ public class MiscScript : MonoBehaviour
 
         try
         {
-            if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL"); // selectedLevel is null ._.
-            LevelDownloader levelDownloder = new(selectedLevel.DlLink) //null exception
+            if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL");
+            LevelDownloader levelDownloder = new(selectedLevel.DlLink) 
             {
                 ErrorHandler = (ex) =>
                 {

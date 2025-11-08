@@ -436,8 +436,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         
     }
-
-
     public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
     {
         HideUIFixPatch.RecentDirectLevelOpend = true;
@@ -464,9 +462,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
             ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = null;
         }
-        
+
         SceneManager.LoadScene("scnEditor");
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         InfoButtonClick();
@@ -525,4 +524,14 @@ internal class LevelSettings
 {
     [JsonProperty("bpm")]
     public float BPM { get; set; }
+}
+
+public static class SceneLoaderExtensions
+{
+    public static Task AsTask(this AsyncOperation asyncOp)
+    {
+        var tcs = new TaskCompletionSource<bool>();
+        asyncOp.completed += _ => tcs.SetResult(true);
+        return tcs.Task;
+    }
 }
