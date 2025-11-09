@@ -87,6 +87,20 @@ public class MiscScript : MonoBehaviour
         //    GCS.sceneToLoad = "";
         //    SceneManager.LoadScene("scnLevelSelect");
         //});
+
+        if (FrontPageScript.instance.frontPageObject.activeSelf)
+        {
+            UIScript.SwipeToBlack(() =>
+            {
+                Main.isInTUFHelper = false;
+                ADOFAIGameplayHandler.IsFromTUFHelper = false;
+                ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
+                GCS.sceneToLoad = "";
+                SceneManager.LoadScene("scnLevelSelect");
+            });
+            return;
+        }
+
         var frontPageButtons = frontMenuCanvas.GetComponentsInChildren<FrontPageButton>(includeInactive: true);
         foreach (var button in frontPageButtons)
         {

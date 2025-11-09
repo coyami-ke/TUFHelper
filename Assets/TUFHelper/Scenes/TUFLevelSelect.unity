@@ -3750,6 +3750,7 @@ MonoBehaviour:
   nicknameText: {fileID: 1151666338}
   tagText: {fileID: 1829595383}
   errorMessage: {fileID: 1801360235}
+  frontPage_RatingButton: {fileID: 856703905}
 --- !u!1 &169705292
 GameObject:
   m_ObjectHideFlags: 0
