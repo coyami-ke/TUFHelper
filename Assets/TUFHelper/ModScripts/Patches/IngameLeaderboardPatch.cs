@@ -33,7 +33,10 @@ namespace TUFHelper
             if (IngameLeaderboardScript.instance != null)
             {
                 var account = AccountSaver.GetAccount();
-                bool show = Main.Setting.ShowTUFHelperOverlayer && Main.Setting.ShowIngameLeaderboard && !(account?.IsRatingMode ?? false);
+                bool showInOverlayer = Main.Setting.ShowTUFHelperOverlayer;
+                bool showIngameLeaderboard = Main.Setting.ShowIngameLeaderboard;
+                bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
+                bool show = showInOverlayer && showIngameLeaderboard && !isRatingPageActive;
 
                 IngameLeaderboardScript.instance.gameObject.SetActive(show);
 

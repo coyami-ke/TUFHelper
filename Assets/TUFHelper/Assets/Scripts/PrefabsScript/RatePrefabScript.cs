@@ -120,10 +120,12 @@ public class RatePrefabScript : MonoBehaviour
             case 1:
                 LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(lastLevel, args.Levels[0]));
+                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
                 break;
             default:
                 LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
+                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
                 break;
         }
     }

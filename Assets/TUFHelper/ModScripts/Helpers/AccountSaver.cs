@@ -12,7 +12,6 @@ namespace TUFHelper.Utils
         public static readonly string PATH_TO_ACCOUNT_FILE = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TUFHelper", "token.json");
 
         public string Token { get; set; } = "";
-        public bool IsRatingMode { get; set; } = false;
 
         public static AccountSaver GetAccount()
         {

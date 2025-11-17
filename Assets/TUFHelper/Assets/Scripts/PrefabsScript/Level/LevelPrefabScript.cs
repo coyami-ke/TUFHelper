@@ -351,7 +351,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         string oggFile = oggs.FirstOrDefault();
         CustomLevelInfoJson localInfo = new();
 
-        if (!string.IsNullOrEmpty(oggFile))
+        if (!string.IsNullOrEmpty(oggFile) && LevelListScript.instance != null)
         {
             LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, length =>
             {
@@ -451,11 +451,11 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         try
         {
             var account = AccountSaver.GetAccount();
-            if (account != null && account.IsRatingMode)
-            {
-                ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
-                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
-            }
+            //if (account != null && account.IsRatingMode)
+            //{
+            //    ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
+            //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
+            //}
         }
         catch
         {

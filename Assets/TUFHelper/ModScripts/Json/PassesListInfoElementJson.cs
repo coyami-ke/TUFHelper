@@ -88,6 +88,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("isBanned")]
         public bool IsBanned { get; set; }
+        [JsonProperty("pfp")]
+        public string PFP { get; set; }
     }
 
     public class PassesListInfoElementLevelJson
