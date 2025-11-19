@@ -319,12 +319,18 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             string rawJson = File.ReadAllText(saveableLevel);
 
+            // Fix double comma in requiredMods
+            string fixRequiredModsDoubleComma = @"""requiredMods""\s*:\s*\[\]\s*,\s*,";
+            rawJson = Regex.Replace(rawJson, fixRequiredModsDoubleComma, @"""requiredMods"": [],");
+
+            // Existing fixes
             string fixMissingCommas = @"}\s*{";
             rawJson = Regex.Replace(rawJson, fixMissingCommas, "},\n{");
 
             string pattern = @"\](\s*)""decorations""";
             string replacement = "],$1\"decorations\"";
             rawJson = Regex.Replace(rawJson, pattern, replacement);
+
 
             // Попытка десериализации
             levelData = JsonConvert.DeserializeObject<LevelData>(rawJson);
