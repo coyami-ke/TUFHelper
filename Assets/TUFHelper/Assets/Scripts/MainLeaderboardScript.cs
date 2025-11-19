@@ -7,35 +7,54 @@ using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainLeaderboardScript : MonoBehaviour
 {
+    private TUFLeaderboardRequest request = new();
+
     public GameObject scrollableParent, prefab, playerListParent;
     public static MainLeaderboardScript instance { get; private set; }
+
+    public ScrollRect VerticalScrollComponent { get; private set; }
 
     public void Awake()
     {
         instance = this;
+
+        VerticalScrollComponent = scrollableParent.GetComponent<ScrollRect>();
     }
 
-    public async void OnEnable()
-    {
-        await UpdateList();
-    }
+    //public async void OnEnable()
+    //{
+    //    await UpdateList();
+    //}
 
     CancellationToken token = new();
+
+    private bool isLoading = false;
+    public async void Update()
+    {
+        // Handle Scroll-Based Pagination
+        if (!isLoading && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f)
+        {
+            isLoading = true;
+            request.Offset = GetPlayerPrefabScripts().Length;
+            await UpdateList();
+        }
+    }
+
     public async Task UpdateList()
     {
         token = new();
-        TUFLeaderboardRequest request = new TUFLeaderboardRequest();
         await request.GetAnswerAsync(token);
 
         MainLeaderboardJson json = JsonConvert.DeserializeObject<MainLeaderboardJson>(request.Answer);
 
-        foreach (Transform child in playerListParent.transform)
-            Destroy(child.gameObject);
+        //foreach (Transform child in playerListParent.transform)
+        //    Destroy(child.gameObject);
 
-        int rank = 1;
+        int rank = 1 + GetPlayerPrefabScripts().Length;
         foreach (var playerJson in json.Results)
         {
             GameObject obj = Instantiate(prefab, playerListParent.transform);
@@ -53,8 +72,14 @@ public class MainLeaderboardScript : MonoBehaviour
         float totalHeight = (rank - 1) * 105 + 30;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
+        isLoading = false;
+
         Main.Logger.Log(json.Results.Count.ToString());
     }
+
+    public MainLeaderboardPlayerPrefabScript[] GetPlayerPrefabScripts() =>
+        instance.playerListParent
+            .GetComponentsInChildren<MainLeaderboardPlayerPrefabScript>(includeInactive: false);
 
     public class MainLeaderboardJson
     {

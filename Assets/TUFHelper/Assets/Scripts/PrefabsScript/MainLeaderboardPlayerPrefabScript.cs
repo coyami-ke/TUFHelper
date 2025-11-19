@@ -16,7 +16,7 @@ public class MainLeaderboardPlayerPrefabScript : MonoBehaviour
         playerName.text = info.Player.Name;
         generalScore.text = info.GeneralScore.ToString("F2");
         rankedScore.text = info.RankedScore.ToString("F2");
-        xacc.text = (info.AverageXAccuracy * 100).ToString("F2");
+        xacc.text = (info.AverageXAccuracy * 100).ToString("F2") + "%";
         rank.text = "#" + info.GeneralScoreRank;
 
         var pfpData = await AccountScript.instance.TokenRequest.GetPfpFromURL(info.Player.PFP);

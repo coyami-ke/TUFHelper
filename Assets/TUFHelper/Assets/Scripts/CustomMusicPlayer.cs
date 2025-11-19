@@ -13,6 +13,9 @@ public class CustomMusicPlayer : MonoBehaviour
     {
         instance = this;
         audioSource = GetComponent<AudioSource>();
+
+        audioSource.volume *= Persistence.globalVolume * Persistence.musicVolume;
+
     }
 
     public IEnumerator LoadAndPlayAudio(string path, float startTimeSeconds = -1)
