@@ -12,21 +12,11 @@ public class MusicControlScript : MonoBehaviour
     private bool isPlaying = true;
     public void Awake()
     {
-        instance = this;        
+        instance = this;
     }
     public void Start()
     {
-        if (!Main.Setting.PlayBackgroundMusic) 
-        {
-            audioSource.Pause();
-            isPlaying = false;
-        }
-        else
-        {
-            audioSource.Play();
-            isPlaying = true;
-        }
-
-        audioSource.volume *= Persistence.globalVolume * Persistence.musicVolume;
+        CustomMusicPlayer.instance.audioSource.volume = Main.Setting.TUFHelperMusicVolume;
+        audioSource.volume = Main.Setting.TUFHelperMusicVolume;
     }
 }

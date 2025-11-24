@@ -7,19 +7,15 @@ using UnityEngine.UI;
 
 public class AudioSettings : MonoBehaviour
 {
-    public Toggle playTUFHelperMusic;
-
+    public Slider volumeSlider;
     public void Start()
     {
-        playTUFHelperMusic.isOn = Main.Setting.PlayBackgroundMusic;
+        volumeSlider.value = Main.Setting.TUFHelperMusicVolume;
     }
-
-    public void OnPlayTUFHelperMusicChanged(bool value)
+    public void OnVolumeChanged(float value)
     {
-        Main.Setting.PlayBackgroundMusic = value;
-        Main.Setting.Save(Main.ModEntry);
-
-        if (value) MusicControlScript.instance.audioSource.Play();
-        else MusicControlScript.instance.audioSource.Stop();
+        CustomMusicPlayer.instance.audioSource.volume = value;
+        MusicControlScript.instance.audioSource.volume = value;
+        Main.Setting.TUFHelperMusicVolume = value;
     }
 }

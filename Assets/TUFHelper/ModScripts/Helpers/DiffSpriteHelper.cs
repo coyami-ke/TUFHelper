@@ -93,6 +93,7 @@ namespace TUFHelper.Utils
             { 12312341, "U11J" },
             { 42314234, "U14J" },
             { 3452345, "U15J" },
+            { 412342342, "U15M" },
         };
 
         public static readonly Dictionary<string, double> DiffBaseScore = new()
@@ -170,6 +171,7 @@ namespace TUFHelper.Utils
             { "U18" , 0 },
             { "U19" , 0 },
             { "U20" , 0 },
+            { "U15M", 0 },
         };
         
         public static Dictionary<string, int> GetReversedDiffIDRegister()
@@ -194,7 +196,7 @@ namespace TUFHelper.Utils
         {
             string diffStr = diff;
             if (diffStr == "Gimmick") return true;
-            if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J"))) return false;
+            if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J") && !diffStr.EndsWith("M"))) return false;
             else return true;
         }
         public static bool IsSpecialDiff(int diff)

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using DG.Tweening;
 using DirectLevel;
@@ -52,14 +54,43 @@ public class DownloadPanel : MonoBehaviour
         rectTransform.AnchorPosY(minPositionY);
     }
 
+
+    private Task downloadingTask;
+    private CancellationTokenSource cts;
     public async void DownloadLevel(LevelDownloader downloader)
     {
         IsShow = true;
         IsDownloading = true;
+
+        cts = new CancellationTokenSource();
+
         downloader.UpdateProgress += OnUpdateProgress;
-        await downloader.DownloadWithTask(Main.Setting.LevelSaveFolder, true);
-        IsDownloading = false;
+
+        try
+        {
+            downloadingTask = downloader.DownloadWithTask(
+                Main.Setting.LevelSaveFolder,
+                true,
+                cts.Token
+            );
+
+            await downloadingTask;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        finally
+        {
+            IsDownloading = false;
+            IsShow = false;
+        }
+    }
+
+
+    public void Cancel()
+    {
         IsShow = false;
+        cts?.Cancel();
     }
 
     private void OnUpdateProgress(object sender, UpdateProgressEventArgs args)

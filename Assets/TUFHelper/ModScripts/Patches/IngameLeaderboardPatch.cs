@@ -91,13 +91,35 @@ namespace TUFHelper
                 Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
             };
 
+
+            string nameDiff;// = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
+            double baseScore;// = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
+
+            try
+            {
+                nameDiff = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]; 
+            }
+            catch
+            {
+                nameDiff = "0";
+            }
+
+            try
+            {
+                baseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
+            }
+            catch
+            {
+                baseScore = 0;
+            }
+
             var levelData = new PPDisplayerScript.LevelData
             {
                 BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
                 Difficulty = new PPDisplayerScript.Difficulty
                 {
-                    Name = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId],
-                    BaseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]]
+                    Name = nameDiff,
+                    BaseScore = baseScore
                 }
             };
 

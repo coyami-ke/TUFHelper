@@ -94,6 +94,7 @@ public class MiscScript : MonoBehaviour
             {
                 Main.isInTUFHelper = false;
                 ADOFAIGameplayHandler.IsFromTUFHelper = false;
+                FrontPageScript.isFirstRun = true;
                 ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
                 GCS.sceneToLoad = "";
                 SceneManager.LoadScene("scnLevelSelect");

@@ -67,45 +67,52 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (value)
             {
-                ScrollToSelf();
-                LeaderboardScript.instance.LoadPasses(levelInfo);
-
-                var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
-                if (levelOffline != null)
+                try
                 {
-                    LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
-                    string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
-                    if (!File.Exists(pathToBG))
-                        pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
+                    ScrollToSelf();
+                    LeaderboardScript.instance.LoadPasses(levelInfo);
 
-                    if (File.Exists(pathToBG))
+                    var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
+                    if (levelOffline != null)
                     {
-                        SpriteLoader.instance.gameObject.SetActive(true);
-                        SpriteLoader.instance.FromFile(pathToBG);
+                        LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
+                        string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
+                        if (!File.Exists(pathToBG))
+                            pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
+
+                        if (File.Exists(pathToBG))
+                        {
+                            SpriteLoader.instance.gameObject.SetActive(true);
+                            SpriteLoader.instance.FromFile(pathToBG);
+                        }
+                        else
+                        {
+                            SpriteLoader.instance.gameObject.SetActive(false);
+                        }
+
+                        string oggFile = Directory.GetFiles(levelOffline.NameFolder)
+                                                      .FirstOrDefault(f => f.EndsWith(".ogg"));
+                        string mp3File = Directory.GetFiles(levelOffline.NameFolder)
+                                                  .FirstOrDefault(f => f.EndsWith(".mp3"));
+
+                        if (oggFile != null)
+                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
+                        else if (mp3File != null)
+                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
+                        //else if (Main.Setting.PlayBackgroundMusic)
+                        //    CustomMusicPlayer.instance.StopPlay();
                     }
                     else
                     {
-                        SpriteLoader.instance.gameObject.SetActive(false);
-                    }
-
-                    string oggFile = Directory.GetFiles(levelOffline.NameFolder)
-                                                  .FirstOrDefault(f => f.EndsWith(".ogg"));
-                    string mp3File = Directory.GetFiles(levelOffline.NameFolder)
-                                              .FirstOrDefault(f => f.EndsWith(".mp3"));
-
-                    if (oggFile != null)
-                        StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
-                    else if (mp3File != null)
-                        StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
-                    else if (Main.Setting.PlayBackgroundMusic)
+                        LevelInfo.instance.IsShow = false;
                         CustomMusicPlayer.instance.StopPlay();
-                }
-                else
-                {
-                    LevelInfo.instance.IsShow = false;
-                    CustomMusicPlayer.instance.StopPlay();
-                    SpriteLoader.instance.gameObject.SetActive(false);
+                        SpriteLoader.instance.gameObject.SetActive(false);
 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Main.Logger.LogException(ex);
                 }
             }
         }
@@ -273,6 +280,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             levelDownloder.DownloadComplete += OnCompleteDownload;
 
         }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             ExceptionCatch(ex);

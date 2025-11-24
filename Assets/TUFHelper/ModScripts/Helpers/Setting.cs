@@ -27,9 +27,10 @@ namespace TUFHelper.Utils
     {
         public string LevelSaveFolder { get; set; } = null;
 
-        public bool PlayBackgroundMusic { get; set; } = true;
+        //public bool PlayBackgroundMusic { get; set; } = true;
         public int MinDiff { get; set; } = 1;
         public int MaxDiff { get; set; } = 60;
+        public float TUFHelperMusicVolume = 0.5f;
         public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
         public int SortBy { get; set; } = 0;
         public List<string> SelectedSpecialDiffs { get; set; } = new();

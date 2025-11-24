@@ -14,14 +14,16 @@ public class CustomMusicPlayer : MonoBehaviour
         instance = this;
         audioSource = GetComponent<AudioSource>();
 
+        audioSource.volume = 0.3f;
+
         audioSource.volume *= Persistence.globalVolume * Persistence.musicVolume;
 
     }
 
     public IEnumerator LoadAndPlayAudio(string path, float startTimeSeconds = -1)
     {
-        if (!Main.Setting.PlayBackgroundMusic)
-            yield break;
+        //if (!Main.Setting.PlayBackgroundMusic)
+        //    yield break;
 
         if (audioSource == null)
         {
@@ -67,7 +69,7 @@ public class CustomMusicPlayer : MonoBehaviour
     public void StopPlay()
     {
         this.audioSource.Stop();
-        if (Main.Setting.PlayBackgroundMusic && !isPlayingBackground)
+        if (!isPlayingBackground)
         {
             MusicControlScript.instance.audioSource.Play();
             isPlayingBackground = true;

@@ -113,13 +113,11 @@ public class RatingPanel : MonoBehaviour
             case 1: rating4PlusValue = Rating4Plus.Show; break;
             case 2: rating4PlusValue = Rating4Plus.Only; break;
         }
-        Main.Logger.Log(value.ToString());
         UpdateList();
     }
     public void OnHideRatedChanged(bool value)
     {
         isHideRatedValue = value;
-        Main.Logger.Log(value.ToString());
         UpdateList();
     }
 
