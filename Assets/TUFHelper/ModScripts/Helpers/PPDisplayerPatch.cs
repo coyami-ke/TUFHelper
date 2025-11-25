@@ -126,16 +126,34 @@ namespace TUFHelper
             };
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
-            var diffName = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
-            var diffScore = DiffSpriteHelper.DiffBaseScore[diffName];
+            string nameDiff;// = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
+            double baseScore;// = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
+
+            try
+            {
+                nameDiff = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
+            }
+            catch
+            {
+                nameDiff = "0";
+            }
+
+            try
+            {
+                baseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
+            }
+            catch
+            {
+                baseScore = 0;
+            }
 
             var levelData = new PPDisplayerScript.LevelData
             {
                 BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
                 Difficulty = new PPDisplayerScript.Difficulty
                 {
-                    Name = diffName,
-                    BaseScore = diffScore
+                    Name = nameDiff,
+                    BaseScore = baseScore
                 }
             };
 
