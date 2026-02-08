@@ -137,5 +137,12 @@ namespace TUFHelper.ModScripts.Json
         [JsonProperty("typeId")]
         public int TypeID { get; set; } // you need this to make curation icon
     }
+    public class LevelListInfoElementTagJson
+    {
+        [JsonProperty("id")]
+        public int ID { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+    }
 }
  

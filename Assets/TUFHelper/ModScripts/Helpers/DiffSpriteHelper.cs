@@ -10,6 +10,7 @@ namespace TUFHelper.Utils
         public static readonly Dictionary<int, string> DiffIDRegister = new()
         {
             { 0, "0" },
+            { 2355445, "P0" },
             { 1, "P1" },
             { 2, "P2" },
             { 3, "P3" },
@@ -111,6 +112,7 @@ namespace TUFHelper.Utils
             { "Impossible" , 0},
             { "Censored" , 0 },
             { "0" , 0},
+            { "P0", 0 },
             { "P1" , 0.1},
             { "P2" , 0.2 },
             { "P3" , 0.3 },
@@ -195,7 +197,7 @@ namespace TUFHelper.Utils
         public static bool IsSpecialDiff(string diff)
         {
             string diffStr = diff;
-            if (diffStr == "Gimmick") return true;
+            if (diffStr == "Gimmick" || diffStr == "P0") return true;
             if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J") && !diffStr.EndsWith("M"))) return false;
             else return true;
         }
