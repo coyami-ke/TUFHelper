@@ -15,7 +15,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     public Image arrowImage, backgroundImage;
     public RectTransform menuTransform;
 
-    public Toggle marathonToggle, gimmickToggle, unrankedToggle, minus2Toggle, minus21Toggle;
+    public Toggle unrankedToggle, minus2Toggle, minus21Toggle;
     public Toggle qqToggle, q0Toggle, q1Toggle, q2Toggle, q3Toggle, q4Toggle;
 
     private readonly Color selectedColor = new(1f, 1f, 1f, 20f / 255f);
@@ -48,8 +48,6 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     {
         toggleMap = new Dictionary<string, Toggle>
         {
-            { "Marathon", marathonToggle },
-            { "Gimmick", gimmickToggle },
             { "Unranked", unrankedToggle },
             { "Censored", minus2Toggle },
             { "Impossible", minus21Toggle },
