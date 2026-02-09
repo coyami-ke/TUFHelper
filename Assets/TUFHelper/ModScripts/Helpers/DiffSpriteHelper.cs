@@ -77,12 +77,17 @@ namespace TUFHelper.Utils
 
             { 10100, "Qq" },
 
-            { 10010, "Q0" },
-            { 10011, "Q1"},
-            { 10002, "Q2" },
-            { 10004, "Q3" },
-            { 10006, "Q4" },
+            { 61, "GQ0 (G1~G4)" },
+            { 62, "GQ1 (G5~G8)" },
+            { 63, "GQ2 (G9~G12)" },
+            { 64, "GQ3 (G13~G16)" },
+            { 65, "GQ4 (G17~G20)" },
 
+            { 66, "UQ0 (U1~U4)" },
+            { 67, "UQ1 (U5~U8)" },
+            { 68, "UQ2 (U9~U12)" },
+            { 69, "UQ3 (U13~U16)" },
+            { 70, "UQ4 (U17~U20)" },
 
             { 10101, "Impossible"},
             { 1000, "Censored" },
@@ -103,12 +108,6 @@ namespace TUFHelper.Utils
             { "U13J", 0},
             { "U7J", 0 },
             { "Marathon" , 0 },
-            { "Qq" , 0 },
-            { "Q0" , 0 },
-            { "Q1" , 0 },
-            { "Q2" , 0 },
-            { "Q3" , 0 },
-            { "Q4" , 0 },
             { "Impossible" , 0},
             { "Censored" , 0 },
             { "0" , 0},
@@ -174,6 +173,19 @@ namespace TUFHelper.Utils
             { "U19" , 0 },
             { "U20" , 0 },
             { "U15M", 0 },
+
+            { "GQ0 (G1~G4)", 0 },
+            { "GQ1 (G5~G8)", 0 },
+            { "GQ2 (G9~G12)", 0 },
+            { "GQ3 (G13~G16)", 0 },
+            { "GQ4 (G17~G20)", 0 },
+
+            { "UQ0 (U1~U4)", 0 },
+            { "UQ1 (U5~U8)", 0 },
+            { "UQ2 (U9~U12)", 0 },
+            { "UQ3 (U13~U16)", 0 },
+            { "UQ4 (U17~U20)", 0 },
+
         };
         
         public static Dictionary<string, int> GetReversedDiffIDRegister()
@@ -197,6 +209,7 @@ namespace TUFHelper.Utils
         public static bool IsSpecialDiff(string diff)
         {
             string diffStr = diff;
+            if (IsQuantumDiff(diff)) return true;
             if (diffStr == "Gimmick" || diffStr == "P0") return true;
             if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J") && !diffStr.EndsWith("M"))) return false;
             else return true;
@@ -205,6 +218,20 @@ namespace TUFHelper.Utils
         {
             string diffStr = DiffIDRegister[diff];
             return IsSpecialDiff(diffStr);
+        }
+        public static bool IsQuantumDiff(string diff)
+        {
+            if (string.IsNullOrEmpty(diff)) return false;
+
+            return diff.StartsWith("GQ")
+                || diff.StartsWith("UQ")
+                || diff.StartsWith("Q");
+        }
+
+        public static bool IsQuantumDiff(int diff)
+        {
+            string diffStr = DiffIDRegister[diff];
+            return IsQuantumDiff(diffStr);
         }
     }
 }

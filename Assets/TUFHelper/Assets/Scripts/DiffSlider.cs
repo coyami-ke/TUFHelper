@@ -29,7 +29,7 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
         {
             _selectedMaxDiff = value;
             maxDiffRect.anchoredPosition = new Vector2(minSliderPositionX + value * lengthStep, minDiffImage.rectTransform.anchoredPosition.y);
-            maxDiffImage.sprite = diffPairs[value].Sprite;
+            maxDiffImage.sprite = diffPairs[value].Sprite; // line 32
         }
     }
 
