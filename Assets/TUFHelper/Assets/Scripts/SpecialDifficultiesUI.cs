@@ -16,12 +16,11 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     public RectTransform menuTransform;
 
     public Toggle unrankedToggle, minus2Toggle, minus21Toggle, p0Toggle;
-    public Toggle qqToggle, q0Toggle, q1Toggle, q2Toggle, q3Toggle, q4Toggle;
 
     private readonly Color selectedColor = new(1f, 1f, 1f, 20f / 255f);
     private readonly Color unselectedColor = new(1f, 1f, 1f, 10f / 255f);
 
-    private const float menu_MaxPositionY = -170;
+    private const float menu_MaxPositionY = -110;
     private const float menu_MinPositionY = -35;
     private const float selectedRotation = -90;
     private const float unselectedRotation = 90;
@@ -51,13 +50,6 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             { "Unranked", unrankedToggle },
             { "Censored", minus2Toggle },
             { "Impossible", minus21Toggle },
-            { "P0", p0Toggle },
-            { "Qq", qqToggle },
-            { "Q0", q0Toggle },
-            { "Q1", q1Toggle },
-            { "Q2", q2Toggle },
-            { "Q3", q3Toggle },
-            { "Q4", q4Toggle },
         };
 
         foreach (var kvp in toggleMap)

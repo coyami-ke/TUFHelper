@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Together.Utils;
@@ -26,6 +27,8 @@ namespace TUFHelper.ModScripts.Web
         public int MinDiffPGU { get; set; } = 1;
         public int MaxDiffPGU { get; set; } = 60;
         public List<string> SpecialDifficulties { get; set; } = new();
+        public List<string> QDifficulties { get; set; } = new();
+        public List<string> TagsFilter { get; set; } = new();
         public string SortBy = "RECENT";
         public AscendingOrDescending SortAsc = AscendingOrDescending.Descending;
 
@@ -44,8 +47,16 @@ namespace TUFHelper.ModScripts.Web
             string sort = $"{SortBy}_{order}";
 
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
-            if (SpecialDifficulties.Count > 0)
-                url += "&specialDifficulties=" + string.Join(",", SpecialDifficulties);
+            if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
+            {
+                // Combine both lists
+                var allDifficulties = SpecialDifficulties.Concat(QDifficulties);
+                url += "&specialDifficulties=" + string.Join(",", allDifficulties);
+            }
+            if (TagFilters.Count > 0)
+            {
+                url += "&tagsFilter=" + string.Join(",", TagsFilter);
+            }
 
             using var request = UnityWebRequest.Get(url);
             request.certificateHandler = new CertificateWhore();

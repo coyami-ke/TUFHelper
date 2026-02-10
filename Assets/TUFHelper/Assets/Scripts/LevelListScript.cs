@@ -130,6 +130,12 @@ public class LevelListScript : MonoBehaviour
         ViewModel.AddedRange += OnLevelsAdded;
     }
 
+    //public async void Start()
+    //{
+    //    await Task.Yield();   // wait 1 frame so UI/layout is ready
+    //    await UpdateLevelListAsync();
+    //}
+
     public void OnLevelsCleared()
     {
         for (int i = 0; i < levelListParent.transform.childCount; i++)
@@ -308,9 +314,10 @@ public class LevelListScript : MonoBehaviour
                     return false;
 
                 // Filter by difficulty
-                if (DiffSpriteHelper.IsSpecialDiff(level.DiffId))
+                if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
                 {
-                    if (!DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
+                    if (!DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) || 
+                            !DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
                         return false;
                 }
                 else

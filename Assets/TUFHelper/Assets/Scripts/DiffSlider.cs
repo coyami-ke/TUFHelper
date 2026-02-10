@@ -38,7 +38,7 @@ public abstract class DiffSlider : MonoBehaviour, IPointerClickHandler, IPointer
     public float minSliderPositionX;
 
     private float lengthStep;
-    private List<DiffSpritePair> diffPairs = new();
+    public List<DiffSpritePair> diffPairs { get; private set; } = new();
 
     private RectTransform minDiffRect, maxDiffRect;
 
