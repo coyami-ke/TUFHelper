@@ -1,21 +1,23 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace TUFHelper.Utils
 {
     public static class TagSpriteHelper
     {
+        public const string PATH_TO_TAG_SPRITES = "Assets/TUFHelper/Assets/Sprites/TagIcons/";
         public static readonly Dictionary<string, string> SpriteRegister = new()
         {
             // ===== Play Style =====
-            { "Pseudo", "Icon_Play_Pseudo" },
-            { "Rolling", "Icon_Play_Rolling" },
-            { "Indexing", "Icon_Play_Index" },
-            { "Tech", "Icon_Play_Tech" },
-            { "Key Count", "Icon_Play_KeyCount" },
-            { "Key Count+", "Icon_Play_KeyCountPlus" },
-            { "Feetdex", "Icon_Play_Feetdex" },
-            { "Feet Switch", "Icon_Play_FeetSwitch" },
+            { "Pseudo", "Icon_Playstyle_Pseudo" },
+            { "Rolling", "Icon_Playstyle_Roll" },
+            { "Indexing", "Icon_Playstyle_Index" },
+            { "Tech", "Icon_Playstyle_Tech" },
+            { "Key Count", "Icon_Playstyle_KeyCount" },
+            { "Key Count+", "Icon_Playstyle_KeyCountPlus" },
+            { "Feetdex", "Icon_Playstyle_Feetdex" },
+            { "Feet Switch", "Icon_Playstyle_FeetSwitch" },
 
             // ===== Key Limit =====
             { "1 Key Limit", "Icon_Limit_1" },
@@ -27,21 +29,21 @@ namespace TUFHelper.Utils
             { "16 Key Limit", "Icon_Limit_16" },
             { "Overlay Allowed", "Icon_Limit_Overlay" },
             { "2-Hand Pseudos", "Icon_Limit_2Hand" },
-            { "Onhand/Offhand Limit", "Icon_Limit_OnOff" },
-            { "Variable Key Limit", "Icon_Limit_Variable" },
+            { "Onhand/Offhand Limit", "Icon_Limit_Side" },
+            { "Variable Key Limit", "Icon_Limit_Change" },
 
             // ===== Judgement =====
-            { "Judgement Limit", "Icon_Judge_Limit" },
-            { "HP Bar", "Icon_Judge_HP" },
-            { "Detailed Judgement", "Icon_Judge_Detail" },
+            { "Judgement Limit", "Icon_Judgment_Limit" },
+            { "HP Bar", "Icon_Judgment_HP" },
+            { "Detailed Judgement", "Icon_Judgment_Detail" },
 
             // ===== Gimmick =====
-            { "Free Roam", "Icon_Gimmick_FreeRoam" },
-            { "Multi Track", "Icon_Gimmick_MultiTrack" },
+            { "Free Roam", "Icon_Gimmick_Freeroam" },
+            { "Multi Track", "Icon_Gimmick_Multi" },
             { "Math", "Icon_Gimmick_Math" },
             { "RPG", "Icon_Gimmick_RPG" },
-            { "Memorization", "Icon_Gimmick_Memo" },
-            { "Unorthodox Reading", "Icon_Gimmick_Unorthodox" },
+            { "Memorization", "Icon_Gimmick_Memory" },
+            { "Unorthodox Reading", "Icon_Gimmick_Reading" },
             { "Arrow Key", "Icon_Gimmick_Arrow" },
 
             // ===== VFX =====
@@ -66,16 +68,16 @@ namespace TUFHelper.Utils
             { "30+ Minutes", "Icon_Time_30m" },
             { "45+ Minutes", "Icon_Time_45m" },
             { "1+ Hours", "Icon_Time_1h" },
-            { "1.5+ Hours", "Icon_Time_1_5h" },
+            { "1.5+ Hours", "Icon_Time_15h" },
             { "2+ Hours", "Icon_Time_2h" },
             { "Timeless", "Icon_Time_Infinity" },
 
             // ===== Required Mods =====
-            { "Youtube Stream", "Icon_Mod_Youtube" },
-            { "Key Limiter", "Icon_Mod_KeyLimiter" },
+            { "Youtube Stream", "Icon_Mod_YSMod" },
+            { "Key Limiter", "Icon_Mod_Keylimit" },
 
             // ===== DLC =====
-            { "DLC", "Icon_DLC_Base" },
+            { "DLC", "Icon_DLC_DLC" },
             { "Hold", "Icon_DLC_Hold" },
             { "Multi Planet", "Icon_DLC_MultiPlanet" },
 
@@ -84,6 +86,34 @@ namespace TUFHelper.Utils
             { "Auto Tile", "Icon_Misc_Auto" },
             { "Basescore Edit", "Icon_Misc_Basescore" },
         };
+
+        public static Sprite GetSpriteFromTag(string fileName)
+        {
+            if (Main.assets == null)
+            {
+                Main.Logger.Log("❌ AssetBundle not loaded.");
+                return null;
+            }
+
+            // Try direct load first
+            var sprite = Main.assets.LoadAsset<Sprite>(fileName);
+            if (sprite != null)
+                return sprite;
+
+            // Fallback: search all asset names (case-sensitive)
+            foreach (var assetName in Main.assets.GetAllAssetNames())
+            {
+                if (assetName.EndsWith(fileName + ".png", StringComparison.OrdinalIgnoreCase) ||
+                    assetName.EndsWith(fileName, StringComparison.OrdinalIgnoreCase))
+                {
+                    return Main.assets.LoadAsset<Sprite>(assetName);
+                }
+            }
+
+
+            Main.Logger.Log($"❌ Tag icon not found in AssetBundle: {fileName}");
+            return null;
+        }
     }
 }
 

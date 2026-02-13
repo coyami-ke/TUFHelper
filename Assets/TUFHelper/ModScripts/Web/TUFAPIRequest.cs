@@ -53,7 +53,7 @@ namespace TUFHelper.ModScripts.Web
                 var allDifficulties = SpecialDifficulties.Concat(QDifficulties);
                 url += "&specialDifficulties=" + string.Join(",", allDifficulties);
             }
-            if (TagFilters.Count > 0)
+            if (TagsFilter.Count > 0)
             {
                 url += "&tagsFilter=" + string.Join(",", TagsFilter);
             }

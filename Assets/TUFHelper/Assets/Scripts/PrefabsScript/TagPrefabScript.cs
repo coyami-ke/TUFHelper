@@ -9,7 +9,7 @@ public class TagPrefabScript : MonoBehaviour
 {
     public Image iconTag;
     public TextMeshProUGUI tagText;
-    public string tag;
+    public string tagTUF;
 
     public Image backgroundImage;
 
@@ -32,7 +32,8 @@ public class TagPrefabScript : MonoBehaviour
     public void SetTagInfo(bool isSelected, string tag, Sprite icon)
     {
         IsSelected = isSelected;
+        tagText.text = tag;
         iconTag.sprite = icon;
-        tag = tag;
+        tagTUF = tag;
     }
 }
