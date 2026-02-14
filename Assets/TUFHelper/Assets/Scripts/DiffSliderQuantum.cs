@@ -30,8 +30,6 @@ public class DiffSliderQuantum : DiffSlider
         Main.Setting.MinQDiff = SelectedMinDiff + 1;
         Main.Setting.Save(Main.ModEntry);
 
-        Main.Logger.Log(string.Join(',', GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff)));
-
         LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
 
         await LevelListScript.instance.UpdateLevelListAsync();

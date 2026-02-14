@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
+using TUFHelper;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TagPrefabScript : MonoBehaviour
+public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
 {
     public Image iconTag;
     public TextMeshProUGUI tagText;
@@ -19,21 +22,68 @@ public class TagPrefabScript : MonoBehaviour
     private bool isSelected = false;
     public bool IsSelected
     {
-        get { return isSelected; } 
-        set
+        get => isSelected;
+        private set
         {
-            if (value) backgroundImage.color = selectedColor;
-            else backgroundImage.color = unselectedColor;
-
-            isSelected = value; 
+            isSelected = value;
+            backgroundImage.color = value ? selectedColor : unselectedColor;
         }
     }
 
-    public void SetTagInfo(bool isSelected, string tag, Sprite icon)
+
+    public async void OnPointerClick(PointerEventData eventData)
     {
-        IsSelected = isSelected;
+        bool newValue = !IsSelected;
+
+        ApplySelection(newValue);
+
+        await UpdateLevelList();
+    }
+
+    private void ApplySelection(bool value)
+    {
+        IsSelected = value;
+
+        if (value)
+        {
+            Main.Setting.SelectedQDiifs.Add(tagTUF);
+            LevelListScript.DefaultRequest.TagsFilter.Add(tagTUF);
+        }
+        else
+        {
+            Main.Setting.SelectedQDiifs.Remove(tagTUF);
+            LevelListScript.DefaultRequest.TagsFilter.Remove(tagTUF);
+        }
+
+        Main.Setting.Save(Main.ModEntry);
+    }
+
+
+
+
+    private bool isUpdating = false;
+
+    private async Task UpdateLevelList()
+    {
+        if (isUpdating) return;
+        isUpdating = true;
+
+        LevelListScript.instance.ClearLevels();
+        await LevelListScript.instance.UpdateLevelListAsync();
+
+        Main.Logger.Log("Tags: " + string.Join(',', LevelListScript.DefaultRequest.TagsFilter));
+
+        isUpdating = false;
+    }
+
+
+    public void SetTagInfo(bool selected, string tag, Sprite icon)
+    {
         tagText.text = tag;
         iconTag.sprite = icon;
         tagTUF = tag;
+
+        isSelected = selected;
+        backgroundImage.color = selected ? selectedColor : unselectedColor;
     }
 }

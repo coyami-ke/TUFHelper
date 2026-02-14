@@ -16,6 +16,7 @@ public class TagContraierScript : MonoBehaviour
     public void Start()
     {
         AddTags();
+        SyncFiltersFromSettings();
     }
 
     public void AddTags()
@@ -37,7 +38,7 @@ public class TagContraierScript : MonoBehaviour
                 {
                     Main.Logger.Error($"Sprite not found: {pair.Value}");
                 }
-                script.SetTagInfo(false, pair.Key, sprite);
+                script.SetTagInfo(Main.Setting.SelectedQDiifs.Contains(pair.Key), pair.Key, sprite);
 
 
                 rect.localScale = Vector3.one;
@@ -45,8 +46,13 @@ public class TagContraierScript : MonoBehaviour
 
                 i++;
             }
-            else 
+            else
                 continue;
         }
+    }
+    public static void SyncFiltersFromSettings()
+    {
+        LevelListScript.DefaultRequest.TagsFilter =
+            new List<string>(Main.Setting.SelectedQDiifs);
     }
 }
