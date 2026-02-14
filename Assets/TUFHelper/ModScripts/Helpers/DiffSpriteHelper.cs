@@ -200,11 +200,18 @@ namespace TUFHelper.Utils
 
         public static string GetSpriteFromId(int id)
         {
-            if (DiffIDRegister.ContainsKey(id))
+            try
             {
-                return $"{PATH_TO_DIFF_SPRITES}{DiffIDRegister[id]}.png";
+                if (DiffIDRegister.ContainsKey(id))
+                {
+                    return $"{PATH_TO_DIFF_SPRITES}{DiffIDRegister[id]}.png";
+                }
+                else return $"{PATH_TO_DIFF_SPRITES}Unknown.png";
             }
-            else return $"{PATH_TO_DIFF_SPRITES}Unknown.png";
+            catch (Exception e)
+            {
+                Main.Logger.LogException(e);
+            }
         }
         public static bool IsSpecialDiff(string diff)
         {
