@@ -93,6 +93,8 @@ namespace TUFHelper.ModScripts.Json
         public List<PassesListInfoElementJson> Passes { get; set; }
         [JsonProperty("curation")]
         public LevelListInfoElementCurationJson Curation { get; set; }
+        [JsonProperty("tags")]
+        public List<LevelListInfoElementTagJson> Tags { get; set; } = new();
     }
     public class LevelListInfoElementDifficultyJson
     {

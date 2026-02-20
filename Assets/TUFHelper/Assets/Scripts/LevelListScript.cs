@@ -19,6 +19,7 @@ using TUFHelper.Utils;
 using System.IO;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
+using System.Diagnostics.Eventing.Reader;
 
 public class LevelListViewModel
 {
@@ -47,7 +48,7 @@ public class LevelListViewModel
 
 public class LevelListScript : MonoBehaviour
 {
-    public const int REQUEST_LIMIT = 30;
+    public const int REQUEST_LIMIT = 50;
     public static LevelListScript instance;
 
     public LevelListViewModel ViewModel { get; private set; } = new();
@@ -325,6 +326,7 @@ public class LevelListScript : MonoBehaviour
                     if (level.DiffId < DefaultRequest.MinDiffPGU || level.DiffId > DefaultRequest.MaxDiffPGU)
                         return false;
                 }
+                
 
                 // Filter by text
                 if (!searchId && !string.IsNullOrEmpty(query))
@@ -342,6 +344,26 @@ public class LevelListScript : MonoBehaviour
                     if (LevelFolder != null && !LevelFolder.Levels.Contains(level.ID))
                         return false;
                 }
+                // Filter by tags
+                if (DefaultRequest.TagsFilter != null && DefaultRequest.TagsFilter.Count > 0)
+                {
+                    if (level.Tags == null || level.Tags.Count == 0)
+                        return false;
+
+                    var levelTags = level.Tags
+                        .Where(t => !string.IsNullOrWhiteSpace(t?.Name))
+                        .Select(t => t.Name.Trim().ToLower())
+                        .ToList();
+
+                    var requiredTags = DefaultRequest.TagsFilter
+                        .Where(t => !string.IsNullOrWhiteSpace(t))
+                        .Select(t => t.Trim().ToLower())
+                        .ToList();
+
+                    if (!requiredTags.All(tag => levelTags.Contains(tag)))
+                        return false;
+                }
+
 
                 return true;
             }).ToList();

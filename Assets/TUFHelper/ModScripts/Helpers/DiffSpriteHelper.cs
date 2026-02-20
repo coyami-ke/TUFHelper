@@ -211,6 +211,7 @@ namespace TUFHelper.Utils
             catch (Exception e)
             {
                 Main.Logger.LogException(e);
+                return "";
             }
         }
         public static bool IsSpecialDiff(string diff)

@@ -22,7 +22,7 @@ namespace TUFHelper.ModScripts.Web
         public const string DEFAULT_URL = "https://api.tuforums.com/v2/database/levels";
 
         public int Offset { get; set; } = 0;
-        public int Limit { get; } = 30;
+        public int Limit { get; } = 50;
         public string Query { get; set; } = "";
         public int MinDiffPGU { get; set; } = 1;
         public int MaxDiffPGU { get; set; } = 60;
