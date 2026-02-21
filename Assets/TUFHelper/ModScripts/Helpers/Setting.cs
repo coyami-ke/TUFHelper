@@ -51,6 +51,7 @@ namespace TUFHelper.Utils
         public bool ShowIngameLeaderboard { get; set; } = true;
         public bool ShowIngameSpeed { get; set; } = true;
         public bool ShowIngamePPCounter { get; set; } = true;
+        public bool ShowIngameLevelInfo { get; set; } = true;
 
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;

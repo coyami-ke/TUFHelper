@@ -49,14 +49,30 @@ namespace TUFHelper.ModScripts.Web
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
             {
-                // Combine both lists
-                var allDifficulties = SpecialDifficulties.Concat(QDifficulties);
-                url += "&specialDifficulties=" + string.Join(",", allDifficulties);
+                var cleaned = SpecialDifficulties
+                    .Concat(QDifficulties)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList();
+
+                if (cleaned.Count > 0)
+                {
+                    string joined = string.Join(",", cleaned);
+                    url += "&specialDifficulties=" + UnityWebRequest.EscapeURL(joined);
+                }
             }
-            if (TagsFilter.Count > 0)
+            var cleanedTags = TagsFilter
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .Distinct()
+                .ToList();
+
+            if (cleanedTags.Count > 0)
             {
-                url += "&tagsFilter=" + string.Join(",", TagsFilter);
+                string joined = string.Join(",", cleanedTags);
+                string encoded = Uri.EscapeDataString(joined); // fully percent-encodes spaces as %20
+                url += "&tagsFilter=" + encoded;
             }
+
+            Main.Logger.Log("URL: " + url);
 
             using var request = UnityWebRequest.Get(url);
             request.certificateHandler = new CertificateWhore();
