@@ -130,18 +130,14 @@ public class LevelListScript : MonoBehaviour
         ViewModel.Cleared += OnLevelsCleared;
         ViewModel.AddedRange += OnLevelsAdded;
     }
-
-    //public async void Start()
-    //{
-    //    await Task.Yield();   // wait 1 frame so UI/layout is ready
-    //    await UpdateLevelListAsync();
-    //}
-
     public void OnLevelsCleared()
     {
-        for (int i = 0; i < levelListParent.transform.childCount; i++)
+        for (int i = levelListParent.transform.childCount - 1; i >= 0; i--)
         {
-            Destroy(levelListParent.transform.GetChild(i).gameObject);
+            Transform child = levelListParent.transform.GetChild(i);
+
+            child.SetParent(null);
+            Destroy(child.gameObject);
         }
 
         verticalScroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
@@ -150,7 +146,6 @@ public class LevelListScript : MonoBehaviour
     public void OnLevelsAdded(LevelListInfoElementJson[] levels)
     {
         int startingIndex = levelListParent.transform.childCount;
-        int previouslySelectedIndex = GetIndexSelected();
 
         foreach (var level in levels)
         {
@@ -174,24 +169,6 @@ public class LevelListScript : MonoBehaviour
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
         float totalHeight = ViewModel.LevelPrefabScripts.Count * 125 + 90;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
-
-        if (previouslySelectedIndex >= 0 && previouslySelectedIndex < GetLevelPrefabScripts().Length)
-        {
-            SelectIndex(GetLevelPrefabScripts(), previouslySelectedIndex);
-        }
-
-        // if (randomIDLevel == -177013 || !ShowOnlyDownloaded) return;
-
-        // if (randomIDLevel == -1)
-        // {
-        //     randomIDLevel = UnityEngine.Random.Range(0, GetLevelPrefabScripts().Length - 1);
-        // }
-
-        // if (randomIDLevel != -1)
-        // {
-        //     SelectIndex(GetLevelPrefabScripts(), randomIDLevel);
-        //     randomIDLevel = -177013;
-        // }
     }
 
     public async void Update()
@@ -279,10 +256,6 @@ public class LevelListScript : MonoBehaviour
         }
     }
 
-    // public async void UpdateLevelList()
-    // {
-    //     await UpdateLevelListAsync();
-    // }
     public async Task UpdateLevelListAsync()
     {
         DeselectAll();
@@ -308,6 +281,8 @@ public class LevelListScript : MonoBehaviour
             if (searchId && int.TryParse(query.Substring(1), out int id))
                 queryId = id;
 
+            Main.Logger.Log("ViewModel before filters: " + sortedLevels.Count());
+
             var filteredLevels = sortedLevels.Where(level =>
             {
                 // Filter by #ID
@@ -315,18 +290,25 @@ public class LevelListScript : MonoBehaviour
                     return false;
 
                 // Filter by difficulty
-                if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
+                var diffName = DiffSpriteHelper.DiffIDRegister[level.DiffId];
+
+                if (DiffSpriteHelper.IsQuantumDiff(level.DiffId))
                 {
-                    if (!DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) || 
-                            !DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
+                    if (!DefaultRequest.QDifficulties.Contains(diffName))
+                        return false;
+                }
+                else if (DiffSpriteHelper.IsSpecialDiff(level.DiffId))
+                {
+                    if (!DefaultRequest.SpecialDifficulties.Contains(diffName))
                         return false;
                 }
                 else
                 {
-                    if (level.DiffId < DefaultRequest.MinDiffPGU || level.DiffId > DefaultRequest.MaxDiffPGU)
+                    if (level.DiffId < DefaultRequest.MinDiffPGU ||
+                        level.DiffId > DefaultRequest.MaxDiffPGU)
                         return false;
                 }
-                
+
 
                 // Filter by text
                 if (!searchId && !string.IsNullOrEmpty(query))
@@ -376,33 +358,13 @@ public class LevelListScript : MonoBehaviour
                 }
             }
 
-            int i = 0;
-            foreach (var level in filteredLevels)
-            {
-                GameObject gameObject = Instantiate(levelPrefab);
-                RectTransform rect = gameObject.GetComponent<RectTransform>();
-                rect.SetParent(levelListParent.transform, false);
-                rect.localScale = Vector3.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                rect.sizeDelta = new Vector2(0, 120);
+            ViewModel.Clear();
+            ViewModel.AddRange(filteredLevels.ToArray());
 
-                rect.anchoredPosition = new Vector3(0, (i * -125) - 90);
+            Main.Logger.Log("ViewModel of levels has " + ViewModel.LevelPrefabScripts.Count);
+            Main.Logger.Log("LevelList has " + levelListParent.transform.childCount);
 
-                LevelPrefabScript lps = gameObject.GetComponent<LevelPrefabScript>();
-                lps.Init(verticalScroll);
-                lps.SetLevelInfo(level, level.Clears);
-
-                i++;
-            }
-
-            RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-            float totalHeight = filteredLevels.Count * 125 + 90;
-            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
-
-            ViewModel.LevelPrefabScripts.AddRange(levels.ToArray());
-
-            
+            Main.Logger.Log("Offline Mode ChildCount: " + levelListParent.transform.childCount);
 
             return;
         }

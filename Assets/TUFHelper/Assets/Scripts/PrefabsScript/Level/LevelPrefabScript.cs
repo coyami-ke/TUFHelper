@@ -187,7 +187,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             curationIcon.gameObject.SetActive(false);
         }
 
-            this.levelInfo = levelInfo;
+        this.levelInfo = levelInfo;
 
         idText.text = "#" + levelInfo.ID;
         artistText.text = levelInfo.Artist;

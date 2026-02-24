@@ -102,7 +102,7 @@ public class LeaderboardScript : MonoBehaviour
 
         PassesListInfoElementJson yourBestScore = null;
 
-        if (AccountScript.instance.AccountInfo != null) yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
+        //if (AccountScript.instance.AccountInfo != null) yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
 
         if (yourBestScore != null)
         {

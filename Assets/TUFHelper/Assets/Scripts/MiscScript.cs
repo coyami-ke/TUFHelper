@@ -202,11 +202,20 @@ public class MiscScript : MonoBehaviour
             var filteredLevels = Main.Setting.DownloadedLevels.Where(level =>
             {
                 // Filter by difficulty
-                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId))
+                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.LevelInfo.DiffId))
                 {
-                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
+                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]) ||
+                        LevelListScript.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
                         return false;
                 }
+
+                //if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
+                //{
+                //    if (!DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) ||
+                //            !DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
+                //        return false;
+                //}
+
                 else
                 {
                     if (level.LevelInfo.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.LevelInfo.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
@@ -227,6 +236,7 @@ public class MiscScript : MonoBehaviour
             request.Offset = 0;
             request.SortBy = "RANDOM";
             request.SpecialDifficulties = new(LevelListScript.DefaultRequest.SpecialDifficulties);
+            request.QDifficulties = new(LevelListScript.DefaultRequest.QDifficulties);
 
             await request.GetAnswerAsync(token);
 
