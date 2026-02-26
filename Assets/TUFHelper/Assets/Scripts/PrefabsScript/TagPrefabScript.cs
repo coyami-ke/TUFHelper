@@ -71,8 +71,6 @@ public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
 
-        Main.Logger.Log("Tags: " + string.Join(',', LevelListScript.DefaultRequest.TagsFilter));
-
         isUpdating = false;
     }
 

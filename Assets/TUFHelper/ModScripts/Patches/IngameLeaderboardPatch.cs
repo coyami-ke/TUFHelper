@@ -92,8 +92,7 @@ namespace TUFHelper
             };
 
 
-            string nameDiff;// = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
-            double baseScore;// = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
+            string nameDiff; // = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
 
             try
             {
@@ -104,22 +103,13 @@ namespace TUFHelper
                 nameDiff = "0";
             }
 
-            try
-            {
-                baseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
-            }
-            catch
-            {
-                baseScore = 0;
-            }
-
             var levelData = new PPDisplayerScript.LevelData
             {
-                BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
                 Difficulty = new PPDisplayerScript.Difficulty
                 {
                     Name = nameDiff,
-                    BaseScore = baseScore
+                    BaseScore = levelInfo.Difficulty.BaseScore,
+                    PPBaseScore = levelInfo.PPBaseScore ?? levelInfo.Difficulty.BaseScore
                 }
             };
 
@@ -183,6 +173,7 @@ namespace TUFHelper
                 return null;
             LevelListElementId levelDes = JsonConvert.DeserializeObject<LevelListElementId>(webRequest.downloadHandler.text);
             List<PassesListInfoElementJson> passes = levelDes.Level.Passes;
+            if (passes == null) return Array.Empty<PassesListInfoElementJson>();
             return passes.OrderByDescending(p => p.ScoreV2).ToArray();
         }
 

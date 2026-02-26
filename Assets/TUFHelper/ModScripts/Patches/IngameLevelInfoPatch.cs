@@ -40,7 +40,6 @@ namespace TUFHelper
                 if (IngameLevelInfoScript.Instance != null) return;
                 GameObject instance = GameObject.Instantiate(prefab);
                 instance.transform.SetParent(canvas, false);
-                Main.Logger.Log("IngameLevelInfoPrefab instantiated.");
             }
             else
                 Main.Logger.Error("Canvas is null");

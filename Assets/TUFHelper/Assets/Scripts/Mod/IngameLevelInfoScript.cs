@@ -21,7 +21,6 @@ public class IngameLevelInfoScript : MonoBehaviour
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo)
     {
-        Main.Logger.Log("SetLevelInfo");
         artistText.text = "#" + levelInfo.ID + " " + levelInfo.Artist;
         songText.text = levelInfo.Song;
 

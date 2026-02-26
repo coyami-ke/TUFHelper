@@ -72,8 +72,6 @@ namespace TUFHelper.ModScripts.Web
                 url += "&tagsFilter=" + encoded;
             }
 
-            Main.Logger.Log("URL: " + url);
-
             using var request = UnityWebRequest.Get(url);
             request.certificateHandler = new CertificateWhore();
             request.disposeCertificateHandlerOnDispose = true;

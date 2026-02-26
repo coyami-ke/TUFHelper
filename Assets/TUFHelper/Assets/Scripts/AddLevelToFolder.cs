@@ -46,9 +46,6 @@ public class AddLevelToFolder : MonoBehaviour
             rect.sizeDelta = new(400, 62.5f);
             rect.anchoredPosition = new Vector3(0, (count * - 62.5f) -50);
 
-            Main.Logger.Log($"Folder {folder.Name}: {string.Join(",", folder.Levels)}");
-
-
             count++;
         }
 

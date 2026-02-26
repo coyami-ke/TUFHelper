@@ -256,6 +256,20 @@ public class MiscScript : MonoBehaviour
 
         try
         {
+            // Inside ImFuckingLucky
+            if (selectedLevel == null || string.IsNullOrEmpty(selectedLevel.DlLink) || selectedLevel.DlLink.Length < 10)
+            {
+                ExceptionCatch(new Exception("This level has an invalid or missing download link ('" + selectedLevel.DlLink + "')."));
+                return;
+            }
+
+            // Only proceed if it looks like a real URL
+            if (!selectedLevel.DlLink.StartsWith("http"))
+            {
+                ExceptionCatch(new Exception("Malformed URL: " + selectedLevel.DlLink));
+                return;
+            }
+
             if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL");
             LevelDownloader levelDownloder = new(selectedLevel.DlLink) 
             {

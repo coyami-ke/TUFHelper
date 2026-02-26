@@ -127,7 +127,6 @@ namespace TUFHelper
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
             string nameDiff;// = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
-            double baseScore;// = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
 
             try
             {
@@ -138,22 +137,13 @@ namespace TUFHelper
                 nameDiff = "0";
             }
 
-            try
-            {
-                baseScore = DiffSpriteHelper.DiffBaseScore[DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]];
-            }
-            catch
-            {
-                baseScore = 0;
-            }
-
             var levelData = new PPDisplayerScript.LevelData
             {
-                BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
                 Difficulty = new PPDisplayerScript.Difficulty
                 {
                     Name = nameDiff,
-                    BaseScore = baseScore
+                    BaseScore = levelInfo.Difficulty.BaseScore,
+                    PPBaseScore = levelInfo.PPBaseScore ?? levelInfo.Difficulty.BaseScore
                 }
             };
 

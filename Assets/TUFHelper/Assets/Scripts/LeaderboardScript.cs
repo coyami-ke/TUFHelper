@@ -65,9 +65,12 @@ public class LeaderboardScript : MonoBehaviour
             return;
         LevelListElementId levelDes = JsonConvert.DeserializeObject<LevelListElementId>(webRequest.downloadHandler.text);
         List<PassesListInfoElementJson> passes = levelDes.Level.Passes;
+        if (passes == null)
+        {
+            LastLoadedPasses = new List<PassesListInfoElementJson>();
+            return;
+        }
         passes = passes.OrderByDescending(p => p.ScoreV2).ToList();
-
-        Main.Logger.Log((passes == null).ToString());
 
         while (passListParent == null)
         {

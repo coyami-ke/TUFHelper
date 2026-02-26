@@ -31,8 +31,8 @@ namespace TUFHelper.ModScripts.Json
         [JsonProperty("diffId")]
         public int DiffId { get; set; }
 
-        [JsonProperty("baseScore")]
-        public float? BaseScore { get; set; }
+        [JsonProperty("ppBaseScore")]
+        public float? PPBaseScore { get; set; }
 
         [JsonProperty("isCleared")]
         public bool IsCleared { get; set; }
@@ -95,6 +95,8 @@ namespace TUFHelper.ModScripts.Json
         public LevelListInfoElementCurationJson Curation { get; set; }
         [JsonProperty("tags")]
         public List<LevelListInfoElementTagJson> Tags { get; set; } = new();
+        [JsonProperty("difficulty")]
+        public LevelListInfoElementDifficultyJson Difficulty { get; set; } = new();
     }
     public class LevelListInfoElementDifficultyJson
     {
@@ -145,6 +147,13 @@ namespace TUFHelper.ModScripts.Json
         public int ID { get; set; }
         [JsonProperty("name")]
         public string Name { get; set; }
+    }
+    public class LevelListInfoElementDiffJson
+    {
+        [JsonProperty("id")]
+        public int ID { get; set; }
+        [JsonProperty("baseScore")]
+        public float BaseScore { get; set; } = 0;
     }
 }
  

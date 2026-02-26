@@ -342,8 +342,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             // Попытка десериализации
             levelData = JsonConvert.DeserializeObject<LevelData>(rawJson);
-
-            Main.Logger.Log("Level loaded and JSON fixed if necessary.");
         }
         catch (JsonReaderException jsonEx)
         {
@@ -392,7 +390,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             });
 
             Main.Setting.Save(Main.ModEntry);
-            Main.Logger.Log($"The level has been saved in the folder");
         }
     }
     public static IEnumerator GetOggLength(string path, Action<float> onLengthReceived)

@@ -91,9 +91,6 @@ namespace TUFHelper.AccountSystem
 
             LastResponseCode = (int)www.responseCode;
 
-            // Main.Logger.Log($"Level ID: {levelID} comment: {comment} rating: {rating} isCommunityRating: {isCommunityRating}");
-            // Main.Logger.Log($"Body: {jsonData}");
-
             if (www.result != UnityWebRequest.Result.Success)
             {
                 Main.Logger.Error($"Failed to send rating: {www.error}");
@@ -101,7 +98,6 @@ namespace TUFHelper.AccountSystem
             else
             {
                 Main.Logger.Log("Rating successfully sent.");
-                // Main.Logger.Log(www.downloadHandler.text);
             }
         }
 
@@ -185,7 +181,6 @@ namespace TUFHelper.AccountSystem
                     if (jsonResponse["token"] != null)
                     {
                         Token = jsonResponse["token"].ToString();
-                        Main.Logger.Log("Token retrieved successfully.");
                     }
                     else
                     {

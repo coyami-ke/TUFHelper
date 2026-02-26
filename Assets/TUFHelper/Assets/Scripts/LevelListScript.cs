@@ -281,8 +281,6 @@ public class LevelListScript : MonoBehaviour
             if (searchId && int.TryParse(query.Substring(1), out int id))
                 queryId = id;
 
-            Main.Logger.Log("ViewModel before filters: " + sortedLevels.Count());
-
             var filteredLevels = sortedLevels.Where(level =>
             {
                 // Filter by #ID
@@ -360,11 +358,6 @@ public class LevelListScript : MonoBehaviour
 
             ViewModel.Clear();
             ViewModel.AddRange(filteredLevels.ToArray());
-
-            Main.Logger.Log("ViewModel of levels has " + ViewModel.LevelPrefabScripts.Count);
-            Main.Logger.Log("LevelList has " + levelListParent.transform.childCount);
-
-            Main.Logger.Log("Offline Mode ChildCount: " + levelListParent.transform.childCount);
 
             return;
         }

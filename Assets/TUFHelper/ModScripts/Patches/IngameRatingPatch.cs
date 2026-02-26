@@ -36,7 +36,6 @@ namespace TUFHelper
                     if (IngameRatingPanelScript.instance != null) return;
                     GameObject instance = GameObject.Instantiate(prefab);
                     instance.transform.SetParent(canvas, false);
-                    Main.Logger.Log("IngameRatingPrefab instantiated.");
                 }
                 else
                     Main.Logger.Error("Canvas is null");

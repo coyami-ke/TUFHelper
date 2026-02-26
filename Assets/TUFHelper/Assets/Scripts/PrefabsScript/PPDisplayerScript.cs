@@ -68,7 +68,6 @@ public class PPDisplayerScript : MonoBehaviour
     }
     public static class ScoreCalculator
     {
-        // The rest down here stole from bowan (goat)
         private const double GmConst = 315.0;
         private const int Start = 1;
         private const int End = 50;
@@ -78,14 +77,29 @@ public class PPDisplayerScript : MonoBehaviour
 
         public static double GetScoreV2(PassData passData, LevelData levelData)
         {
-            var baseScore = levelData.BaseScore ?? levelData.Difficulty?.BaseScore ?? 0;
-            var xaccMtp = GetXaccMtp(passData.Judgements, baseScore);
-            var speedMtp = levelData.Difficulty?.Name == "Marathon"
-                ? GetSpeedMtp(passData.Speed, true)
-                : GetSpeedMtp(passData.Speed);
+            var inputs = passData.Judgements;
+            double accuracy = CalcAcc(inputs);
 
-            var scoreOrig = Math.Max(baseScore * xaccMtp * speedMtp, 1);
-            var mtp = GetScoreV2Mtp(passData.Judgements);
+            // 1. Determine which Base Score to use
+            // We check if accuracy is 1.0 (100%) and if PPBaseScore has a value
+            double effectiveBaseScore = (accuracy >= 0.999999 && levelData.Difficulty.PPBaseScore.HasValue)
+                ? levelData.Difficulty.PPBaseScore.Value
+                : levelData.Difficulty.BaseScore;
+
+            // 2. Get XAcc Multiplier using the selected base score
+            var xaccMtp = GetXaccMtp(inputs, effectiveBaseScore);
+
+            // 3. Speed Multiplier
+            bool isMarathon = levelData.Difficulty?.Name == "Marathon";
+            var speedMtp = GetSpeedMtp(passData.Speed, isMarathon);
+
+            // 4. Calculate original score
+            double scoreOrig = isMarathon
+                ? Math.Max(effectiveBaseScore * xaccMtp * speedMtp, 0)
+                : effectiveBaseScore * xaccMtp * speedMtp;
+
+            // 5. Apply Miss Penalty (V2 Mtp)
+            var mtp = GetScoreV2Mtp(inputs);
 
             if (passData.IsNoHoldTap)
                 mtp *= 0.9;
@@ -126,21 +140,17 @@ public class PPDisplayerScript : MonoBehaviour
             double xacc = CalcAcc(input);
             double xaccPercentage = xacc * 100;
 
-            // Below 95% accuracy → neutral multiplier
-            if (xaccPercentage < 95)
-                return 1;
-
-            // Between 95% and <100% → curved reward
-            if (xaccPercentage < 100)
-                return -0.027 / (xacc - 1.0054) + 0.513;
+            if (xaccPercentage < 95) return 1;
+            if (xaccPercentage < 100) return -0.027 / (xacc - 1.0054) + 0.513;
 
             // Pure Perfect (100%)
-            if (xaccPercentage >= 99.9999) // safe float check
+            if (xaccPercentage >= 99.9999)
             {
                 double a = 2100;
                 double k = 14;
                 double h = -a / (k - 6);
 
+                // Uses the effectiveBaseScore passed in
                 return (-a) / (baseScore - h) + k;
             }
 
@@ -241,7 +251,6 @@ public class PPDisplayerScript : MonoBehaviour
 
     public class LevelData
     {
-        public double? BaseScore { get; set; }
         public Difficulty Difficulty { get; set; }
     }
 
@@ -249,5 +258,6 @@ public class PPDisplayerScript : MonoBehaviour
     {
         public string Name { get; set; }
         public double BaseScore { get; set; }
+        public double? PPBaseScore { get; set;  }
     }
 }

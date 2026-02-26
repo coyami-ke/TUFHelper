@@ -73,8 +73,6 @@ public class MainLeaderboardScript : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
         isLoading = false;
-
-        Main.Logger.Log(json.Results.Count.ToString());
     }
 
     public MainLeaderboardPlayerPrefabScript[] GetPlayerPrefabScripts() =>

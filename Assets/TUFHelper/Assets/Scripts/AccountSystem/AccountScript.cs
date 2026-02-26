@@ -154,7 +154,6 @@ public class AccountScript : MonoBehaviour
                 AccountInfo = await request.GetInfoAboutMe();
                 AccountSaver.Token = request.Token;
                 AccountSaver.Save();
-                Main.Logger.Log("The token has been saved!");
 
                 IsSignedIn = true;
 
