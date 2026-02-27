@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,28 +20,54 @@ public class IngameLeaderboardScript : MonoBehaviour
         instance = this;
     }
 
+    private float lastUpdateTime = 0f;
+    private const float UpdateInterval = 0.05f;
+
     public void UpdateRanks()
     {
-        ranks = ranks.OrderByDescending(e => e.PassInfo.ScoreV2).ToList();
+        if (ranks.Count == 0 || PlayerRankPrefab == null) return;
 
-        for (int i = 0; i < ranks.Count; i++)
-            ranks[i].Rank = i + 1;
+        if (ranks.Count > 1)
+        {
+            int currentIndex = ranks.IndexOf(PlayerRankPrefab);
+            if (currentIndex != -1)
+            {
+                int newIndex = currentIndex;
+                float myScore = PlayerRankPrefab.PassInfo.ScoreV2;
 
-        int youIndex = ranks.FindIndex(e => e.PassInfo.Player.Name == "YOU");
-        if (youIndex == -1) return;
+                while (newIndex > 0 && ranks[newIndex - 1].PassInfo.ScoreV2 < myScore)
+                    newIndex--;
 
-        int startIndex = Mathf.Max(0, youIndex - 4);
+                while (newIndex < ranks.Count - 1 && ranks[newIndex + 1].PassInfo.ScoreV2 > myScore)
+                    newIndex++;
+
+                if (newIndex != currentIndex)
+                {
+                    var item = ranks[currentIndex];
+                    ranks.RemoveAt(currentIndex);
+                    ranks.Insert(newIndex, item);
+                }
+            }
+        }
+
+        int myIdx = ranks.IndexOf(PlayerRankPrefab);
+        int startIndex = Mathf.Max(0, myIdx - 2);
         int endIndex = Mathf.Min(ranks.Count, startIndex + 5);
 
         for (int i = 0; i < ranks.Count; i++)
         {
-            bool isVisible = i >= startIndex && i < endIndex;
-            ranks[i].gameObject.SetActive(isVisible);
+            var rankItem = ranks[i];
+            bool shouldBeVisible = i >= startIndex && i < endIndex;
 
-            if (isVisible)
+            rankItem.Rank = i + 1;
+
+            if (rankItem.gameObject.activeSelf != shouldBeVisible)
+                rankItem.gameObject.SetActive(shouldBeVisible);
+
+            if (shouldBeVisible)
             {
-                ranks[i].Rank = i + 1; // correct leaderboard rank
-                ranks[i].SetPosition(i - startIndex); // visual index from 0 to 4
+                rankItem.SetPosition(i - startIndex);
+                rankItem.UpdateVisual();
             }
         }
     }
@@ -48,13 +75,29 @@ public class IngameLeaderboardScript : MonoBehaviour
 
     public IEnumerator LoadLeaderboardAsync(PassesListInfoElementJson[] passes)
     {
+        PassesListInfoElementJson[] safePasses = passes ?? Array.Empty<PassesListInfoElementJson>();
+
         ranks.Clear();
+        PlayerRankPrefab = null;
 
-        foreach (Transform child in parentList.transform)
-            Destroy(child.gameObject);
+        for (int i = parentList.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(parentList.transform.GetChild(i).gameObject);
+        }
 
-        List<PassesListInfoElementJson> passList = passes.ToList();
-        bool hasYou = passList.Any(p => p.Player.Name == "YOU");
+        yield return new WaitForEndOfFrame();
+
+        List<PassesListInfoElementJson> passList = safePasses.ToList();
+
+        bool hasYou = false;
+        foreach (var p in passList)
+        {
+            if (p?.Player != null && p.Player.Name == "YOU")
+            {
+                hasYou = true;
+                break;
+            }
+        }
 
         if (!hasYou)
         {
@@ -67,24 +110,24 @@ public class IngameLeaderboardScript : MonoBehaviour
             });
         }
 
-        int processed = 0;
         foreach (var pass in passList)
         {
+            if (pass == null || pass.Player == null) continue;
+
             GameObject obj = Instantiate(prefab, parentList.transform);
             var script = obj.GetComponent<IngamerankPrefabScript>();
+
+            obj.SetActive(false);
             script.LoadPass(pass, 0);
-            script.gameObject.SetActive(false); // Prevent flicker
 
             if (pass.Player.Name == "YOU")
+            {
                 PlayerRankPrefab = script;
+            }
 
             ranks.Add(script);
 
-            processed++;
-
-            // Yield every 20 to avoid freezing the frame
-            if (processed % 20 == 0)
-                yield return null;
+            if (ranks.Count % 50 == 0) yield return null;
         }
 
         UpdateRanks();

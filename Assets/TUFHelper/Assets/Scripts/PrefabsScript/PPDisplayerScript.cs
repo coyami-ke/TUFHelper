@@ -80,25 +80,20 @@ public class PPDisplayerScript : MonoBehaviour
             var inputs = passData.Judgements;
             double accuracy = CalcAcc(inputs);
 
-            // 1. Determine which Base Score to use
-            // We check if accuracy is 1.0 (100%) and if PPBaseScore has a value
-            double effectiveBaseScore = (accuracy >= 0.999999 && levelData.Difficulty.PPBaseScore.HasValue)
-                ? levelData.Difficulty.PPBaseScore.Value
-                : levelData.Difficulty.BaseScore;
+            double ppBase = levelData.GetPPBaseScore();
+            double standardBase = levelData.GetBaseScore();
 
-            // 2. Get XAcc Multiplier using the selected base score
+            double effectiveBaseScore = (accuracy >= 0.999999) ? ppBase : standardBase;
+
             var xaccMtp = GetXaccMtp(inputs, effectiveBaseScore);
 
-            // 3. Speed Multiplier
             bool isMarathon = levelData.Difficulty?.Name == "Marathon";
             var speedMtp = GetSpeedMtp(passData.Speed, isMarathon);
 
-            // 4. Calculate original score
             double scoreOrig = isMarathon
                 ? Math.Max(effectiveBaseScore * xaccMtp * speedMtp, 0)
                 : effectiveBaseScore * xaccMtp * speedMtp;
 
-            // 5. Apply Miss Penalty (V2 Mtp)
             var mtp = GetScoreV2Mtp(inputs);
 
             if (passData.IsNoHoldTap)
@@ -135,7 +130,7 @@ public class PPDisplayerScript : MonoBehaviour
             return 1 - EndDeduc / 100.0;
         }
 
-        public static double GetXaccMtp(Judgements input, double baseScore)
+        public static double GetXaccMtp(Judgements input, double effectiveBaseScore)
         {
             double xacc = CalcAcc(input);
             double xaccPercentage = xacc * 100;
@@ -143,15 +138,15 @@ public class PPDisplayerScript : MonoBehaviour
             if (xaccPercentage < 95) return 1;
             if (xaccPercentage < 100) return -0.027 / (xacc - 1.0054) + 0.513;
 
-            // Pure Perfect (100%)
             if (xaccPercentage >= 99.9999)
             {
                 double a = 2100;
                 double k = 14;
                 double h = -a / (k - 6);
 
-                // Uses the effectiveBaseScore passed in
-                return (-a) / (baseScore - h) + k;
+                if (Math.Abs(effectiveBaseScore - h) < 0.0001) return k;
+
+                return (-a) / (effectiveBaseScore - h) + k;
             }
 
             return 1;
@@ -191,7 +186,7 @@ public class PPDisplayerScript : MonoBehaviour
             int totalHits = input.EarlyDouble + input.LateDouble +
                             input.EarlySingle + input.LateSingle +
                             input.EPerfect + input.LPerfect +
-                            input.Perfect; // <-- Make sure Perfect is counted!
+                            input.Perfect;
 
             // Avoid division by zero: if no hits, assume 100%
             if (totalHits == 0)
@@ -245,19 +240,36 @@ public class PPDisplayerScript : MonoBehaviour
     public class PassData
     {
         public double Speed { get; set; } = 1.0;
-        public Judgements Judgements { get; set; }
+        public Judgements Judgements { get; set; } = new();
         public bool IsNoHoldTap { get; set; } = false;
     }
 
     public class LevelData
     {
-        public Difficulty Difficulty { get; set; }
+        public Difficulty Difficulty { get; set; } = new();
+        public double? BaseScore { get; set; }
+        public double? PPBaseScore { get; set; }
+
+        public double GetBaseScore()
+        {
+            if (BaseScore == null || BaseScore == 0)
+                return Difficulty.BaseScore;
+
+            return BaseScore.Value;
+        }
+
+        public double GetPPBaseScore()
+        {
+            if (PPBaseScore == null || PPBaseScore == 0)
+                return Difficulty.BaseScore; 
+
+            return PPBaseScore.Value;
+        }
     }
 
     public class Difficulty
     {
         public string Name { get; set; }
         public double BaseScore { get; set; }
-        public double? PPBaseScore { get; set;  }
     }
 }

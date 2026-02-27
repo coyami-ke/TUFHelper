@@ -51,7 +51,6 @@ namespace TUFHelper
                             Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale);
                 }
 
-                // ✅ Reset player judgements to start fresh
                 if (IngameLeaderboardScript.PlayerRankPrefab?.PassInfo?.Judgements != null)
                 {
                     IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Judgements = new();
@@ -60,63 +59,51 @@ namespace TUFHelper
         }
 
 
+        private static readonly PPDisplayerScript.PassData _cachedPassData = new();
+        private static readonly PPDisplayerScript.LevelData _cachedLevelData = new();
+
         private static void OnHit(object sender, HitMargin e)
         {
-            if (IngameLeaderboardScript.PlayerRankPrefab == null) return;
+            var prefab = IngameLeaderboardScript.PlayerRankPrefab;
+            if (prefab == null || IngameLeaderboardScript.instance == null) return;
 
-            var player = IngameLeaderboardScript.PlayerRankPrefab.PassInfo;
-
+            var player = prefab.PassInfo;
             if (player.Judgements.Deaths > 0) return;
 
-            var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
-
             UpdateJudgements(player.Judgements, e);
-
             var judg = player.Judgements;
 
-            var passData = new PPDisplayerScript.PassData
-            {
-                IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
-                Judgements = new()
-                {
-                    Perfect = judg.Perfect,
-                    LPerfect = judg.LPerfect,
-                    EPerfect = judg.EPerfect,
-                    EarlySingle = judg.EarlySingle,
-                    LateSingle = judg.LateSingle,
-                    EarlyDouble = judg.EarlyDouble,
-                    LateDouble = judg.LateDouble,
-                    Deaths = judg.Deaths
-                },
-                Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
-            };
+            _cachedPassData.IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded;
+            _cachedPassData.Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
 
+            var pJudg = _cachedPassData.Judgements;
+            pJudg.Perfect = judg.Perfect;
+            pJudg.LPerfect = judg.LPerfect;
+            pJudg.EPerfect = judg.EPerfect;
+            pJudg.EarlySingle = judg.EarlySingle;
+            pJudg.LateSingle = judg.LateSingle;
+            pJudg.EarlyDouble = judg.EarlyDouble;
+            pJudg.LateDouble = judg.LateDouble;
+            pJudg.Deaths = judg.Deaths;
 
-            string nameDiff; // = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
+            var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
+            if (levelInfo == null) return;
 
-            try
-            {
-                nameDiff = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId]; 
-            }
-            catch
-            {
+            if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
                 nameDiff = "0";
-            }
 
-            var levelData = new PPDisplayerScript.LevelData
-            {
-                Difficulty = new PPDisplayerScript.Difficulty
-                {
-                    Name = nameDiff,
-                    BaseScore = levelInfo.Difficulty.BaseScore,
-                    PPBaseScore = levelInfo.PPBaseScore ?? levelInfo.Difficulty.BaseScore
-                }
-            };
+            _cachedLevelData.BaseScore = levelInfo.Difficulty?.BaseScore;
+            _cachedLevelData.PPBaseScore = levelInfo.PPBaseScore;
 
-            player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(passData, levelData);
+            _cachedLevelData.Difficulty.Name = nameDiff;
+            _cachedLevelData.Difficulty.BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0;
+
+            Main.Logger.Log(_cachedLevelData.GetBaseScore().ToString()); // 15, но счет все равно 0 поинтов
+
+            player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(_cachedPassData, _cachedLevelData);
             player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
 
-            IngameLeaderboardScript.PlayerRankPrefab.UpdateVisual();
+            prefab.UpdateVisual();
             IngameLeaderboardScript.instance.UpdateRanks();
         }
 
@@ -171,8 +158,9 @@ namespace TUFHelper
 
             if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
                 return null;
-            LevelListElementId levelDes = JsonConvert.DeserializeObject<LevelListElementId>(webRequest.downloadHandler.text);
-            List<PassesListInfoElementJson> passes = levelDes.Level.Passes;
+
+            PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(webRequest.downloadHandler.text);
+            List<PassesListInfoElementJson> passes = levelDes.ToList();
             if (passes == null) return Array.Empty<PassesListInfoElementJson>();
             return passes.OrderByDescending(p => p.ScoreV2).ToArray();
         }

@@ -36,7 +36,7 @@ public class LeaderboardScript : MonoBehaviour
         YourScore.gameObject.SetActive(false);
     }
 
-    public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/levels/{levelID}";
+    public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
@@ -63,8 +63,8 @@ public class LeaderboardScript : MonoBehaviour
 
         if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
             return;
-        LevelListElementId levelDes = JsonConvert.DeserializeObject<LevelListElementId>(webRequest.downloadHandler.text);
-        List<PassesListInfoElementJson> passes = levelDes.Level.Passes;
+        PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(webRequest.downloadHandler.text);
+        List<PassesListInfoElementJson> passes = levelDes.ToList();
         if (passes == null)
         {
             LastLoadedPasses = new List<PassesListInfoElementJson>();

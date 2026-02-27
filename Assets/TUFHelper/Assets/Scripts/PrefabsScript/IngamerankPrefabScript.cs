@@ -34,16 +34,34 @@ public class IngamerankPrefabScript : MonoBehaviour
         UpdateVisual();
     }
 
+    private float lastAcc = -1f;
+    private float lastScore = -1f;
+
     public void UpdateVisual()
     {
-        accuracyText.text = (PassInfo.Accuracy * 100f).ToString("F2") + "%";
-        scoreText.text = PassInfo.ScoreV2.ToString("F2");
-        nicknameText.text = PassInfo.Player.Name;
+        if (PassInfo == null) return;
 
-        if (PassInfo.Player.Name == "YOU") nicknameText.color = Color.yellow;
+        if (Mathf.Abs(PassInfo.Accuracy - lastAcc) > 0.00001f)
+        {
+            lastAcc = PassInfo.Accuracy;
+            accuracyText.text = $"{lastAcc * 100f:F2}%";
+            gradeImage.sprite = GetGradeSprite(lastAcc);
+        }
 
-        gradeImage.sprite = GetGradeSprite(PassInfo.Accuracy);
+        if (Mathf.Abs(PassInfo.ScoreV2 - lastScore) > 0.1f)
+        {
+            lastScore = PassInfo.ScoreV2;
+            scoreText.text = lastScore.ToString("F2");
+        }
+
+        if (string.IsNullOrEmpty(nicknameText.text) || nicknameText.text == "nickname")
+        {
+            nicknameText.text = PassInfo.Player?.Name ?? "Unknown";
+            nicknameText.color = (nicknameText.text == "YOU") ? Color.yellow : Color.white;
+        }
     }
+
+
 
     private Sprite GetGradeSprite(float acc)
     {
@@ -56,10 +74,16 @@ public class IngamerankPrefabScript : MonoBehaviour
         return D;
     }
 
-    // Called from manager to update position in UI list
+    private float lastTargetY = float.MinValue;
     public void SetPosition(int visualIndex)
     {
-        float y = visualIndex * -60f - 10f;
-        rectTransform.DOAnchorPosY(y, 1f).SetEase(Ease.OutExpo);
+        float targetY = visualIndex * -60f - 10f;
+
+        if (Mathf.Abs(targetY - lastTargetY) < 0.1f) return;
+
+        lastTargetY = targetY;
+
+        rectTransform.DOKill();
+        rectTransform.DOAnchorPosY(targetY, 0.5f).SetEase(Ease.OutExpo);
     }
 }
