@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52934b8837f3f754d97e00ab002548b0, type: 3}
-  m_Name: ThunderKit Extensions
+  m_Script: {fileID: 11500000, guid: 02d8039a567f445478d4ea7ff8b9d132, type: 3}
+  m_Name: AMHSettings
   m_EditorClassIdentifier: 
-  Url: https://thunderkit.thunderstore.io
+  ADOFAIPath: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire and Ice/A
+    Dance of Fire and Ice.exe
+  SeperateBuildTabs: 1

@@ -12,19 +12,9 @@
       "source": "git",
       "dependencies": {
         "com.unity.editorcoroutines": "1.0.1",
-        "com.passivepicasso.thunderkit": "9.1.1",
         "com.unity.scriptablebuildpipeline": "1.16.1"
       },
-      "hash": "8e51dad36aee98ea3aaa26b3cc75ba1d6a8704aa"
-    },
-    "com.passivepicasso.thunderkit": {
-      "version": "git+https://github.com/PassivePicasso/ThunderKit.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.scriptablebuildpipeline": "1.16.1"
-      },
-      "hash": "2f048021a13d98a8600898a6f4203cfe18554f36"
+      "hash": "b6d4173cafa7e0ec0aa3e63924744100ddc77552"
     },
     "com.unity.2d.animation": {
       "version": "9.1.1",

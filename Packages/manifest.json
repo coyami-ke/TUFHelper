@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "com.jofo.adofaimoddinghelper": "https://github.com/JofoDuh/ADOFAIModdingHelper.git",
-    "com.passivepicasso.thunderkit": "git+https://github.com/PassivePicasso/ThunderKit.git",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.feature.2d": "2.0.1",

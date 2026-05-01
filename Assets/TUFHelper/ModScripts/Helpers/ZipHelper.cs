@@ -15,7 +15,7 @@ namespace TUFHelper.Utils
                 extractFolderPath += Path.DirectorySeparatorChar;
             }
 
-            string tufhelperPath = Main.FindTUFHelperPath();
+            string tufhelperPath =  Main.ModEntry.Path;
 
             // Determine platform-specific 7-Zip binary
             string sevenZipPath;

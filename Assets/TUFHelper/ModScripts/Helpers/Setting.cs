@@ -64,7 +64,7 @@ namespace TUFHelper.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                LevelSaveFolder = Path.Combine(Main.FindTUFHelperPath(), "SavedLevels");
+                LevelSaveFolder = Path.Combine(Main.ModEntry.Path, "SavedLevels");
             }
         }
         public override void Save(UnityModManager.ModEntry modEntry)

@@ -26,42 +26,37 @@ namespace TUFHelper
         // internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
-        public static string FindTUFHelperPath()
-        {
-            var modDirectories = Directory.GetDirectories(Path.Combine(Environment.CurrentDirectory, "Mods"), "*", SearchOption.AllDirectories);
-            foreach (var dir in modDirectories)
-            {
-                if (Path.GetFileName(dir).StartsWith("TUFHelper", StringComparison.OrdinalIgnoreCase))
-                {
-                    return dir;
-                }
-            }
-            return null;
-        }
         public static void Initialize(ModEntry modEntry)
         {
             ModEntry = modEntry;
             Logger = modEntry.Logger;
 
-            string tufHelperPath = FindTUFHelperPath();
-
-            if (string.IsNullOrEmpty(tufHelperPath))
+            string platformSuffix = Application.platform switch
             {
-                Main.Logger.Log("TUFHelper directory not found.");
-                return;
-            }
+                RuntimePlatform.WindowsPlayer => "win",
+                RuntimePlatform.OSXPlayer => "mac",
+                RuntimePlatform.LinuxPlayer => "linux",
+                _ => throw new ArgumentOutOfRangeException(nameof(Application.platform))
+            };
 
-            string assetsPath = Path.Combine(tufHelperPath, "assets", "tuf_assets.bundle");
-            string scenesPath = Path.Combine(tufHelperPath, "assets", "tuf_scenes.bundle");
+            string bundleFolder = Path.Combine(modEntry.Path, platformSuffix);
+            string assetsPath = Path.Combine(bundleFolder, "tuf_assets.bundle");
+            string scenesPath = Path.Combine(bundleFolder, "tuf_scenes.bundle");
 
             if (!File.Exists(assetsPath) || !File.Exists(scenesPath))
             {
-                Main.Logger.Log("Asset bundles not found in TUFHelper directory.");
+                Logger.Error($"Asset bundles missing at: {bundleFolder}");
                 return;
             }
 
             assets = AssetBundle.LoadFromFile(assetsPath);
             scenes = AssetBundle.LoadFromFile(scenesPath);
+
+            if (assets == null || scenes == null)
+            {
+                Logger.Error("Failed to load AssetBundles (check Unity version compatibility).");
+                return;
+            }
 
 
             Main.Logger.Log("TUFHelper assets and scenes loaded successfully.");

@@ -9,7 +9,6 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/ThunderKit/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -67,11 +66,3 @@ crashlytics-build.properties
 
 # Packed Addressables
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
-
-# Temporary auto-generated Android Assets
-/[Aa]ssets/[Ss]treamingAssets/aa.meta
-/[Aa]ssets/[Ss]treamingAssets/aa/*
-/[Aa]ssets/ThunderKitSettings/Logs
-
-# Jofo Setting
-/[Aa]ssets/ADOFAIRunnerSettings
