@@ -45,8 +45,6 @@ public class WindowsManager : MonoBehaviour
         }
 
         PassInfo.SetActive(false);
-
-        AccountSettings.instance.StartWindowsManager();
     }
 
     public bool FolderListActive { get; private set; } = false;

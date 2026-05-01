@@ -24,6 +24,8 @@ public class AccountScript : MonoBehaviour
 
     public TextMeshProUGUI nicknameText, tagText, errorMessage;
 
+    public GameObject frontPage_RatingButton;
+
     public static AccountScript instance { get; private set; }
 
     public FullInfoAboutMyAccount AccountInfo { get; private set; }
@@ -78,6 +80,8 @@ public class AccountScript : MonoBehaviour
             logOutButton.SetActive(true);
             pfpImage.gameObject.SetActive(true);
 
+            frontPage_RatingButton.SetActive(true);
+
             LoadProfilePicture(AccountInfo.User.AvatarUrl);
         }
         else
@@ -87,9 +91,9 @@ public class AccountScript : MonoBehaviour
             signInButton.SetActive(true);
             logOutButton.SetActive(false);
             pfpImage.gameObject.SetActive(false);
-        }
 
-        AccountSettings.instance.UpdateSettings();
+            frontPage_RatingButton.SetActive(false);
+        }
     }
 
     public async void EnterButton()
@@ -150,7 +154,6 @@ public class AccountScript : MonoBehaviour
                 AccountInfo = await request.GetInfoAboutMe();
                 AccountSaver.Token = request.Token;
                 AccountSaver.Save();
-                Main.Logger.Log("The token has been saved!");
 
                 IsSignedIn = true;
 

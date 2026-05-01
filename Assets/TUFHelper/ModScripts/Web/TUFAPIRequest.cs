@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Together.Utils;
@@ -21,11 +22,13 @@ namespace TUFHelper.ModScripts.Web
         public const string DEFAULT_URL = "https://api.tuforums.com/v2/database/levels";
 
         public int Offset { get; set; } = 0;
-        public int Limit { get; } = 30;
+        public int Limit { get; } = 50;
         public string Query { get; set; } = "";
         public int MinDiffPGU { get; set; } = 1;
         public int MaxDiffPGU { get; set; } = 60;
         public List<string> SpecialDifficulties { get; set; } = new();
+        public List<string> QDifficulties { get; set; } = new();
+        public List<string> TagsFilter { get; set; } = new();
         public string SortBy = "RECENT";
         public AscendingOrDescending SortAsc = AscendingOrDescending.Descending;
 
@@ -44,8 +47,30 @@ namespace TUFHelper.ModScripts.Web
             string sort = $"{SortBy}_{order}";
 
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
-            if (SpecialDifficulties.Count > 0)
-                url += "&specialDifficulties=" + string.Join(",", SpecialDifficulties);
+            if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
+            {
+                var cleaned = SpecialDifficulties
+                    .Concat(QDifficulties)
+                    .Where(x => !string.IsNullOrWhiteSpace(x))
+                    .ToList();
+
+                if (cleaned.Count > 0)
+                {
+                    string joined = string.Join(",", cleaned);
+                    url += "&specialDifficulties=" + UnityWebRequest.EscapeURL(joined);
+                }
+            }
+            var cleanedTags = TagsFilter
+                .Where(t => !string.IsNullOrWhiteSpace(t))
+                .Distinct()
+                .ToList();
+
+            if (cleanedTags.Count > 0)
+            {
+                string joined = string.Join(",", cleanedTags);
+                string encoded = Uri.EscapeDataString(joined); // fully percent-encodes spaces as %20
+                url += "&tagsFilter=" + encoded;
+            }
 
             using var request = UnityWebRequest.Get(url);
             request.certificateHandler = new CertificateWhore();

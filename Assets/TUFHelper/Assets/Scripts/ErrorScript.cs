@@ -24,6 +24,7 @@ public class ErrorScript : MonoBehaviour
 
     public static void ShowError(string message)
     {
+        if (message.StartsWith("The request was")) return;
         //DownloadPopupScript.Close();
         instance.errorContentText.text = message;
         instance.gameObject.SetActive(true);

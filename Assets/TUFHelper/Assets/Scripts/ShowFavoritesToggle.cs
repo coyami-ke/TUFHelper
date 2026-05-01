@@ -18,7 +18,5 @@ public class ShowFavoritesToggle : MonoBehaviour
         Main.Setting.ShowOnlyFavorites = value;
 
         await LevelListScript.instance.UpdateLevelListAsync();
-
-        Main.Logger.Log("value changed");
     }
 }

@@ -68,7 +68,6 @@ public class PPDisplayerScript : MonoBehaviour
     }
     public static class ScoreCalculator
     {
-        // The rest down here stole from bowan (goat)
         private const double GmConst = 315.0;
         private const int Start = 1;
         private const int End = 50;
@@ -78,14 +77,24 @@ public class PPDisplayerScript : MonoBehaviour
 
         public static double GetScoreV2(PassData passData, LevelData levelData)
         {
-            var baseScore = levelData.BaseScore ?? levelData.Difficulty?.BaseScore ?? 0;
-            var xaccMtp = GetXaccMtp(passData.Judgements, baseScore);
-            var speedMtp = levelData.Difficulty?.Name == "Marathon"
-                ? GetSpeedMtp(passData.Speed, true)
-                : GetSpeedMtp(passData.Speed);
+            var inputs = passData.Judgements;
+            double accuracy = CalcAcc(inputs);
 
-            var scoreOrig = Math.Max(baseScore * xaccMtp * speedMtp, 1);
-            var mtp = GetScoreV2Mtp(passData.Judgements);
+            double ppBase = levelData.GetPPBaseScore();
+            double standardBase = levelData.GetBaseScore();
+
+            double effectiveBaseScore = (accuracy >= 0.999999) ? ppBase : standardBase;
+
+            var xaccMtp = GetXaccMtp(inputs, effectiveBaseScore);
+
+            bool isMarathon = levelData.Difficulty?.Name == "Marathon";
+            var speedMtp = GetSpeedMtp(passData.Speed, isMarathon);
+
+            double scoreOrig = isMarathon
+                ? Math.Max(effectiveBaseScore * xaccMtp * speedMtp, 0)
+                : effectiveBaseScore * xaccMtp * speedMtp;
+
+            var mtp = GetScoreV2Mtp(inputs);
 
             if (passData.IsNoHoldTap)
                 mtp *= 0.9;
@@ -121,27 +130,23 @@ public class PPDisplayerScript : MonoBehaviour
             return 1 - EndDeduc / 100.0;
         }
 
-        public static double GetXaccMtp(Judgements input, double baseScore)
+        public static double GetXaccMtp(Judgements input, double effectiveBaseScore)
         {
             double xacc = CalcAcc(input);
             double xaccPercentage = xacc * 100;
 
-            // Below 95% accuracy → neutral multiplier
-            if (xaccPercentage < 95)
-                return 1;
+            if (xaccPercentage < 95) return 1;
+            if (xaccPercentage < 100) return -0.027 / (xacc - 1.0054) + 0.513;
 
-            // Between 95% and <100% → curved reward
-            if (xaccPercentage < 100)
-                return -0.027 / (xacc - 1.0054) + 0.513;
-
-            // Pure Perfect (100%)
-            if (xaccPercentage >= 99.9999) // safe float check
+            if (xaccPercentage >= 99.9999)
             {
                 double a = 2100;
                 double k = 14;
                 double h = -a / (k - 6);
 
-                return (-a) / (baseScore - h) + k;
+                if (Math.Abs(effectiveBaseScore - h) < 0.0001) return k;
+
+                return (-a) / (effectiveBaseScore - h) + k;
             }
 
             return 1;
@@ -181,7 +186,7 @@ public class PPDisplayerScript : MonoBehaviour
             int totalHits = input.EarlyDouble + input.LateDouble +
                             input.EarlySingle + input.LateSingle +
                             input.EPerfect + input.LPerfect +
-                            input.Perfect; // <-- Make sure Perfect is counted!
+                            input.Perfect;
 
             // Avoid division by zero: if no hits, assume 100%
             if (totalHits == 0)
@@ -235,14 +240,31 @@ public class PPDisplayerScript : MonoBehaviour
     public class PassData
     {
         public double Speed { get; set; } = 1.0;
-        public Judgements Judgements { get; set; }
+        public Judgements Judgements { get; set; } = new();
         public bool IsNoHoldTap { get; set; } = false;
     }
 
     public class LevelData
     {
+        public Difficulty Difficulty { get; set; } = new();
         public double? BaseScore { get; set; }
-        public Difficulty Difficulty { get; set; }
+        public double? PPBaseScore { get; set; }
+
+        public double GetBaseScore()
+        {
+            if (BaseScore == null || BaseScore == 0)
+                return Difficulty.BaseScore;
+
+            return BaseScore.Value;
+        }
+
+        public double GetPPBaseScore()
+        {
+            if (PPBaseScore == null || PPBaseScore == 0)
+                return Difficulty.BaseScore; 
+
+            return PPBaseScore.Value;
+        }
     }
 
     public class Difficulty

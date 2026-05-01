@@ -19,7 +19,7 @@ namespace TUFHelper
 
         private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
-            if (e.RatingMode)
+            if (FrontPageScript.instance.IsRatingPageActive)
             {
                 const string assetPath = "assets/tufhelper/assets/prefabs/IngameRatingPrefab.prefab";
                 GameObject prefab = Main.assets.LoadAsset<GameObject>(assetPath);
@@ -36,7 +36,6 @@ namespace TUFHelper
                     if (IngameRatingPanelScript.instance != null) return;
                     GameObject instance = GameObject.Instantiate(prefab);
                     instance.transform.SetParent(canvas, false);
-                    Main.Logger.Log("IngameRatingPrefab instantiated.");
                 }
                 else
                     Main.Logger.Error("Canvas is null");

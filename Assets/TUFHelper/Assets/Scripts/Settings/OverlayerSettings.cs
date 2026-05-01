@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -10,11 +11,11 @@ public class OverlayerSettings : MonoBehaviour
     public Slider ppDisplayerSlider, ingameLeaderboardSlider;
     public RectTransform ppDisplayerRect, ingameLeaderboardRect;
 
-    public Toggle showPPDisplayerToggle, showSpeedToggle, showIngameLeaderboardToggle, showOverlayerToggle;
+    public Toggle showPPDisplayerToggle, showSpeedToggle, showIngameLeaderboardToggle, showOverlayerToggle, showIngameLevelInfoToggle;
 
     public TextMeshProUGUI ppDisplayerText, speedText;
 
-    public Image leaderboardBackground;
+    public Image leaderboardBackground, levelInfoBackground;
 
     public GameObject blockUIImage;
 
@@ -31,6 +32,7 @@ public class OverlayerSettings : MonoBehaviour
         showSpeedToggle.onValueChanged.AddListener(SpeedShowChanged);
         showIngameLeaderboardToggle.onValueChanged.AddListener(LeaderboardShowChanged);
         showOverlayerToggle.onValueChanged.AddListener(ShowOverlayerChanged);
+        showIngameLevelInfoToggle.onValueChanged.AddListener(ShowIngameLevelInfo);
 
         if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
         {
@@ -55,6 +57,20 @@ public class OverlayerSettings : MonoBehaviour
         showSpeedToggle.isOn = Main.Setting.ShowIngameSpeed;
         showIngameLeaderboardToggle.isOn = Main.Setting.ShowIngameLeaderboard;
         showOverlayerToggle.isOn = Main.Setting.ShowTUFHelperOverlayer;
+    }
+
+    private void ShowIngameLevelInfo(bool value)
+    {
+        Main.Setting.ShowIngameLevelInfo = value;
+
+        if (value)
+        {
+            levelInfoBackground.color = leaderboardDefaultColor;
+        }
+        else
+        {
+            levelInfoBackground.color = new(1, 0.5f, 0.5f, 0.5f);
+        }
     }
 
     private void PPDisplayerScaleChanged(float value)

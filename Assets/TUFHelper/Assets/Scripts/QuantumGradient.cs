@@ -18,8 +18,18 @@ public class QuantumGradient : MonoBehaviour
         Color[] colors = new Color[]
         {
             new Color32(255, 255, 255, 255),
-            new Color32(0, 0, 0, 255)
+            new Color32(241, 161,   5, 255),
+            new Color32(235, 123,  41, 255),
+            new Color32(227,  85,  74, 255),
+            new Color32(192,  52,  94, 255),
+            new Color32(214,  16, 136, 255),
+            new Color32(113,  73, 164, 255),
+            new Color32( 63,  32, 103, 255),
+            new Color32( 47,  43,  54, 255),
+            new Color32(126,   0,   0, 255),
+            new Color32(255, 254, 254, 255),
         };
+
 
         for (int x = 0; x < width; x++)
         {

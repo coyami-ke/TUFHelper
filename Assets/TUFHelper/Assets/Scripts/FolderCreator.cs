@@ -36,8 +36,6 @@ public class FolderCreator : MonoBehaviour
 
         Main.Setting.Save(Main.ModEntry);
 
-        Main.Logger.Log($"The folder {inputField.text} has been created and saved to the settings file");
-
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
     }

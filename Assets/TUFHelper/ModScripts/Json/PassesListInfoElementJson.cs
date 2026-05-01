@@ -40,8 +40,8 @@ namespace TUFHelper.ModScripts.Json
         [JsonProperty("isNoHoldTap")]
         public bool IsNoHoldTap { get; set; }
 
-        [JsonProperty("isWorldsFirst")]
-        public bool IsWorldsFirst { get; set; }
+        //[JsonProperty("isWorldsFirst")]
+        //public bool IsWorldsFirst { get; set; }
 
         [JsonProperty("accuracy")]
         public float Accuracy { get; set; }
@@ -88,6 +88,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("isBanned")]
         public bool IsBanned { get; set; }
+        [JsonProperty("pfp")]
+        public string PFP { get; set; }
     }
 
     public class PassesListInfoElementLevelJson

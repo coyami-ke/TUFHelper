@@ -70,10 +70,13 @@ namespace TUFHelper
         {
             if (ppDisplayer == null) return;
 
-            var account = AccountSaver.GetAccount();
-            bool shouldDisplay = Main.Setting.ShowTUFHelperOverlayer &&  !(account?.IsRatingMode ?? false);
-            bool flag2 = Main.Setting.ShowIngamePPCounter == false && Main.Setting.ShowIngameSpeed == false;
-            ppDisplayerObject.SetActive(shouldDisplay || flag2);
+            bool showInOverlayer = Main.Setting.ShowTUFHelperOverlayer;
+            bool showIngameCounters = Main.Setting.ShowIngamePPCounter || Main.Setting.ShowIngameSpeed;
+            bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
+            bool flag2 = Main.Setting.ShowIngameSpeed;
+            bool show = showInOverlayer && showIngameCounters && !isRatingPageActive;
+
+            ppDisplayerObject.SetActive(show);
 
             ppDisplayer.PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
             ppDisplayer.Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
@@ -123,16 +126,22 @@ namespace TUFHelper
             };
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
-            var diffName = DiffSpriteHelper.DiffIDRegister[levelInfo.DiffId];
-            var diffScore = DiffSpriteHelper.DiffBaseScore[diffName];
+
+            if (levelInfo == null) return 0f;
+            if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
+            {
+                nameDiff = "0";
+            }
 
             var levelData = new PPDisplayerScript.LevelData
             {
-                BaseScore = levelInfo.BaseScore == 0 ? null : levelInfo.BaseScore,
+                BaseScore = levelInfo.Difficulty?.BaseScore,
+                PPBaseScore = levelInfo.PPBaseScore,
+
                 Difficulty = new PPDisplayerScript.Difficulty
                 {
-                    Name = diffName,
-                    BaseScore = diffScore
+                    Name = nameDiff,
+                    BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0
                 }
             };
 

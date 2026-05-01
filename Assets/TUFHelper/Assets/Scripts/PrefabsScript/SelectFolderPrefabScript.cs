@@ -27,12 +27,10 @@ public class SelectFolderPrefabScript : MonoBehaviour
         if (value)
         {
             folderInfo.Levels.Add(_idLevel);
-            Main.Logger.Log("added?");
         }
         else
         {
             folderInfo.Levels.Remove(_idLevel);
-            Main.Logger.Log("removed?");
         }
 
         Main.Setting.Save(Main.ModEntry);

@@ -10,6 +10,7 @@ namespace TUFHelper.Utils
         public static readonly Dictionary<int, string> DiffIDRegister = new()
         {
             { 0, "0" },
+            { 2355445, "P0" },
             { 1, "P1" },
             { 2, "P2" },
             { 3, "P3" },
@@ -76,12 +77,17 @@ namespace TUFHelper.Utils
 
             { 10100, "Qq" },
 
-            { 10010, "Q0" },
-            { 10011, "Q1"},
-            { 10002, "Q2" },
-            { 10004, "Q3" },
-            { 10006, "Q4" },
+            { 61, "GQ0 (G1~G4)" },
+            { 62, "GQ1 (G5~G8)" },
+            { 63, "GQ2 (G9~G12)" },
+            { 64, "GQ3 (G13~G16)" },
+            { 65, "GQ4 (G17~G20)" },
 
+            { 10010, "UQ0 (U1~U4)" },
+            { 10011, "UQ1 (U5~U8)" },
+            { 10002, "UQ2 (U9~U12)" },
+            { 10004, "UQ3 (U13~U16)" },
+            { 10006, "UQ4 (U17~U20)" },
 
             { 10101, "Impossible"},
             { 1000, "Censored" },
@@ -93,84 +99,94 @@ namespace TUFHelper.Utils
             { 12312341, "U11J" },
             { 42314234, "U14J" },
             { 3452345, "U15J" },
+            { 412342342, "U15M" },
         };
 
-        public static readonly Dictionary<string, double> DiffBaseScore = new()
-        {
-            { "Gimmick", 0},
-            { "U13J", 0},
-            { "U7J", 0 },
-            { "Marathon" , 0 },
-            { "Qq" , 0 },
-            { "Q0" , 0 },
-            { "Q1" , 0 },
-            { "Q2" , 0 },
-            { "Q3" , 0 },
-            { "Q4" , 0 },
-            { "Impossible" , 0},
-            { "Censored" , 0 },
-            { "0" , 0},
-            { "P1" , 0.1},
-            { "P2" , 0.2 },
-            { "P3" , 0.3 },
-            { "P4" , 0.4 },
-            { "P5" , 0.5 },
-            { "P6" , 0.6 },
-            { "P7" , 0.7 },
-            { "P8" , 0.8 },
-            { "P9" , 0.9 },
-            { "P10" , 1 },
-            { "P11" , 2 },
-            { "P12" , 3 },
-            { "P13" , 5 },
-            { "P14" , 10 },
-            { "P15" , 15 },
-            { "P16" , 20 },
-            { "P17" , 30 },
-            { "P18" , 45 },
-            { "P19" , 60 },
-            { "P20" , 75 },
-            { "G1" , 100 },
-            { "G2" , 110 },
-            { "G3" , 120 },
-            { "G4" , 130 },
-            { "G5" , 140 },
-            { "G6" , 150 },
-            { "G7" , 160 },
-            { "G8" , 170 },
-            { "G9" , 180 },
-            { "G10" , 190 },
-            { "G11" , 200 },
-            { "G12" , 210 },
-            { "G13" , 220 },
-            { "G14" , 230 },
-            { "G15" , 240 },
-            { "G16" , 250 },
-            { "G17" , 275 },
-            { "G18" , 300 },
-            { "G19" , 350 },
-            { "G20" , 425 },
-            { "U1" , 500 },
-            { "U2" , 600 },
-            { "U3" , 700 },
-            { "U4" , 850 },
-            { "U5" , 1000 },
-            { "U6" , 1300 },   
-            { "U7" , 1600 },   
-            { "U8" , 1800 },
-            { "U9" , 2000 },
-            { "U10" , 2500 },
-            { "U11" , 3000 },
-            { "U12" , 4000 },
-            { "U13" , 0 },
-            { "U14" , 0 },
-            { "U15" , 0 },
-            { "U16" , 0 },
-            { "U17" , 0 },
-            { "U18" , 0 },
-            { "U19" , 0 },
-            { "U20" , 0 },
-        };
+        //public static readonly Dictionary<string, double> DiffBaseScore = new()
+        //{
+        //    { "Gimmick", 0},
+        //    { "U13J", 0},
+        //    { "U7J", 0 },
+        //    { "Marathon" , 0 },
+        //    { "Impossible" , 0},
+        //    { "Censored" , 0 },
+        //    { "0" , 0},
+        //    { "P0", 0 },
+        //    { "P1" , 0.1},
+        //    { "P2" , 0.2 },
+        //    { "P3" , 0.3 },
+        //    { "P4" , 0.4 },
+        //    { "P5" , 0.5 },
+        //    { "P6" , 0.6 },
+        //    { "P7" , 0.7 },
+        //    { "P8" , 0.8 },
+        //    { "P9" , 0.9 },
+        //    { "P10" , 1 },
+        //    { "P11" , 2 },
+        //    { "P12" , 3 },
+        //    { "P13" , 5 },
+        //    { "P14" , 10 },
+        //    { "P15" , 15 },
+        //    { "P16" , 20 },
+        //    { "P17" , 30 },
+        //    { "P18" , 45 },
+        //    { "P19" , 60 },
+        //    { "P20" , 75 },
+        //    { "G1" , 100 },
+        //    { "G2" , 110 },
+        //    { "G3" , 120 },
+        //    { "G4" , 130 },
+        //    { "G5" , 140 },
+        //    { "G6" , 150 },
+        //    { "G7" , 160 },
+        //    { "G8" , 170 },
+        //    { "G9" , 180 },
+        //    { "G10" , 190 },
+        //    { "G11" , 200 },
+        //    { "G12" , 210 },
+        //    { "G13" , 220 },
+        //    { "G14" , 230 },
+        //    { "G15" , 240 },
+        //    { "G16" , 250 },
+        //    { "G17" , 275 },
+        //    { "G18" , 300 },
+        //    { "G19" , 350 },
+        //    { "G20" , 425 },
+        //    { "U1" , 500 },
+        //    { "U2" , 600 },
+        //    { "U3" , 700 },
+        //    { "U4" , 850 },
+        //    { "U5" , 1000 },
+        //    { "U6" , 1300 },   
+        //    { "U7" , 1600 },   
+        //    { "U8" , 1800 },
+        //    { "U9" , 2000 },
+        //    { "U10" , 2500 },
+        //    { "U11" , 3000 },
+        //    { "U12" , 4000 },
+        //    { "U13" , 0 },
+        //    { "U14" , 0 },
+        //    { "U15" , 0 },
+        //    { "U16" , 0 },
+        //    { "U17" , 0 },
+        //    { "U18" , 0 },
+        //    { "U19" , 0 },
+        //    { "U20" , 0 },
+        //    { "U15M", 0 },
+
+        //    { "GQ0 (G1~G4)", 0 },
+        //    { "GQ1 (G5~G8)", 0 },
+        //    { "GQ2 (G9~G12)", 0 },
+        //    { "GQ3 (G13~G16)", 0 },
+        //    { "GQ4 (G17~G20)", 0 },
+
+        //    { "UQ0 (U1~U4)", 0 },
+        //    { "UQ1 (U5~U8)", 0 },
+        //    { "UQ2 (U9~U12)", 0 },
+        //    { "UQ3 (U13~U16)", 0 },
+        //    { "UQ4 (U17~U20)", 0 },
+
+        //};
         
         public static Dictionary<string, int> GetReversedDiffIDRegister()
         {
@@ -184,23 +200,46 @@ namespace TUFHelper.Utils
 
         public static string GetSpriteFromId(int id)
         {
-            if (DiffIDRegister.ContainsKey(id))
+            try
             {
-                return $"{PATH_TO_DIFF_SPRITES}{DiffIDRegister[id]}.png";
+                if (DiffIDRegister.ContainsKey(id))
+                {
+                    return $"{PATH_TO_DIFF_SPRITES}{DiffIDRegister[id]}.png";
+                }
+                else return $"{PATH_TO_DIFF_SPRITES}Unknown.png";
             }
-            else return $"{PATH_TO_DIFF_SPRITES}Unknown.png";
+            catch (Exception e)
+            {
+                Main.Logger.LogException(e);
+                return "";
+            }
         }
         public static bool IsSpecialDiff(string diff)
         {
             string diffStr = diff;
-            if (diffStr == "Gimmick") return true;
-            if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J"))) return false;
+            if (IsQuantumDiff(diff)) return true;
+            if (diffStr == "Gimmick" || diffStr == "P0") return true;
+            if (diffStr.StartsWith("P") || diffStr.StartsWith("G") || (diffStr.StartsWith("U") && !diffStr.EndsWith("J") && !diffStr.EndsWith("M"))) return false;
             else return true;
         }
         public static bool IsSpecialDiff(int diff)
         {
             string diffStr = DiffIDRegister[diff];
             return IsSpecialDiff(diffStr);
+        }
+        public static bool IsQuantumDiff(string diff)
+        {
+            if (string.IsNullOrEmpty(diff)) return false;
+
+            return diff.StartsWith("GQ")
+                || diff.StartsWith("UQ")
+                || diff.StartsWith("Q");
+        }
+
+        public static bool IsQuantumDiff(int diff)
+        {
+            string diffStr = DiffIDRegister[diff];
+            return IsQuantumDiff(diffStr);
         }
     }
 }

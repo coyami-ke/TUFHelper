@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ModSettings : MonoBehaviour
 {
-    public GameObject backgroundImage, window;
+    public GameObject window;
 
     public TextMeshProUGUI titleTab;
 
@@ -36,7 +36,6 @@ public class ModSettings : MonoBehaviour
         set
         {
             _isShow = value;
-            backgroundImage.SetActive(value);
             window.SetActive(value);
         }
     }

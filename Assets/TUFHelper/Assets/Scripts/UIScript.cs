@@ -76,7 +76,7 @@ public class UIScript : MonoBehaviour
         JobDispatcher.AddJob(() =>
         {
             scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeOut);
-            
+
             instance.panelRectTransform.gameObject.SetActive(true);
             instance.panelRectTransform.DOAnchorMax(new Vector2(1, 1), 0.3f).onComplete += () =>
             {

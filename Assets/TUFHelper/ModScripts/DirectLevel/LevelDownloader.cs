@@ -38,31 +38,31 @@ namespace DirectLevel
                     }
                 }
             }
-            
+
             private readonly ManualCookieContainer _cookies = new ManualCookieContainer();
 
             protected override WebRequest GetWebRequest(Uri u)
             {
                 var r = base.GetWebRequest(u);
-                if(r is HttpWebRequest request)
+                if (r is HttpWebRequest request)
                 {
                     var c = _cookies[u];
-                    if( _cookies != null )
+                    if (_cookies != null)
                         request.Headers.Set("cookie", c);
                 }
                 return r;
             }
         }
-        
+
         private string _url;
         private CookieWebClient _cookieWeb;
-        
+
         /// <summary>
         /// Run when an exception occurs
         /// Runs in a thread other than the main thread!!!
         /// </summary>
         public Action<Exception> ErrorHandler;
-        
+
         /// <summary>
         /// Run if progress changes when downloading levels asynchronously
         /// Runs in a thread other than the main thread!!!
@@ -70,16 +70,16 @@ namespace DirectLevel
         //public Action<float, string> OnUpdateProgress;
         public delegate void UpdateProgressEventHandler(object sender, UpdateProgressEventArgs args);
         public event UpdateProgressEventHandler UpdateProgress;
-        
+
         public delegate void DownloadCompleteEventHandler(object sender, DownloadCompleteEventArgs args);
         public event DownloadCompleteEventHandler DownloadComplete;
-        
+
         /// <summary>
         /// Run when asynchronously leveling down is complete.
         /// Runs in a thread other than the main thread!!!
         /// </summary>
         //public Action<List<string>> OnDownloadComplete;
-        
+
         /// <summary>
         /// Run when getting the size of a file from a URL.
         /// The return type determines whether the download should continue or not.
@@ -87,14 +87,14 @@ namespace DirectLevel
         /// </summary>
         public Func<long, bool> OnCalculationCompleteFileSize;
 
-        
+
         /// <summary>
         /// Level Downloader
         /// </summary>
         /// <param name="url">URL to download, may not be a direct URL if in Google Drive</param>
         public LevelDownloader(string url)
         {
-            
+
             _cookieWeb = new CookieWebClient();
             _cookieWeb.Encoding = Encoding.UTF8;
             _cookieWeb.Proxy = null;
@@ -102,7 +102,7 @@ namespace DirectLevel
             _url = url;
 
         }
-        
+
 
         /// <summary>
         /// Find the .adofai files in Level folder
@@ -126,22 +126,24 @@ namespace DirectLevel
             return result;
         }
 
-        
-        
-        
-        
+
+
+
+
         /// <summary>
         /// Asynchronous level downloads
         /// </summary>
         /// <param name="defaultPath">Default parent path to download</param>
         /// <param name="checkFileSize">If true, check the file size</param>
         /// <returns>Tasks that are downloading</returns>
-        public Task DownloadWithTask(string defaultPath, bool checkFileSize)
+        public Task DownloadWithTask(string defaultPath, bool checkFileSize, CancellationToken token)
         {
             return Task.Run(async () =>
             {
                 try
                 {
+                    token.ThrowIfCancellationRequested();
+
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
                     var path = Path.Combine(defaultPath, _url.GetHashCode().ToString());
@@ -153,23 +155,19 @@ namespace DirectLevel
                         DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                         return;
                     }
-                    
-                    var directURl = GetDirectURL(_url, _cookieWeb);
-                    
-                    if (checkFileSize)
+
+                    var directURL = GetDirectURL(_url, _cookieWeb);
+
+                    // file size check
+                    if (checkFileSize && OnCalculationCompleteFileSize != null)
                     {
-                        if (OnCalculationCompleteFileSize != null)
+                        var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURL));
+                        if (v)
                         {
-                            var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURl));
-                            if (v)
-                            {
-                                UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Cancelled));
-                                return;
-                            }
+                            UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Cancelled));
+                            return;
                         }
                     }
-
-
 
                     if (File.Exists(zipPath)) File.Delete(zipPath);
 
@@ -182,10 +180,16 @@ namespace DirectLevel
                     };
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloading));
-                    var t = _cookieWeb.DownloadFileTaskAsync(directURl, zipPath);
-                    t.Wait();
+
+                    using (token.Register(() => _cookieWeb.CancelAsync()))
+                    {
+                        await _cookieWeb.DownloadFileTaskAsync(directURL, zipPath); // line 186
+                    }
+
+                    token.ThrowIfCancellationRequested();
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Unzipping));
+
                     ZipHelper.Unzip(zipPath, path);
                     File.Delete(zipPath);
 
@@ -195,13 +199,18 @@ namespace DirectLevel
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
                     DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
                 }
-                catch (Exception e)
+                catch (OperationCanceledException)
                 {
-                    ErrorHandler?.Invoke(e);
+                    UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Cancelled));
                 }
-            });
+                catch (Exception ex)
+                {
+                    ErrorHandler?.Invoke(ex);
+                }
+            }, token);
         }
-        
+
+
 
 
         private static string GetDirectURL(string url, WebClient wc)
@@ -210,8 +219,8 @@ namespace DirectLevel
             {
                 // fix discord
                 if (url.Contains("cdn.discordapp.com"))
-                    return url.Replace("cdn.discordapp.com","fixcdn.hyonsu.com");
-                    
+                    return url.Replace("cdn.discordapp.com", "fixcdn.hyonsu.com");
+
                 // google drive file
                 if (url.StartsWith("https://drive.google.com/file/d/") ||
                     url.StartsWith("https://drive.google.com/open?id=") ||
@@ -246,7 +255,7 @@ namespace DirectLevel
                     var buffer = new byte[15];
                     stream.Read(buffer, 0, buffer.Length);
                     stream.Close();
-                    
+
 
                     if (Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>")
                     {
@@ -272,7 +281,7 @@ namespace DirectLevel
                     var driveid = url.GetValue("https://www.dropbox.com/s/", "?");
                     return $"https://www.dropbox.com/s/{driveid}?dl=1";
                 }
-    
+
                 if (url.StartsWith("https://drive.google.com/drive/folders/"))
                 {
                     throw new Exception(
@@ -298,13 +307,13 @@ namespace DirectLevel
             }
         }
 
-        
+
         private static string GetDirectURLFromGoogleLargeFile(string url, WebClient wc)
         {
             var result = wc.DownloadString(url);
             var id = result.GetValue("name=\"id\" value=\"", "\">");
             var uuid = result.GetValue("name=\"uuid\" value=\"", "\">");
-            
+
             if (!result.Contains("name=\"at\" value=\""))
                 return
                     $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}";

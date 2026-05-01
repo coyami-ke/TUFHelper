@@ -20,7 +20,6 @@ public class RatingPanel : MonoBehaviour
     private bool isHideRatedValue;
     private Rating4Plus rating4PlusValue;
 
-
     public TMP_Dropdown rating4Plus;
     public Toggle hideRated;
     public TMP_InputField searchField;
@@ -35,6 +34,11 @@ public class RatingPanel : MonoBehaviour
 
         hideRated.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<bool>(OnHideRatedChanged));
         rating4Plus.onValueChanged.AddListener(new UnityEngine.Events.UnityAction<int>(On4PlusRatedChanged));
+    }
+
+    public void OnEnable()
+    {
+        UpdateList();
     }
 
     private CancellationToken cancellationToken;
@@ -109,13 +113,11 @@ public class RatingPanel : MonoBehaviour
             case 1: rating4PlusValue = Rating4Plus.Show; break;
             case 2: rating4PlusValue = Rating4Plus.Only; break;
         }
-        Main.Logger.Log(value.ToString());
         UpdateList();
     }
     public void OnHideRatedChanged(bool value)
     {
         isHideRatedValue = value;
-        Main.Logger.Log(value.ToString());
         UpdateList();
     }
 

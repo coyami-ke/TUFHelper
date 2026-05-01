@@ -22,6 +22,8 @@ public class MiscScript : MonoBehaviour
     public static MiscScript instance;
 
     public GameObject errorObject;
+    public GameObject frontMenuCanvas;
+    public GameObject playCanvas;
     private CancellationTokenSource requestCancelToken;
 
     public void Awake()
@@ -71,20 +73,44 @@ public class MiscScript : MonoBehaviour
     {
         //if (DownloadPopupScript.IsDownloading) return;
 
-        if (WindowsManager.instance != null && !WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        //if (WindowsManager.instance != null && !WindowsManager.instance.FolderListActive && LevelListScript.instance.GroupByFolder)
+        //{
+        //    WindowsManager.instance.MoveToFolderList();
+        //    return;
+        //}
+
+        //UIScript.SwipeToBlack(() =>
+        //{
+        //    Main.isInTUFHelper = false;
+        //    ADOFAIGameplayHandler.IsFromTUFHelper = false;
+        //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
+        //    GCS.sceneToLoad = "";
+        //    SceneManager.LoadScene("scnLevelSelect");
+        //});
+
+        if (FrontPageScript.instance.frontPageObject.activeSelf)
         {
-            WindowsManager.instance.MoveToFolderList();
+            UIScript.SwipeToBlack(() =>
+            {
+                Main.isInTUFHelper = false;
+                ADOFAIGameplayHandler.IsFromTUFHelper = false;
+                FrontPageScript.isFirstRun = true;
+                ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
+                GCS.sceneToLoad = "";
+                SceneManager.LoadScene("scnLevelSelect");
+            });
             return;
         }
 
-        UIScript.SwipeToBlack(() =>
+        var frontPageButtons = frontMenuCanvas.GetComponentsInChildren<FrontPageButton>(includeInactive: true);
+        foreach (var button in frontPageButtons)
         {
-            Main.isInTUFHelper = false;
-            ADOFAIGameplayHandler.IsFromTUFHelper = false;
-            ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = null;
-            GCS.sceneToLoad = "";
-            SceneManager.LoadScene("scnLevelSelect");
-        });
+            if (button.showableCanvas != null) button.showableCanvas.SetActive(false);
+        }
+
+        FrontPageScript.instance.frontPageObject.SetActive(true);
+
+        CustomMusicPlayer.instance.StopPlay();
     }
 
     public void OpenURL(string url)
@@ -150,6 +176,7 @@ public class MiscScript : MonoBehaviour
             {
             }
         }
+
         Main.Setting.Save(Main.ModEntry);
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
@@ -157,6 +184,11 @@ public class MiscScript : MonoBehaviour
     }
     public async void ImFuckingLucky()
     {
+        if (FrontPageScript.instance.frontPageObject.activeSelf) FrontPageScript.instance.frontPageObject.SetActive(false);
+
+        playCanvas.SetActive(true);
+
+
         requestCancelToken?.Cancel();
         requestCancelToken = new CancellationTokenSource();
 
@@ -170,11 +202,20 @@ public class MiscScript : MonoBehaviour
             var filteredLevels = Main.Setting.DownloadedLevels.Where(level =>
             {
                 // Filter by difficulty
-                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId))
+                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.LevelInfo.DiffId))
                 {
-                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
+                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]) ||
+                        LevelListScript.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
                         return false;
                 }
+
+                //if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
+                //{
+                //    if (!DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) ||
+                //            !DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
+                //        return false;
+                //}
+
                 else
                 {
                     if (level.LevelInfo.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.LevelInfo.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
@@ -195,6 +236,7 @@ public class MiscScript : MonoBehaviour
             request.Offset = 0;
             request.SortBy = "RANDOM";
             request.SpecialDifficulties = new(LevelListScript.DefaultRequest.SpecialDifficulties);
+            request.QDifficulties = new(LevelListScript.DefaultRequest.QDifficulties);
 
             await request.GetAnswerAsync(token);
 
@@ -214,8 +256,22 @@ public class MiscScript : MonoBehaviour
 
         try
         {
-            if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL"); // selectedLevel is null ._.
-            LevelDownloader levelDownloder = new(selectedLevel.DlLink) //null exception
+            // Inside ImFuckingLucky
+            if (selectedLevel == null || string.IsNullOrEmpty(selectedLevel.DlLink) || selectedLevel.DlLink.Length < 10)
+            {
+                ExceptionCatch(new Exception("This level has an invalid or missing download link ('" + selectedLevel.DlLink + "')."));
+                return;
+            }
+
+            // Only proceed if it looks like a real URL
+            if (!selectedLevel.DlLink.StartsWith("http"))
+            {
+                ExceptionCatch(new Exception("Malformed URL: " + selectedLevel.DlLink));
+                return;
+            }
+
+            if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL");
+            LevelDownloader levelDownloder = new(selectedLevel.DlLink) 
             {
                 ErrorHandler = (ex) =>
                 {

@@ -62,6 +62,6 @@ public class DiffSliderPGU : DiffSlider
         LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
         LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
-        await LevelListScript.instance.UpdateLevelListAsync();
+        //await LevelListScript.instance.UpdateLevelListAsync();
     }
 }

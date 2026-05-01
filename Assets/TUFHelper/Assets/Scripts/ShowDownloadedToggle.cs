@@ -10,7 +10,7 @@ public class ShowDownloadedToggle : MonoBehaviour
     public GameObject favoriteToggle, updateLevelsButton, groupByFoldersToggle;
     public void Start()
     {
-        toggle.isOn = Main.Setting.ShowOnlyDownloaded;
+        // toggle.isOn = Main.Setting.ShowOnlyDownloaded;
     }
     public void Update()
     {
@@ -31,7 +31,7 @@ public class ShowDownloadedToggle : MonoBehaviour
         updateLevelsButton.SetActive(value);
         groupByFoldersToggle.SetActive(value);
 
+        LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
-
     }
 }

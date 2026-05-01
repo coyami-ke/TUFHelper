@@ -27,12 +27,18 @@ namespace TUFHelper.Utils
     {
         public string LevelSaveFolder { get; set; } = null;
 
-        public bool PlayBackgroundMusic { get; set; } = true;
+        //public bool PlayBackgroundMusic { get; set; } = true;
         public int MinDiff { get; set; } = 1;
         public int MaxDiff { get; set; } = 60;
+
+        public int MinQDiff { get; set; } = 1;
+        public int MaxQDiff { get; set; } = 10;
+
+        public float TUFHelperMusicVolume = 0.5f;
         public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
         public int SortBy { get; set; } = 0;
         public List<string> SelectedSpecialDiffs { get; set; } = new();
+        public List<string> SelectedQDiifs { get; set; } = new();
         public bool ShowOnlyDownloaded { get; set; } = false;
         public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;
@@ -45,6 +51,7 @@ namespace TUFHelper.Utils
         public bool ShowIngameLeaderboard { get; set; } = true;
         public bool ShowIngameSpeed { get; set; } = true;
         public bool ShowIngamePPCounter { get; set; } = true;
+        public bool ShowIngameLevelInfo { get; set; } = true;
 
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;
