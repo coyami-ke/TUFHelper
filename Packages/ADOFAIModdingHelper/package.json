@@ -1,0 +1,16 @@
+{
+  "name": "com.jofo.adofaimoddinghelper",
+  "version": "1.0.0",
+  "displayName": "ADOFAI Modding Helper",
+  "description": "A Unity Editor package that streamline some stuff during ADOFAI mod development.",
+  "unity": "2022.3",
+  "author": {
+    "name": "Jofo",
+    "url": "https://github.com/JofoDuh/ADOFAIModdingHelper"
+  },
+
+  "dependencies": {
+    "com.unity.editorcoroutines": "1.0.1",
+    "com.unity.scriptablebuildpipeline": "1.16.1"
+  }
+}

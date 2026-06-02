@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/UXML/ModsConfig/Main/ListElement.uss?fileID=7433441132597879392&amp;guid=095b1ad0b78de9142bd69e58f16f351d&amp;type=3#ListElement" />
+    <ui:VisualElement name="ParentContinaer" style="flex-grow: 1;">
+        <ui:VisualElement name="PaddedContainer" style="flex-grow: 1; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; flex-direction: row;">
+            <ui:VisualElement name="OptionsContainer" style="background-color: rgba(0, 0, 0, 0.2); width: 200px;">
+                <ui:Label tabindex="-1" text="ADOFAI &#10;Modding Helper" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OptionsHeader" class="AMHSettingHeader" style="color: rgb(255, 255, 255); -unity-text-outline-width: 0; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; font-size: 20px; white-space: normal; -unity-text-align: upper-center; background-color: rgba(0, 0, 0, 0.2); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px;" />
+                <ui:ListView name="OptionsList" item-height="20" focusable="true" fixed-item-height="30" class="CustomList" style="flex-grow: 1; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; background-color: rgba(0, 0, 0, 0.2); padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Spacer" style="flex-grow: 0; width: 4px;" />
+            <ui:VisualElement name="ModConfigContainer" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.2);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

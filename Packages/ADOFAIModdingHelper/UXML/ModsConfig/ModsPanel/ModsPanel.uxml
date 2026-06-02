@@ -1,0 +1,290 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/UXML/ModsConfig/ModsPanel/ModsPanel.uss?fileID=7433441132597879392&amp;guid=1ab411046104e9f42abcbeecdb3a68a3&amp;type=3#ModsPanel" />
+    <ui:VisualElement name="ModConfig" style="flex-grow: 1;">
+        <ui:ScrollView focusable="true" name="UMMScrollView" mode="Vertical" horizontal-scroller-visibility="Hidden" class="AMH-ScrollView" style="flex-grow: 1; padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px;">
+            <ui:VisualElement name="SettingsProperties">
+                <ui:VisualElement name="Header" class="AMH-Header">
+                    <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HeaderText" class="AMH-RoundBorder AMH-Header" style="background-color: rgba(0, 0, 0, 0.2); padding-top: 4px; padding-right: 4px; padding-bottom: 4px; padding-left: 4px; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="SettingsProperties" class="AMH-RoundBorder" style="background-color: rgba(0, 0, 0, 0.2); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: flex;">
+                    <ui:VisualElement name="Project" class="AMH-Field" style="display: none;">
+                        <ui:Label text="Project" name="ProjectLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ADOFAIPath" class="AMH-Field">
+                        <ui:Label text="ADOFAI Path" name="ADOFAIPathLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                            <ui:TextField binding-path="ADOFAIPath" name="ADOFAIPathTextField" class="grow m0" style="margin-right: 4px;" />
+                            <ui:Button text="Browse" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ADOFAIPathBrowseButton" class="AMH-standardButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; text-overflow: ellipsis; height: auto; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="NoScenes" class="AMH-Field" style="justify-content: center; align-items: center; display: none;">
+                        <ui:Label text="No Scenes Found D:" name="NoScenesLabel" class="AMH-Field-label" style="font-size: 25px; -unity-text-align: middle-center;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ImportGame" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                        <ui:Button text="Import Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ImportGameButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 1; text-overflow: ellipsis; height: auto;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="SeperateTabs" class="AMH-Field">
+                        <ui:Toggle binding-path="SeperateBuildTabs" name="SeperateTabsToggle" class="AMH-Toggle" />
+                        <ui:Label text="Seperate Build Tabs" name="SeperateTabsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                    <ui:VisualElement name="SceneNav" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column; display: none;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="BarSpacer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.2); display: flex; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="Mod Information" name="Text" class="AMH-Field-label" style="font-size: 25px; -unity-font-style: bold;" />
+                <ui:VisualElement name="SpacerColor" style="flex-grow: 1; background-color: rgb(255, 255, 255); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; height: 4px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="ModInfoProperties" class="AMH-RoundBorder" style="background-color: rgba(0, 0, 0, 0.2); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: none;">
+                <uie:PropertyField binding-path="modInfo" label="Mod Info" name="ModInfoField" class="AMH-ListView" />
+                <ui:VisualElement name="ModEntry" class="AMH-Field" style="align-items: center;">
+                    <ui:Button text="Mod Entry" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ModEntryLabelButton" style="margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(0, 0, 0, 0); font-size: 25px; color: rgb(255, 255, 255); -unity-font-style: bold; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="ModEntryArrowButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;project://database/Assets/Graphics/Images/DropdownArrow.png?fileID=2800000&amp;guid=3c2edb958e1082c449580cf542f5d633&amp;type=3#DropdownArrow&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; width: 25px; height: 25px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ModInfoDataContainer" style="display: flex;">
+                    <ui:VisualElement name="AssemblyName" class="AMH-Field">
+                        <ui:Label text="Assembly Name" name="AssemblyName" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="AssemblyName" name="AssemblyNameTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="EntryMethod" class="AMH-Field">
+                        <ui:Label text="Entry Method" name="EntryMethod" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-grow: 0; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="EntryMethod" name="EntryMethodTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                    <ui:VisualElement name="Metadata" class="AMH-Field">
+                        <ui:Label text="Metadata" name="MetadataLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Id" class="AMH-Field">
+                        <ui:Label text="Id" name="Id" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="Id" name="IdTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DisplayName" class="AMH-Field">
+                        <ui:Label text="Display Name" name="DisplayName" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="DisplayName" name="DisplayNameTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Author" class="AMH-Field">
+                        <ui:Label text="Author" name="Author" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="Author" name="AuthorTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Version" class="AMH-Field">
+                        <ui:Label text="Version" name="Version" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="Version" name="VersionTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Homepage" class="AMH-Field">
+                        <ui:Label text="Homepage" name="Homepage" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="HomePage" name="HomePageTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Repository" class="AMH-Field">
+                        <ui:Label text="Repository" name="Repository" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="Repository" name="RepositoryTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ContentType" class="AMH-Field">
+                        <ui:Label text="Content Type" name="ContentType" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="ContentType" name="ContentTypeTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                    <ui:VisualElement name="VersionDependency" class="AMH-Field">
+                        <ui:Label text="Version Dependency" name="VersionDependencyLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="ManagerVersion" class="AMH-Field">
+                        <ui:Label text="Manager Version" name="ManagerVersion" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="ManagerVersion" name="ManagerVersionTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="GameVersion" class="AMH-Field">
+                        <ui:Label text="Game Version" name="GameVersion" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 200px;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                            <ui:TextField binding-path="GameVersion" name="GameVersionTextField" class="grow m0" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                    <ui:VisualElement name="Dependency" class="AMH-Field">
+                        <ui:Label text="Dependency" name="DependencyLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Requirements" class="AMH-Field" style="display: flex;">
+                        <uie:PropertyField binding-path="Requirements" label="Requirements" class="AMH-ListView" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="LoadAfter" class="AMH-Field" style="display: flex;">
+                        <uie:PropertyField view-data-key="ModsList" binding-path="LoadAfter" label="Load After" class="AMH-ListView" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="BarSpacer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.2); display: flex; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="Builder" name="Text" class="AMH-Field-label" style="font-size: 25px; -unity-font-style: bold;" />
+                <ui:VisualElement name="SpacerColor" style="flex-grow: 1; background-color: rgb(255, 255, 255); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; height: 4px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BuilderProperties" class="AMH-RoundBorder" style="background-color: rgba(0, 0, 0, 0.2); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: none;">
+                <ui:VisualElement name="Assets" class="AMH-Field">
+                    <ui:Label text="Assets" name="AssetsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AsmdefList" class="AMH-Field" style="flex-grow: 1;">
+                    <uie:PropertyField binding-path="AssemblyDefinitions" label="Assembly Definitions" class="AMH-ListView" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PreCompList" class="AMH-Field" style="flex-grow: 1;">
+                    <ui:ListView reorder-mode="Animated" show-add-remove-footer="true" show-foldout-header="true" reorderable="true" header-title="Precompiled Assemblies" name="PreCompListView" fixed-item-height="32" class="AMH-ListView" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AssetBundleList" class="AMH-Field" style="flex-grow: 1;">
+                    <ui:ListView reorder-mode="Animated" show-add-remove-footer="true" show-foldout-header="true" reorderable="true" header-title="Bundles to Build" name="AssetBundleListView" fixed-item-height="32" class="AMH-ListView" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AssetBundles" class="AMH-Field">
+                    <ui:Label text="Asset Bundles" name="AssetBundlesLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DontBuildAB" class="AMH-Field">
+                    <ui:Toggle binding-path="skipAssetBundleBuild" name="DontBuildABToggle" class="AMH-Toggle" />
+                    <ui:Label text="Don&apos;t build Asset Bundles" name="DontBuildAB" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AllPlatformAB" class="AMH-Field">
+                    <ui:Toggle binding-path="buildEveryPlatform" name="AllPlatformABToggle" class="AMH-Toggle" />
+                    <ui:Label text="Build Asset Bundles for All Platform" name="AllPlatformAB" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Platforms" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:Button text="Windows" parse-escape-sequences="true" display-tooltip-when-elided="true" name="windowsButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 50px; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="MacOS" parse-escape-sequences="true" display-tooltip-when-elided="true" name="macOSButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 50px; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="Linux" parse-escape-sequences="true" display-tooltip-when-elided="true" name="linuxButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 50px; text-overflow: ellipsis; height: auto;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="BuildOptions" class="AMH-Field">
+                    <ui:Label text="Build Options" name="BuildOptionsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DebugBuild" class="AMH-Field">
+                    <ui:Toggle binding-path="developmentBuild" name="DebugBuildToggle" class="AMH-Toggle" />
+                    <ui:Label text="Debug Build" name="DebugBuild" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AllPlatformAB" class="AMH-Field">
+                    <ui:Toggle binding-path="generateDebugSymbols" name="GenerateDebugSymbolToggle" class="AMH-Toggle" />
+                    <ui:Label text="Generate Debug Symbol (.pdb)" name="GenerateDebugSymbol" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="PostBuildEvents" class="AMH-Field">
+                    <ui:Label text="Post Build Events" name="PostBuildEventsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="CopyToModPath" class="AMH-Field">
+                    <ui:Toggle binding-path="copyToDirectory" name="CopyToModPathToggle" class="AMH-Toggle" />
+                    <ui:Label text="Copy to Mod Path" name="CopyToModPath" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ZipFile" class="AMH-Field">
+                    <ui:Toggle binding-path="createZip" name="ZipFileToggle" class="AMH-Toggle" />
+                    <ui:Label text="Create Zip File In Build Directory" name="ZipFile" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="RunApp" class="AMH-Field">
+                    <ui:Toggle binding-path="runApplication" name="RunAppToggle" class="AMH-Toggle" />
+                    <ui:Label text="Run Application After Build" name="RunApp" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="RunAppSteam" class="AMH-Field">
+                    <ui:VisualElement name="ConnectArrowSteam" style="background-image: url(&quot;project://database/Assets/Graphics/Images/DropdownArrow.png?fileID=2800000&amp;guid=3c2edb958e1082c449580cf542f5d633&amp;type=3#DropdownArrow&quot;); width: 30px; rotate: 45deg; left: auto; top: auto; right: 2px; bottom: 4px;" />
+                    <ui:Toggle binding-path="runApplicationThroughSteam" name="RunAppToggle" class="AMH-Toggle" />
+                    <ui:Label text="Run With Steam" name="RunAppSteam" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="BuildOptionPresets" class="AMH-Field">
+                    <ui:Label text="Build Option Presets" name="BuildOptionPresetsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Presets" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:Button text="Debug" parse-escape-sequences="true" display-tooltip-when-elided="true" name="debugBuildButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 50px; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="Release" parse-escape-sequences="true" display-tooltip-when-elided="true" name="relaseBuildButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 50px; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="Clear All" parse-escape-sequences="true" display-tooltip-when-elided="true" name="clearBuildOptionButton" class="AMH-standardButton" style="flex-grow: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 1; flex-basis: auto; text-overflow: ellipsis; width: 100px; background-color: rgb(202, 64, 71); color: rgb(255, 255, 255); border-left-color: rgb(255, 124, 124); border-right-color: rgb(255, 124, 124); border-top-color: rgb(255, 124, 124); border-bottom-color: rgb(255, 124, 124);" />
+                </ui:VisualElement>
+                <ui:Button text="Build Mod" parse-escape-sequences="true" display-tooltip-when-elided="true" name="BuildButton" class="AMH-standardButton" style="flex-grow: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: auto; text-overflow: ellipsis; height: 50px; font-size: 25px; color: rgb(255, 255, 255); border-left-color: rgb(134, 255, 121); border-right-color: rgb(134, 255, 121); border-top-color: rgb(134, 255, 121); border-bottom-color: rgb(134, 255, 121); background-color: rgb(57, 209, 23);" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BarSpacer" style="flex-grow: 0; background-color: rgba(0, 0, 0, 0.2); display: none; padding-top: 5px; padding-right: 5px; padding-bottom: 5px; padding-left: 5px; border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="Build Management" name="Text" class="AMH-Field-label" style="font-size: 25px; -unity-font-style: bold;" />
+                <ui:VisualElement name="SpacerColor" style="flex-grow: 1; background-color: rgb(255, 255, 255); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; height: 4px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="BuildManagementProperties" class="AMH-RoundBorder" style="background-color: rgba(0, 0, 0, 0.2); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: none;">
+                <ui:Button text="Open Build Directory" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OpenBuildDirectory" class="AMH-standardButton" style="flex-grow: 0; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: auto; text-overflow: ellipsis; height: 50px; font-size: 25px; color: rgb(255, 255, 255); border-left-color: rgb(119, 195, 255); border-right-color: rgb(119, 195, 255); border-top-color: rgb(119, 195, 255); border-bottom-color: rgb(119, 195, 255); background-color: rgb(0, 113, 234);" />
+                <ui:VisualElement name="CachedBuild" class="AMH-Field">
+                    <ui:Label text="Cached Builds: {Count} (Using X B of Storage)" name="CachedBuildLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AutoDeleteBuilds" class="AMH-Field">
+                    <ui:Toggle binding-path="automaticallyDeleteBuilds" name="AutoDeleteBuildsToggle" class="AMH-Toggle" />
+                    <ui:Label text="Automatically Delete Builds" name="AutoDeleteBuilds" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DelAllBuildsExcept" class="AMH-Field">
+                    <ui:Button text="Delete All Builds" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DeleteAllBuilds" class="AMH-standardButton" style="margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: 400px; text-overflow: ellipsis; height: auto; font-size: 25px; color: rgb(255, 255, 255); border-left-color: rgb(255, 32, 56); border-right-color: rgb(255, 32, 56); border-top-color: rgb(255, 32, 56); border-bottom-color: rgb(255, 32, 56); background-color: rgb(161, 0, 12);" />
+                    <ui:Label text="Except for" name="ExceptFor" class="AMH-Field-label" style="align-self: center; font-size: 25px;" />
+                    <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="margin-left: 4px; height: 25px;">
+                        <ui:IntegerField binding-path="deleteBuildsExceptLastN" name="DeleteBuildsExceptLastN" class="grow m0 AMH-Field-input" />
+                    </ui:VisualElement>
+                    <ui:Label text="Build(s)" name="Builds" class="AMH-Field-label" style="align-self: center; font-size: 25px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="ShortcutProperties" class="AMH-RoundBorder" style="background-color: rgba(0, 0, 0, 0.2); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; display: flex;">
+                <ui:VisualElement name="Project" class="AMH-Field">
+                    <ui:Label text="Project" name="ProjectLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="GithubNav" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                    <ui:Button text="Open Repository" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RepositoryButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 60%; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="Issues" parse-escape-sequences="true" display-tooltip-when-elided="true" name="IssuesButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 20%; text-overflow: ellipsis; height: auto;" />
+                    <ui:Button text="Pull Requests" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PullRequestsButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 20%; text-overflow: ellipsis; height: auto;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="GithubConfig" class="AMH-Field" style="align-items: center;">
+                    <ui:Button text="Github Config" parse-escape-sequences="true" display-tooltip-when-elided="true" name="GithubConfigLabelButton" style="margin-top: 0; margin-right: 4px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(0, 0, 0, 0); font-size: 25px; color: rgb(255, 255, 255); -unity-font-style: bold; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;" />
+                    <ui:Button parse-escape-sequences="true" display-tooltip-when-elided="true" name="GithubConfigArrowButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; background-color: rgba(0, 0, 0, 0); background-image: url(&quot;project://database/Assets/Graphics/Images/DropdownArrow.png?fileID=2800000&amp;guid=3c2edb958e1082c449580cf542f5d633&amp;type=3#DropdownArrow&quot;); border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; width: 25px; height: 25px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="GithubConfigContainer">
+                    <ui:VisualElement name="RepositoryLink" class="AMH-Field">
+                        <ui:Label text="Repository Link" name="RepositoryLinkLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                            <ui:TextField binding-path="RepositoryLink" name="RepositoryLinkField" class="grow m0" style="margin-right: 4px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IssuesLink" class="AMH-Field" style="display: none;">
+                        <ui:Label text="Issues Link" name="IssuesLinkLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1; display: flex;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                            <ui:TextField binding-path="IssuesLink" name="IssuesLinkField" class="grow m0" style="margin-right: 4px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="PullRequestsLink" class="AMH-Field" style="display: none;">
+                        <ui:Label text="Pull Requests Link" name="PullRequestsLinkLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1;" />
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                            <ui:TextField binding-path="PullRequestsLink" name="PullRequestsLinkField" class="grow m0" style="margin-right: 4px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="Scenes" class="AMH-Field">
+                    <ui:Label text="Scenes" name="ScenesLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="ScenePath" class="AMH-Field">
+                    <ui:Label text="Scenes Directory" name="ScenesDirectory" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1;" />
+                    <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                        <ui:TextField binding-path="ScenesPath" name="ScenesDirectoryTextField" class="grow m0" style="margin-right: 4px;" />
+                        <ui:Button text="Browse" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SceneDirBrowseButton" class="AMH-standardButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; text-overflow: ellipsis; height: auto; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="NoScene" class="AMH-Field" style="justify-content: center; align-items: center;">
+                    <ui:Label text="No Scenes Found D:" name="NoScenesLabel" class="AMH-Field-label" style="font-size: 25px; -unity-text-align: middle-center;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="SceneNa" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column; display: flex;" />
+                <ui:VisualElement name="Spacer" style="flex-grow: 0; height: 4px; display: flex;" />
+                <ui:VisualElement name="AssemblyDefs" class="AMH-Field">
+                    <ui:Label text="Assembly Definitions" name="AssemblyDefsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="AsmDefNav" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-direction: column;" />
+                <ui:VisualElement name="NoAsmdef" class="AMH-Field" style="justify-content: center; align-items: center;">
+                    <ui:Label text="No Assembly Definitions Found D:" name="NoAsmdefLabel" class="AMH-Field-label" style="font-size: 25px; -unity-text-align: middle-center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:ScrollView>
+    </ui:VisualElement>
+</ui:UXML>

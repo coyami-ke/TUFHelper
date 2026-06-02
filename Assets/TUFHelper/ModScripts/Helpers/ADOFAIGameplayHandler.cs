@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using HarmonyLib;
 using TUFHelper.ModScripts.Json;
 using UnityEditor;
@@ -28,7 +27,7 @@ namespace TUFHelper.Utils
 
         public static bool IsFromTUFHelper { get; set; }
 
-        [HarmonyPatch(typeof(scrMistakesManager), nameof(scrMistakesManager.AddHit))]
+        [HarmonyPatch(typeof(scrMarginTracker), nameof(scrMarginTracker.AddHit))]
         public static class AddHitPatch
         {
             public static void Prefix(HitMargin hit)

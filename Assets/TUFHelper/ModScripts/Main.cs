@@ -91,7 +91,7 @@ namespace TUFHelper
             else
             {
                 Harmony.UnpatchAll();
-                ADOBase.LoadScene("scnLevelSelect");
+                ADOBase.loader.LoadScene("scnLevelSelect");
             }
             return true;
         }

@@ -1,0 +1,73 @@
+.CustomList {
+}
+
+.CustomList .unity-list-view__item {
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0);
+    align-self: auto;
+    align-items: stretch;
+    margin-bottom: 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    height: 70px;
+    transition-property: scale;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+}
+
+.CustomList .unity-list-view__item:hover {
+    background-color: rgba(150, 229, 255, 0.5);
+    border-left-color: rgb(150, 229, 255);
+    border-right-color: rgb(150, 229, 255);
+    border-top-color: rgb(150, 229, 255);
+    border-bottom-color: rgb(150, 229, 255);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    scale: 0.97 0.95;
+}
+
+.CustomList .unity-list-view__item:selected {
+    background-color: rgba(150, 229, 255, 0.5);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.CustomList .unity-list-view__item:selected:hover {
+    background-color: rgba(150, 229, 255, 0.5);
+    border-left-color: rgb(150, 229, 255);
+    border-right-color: rgb(150, 229, 255);
+    border-top-color: rgb(150, 229, 255);
+    border-bottom-color: rgb(150, 229, 255);
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    scale: 0.97 0.97;
+}
+
+.CustomList .unity-list-view__item .unity-label {
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 5px;
+}
