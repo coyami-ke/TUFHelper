@@ -9,15 +9,14 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
+        "Newtonsoft.Json.dll",
         "Assembly-CSharp.dll",
         "Assembly-CSharp-firstpass.dll",
+        "0Harmony.dll",
         "DOTween.dll",
         "DOTweenPro.dll",
         "RDTools.dll",
-        "0Harmony.dll",
-        "UnityModManager.dll",
-        "Newtonsoft.Json.dll",
-        "System.Windows.Forms.dll"
+        "UnityModManager.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

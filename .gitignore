@@ -68,3 +68,4 @@ crashlytics-build.properties
 /[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
 /[Aa]ssets/AMHSettings/Logs
 /[Aa]ssets/AMHSettings/Logs.meta
+/[Pp]ackages/adofai

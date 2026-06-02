@@ -1,0 +1,4 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UXML/ModsConfig/ModsPanel/ModsPanel.uss?fileID=7433441132597879392&amp;guid=1ab411046104e9f42abcbeecdb3a68a3&amp;type=3#ModsPanel" />
+    <ui:Button text="TypeShi" parse-escape-sequences="true" display-tooltip-when-elided="true" name="PropagatedButtonTemplate" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; width: auto; flex-shrink: 1; flex-basis: 35px; text-overflow: ellipsis; height: auto;" />
+</ui:UXML>

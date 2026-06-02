@@ -1,0 +1,992 @@
+2026-03-29 14:02:58 [Warning] Dropdown sprite is not assigned in the inspector!
+2026-03-29 14:37:40 [Error] Assets\Editor\Core\ModBuilder.cs(93,24): error CS0103: The name 'names' does not exist in the current context
+2026-03-29 14:37:40 [Error] Assets\Editor\Core\ModBuilder.cs(95,17): error CS0103: The name 'names' does not exist in the current context
+2026-03-29 14:46:20 [Error] Assets\Editor\Core\ModBuilder.cs(29,3): error CS1585: Member modifier 'private' must precede the member type and name
+2026-03-29 14:46:20 [Warning] Import Error Code:(4)
+Message: Build asset version error: assets/amhsettings/logs/log.txt in SourceAssetDB has modification time of '2026-03-29T12:37:40.8340802Z' while content on disk has modification time of '2026-03-29T12:46:20.8848915Z'
+
+2026-03-29 14:54:51 [Error] Assets\Editor\Core\ModBuilder.cs(29,3): error CS1585: Member modifier 'private' must precede the member type and name
+2026-04-30 21:00:45 [Log] Created mod template at Assets/a
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(3,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(8,7): error CS0246: The type or namespace name 'TinyJson' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(10,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Setting\Setting.cs(7,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Utilities\Reflections.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Setting\Setting.cs(11,28): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Setting\Setting.cs(13,35): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Setting\Setting.cs(32,36): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(22,36): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(31,30): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(20,33): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(54,27): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(62,31): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(36,46): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(12,23): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(13,23): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\Main.cs(19,23): error CS0246: The type or namespace name 'Harmony' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(219,28): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(220,33): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(222,41): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:00:47 [Error] Assets\A\ModScripts\Main\StartUp.cs(222,76): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:13 [Exception] DirectoryNotFoundException: Could not find a part of the path "C:\Users\hokha\Documents\Github Repositories\ADOFAIModHelper\Packages\a\a.asmdef".
+2026-04-30 21:01:38 [Log] Created mod template at Assets/s
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(3,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(8,7): error CS0246: The type or namespace name 'TinyJson' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(10,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Setting\Setting.cs(7,7): error CS0246: The type or namespace name 'UnityModManagerNet' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Utilities\Reflections.cs(1,7): error CS0246: The type or namespace name 'HarmonyLib' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Setting\Setting.cs(11,28): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Setting\Setting.cs(13,35): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Setting\Setting.cs(32,36): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(22,36): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(20,33): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(31,30): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(36,46): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(54,27): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(62,31): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(12,23): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(219,28): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(13,23): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(220,33): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\Main.cs(19,23): error CS0246: The type or namespace name 'Harmony' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(222,41): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:01:39 [Error] Assets\S\ModScripts\Main\StartUp.cs(222,76): error CS0246: The type or namespace name 'UnityModManager' could not be found (are you missing a using directive or an assembly reference?)
+2026-04-30 21:22:43 [Warning] A meta data file (.meta) exists but its folder 'Packages/com.jofo.adofaimoddinghelper/AMHSettings' can't be found, and has been created. Empty directories cannot be stored in version control, so it's assumed that the meta data file is for an empty directory in version control. When moving or deleting folders outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+2026-04-30 21:22:43 [Warning] GUID [bde3670b5bdd0cf4fa2b2ffe7e823cd9] for asset 'Packages/com.jofo.adofaimoddinghelper/AMHSettings' conflicts with:
+  'Assets/AMHSettings' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [966cf47e5e7af2544a9ee6b713e29236] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor' conflicts with:
+  'Assets/Editor' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [004d14585adc18c48ba9b5456e316a02] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ADOFAIModdingHelper.asmdef' conflicts with:
+  'Assets/Editor/ADOFAIModdingHelper.asmdef' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ee677194636c0034c8821eb33d6e7662] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Common' conflicts with:
+  'Assets/Editor/Common' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [4b26eeb12a026694d948948896d6ab94] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Common/Constants.cs' conflicts with:
+  'Assets/Editor/Common/Constants.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6886ce456d0c72f40a6ca694f5e6256f] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Common/PackageManifest.cs' conflicts with:
+  'Assets/Editor/Common/PackageManifest.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [554a284ed34cfae4d8354f47faefb8d6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core' conflicts with:
+  'Assets/Editor/Core' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [bfe36e4be75c8ca4ba1c45eae964d151] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/CreateModTemplate.cs' conflicts with:
+  'Assets/Editor/Core/CreateModTemplate.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [63d54dc6b5605944f8154e24a6b5e7d6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/DefineSymbolToggler.cs' conflicts with:
+  'Assets/Editor/Core/DefineSymbolToggler.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [07060c0e0eeeba843a7eb5763844f897] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/GameImporter.cs' conflicts with:
+  'Assets/Editor/Core/GameImporter.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [01e949c4d37598143abe245259fec810] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/Logger.cs' conflicts with:
+  'Assets/Editor/Core/Logger.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [5bffe8a1be8012e47b0eb11d87b7ac5a] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/Main.cs' conflicts with:
+  'Assets/Editor/Core/Main.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [93126338a10c94f428b383c95fb9b4da] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Core/ModBuilder.cs' conflicts with:
+  'Assets/Editor/Core/ModBuilder.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [5021fe47792e9a64facf5f8dcac65b62] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/LICENSE.txt' conflicts with:
+  'Assets/Editor/LICENSE.txt' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [777040fe4800a2f4cb6952c20e5abd5f] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate' conflicts with:
+  'Assets/Editor/ModTemplate' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6b271995727f51248b33c809575eabfe] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ecedbe99f82585a44adc9ccca8ac9bae] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f7b7408b85ca61c49a97d04de9f450a1] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/BepInEx' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/BepInEx' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [66352fd0c4d57764181a416361460629] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/BepInEx/BepInExModInfo.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/BepInEx/BepInExModInfo.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [afe0def1f8e80c346bfaab787318f0c0] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/BepInEx/Main.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/BepInEx/Main.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [937ad1764f5f02c4fb0be0bb1d05d921] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/UMM' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/UMM' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2812f15a7815a4742b8c331c9e0776f2] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/UMM/Main.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/UMM/Main.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6c4e6433be4e48e4b85f235b9846320b] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Main/UMM/StartUp.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Main/UMM/StartUp.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [761162533e8755b41b12c27cbe00e37b] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Patches' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Patches' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6d767e95b39dd2147b6c4824c1692c98] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Patches/ExamplePatch.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Patches/ExamplePatch.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [1403e32c7f4eecf49ae3774b67daba3c] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Settings' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Settings' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [46a5e55fcf87bc243b96bdf876d62a6c] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Settings/BepInEx' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Settings/BepInEx' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [4c58779e1424a534ca10cc3873944fc6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Settings/BepInEx/Settings.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Settings/BepInEx/Settings.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [c6871d1ad9e84854c8f7a7b1d62c82a4] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Settings/UMM' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Settings/UMM' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [d1e9ca84cf500b044a35bd87e79d86e5] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Settings/UMM/Settings.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Settings/UMM/Settings.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [193f0138810a4b842ab05faf54ced035] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Utilities' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Utilities' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2bb37dcf8a9a35547b7ec88f0313a458] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Utilities/FilesUtility.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Utilities/FilesUtility.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [1b3f75e9b0509f14397af5f31ff00a2e] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Utilities/JsonSerializer.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Utilities/JsonSerializer.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [60b3c0efecf37b347babe241b082363a] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ModTemplate/ModScripts/Utilities/Reflections.cs' conflicts with:
+  'Assets/Editor/ModTemplate/ModScripts/Utilities/Reflections.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [bed87b4690216c3439dc34014b5235c4] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects' conflicts with:
+  'Assets/Editor/ScriptableObjects' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ebae7f7c9bfaaf045b07408ac998ce85] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/CreateScriptableObjects.cs' conflicts with:
+  'Assets/Editor/ScriptableObjects/CreateScriptableObjects.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [d58e61703542ec54b9af235ffcca0ae0] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/Editor' conflicts with:
+  'Assets/Editor/ScriptableObjects/Editor' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ff8a88517628c384c9e6f9a1b8bb2c59] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/Editor/ModInfoEditor.cs' conflicts with:
+  'Assets/Editor/ScriptableObjects/Editor/ModInfoEditor.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [8d8bb925f9c380d47ae1fcc3116a8791] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/ModInfo.cs' conflicts with:
+  'Assets/Editor/ScriptableObjects/ModInfo.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [b4cb21aefbad0d4499aa99cff3fb0e42] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/ModToolsConfig.cs' conflicts with:
+  'Assets/Editor/ScriptableObjects/ModToolsConfig.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [02d8039a567f445478d4ea7ff8b9d132] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ScriptableObjects/Setting.cs' conflicts with:
+  'Assets/Editor/ScriptableObjects/Setting.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [65e5b4b9abb4f44409199fba91907ca4] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty' conflicts with:
+  'Assets/Editor/ThirdParty' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [65d59956b5a6d764caf07ea25ea3b87d] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ec2c258546c8ccd4b950bfe2dbcc5e70] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [5ee22de408692c645ba2e78ab6273786] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [c3951adb469713e42baa3e8f770cb8e7] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [67e47fbb6263af745a136cf14a8db4dd] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.Analyzers.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f945fe3e46ea9c64d8e9410b7d3958a6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Analyzers.3.11.0/analyzers/dotnet/cs/Microsoft.CodeAnalysis.CSharp.Analyzers.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [46f172b7e0e783e4f9a5a277dcb8e955] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f57904b48e561e44bb2501a0a7e4788e] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [110a10d486166c24da03d0b691a54a90] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [bca11330d124a5a4eaf27d0b6acc2401] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib/netstandard2.0/Microsoft.CodeAnalysis.dll' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.Common.4.14.0/lib/netstandard2.0/Microsoft.CodeAnalysis.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [c4fccc82e20d99549b0ea2a54f9f7df8] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [30aca3b95c67ce947b304d5a440be727] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [0ed7f8dc1b74e78488fef5dabf546d79] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [43f935c1308c69042891eceb0d58bdc1] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib/netstandard2.0/Microsoft.CodeAnalysis.CSharp.dll' conflicts with:
+  'Assets/Editor/ThirdParty/Microsoft.CodeAnalysis.CSharp.4.14.0/lib/netstandard2.0/Microsoft.CodeAnalysis.CSharp.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [22027ee0da90b0b4f9f59f2bd3a88d9c] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/NewtonsoftJson' conflicts with:
+  'Assets/Editor/ThirdParty/NewtonsoftJson' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [c9e3bd6f5e423bc458e7b38d2748b944] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/NewtonsoftJson/Newtonsoft.Json.dll' conflicts with:
+  'Assets/Editor/ThirdParty/NewtonsoftJson/Newtonsoft.Json.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [9eea028a7c06df548af82d2494eacf18] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Collections.Immutable.9.0.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Collections.Immutable.9.0.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [ef44564aa53051b408fe3d8dedbb5dab] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [a23124e5f1375c54b983db2917db9858] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [06601a998f298654095c36d269e059d9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib/netstandard2.0/System.Collections.Immutable.dll' conflicts with:
+  'Assets/Editor/ThirdParty/System.Collections.Immutable.9.0.0/lib/netstandard2.0/System.Collections.Immutable.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [330546db910faf7439205c953fe9488a] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Reflection.Metadata.9.0.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Reflection.Metadata.9.0.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [20c8652cdd37f464aa569e33c35fe129] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [da24881af347a6f4e8c2d699bb58c0a9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [869648b0fa1b92e429aab4b2e3ba911e] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib/netstandard2.0/System.Reflection.Metadata.dll' conflicts with:
+  'Assets/Editor/ThirdParty/System.Reflection.Metadata.9.0.0/lib/netstandard2.0/System.Reflection.Metadata.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [88342ebf6c735d445b485866c8545bf9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [5b21247f4d5372a429ad419a84009554] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [9a8bc650b8f22f0469aac825cb8594d6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f82bda9d301899b4fb5fe3c054ee9cc9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll' conflicts with:
+  'Assets/Editor/ThirdParty/System.Runtime.CompilerServices.Unsafe.6.0.0/lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2f5fc521e9ddfd54991c6931f6f89780] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [04ee2c4b8bdebcf4ab9a61b20149428a] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib' conflicts with:
+  'Assets/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [0593b654ee88c70468310a35dea321a8] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib/netstandard2.0' conflicts with:
+  'Assets/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib/netstandard2.0' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [b5a0bdee60253c54ba8b82c1fa01aedc] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib/netstandard2.0/System.Text.Encoding.CodePages.dll' conflicts with:
+  'Assets/Editor/ThirdParty/System.Text.Encoding.CodePages.7.0.0/lib/netstandard2.0/System.Text.Encoding.CodePages.dll' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [449f035d77c9bb24ab47894651cf3d0a] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [38155ba8f2769ee43827efbb411bc6f6] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/LICENSE.txt' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender/LICENSE.txt' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [7729d108461f5974fb1c81e57f19e223] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/README.md' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender/README.md' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [c5aad578a026ba1428708419f0e3b0df] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/ToolbarCallback.cs' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender/ToolbarCallback.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [98dc2ee9817d16c4e8c71d552b4c7c76] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.cs' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [b7b08dde94fdc6741badac510012f9e9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.Editor.asmdef' conflicts with:
+  'Assets/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.Editor.asmdef' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [1b8cb0d62323a54429a4e2b304b307ff] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Toolbar' conflicts with:
+  'Assets/Editor/Toolbar' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [06a2a102280ae774fbb2f8a431fed0e9] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Toolbar/RunADOFAIToolBar.cs' conflicts with:
+  'Assets/Editor/Toolbar/RunADOFAIToolBar.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [63ee7970cf77a8c47a311377b0bfb61f] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Utilities' conflicts with:
+  'Assets/Editor/Utilities' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [3b86c13f64669324ea2e0772d72cb646] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Utilities/IdentifierUtils.cs' conflicts with:
+  'Assets/Editor/Utilities/IdentifierUtils.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f927bbcb2834d314c809e1702e095205] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Utilities/ProjectUtilities.cs' conflicts with:
+  'Assets/Editor/Utilities/ProjectUtilities.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [9fe79eb362d90944a82ddcbf583d5642] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Utilities/ProjectWindowPathHelper.cs' conflicts with:
+  'Assets/Editor/Utilities/ProjectWindowPathHelper.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [d313b5981d1d07441b2ec11c099b0c0f] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Windows' conflicts with:
+  'Assets/Editor/Windows' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2bf7c8b68fc4dca4a9db36ad93ffa5e5] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Windows/CreateModPrompt.cs' conflicts with:
+  'Assets/Editor/Windows/CreateModPrompt.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6107e3a4f3337b343b838fb88f8d14b4] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Windows/ModsConfigWindow.cs' conflicts with:
+  'Assets/Editor/Windows/ModsConfigWindow.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [69b8dd49e3d0f0343ad8026fd84fe484] for asset 'Packages/com.jofo.adofaimoddinghelper/Editor/Windows/SettingsWindow.cs' conflicts with:
+  'Assets/Editor/Windows/SettingsWindow.cs' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [41a4a8d4c06da9b4dbee636d86daf81b] for asset 'Packages/com.jofo.adofaimoddinghelper/Graphics' conflicts with:
+  'Assets/Graphics' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [878c002e4492c264c8cbdbdce98f6117] for asset 'Packages/com.jofo.adofaimoddinghelper/Graphics/Images' conflicts with:
+  'Assets/Graphics/Images' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [3c2edb958e1082c449580cf542f5d633] for asset 'Packages/com.jofo.adofaimoddinghelper/Graphics/Images/DropdownArrow.png' conflicts with:
+  'Assets/Graphics/Images/DropdownArrow.png' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [b4ad14866eddebe42b423acdc53315ae] for asset 'Packages/com.jofo.adofaimoddinghelper/package.json' conflicts with:
+  'Assets/package.json' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [b1542e433676bae47b8a71df3f168ee6] for asset 'Packages/com.jofo.adofaimoddinghelper/Scenes' conflicts with:
+  'Assets/Scenes' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2fe06fd8794e94c4fa01cd456d2d5fc7] for asset 'Packages/com.jofo.adofaimoddinghelper/Scenes/TemplateScene.unity' conflicts with:
+  'Assets/Scenes/TemplateScene.unity' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [e44fc548c2bf8c044975782f00c51316] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML' conflicts with:
+  'Assets/UXML' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [9e0537614a344194da0220859e89254b] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/CreateModPrompt' conflicts with:
+  'Assets/UXML/CreateModPrompt' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [0655706c64b4ba7478f2cf0b953eb37d] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/CreateModPrompt/CreateModPrompt.uss' conflicts with:
+  'Assets/UXML/CreateModPrompt/CreateModPrompt.uss' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [0220c231d01853e4f814e47137885900] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/CreateModPrompt/CreateModPrompt.uxml' conflicts with:
+  'Assets/UXML/CreateModPrompt/CreateModPrompt.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [92b053f7d8d8e334997657a87d4f648c] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig' conflicts with:
+  'Assets/UXML/ModsConfig' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [fa4ea2e5d1ba5874a91987dde1035853] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/Main' conflicts with:
+  'Assets/UXML/ModsConfig/Main' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [095b1ad0b78de9142bd69e58f16f351d] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/Main/ListElement.uss' conflicts with:
+  'Assets/UXML/ModsConfig/Main/ListElement.uss' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [66178056d2d99c748aa66a34cc804d55] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/Main/ListElement.uxml' conflicts with:
+  'Assets/UXML/ModsConfig/Main/ListElement.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [7ded2b681aa49934ca62dea3c081f86d] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/Main/ModsConfig.uxml' conflicts with:
+  'Assets/UXML/ModsConfig/Main/ModsConfig.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [e782a25671f556d449511a5a959ac467] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/ModsPanel' conflicts with:
+  'Assets/UXML/ModsConfig/ModsPanel' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [1ab411046104e9f42abcbeecdb3a68a3] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/ModsPanel/ModsPanel.uss' conflicts with:
+  'Assets/UXML/ModsConfig/ModsPanel/ModsPanel.uss' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6a2def116e06a00458a96e5d4ebfb94f] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/ModsPanel/ModsPanel.uxml' conflicts with:
+  'Assets/UXML/ModsConfig/ModsPanel/ModsPanel.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [0c8fb458295ced04880bde619ec8e42a] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/ModsConfig/ModsPanel/PropagatedButtons.uxml' conflicts with:
+  'Assets/UXML/ModsConfig/ModsPanel/PropagatedButtons.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [7a0eb0dd527bf254ea0237d075fbdeb0] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels' conflicts with:
+  'Assets/UXML/SettingPanels' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [8567976a7e6d519458fde5fbcc50d8bd] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels/Main' conflicts with:
+  'Assets/UXML/SettingPanels/Main' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [f4eda2d6c280487479f6bf138eade2a7] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels/Main/SettingsWindow.uxml' conflicts with:
+  'Assets/UXML/SettingPanels/Main/SettingsWindow.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [2b064de0f793e104188fb7f6eebb2efd] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels/SettingsPanel' conflicts with:
+  'Assets/UXML/SettingPanels/SettingsPanel' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [6e231eb9ff468f04fb918beac46a8603] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels/SettingsPanel/SettingsPanel.uss' conflicts with:
+  'Assets/UXML/SettingPanels/SettingsPanel/SettingsPanel.uss' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Warning] GUID [a9c019e8d70f4d948b82ef565fc0088d] for asset 'Packages/com.jofo.adofaimoddinghelper/UXML/SettingPanels/SettingsPanel/SettingsPanel.uxml' conflicts with:
+  'Assets/UXML/SettingPanels/SettingsPanel/SettingsPanel.uxml' (current owner)
+Assigning a new guid.
+
+2026-04-30 21:22:43 [Error] Assembly with name 'ToolbarExtender.Editor' already exists (Packages/com.jofo.adofaimoddinghelper/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.Editor.asmdef)
+2026-04-30 21:22:43 [Error] Assembly with name 'ToolbarExtender.Editor' already exists (Assets/Editor/ThirdParty/UnityToolbarExtender/ToolbarExtender.Editor.asmdef)
+2026-04-30 21:22:43 [Error] Assembly with name 'ADOFAIModdingHelper' already exists (Assets/Editor/ADOFAIModdingHelper.asmdef)
+2026-04-30 21:22:43 [Error] Assembly with name 'ADOFAIModdingHelper' already exists (Packages/com.jofo.adofaimoddinghelper/Editor/ADOFAIModdingHelper.asmdef)
+2026-04-30 21:22:44 [Warning] Import Error Code:(4)
+Message: Build asset version error: packages/com.jofo.adofaimoddinghelper/scenes.meta in SourceAssetDB has modification time of '2026-04-30T19:22:42.7816213Z' while content on disk has modification time of '2026-04-30T19:22:43.8617255Z'
+
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:38 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:38 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:47 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:15:47 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:16:05 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:16:05 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 22:16:55 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(67,37): error CS0019: Operator '??' cannot be applied to operands of type 'ModInfo' and 'string'
+2026-04-30 22:35:54 [Exception] ArgumentNullException: Value cannot be null.
+Parameter name: path3
+2026-04-30 22:40:25 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(607,55): error CS0104: 'Object' is an ambiguous reference between 'UnityEngine.Object' and 'object'
+2026-04-30 22:40:49 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(607,55): error CS0104: 'Object' is an ambiguous reference between 'UnityEngine.Object' and 'object'
+2026-04-30 22:41:07 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(604,55): error CS0104: 'Object' is an ambiguous reference between 'UnityEngine.Object' and 'object'
+2026-04-30 22:41:37 [Exception] ArgumentException: Path cannot be the empty string or all whitespace.
+Parameter name: path
+2026-04-30 22:43:11 [Exception] ArgumentException: Path cannot be the empty string or all whitespace.
+Parameter name: path
+2026-04-30 22:44:10 [Exception] ArgumentException: Path cannot be the empty string or all whitespace.
+Parameter name: path
+2026-04-30 22:50:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(196,13): error CS7036: There is no argument given that corresponds to the required formal parameter 'panel' of 'ModsConfigWindow.SetupModInfo(ModsConfigWindow, VisualElement)'
+2026-04-30 22:50:22 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(196,26): error CS1503: Argument 1: cannot convert from 'ADOFAIModdingHelper.ScriptableObjects.ModToolsConfig' to 'ADOFAIModdingHelper.Windows.ModsConfigWindow'
+2026-04-30 22:50:44 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(196,26): error CS1503: Argument 1: cannot convert from 'ADOFAIModdingHelper.ScriptableObjects.ModToolsConfig' to 'ADOFAIModdingHelper.Windows.ModsConfigWindow'
+2026-04-30 22:50:44 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(215,24): error CS1061: 'ModsConfigWindow' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModsConfigWindow' could be found (are you missing a using directive or an assembly reference?)
+2026-04-30 22:51:01 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(215,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'mod' and no accessible extension method 'mod' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-04-30 22:57:04 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-04-30 23:13:02 [Exception] ArgumentException: Object at index 0 is null
+2026-04-30 23:14:54 [Exception] ArgumentException: Object at index 0 is null
+2026-04-30 23:15:43 [Exception] ArgumentException: Object at index 0 is null
+2026-04-30 23:18:50 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(195,45): error CS1061: 'ModToolsConfig' does not contain a definition for 'FindProperty' and no accessible extension method 'FindProperty' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-04-30 23:28:49 [Exception] NotSupportedException: An element can track properties on only one serializedObject at a time
+2026-05-01 00:54:36 [Error] Assets\Editor\Windows\SettingsWindow.cs(103,25): error CS0103: The name 'SettingsPanel' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:56:57 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(93,34): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(104,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(111,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(144,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(155,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:56:57 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(18,21): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(18,37): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(19,17): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(20,21): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(20,37): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(22,17): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(25,43): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(26,24): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:35 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(18,21): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(18,37): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(19,17): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(20,21): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(20,37): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(22,17): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(25,43): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(26,24): error CS0103: The name '_config' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:57:47 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(23,25): error CS0029: Cannot implicitly convert type 'ADOFAIModdingHelper.ScriptableObjects.ModToolsConfig' to 'ADOFAIModdingHelper.ScriptableObjects.ModInfo'
+2026-05-01 00:58:29 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:29 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:29 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:29 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,36): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(37,52): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(38,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(45,111): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(55,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:45 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(23,25): error CS0029: Cannot implicitly convert type 'ADOFAIModdingHelper.ScriptableObjects.ModToolsConfig' to 'ADOFAIModdingHelper.ScriptableObjects.ModInfo'
+2026-05-01 00:58:45 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:45 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:58:45 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\ScriptableObjects\ModInfo.cs(23,25): error CS0029: Cannot implicitly convert type 'ADOFAIModdingHelper.ScriptableObjects.ModToolsConfig' to 'ADOFAIModdingHelper.ScriptableObjects.ModInfo'
+2026-05-01 00:59:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,48): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(36,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(43,107): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:11 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:11 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:11 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:11 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(35,48): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(36,87): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(43,107): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,40): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:18 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:18 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:18 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 00:59:18 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,45): error CS8641: 'else' cannot start a statement.
+2026-05-01 01:00:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,45): error CS1003: Syntax error, '(' expected
+2026-05-01 01:00:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,45): error CS1525: Invalid expression term 'else'
+2026-05-01 01:00:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,45): error CS1026: ) expected
+2026-05-01 01:00:11 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(52,45): error CS1002: ; expected
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:31 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(110,46): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:31 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:31 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:31 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(143,84): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:55 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:00:55 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:01:03 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(154,58): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:03 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:06 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\ScriptableObjects\ModToolsConfig.cs(103,94): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:20 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:01:32 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:04 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Core\ModBuilder.cs(45,41): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:13 [Error] Assets\Editor\Core\ModBuilder.cs(211,34): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:02:13 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Core\ModBuilder.cs(211,34): error CS0103: The name 'modInfo' does not exist in the current context
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:16 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:02:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\ScriptableObjects\CreateScriptableObjects.cs(16,13): error CS0103: The name 'CreateShitsAction' does not exist in the current context
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:24 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(174,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(176,55): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(199,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(287,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(289,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(291,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(353,32): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(486,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:03:36 [Error] Assets\Editor\Windows\ModsConfigWindow.cs(810,24): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:04:03 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(58,29): error CS0103: The name 'ModsConfigWindow' does not exist in the current context
+2026-05-01 01:04:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(179,39): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:04:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(181,50): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:06:30 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(58,29): error CS0103: The name 'ModsConfigWindow' does not exist in the current context
+2026-05-01 01:06:30 [Error] Assets\Editor\Windows\SettingsWindow.cs(179,39): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:06:30 [Error] Assets\Editor\Windows\SettingsWindow.cs(181,50): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:06:46 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(58,29): error CS0103: The name 'ModsConfigWindow' does not exist in the current context
+2026-05-01 01:06:46 [Error] Assets\Editor\Windows\SettingsWindow.cs(179,39): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:06:46 [Error] Assets\Editor\Windows\SettingsWindow.cs(181,50): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:06:58 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(58,29): error CS0103: The name 'ModsConfigWindow' does not exist in the current context
+2026-05-01 01:07:22 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:08:14 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:13:13 [Error] Assets\Editor\Windows\SettingsWindow.cs(179,39): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:13:13 [Error] Assets\Editor\Windows\SettingsWindow.cs(181,50): error CS0246: The type or namespace name 'ModsConfigWindow' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:25:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(217,13): error CS0103: The name '_buildDirectoryWatcher' does not exist in the current context
+2026-05-01 01:25:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(217,53): error CS0103: The name '_buildDirectoryWatcher' does not exist in the current context
+2026-05-01 01:25:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(218,13): error CS0103: The name '_buildDirectoryWatcher' does not exist in the current context
+2026-05-01 01:25:03 [Error] Assets\Editor\Windows\SettingsWindow.cs(238,90): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:25:26 [Error] Assets\Editor\Windows\SettingsWindow.cs(243,90): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:25:44 [Error] Assets\Editor\Windows\SettingsWindow.cs(51,51): error CS0117: 'SettingsWindow.Names' does not contain a definition for 'NavModInfo'
+2026-05-01 01:25:44 [Error] Assets\Editor\Windows\SettingsWindow.cs(253,90): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:25:44 [Warning] Assets\Editor\Windows\SettingsWindow.cs(52,29): warning CS0414: The field 'SettingsWindow._showModInfo' is assigned but its value is never used
+2026-05-01 01:25:44 [Warning] Assets\Editor\Windows\SettingsWindow.cs(53,29): warning CS0414: The field 'SettingsWindow._showGithubConfig' is assigned but its value is never used
+2026-05-01 01:25:48 [Error] Assets\Editor\Windows\SettingsWindow.cs(253,90): error CS1061: 'ModToolsConfig' does not contain a definition for 'modInfo' and no accessible extension method 'modInfo' accepting a first argument of type 'ModToolsConfig' could be found (are you missing a using directive or an assembly reference?)
+2026-05-01 01:25:48 [Warning] Assets\Editor\Windows\SettingsWindow.cs(52,29): warning CS0414: The field 'SettingsWindow._showModInfo' is assigned but its value is never used
+2026-05-01 01:25:48 [Warning] Assets\Editor\Windows\SettingsWindow.cs(53,29): warning CS0414: The field 'SettingsWindow._showGithubConfig' is assigned but its value is never used
+2026-05-01 01:26:11 [Warning] Assets\Editor\Windows\SettingsWindow.cs(52,29): warning CS0414: The field 'SettingsWindow._showModInfo' is assigned but its value is never used
+2026-05-01 01:26:11 [Warning] Assets\Editor\Windows\SettingsWindow.cs(53,29): warning CS0414: The field 'SettingsWindow._showGithubConfig' is assigned but its value is never used
+2026-05-01 01:43:34 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:43:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:43:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:43:35 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 01:44:25 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 14:33:34 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 14:58:32 [Error] Assets\Editor\Windows\SettingsWindow.cs(182,13): error CS0103: The name 'panel' does not exist in the current context
+2026-05-01 14:58:32 [Error] Assets\Editor\Windows\SettingsWindow.cs(183,13): error CS0103: The name 'panel' does not exist in the current context
+2026-05-01 14:58:32 [Error] Assets\Editor\Windows\SettingsWindow.cs(185,29): error CS0103: The name 'panel' does not exist in the current context
+2026-05-01 14:58:32 [Error] Assets\Editor\Windows\SettingsWindow.cs(186,29): error CS0103: The name 'panel' does not exist in the current context
+2026-05-01 14:58:32 [Error] Assets\Editor\Windows\SettingsWindow.cs(254,13): error CS0103: The name '_currentModPanel' does not exist in the current context
+2026-05-01 16:21:10 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:21:53 [Log] True
+2026-05-01 16:21:53 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:22:03 [Log] True
+2026-05-01 16:22:03 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:23:38 [Log] True
+2026-05-01 16:23:38 [Log] System.Collections.Generic.List`1[System.String]
+2026-05-01 16:23:38 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:23:57 [Log] True
+2026-05-01 16:23:57 [Log] 5
+2026-05-01 16:23:57 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:26:08 [Log] True
+2026-05-01 16:26:08 [Log] 5
+2026-05-01 16:26:08 [Exception] NullReferenceException: Object reference not set to an instance of an object
+2026-05-01 16:26:47 [Exception] IndexOutOfRangeException: Index was outside the bounds of the array.
+2026-05-01 16:27:22 [Exception] IndexOutOfRangeException: Index was outside the bounds of the array.
+2026-05-01 16:28:07 [Log] False
+2026-05-01 16:28:07 [Log] 3
+2026-05-01 16:28:23 [Exception] IndexOutOfRangeException: Index was outside the bounds of the array.
+2026-05-01 16:30:35 [Exception] IndexOutOfRangeException: Index was outside the bounds of the array.
+2026-05-01 16:30:49 [Exception] IndexOutOfRangeException: Index was outside the bounds of the array.
+2026-05-01 16:31:24 [Exception] ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+2026-05-01 16:31:58 [Exception] ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+2026-05-01 16:38:35 [Exception] NotSupportedException: An element can track properties on only one serializedObject at a time
+2026-05-01 18:28:25 [Warning] A meta data file (.meta) exists but its asset 'Assets/Images/BepInExModInfo.png' can't be found. When moving or deleting files outside of Unity, please ensure that the corresponding .meta file is moved or deleted along with it.
+2026-05-16 02:46:01 [Log] 1
+2026-05-16 02:46:03 [Log] 1
+2026-05-16 02:47:31 [Log] 1
+2026-05-16 02:47:32 [Log] 1
+2026-05-16 02:47:43 [Log] 1
+2026-05-16 02:47:44 [Log] 1
+2026-05-16 02:47:50 [Log] 1
+2026-05-16 02:48:57 [Log] 1
+2026-05-16 02:48:57 [Log] Hello1
+2026-05-16 02:48:57 [Log] 1
+2026-05-16 02:48:57 [Log] Hello111
+2026-05-16 02:48:57 [Log] Hello1
+2026-05-16 02:48:57 [Log] 2
+2026-05-16 02:49:00 [Log] 1
+2026-05-16 02:49:00 [Log] Hello1
+2026-05-16 02:49:00 [Log] 1
+2026-05-16 02:49:00 [Log] Hello111
+2026-05-16 02:49:00 [Log] Hello1
+2026-05-16 02:49:00 [Log] 2
+2026-05-16 02:52:00 [Log] 1
+2026-05-16 02:52:00 [Log] Hello1
+2026-05-16 02:52:00 [Log] 1
+2026-05-16 02:52:00 [Log] Hello111
+2026-05-16 02:52:00 [Log] Hello1
+2026-05-16 02:52:00 [Log] 2
+2026-05-16 02:52:39 [Log] 1
+2026-05-16 02:52:39 [Log] Hello1
+2026-05-16 02:52:39 [Log] 1
+2026-05-16 02:52:39 [Log] Hello111
+2026-05-16 02:52:39 [Log] Hello1
+2026-05-16 02:52:39 [Log] 2
+2026-05-16 02:52:40 [Log] 1
+2026-05-16 02:52:40 [Log] Hello1
+2026-05-16 02:52:40 [Log] 1
+2026-05-16 02:52:40 [Log] Hello111
+2026-05-16 02:52:40 [Log] Hello1
+2026-05-16 02:52:40 [Log] 2
+2026-05-16 02:53:31 [Log] 1
+2026-05-16 02:53:31 [Log] Hello1
+2026-05-16 02:53:31 [Log] 1
+2026-05-16 02:53:31 [Log] Hello111
+2026-05-16 02:53:31 [Log] Hello1
+2026-05-16 02:53:31 [Log] 2
+2026-05-16 16:55:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,28): error CS0246: The type or namespace name 'EditorToolbarElement' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 16:55:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 16:55:35 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 16:57:10 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,28): error CS0246: The type or namespace name 'EditorToolbarElement' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 16:57:10 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 16:57:10 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 16:58:19 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 16:58:19 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(33,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:00 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:00:00 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:17 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(66,26): error CS1525: Invalid expression term '}'
+2026-05-16 17:00:19 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:00:19 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:33 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(60,30): error CS1525: Invalid expression term '}'
+2026-05-16 17:00:40 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:00:40 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:00:47 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:51 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,61): error CS0246: The type or namespace name 'defaultDockPosition' could not be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:00:51 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,83): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:00:57 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,81): error CS0103: The name 'DisplayPosition' does not exist in the current context
+2026-05-16 17:01:10 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(34,81): error CS0176: Member 'MainToolbarDockPosition.Left' cannot be accessed with an instance reference; qualify it with a type name instead
+2026-05-16 17:01:14 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(42,30): error CS1729: 'MainToolbarLabel' does not contain a constructor that takes 2 arguments
+2026-05-16 17:01:14 [Warning] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(30,21): warning CS0414: The field 'RunADOFAIToolbar.s_DisplayAsButtons' is assigned but its value is never used
+2026-05-16 17:01:29 [Warning] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(30,21): warning CS0414: The field 'RunADOFAIToolbar.s_DisplayAsButtons' is assigned but its value is never used
+2026-05-16 17:09:24 [Warning] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(30,21): warning CS0414: The field 'RunADOFAIToolbar.s_DisplayAsButtons' is assigned but its value is never used
+2026-05-16 17:25:58 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(25,13): error CS0103: The name 'ToolbarStyler' does not exist in the current context
+2026-05-16 17:26:11 [Error] Assets\Editor\Toolbar\Test.cs(53,35): error CS1061: 'IStyle' does not contain a definition for 'fontWeight' and no accessible extension method 'fontWeight' accepting a first argument of type 'IStyle' could be found (are you missing a using directive or an assembly reference?)
+2026-05-16 17:26:11 [Error] Assets\Editor\Toolbar\Test.cs(53,48): error CS0103: The name 'FontWeight' does not exist in the current context
+2026-05-16 17:28:06 [Error] Assets\Editor\Toolbar\RunADOFAIToolBar.cs(25,13): error CS0103: The name 'ToolbarStyler' does not exist in the current context
