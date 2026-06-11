@@ -15,8 +15,8 @@
         "0Harmony.dll",
         "DOTween.dll",
         "DOTweenPro.dll",
-        "RDTools.dll",
-        "UnityModManager.dll"
+        "UnityModManager.dll",
+        "RDTools.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

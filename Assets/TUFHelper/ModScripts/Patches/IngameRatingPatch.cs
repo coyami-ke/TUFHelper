@@ -19,6 +19,7 @@ namespace TUFHelper
 
         private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
+            return; // disabled
             if (FrontPageScript.instance.IsRatingPageActive)
             {
                 const string assetPath = "assets/tufhelper/assets/prefabs/IngameRatingPrefab.prefab";

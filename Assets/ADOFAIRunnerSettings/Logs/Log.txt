@@ -1,0 +1,711 @@
+2026-03-16 12:00:32 [Log] Log file cleared: Assets/ADOFAIRunnerSettings/Logs\Log.txt
+2026-03-16 12:00:32 [Log] Executing pipeline: Pipeline...
+2026-03-16 12:00:45 [Log] Pipeline execution finished.
+2026-03-16 12:00:45 [Log] Deploying assemblies to: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire and Ice/Mods\TUFHelper
+2026-03-16 12:00:45 [Log] Copied assembly: TUFHelper.dll
+2026-03-16 12:00:45 [Log] Copied PDB file: TUFHelper.pdb
+2026-03-16 12:00:45 [Log] Deploying asset bundles to: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire and Ice/Mods\TUFHelper\assets
+2026-03-16 12:00:45 [Log] Copied asset bundle: tuf_assets.bundle
+2026-03-16 12:00:45 [Log] Copied asset bundle: tuf_assets.bundle.manifest
+2026-03-16 12:00:45 [Log] Copied asset bundle: tuf_scenes.bundle
+2026-03-16 12:00:45 [Log] Copied asset bundle: tuf_scenes.bundle.manifest
+2026-03-16 12:00:45 [Log] Launching executable: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire and Ice/A Dance of Fire and Ice.exe
+2026-03-16 12:00:46 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageGroup.Versions
+0: ThunderKit.Core.Data::PackageSource.packages
+
+2026-03-16 12:00:46 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes.
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageVersion.dependencies
+0: ThunderKit.Core.Data::PackageGroup.Versions
+
+2026-03-16 12:00:48 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-03-16 12:00:48 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-03-16 12:00:48 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-03-16 12:00:48 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-03-16 12:01:25 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-03-16 12:01:25 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-03-16 12:01:25 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-03-16 12:01:25 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-03-18 16:35:29 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-03-18 16:35:29 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-03-18 16:35:29 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-03-18 16:35:29 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-03-18 17:00:42 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-03-18 17:00:42 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-03-18 17:00:42 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-03-18 17:00:42 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-06-02 20:07:34 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-06-02 20:07:34 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-06-02 20:07:34 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-06-02 20:07:34 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/USS/markdown.uss (line 20): warning: Unknown property '-unity-word-wrap' (did you mean '-unity-font'?)
+    -unity-word-wrap: true
+2026-06-02 20:07:51 [Error] Packages/com.passivepicasso.thunderkit/UXML/Addressables/AddressableBrowser.uss (line 1): error: Unsupported selector format: '# '
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/UXML/PipelineLogWindow/PipelineLogWindow.uss (line 35): warning: Unknown property '-unity-word-wrap' (did you mean '-unity-font'?)
+    -unity-word-wrap: true
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/UXML/PipelineLogWindow/PipelineLogWindow.uss (line 68): warning: Unknown property '-unity-word-wrap' (did you mean '-unity-font'?)
+    -unity-word-wrap: true
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/USS/documentation.uss (line 92): warning: Unknown property 'font-style' (did you mean '-unity-font-style'?)
+    font-style: bold
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/USS/documentation.uss (line 97): warning: Unknown property 'font-style' (did you mean '-unity-font-style'?)
+    font-style: bold-and-italic
+2026-06-02 20:07:51 [Warning] Packages/com.passivepicasso.thunderkit/USS/documentation.uss (line 101): warning: Unknown property 'font-style' (did you mean '-unity-font-style'?)
+    font-style: italic
+2026-06-02 20:07:52 [Warning]  (2,6): Semantic - The specified URI does not exist in the current project : Asset reference to GUID 'dc2538e113a5fa84c98b7ec554da0910' was moved from 'Assets/Plugins/Jofo's APIs/ADOFAIRunner/UXML/SettingPanels/BepInEx/ARSPBepInEx.uss' to 'Packages/com.jofo.adofairunner/UXML/SettingPanels/BepInEx/ARSPBepInEx.uss'. Update the URL 'project://database/Assets/Plugins/Jofo's%20APIs/ADOFAIRunner/UXML/SettingPanels/BepInEx/ARSPBepInEx.uss?fileID=7433441132597879392&guid=dc2538e113a5fa84c98b7ec554da0910&type=3#ARSPBepInEx' to remove this warning.
+2026-06-02 20:07:52 [Warning]  (2,6): Semantic - The specified URI does not exist in the current project : Asset reference to GUID '6cd3e6dc08ee03e4a8d7d6396a6c3af3' was moved from 'Assets/UXML/ADOFAIRunner/Core/ADOFAIRunnerSettingsWindow.uss' to 'Packages/com.jofo.adofairunner/UXML/Core/ADOFAIRunnerSettingsWindow.uss'. Update the URL 'project://database/Assets/UXML/ADOFAIRunner/Core/ADOFAIRunnerSettingsWindow.uss?fileID=7433441132597879392&guid=6cd3e6dc08ee03e4a8d7d6396a6c3af3&type=3#ADOFAIRunnerSettingsWindow' to remove this warning.
+2026-06-02 20:07:52 [Warning]  (2,6): Semantic - The specified URI does not exist in the current project : Asset reference to GUID '3c9897fd032b753469704f483856cdbf' was moved from 'Assets/UXML/ADOFAIRunner/SettingPanels/ARSPUMM.uss' to 'Packages/com.jofo.adofairunner/UXML/SettingPanels/UnityModManager/ARSPUMM.uss'. Update the URL 'project://database/Assets/UXML/ADOFAIRunner/SettingPanels/ARSPUMM.uss?fileID=7433441132597879392&guid=3c9897fd032b753469704f483856cdbf&type=3#ARSPUMM' to remove this warning.
+2026-06-02 20:07:52 [Warning]  (2,6): Semantic - The specified URI does not exist in the current project : Asset reference to GUID '1899b5c1af8d6cb4fb677fcdc12eff76' was moved from 'Assets/Plugins/Jofo's APIs/ADOFAIRunner/UXML/SettingPanels/General/ARSPGeneral.uss' to 'Packages/com.jofo.adofairunner/UXML/SettingPanels/General/ARSPGeneral.uss'. Update the URL 'project://database/Assets/Plugins/Jofo's%20APIs/ADOFAIRunner/UXML/SettingPanels/General/ARSPGeneral.uss?fileID=7433441132597879392&guid=1899b5c1af8d6cb4fb677fcdc12eff76&type=3#ARSPGeneral' to remove this warning.
+2026-06-02 20:07:57 [Warning] This project uses Input Manager, which is marked for deprecation. To manage input in your project, use the <a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@latest">Input System package</a> instead.
+2026-06-02 20:08:00 [Warning] We have detected that your project includes custom elements added to the Unity Editor's main toolbar using unsupported methods. This approach is not supported and will lead to issues in future versions. Refer to the official <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Toolbars.MainToolbar.html">API documentation</a> for adding custom elements to the main toolbar.
+
+Your custom toolbar elements can be unhidden via the context menu (right-click the main toolbar -> <i>Unsupported User Elements</i>).
+2026-06-02 20:08:00 [Warning] We have detected that your project includes custom elements added to the Unity Editor's main toolbar using unsupported methods. This approach is not supported and will lead to issues in future versions. Refer to the official <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Toolbars.MainToolbar.html">API documentation</a> for adding custom elements to the main toolbar.
+
+Your custom toolbar elements can be unhidden via the context menu (right-click the main toolbar -> <i>Unsupported User Elements</i>).
+2026-06-02 20:08:10 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-06-02 20:08:10 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-06-02 20:08:10 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-06-02 20:08:10 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-06-02 20:08:11 [Warning] Import Error Code:(4)
+Message: Build asset version error: assets/adofairunnersettings/logs/log.txt in SourceAssetDB has modification time of '2026-06-02T15:08:00.3098912Z' while content on disk has modification time of '2026-06-02T15:08:10.320963Z'
+
+2026-06-02 20:08:11 [Warning] [Worker0] Import Error Code:(4)
+Message: Build asset version error: assets/adofairunnersettings/logs/log.txt in SourceAssetDB has modification time of '2026-06-02T15:08:00.3098912Z' while content on disk has modification time of '2026-06-02T15:08:10.320963Z'
+
+2026-06-02 20:08:29 [Error] Unable to update following assemblies:Packages/adanceoffireandice/Assembly-CSharp.dll (Name = Assembly-CSharp, Error = 131) (Output: C:\Users\User\AppData\Local\Temp\tmp7236d232.tmp)
+
+[AssemblyUpdater] Failed to resolve assembly UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. SearchPaths: C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\ref\2.1.0, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netstandard, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\AssetsTools.NET, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\Markdig, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpCompress, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpZipLib, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collab-proxy@e566cd3e7623\Lib\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ide.rider@4504839d03f7\Rider\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\EditorAssetResources, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\DotNetZip, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\YamlDotNet, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Runtime\VisualScripting.Flow\Dependencies\NCalc, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINx64, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\ARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\x64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.LowLevel.ILSupport, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.IO.Hashing, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9\Unity.Burst.CodeGen, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Managed\UnityEngine, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins.
+[AssemblyUpdater] Failed to resolve assembly UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. SearchPaths: C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\ref\2.1.0, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netstandard, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\AssetsTools.NET, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\Markdig, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpCompress, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpZipLib, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collab-proxy@e566cd3e7623\Lib\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ide.rider@4504839d03f7\Rider\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\EditorAssetResources, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\DotNetZip, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\YamlDotNet, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Runtime\VisualScripting.Flow\Dependencies\NCalc, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINx64, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\ARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\x64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.LowLevel.ILSupport, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.IO.Hashing, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9\Unity.Burst.CodeGen, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Managed\UnityEngine, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins. Exception: Mono.Cecil.AssemblyResolutionException: Failed to resolve assembly: 'UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+   at Mono.Cecil.BaseAssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at APIUpdater.Framework.Core.AssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Mono.Cecil.AssemblyResolutionException: Failed to resolve assembly: 'UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+   at Mono.Cecil.BaseAssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at APIUpdater.Framework.Core.AssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at Mono.Cecil.DefaultAssemblyResolver.Resolve(AssemblyNameReference name)
+   at Mono.Cecil.MetadataResolver.Resolve(TypeReference type)
+   at Mono.Cecil.TypeReference.Resolve()
+   at APIUpdater.Framework.Util.CecilExtensions.GenericParametersFor(TypeReference type)
+   at APIUpdater.Framework.Util.CecilExtensions.GenericArgumentsFor(TypeReference type)
+   at APIUpdater.Framework.Util.CecilExtensions.AsReferenceSpec(TypeReference self)
+   at AssemblyUpdater.Steps.MoveToNamespace.Visit(TypeReference typeReference, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(GenericInstanceType genericInstanceType, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodReference methodReference, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodBody methodBody, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodDefinition methodDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(TypeDefinition typeDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(ModuleDefinition moduleDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(AssemblyDefinition assemblyDefinition, Context context)
+   at AssemblyUpdater.Steps.AssemblyUpdaterStepBase.Visit(AssemblyDefinition assemblyDefinition, Context context)
+   --- End of inner exception stack trace ---
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Span`1& arguments, Signature sig, Boolean constructor, Boolean wrapExceptions)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at Unity.Cecil.Visitor.Visitor.Visit[T](T node, Context context)
+   at Unity.Cecil.Visitor.Extensions.DoAccept[T](T definition, Visitor visitor)
+   at Unity.Cecil.Visitor.Extensions.Accept(AssemblyDefinition assemblyDefinition, Visitor visitor)
+   at AssemblyUpdater.Steps.AssemblyUpdaterStepBase.Apply(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Core.AssemblyUpdaterPipeline.RunUpdateRound(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Core.AssemblyUpdaterPipeline.Run(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Application.Program.UpdateAssembly(UpdateOptions config, AssemblyUpdaterContext context)
+   at AssemblyUpdater.Application.Program.<>c__DisplayClass0_0.<Main>b__1(UpdateOptions o)
+   at CommandLine.ParserResultExtensions.WithParsed[T](ParserResult`1 result, Action`1 action)
+   at AssemblyUpdater.Application.Program.Main(String[] args)
+Following assemblies were successfully updated but due to the failed ones above they were ignored (not copied to the destination folder):Packages/adanceoffireandice/plugins/AdofaiTweaks.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1a0554b5.tmp)
+
+Packages/adanceoffireandice/XTUtilities.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp47bcfb3f.tmp)
+
+Packages/adanceoffireandice/UnityModManager.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmpa63ea31.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.Codeless.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1893ae6b.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.Stores.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp6d5df6e5.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.WinRTStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp26540497.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.AppleStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp27a93afb.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.AppleMacosStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp31eb7504.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Registration.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp323ae2b1.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Scheduler.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1df84fe9.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Networking.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmpb96a7eb.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Device.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4629b960.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Configuration.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp30afcc19.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Internal.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4da6b9ca.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp29a0c048.tmp)
+
+Packages/adanceoffireandice/Unity.MemoryProfiler.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1a078ef2.tmp)
+
+Packages/adanceoffireandice/Rewired_Windows_Functions.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp6268a633.tmp)
+
+Packages/adanceoffireandice/DemiLib.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp26252481.tmp)
+
+Packages/adanceoffireandice/Rewired_Windows.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp5aebf104.tmp)
+
+Packages/adanceoffireandice/Unity.Addressables.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp477eab19.tmp)
+
+Packages/adanceoffireandice/Rewired_Core.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp6e66f056.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.SecurityStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4e282824.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp69d45802.tmp)
+
+Packages/adanceoffireandice/RDTools.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp15f1328.tmp)
+
+Packages/adanceoffireandice/com.rlabrecque.steamworks.net.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp509e8ec8.tmp)
+
+Packages/adanceoffireandice/Unity.ResourceManager.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp535cceac.tmp)
+
+Packages/adanceoffireandice/SkyHook.Unity.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp78425c61.tmp)
+
+Packages/adanceoffireandice/Assembly-CSharp-firstpass.dll	(Result = 11) (Output: C:\Users\User\AppData\Local\Temp\tmp54912ba8.tmp)
+[AssemblyUpdater] Member 'System.Void UnityEngine.Rigidbody::set_velocity(UnityEngine.Vector3)' replaced with 'System.Void UnityEngine.Rigidbody::set_linearVelocity(UnityEngine.Vector3)' in method 'System.Void UnityEngine.UI.Extensions.CardPopup2D::Update()'.
+
+Packages/adanceoffireandice/DOTweenPro.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1cff18f7.tmp)
+
+Packages/adanceoffireandice/DOTween.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp17931582.tmp)
+
+
+2026-06-02 20:08:29 [Log] [TMP Essential Resources] have been imported.
+2026-06-02 20:08:42 [Warning] System.IO.FileNotFoundException: Could not find file 'C:\Disk D\TUFHelper-main\Library\ScriptAssemblies\Assembly-CSharp-firstpass.dll'.
+File name: 'C:\Disk D\TUFHelper-main\Library\ScriptAssemblies\Assembly-CSharp-firstpass.dll'
+  at System.IO.FileSystem.GetAttributes (System.String fullPath) [0x0001c] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at System.IO.File.GetAttributes (System.String path) [0x00006] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at ThunderKit.Core.Data.ThunderKitSettings.CopyAssemblyCSharp (System.String somevalue, UnityEditor.Compilation.CompilerMessage[] message) [0x000cd] in .\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\Core\Data\ThunderKitSettings.cs:87 
+2026-06-02 20:08:43 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes. Consider rearranging data or use `[SerializeReference]`. 
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageGroup.Versions
+0: ThunderKit.Core.Data::PackageSource.packages
+
+2026-06-02 20:08:43 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes. Consider rearranging data or use `[SerializeReference]`. 
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageVersion.dependencies
+0: ThunderKit.Core.Data::PackageGroup.Versions
+
+2026-06-02 20:08:45 [Error] Failed to find entry-points:
+System.Exception: Error while loading assembly references for TUFHelper ---> System.Exception: Error while hashing assembly C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\0Harmony.dll ---> System.AggregateException: One or more errors occurred. (Error while hashing type reference '1000134' in assembly '0Harmony.dll') ---> System.Exception: Error while hashing type reference '1000134' in assembly '0Harmony.dll' ---> System.BadImageFormatException: Read out of bounds.
+  at System.Reflection.Throw.OutOfBounds () [0x00005] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at System.Reflection.Internal.MemoryBlock.CheckBounds (System.Int32 offset, System.Int32 byteCount) [0x0000e] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at System.Reflection.Internal.MemoryBlock.PeekUInt32 (System.Int32 offset) [0x00000] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at System.Reflection.Internal.MemoryBlock.PeekHeapReference (System.Int32 offset, System.Boolean smallRefSize) [0x0000b] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at System.Reflection.Metadata.Ecma335.AssemblyRefTableReader.GetName (System.Int32 rowId) [0x0000b] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at System.Reflection.Metadata.AssemblyReference.get_Name () [0x00020] in <c9c31fd33c3d4c7697343a4b7967540b>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.Util.SrmExtensions.GetAssemblyNameReference (System.Reflection.Metadata.AssemblyReference& assemblyReference, System.Reflection.Metadata.MetadataReader metadataReader) [0x00000] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.Util.CachingMetadataReader.GetAssemblyNameReferenceImpl (System.Reflection.Metadata.AssemblyReferenceHandle handle) [0x0000d] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at System.Collections.Concurrent.ConcurrentDictionary`2[TKey,TValue].GetOrAdd (TKey key, System.Func`2[T,TResult] valueFactory) [0x00034] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.Util.CachingMetadataReader.GetAssemblyNameReference (System.Reflection.Metadata.AssemblyReferenceHandle handle) [0x00000] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.Util.SrmExtensions.WriteAssemblyNameTo (System.Reflection.Metadata.TypeReference& typeReference, Burst.Compiler.IL.Helpers.Hash128Builder builder, Burst.Compiler.IL.Hashing.CacheBuilder.Util.CachingMetadataReader reader, Burst.Compiler.TargetFramework targetFramework) [0x00037] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashTypeReferenceImpl (System.Reflection.Metadata.TypeReferenceHandle typeReferenceHandle) [0x00089] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashTypeReference (System.Reflection.Metadata.TypeReferenceHandle typeReferenceHandle) [0x00000] in <1a03c5c66b684dd7977b2882874450e5>:0 
+   --- End of inner exception stack trace ---
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashTypeReference (System.Reflection.Metadata.TypeReferenceHandle typeReferenceHandle) [0x00031] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher+<>c__DisplayClass14_0.<HashImpl>b__6 (System.Reflection.Metadata.TypeReferenceHandle typeReferenceHandle, System.Threading.Tasks.ParallelLoopState loopState, System.Int64 i) [0x00000] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.ForEach[T] (System.Collections.Generic.IEnumerable`1[T] elements, System.Action`3[T1,T2,T3] callback) [0x00018] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher+<>c__DisplayClass14_0.<HashImpl>b__1 () [0x00000] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at System.Threading.Tasks.Task.InnerInvoke () [0x0000f] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at System.Threading.Tasks.Task.Execute () [0x00000] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+   --- End of inner exception stack trace ---
+  at System.Threading.Tasks.Task.WaitAll (System.Threading.Tasks.Task[] tasks, System.Int32 millisecondsTimeout, System.Threading.CancellationToken cancellationToken) [0x001c8] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at System.Threading.Tasks.Task.WaitAll (System.Threading.Tasks.Task[] tasks, System.Int32 millisecondsTimeout) [0x00000] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at System.Threading.Tasks.Task.WaitAll (System.Threading.Tasks.Task[] tasks) [0x00000] in <41d29b352f6a475ab1bf7c6628b82790>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashImpl () [0x00243] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashAssembly (System.String filePath, System.Threading.Tasks.TaskFactory taskFactory, Burst.Compiler.TargetFramework targetFramework) [0x00009] in <1a03c5c66b684dd7977b2882874450e5>:0 
+   --- End of inner exception stack trace ---
+  at Burst.Compiler.IL.Hashing.CacheBuilder.ILHasher.HashAssembly (System.String filePath, System.Threading.Tasks.TaskFactory taskFactory, Burst.Compiler.TargetFramework targetFramework) [0x0002e] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheLoader.CreateHashingResult (Mono.Cecil.AssemblyNameReference assemblyNameReference, Burst.Compiler.IL.AssemblyLoader assemblyLoader, Burst.Compiler.IL.Helpers.DebugLogWriter debugLogWriter) [0x001b9] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheAssemblyStore.GetAssemblyState (System.String assemblyName, Burst.Compiler.IL.AssemblyLoader assemblyLoader) [0x000a0] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.EntryPointMethodFinder.LoadAllAssemblyReferences (Mono.Cecil.AssemblyDefinition asmDef, System.Collections.Generic.Dictionary`2[TKey,TValue] visited, System.Collections.Generic.Dictionary`2[TKey,TValue] jobProducers, Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheAssemblyStore assemblyStore, Burst.Compiler.IL.AssemblyLoader assemblyLoader) [0x00025] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.EntryPointMethodFinder.LoadAllAssemblyReferences (Mono.Cecil.AssemblyDefinition asmDef, System.Collections.Generic.Dictionary`2[TKey,TValue] visited, System.Collections.Generic.Dictionary`2[TKey,TValue] jobProducers, Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheAssemblyStore assemblyStore, Burst.Compiler.IL.AssemblyLoader assemblyLoader) [0x0018a] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.EntryPointMethodFinder.FindEntryPoints (System.String[] rootAssemblyNames, Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheAssemblyStore assemblyStore, Burst.Compiler.IL.AssemblyLoader assemblyLoader, Burst.Compiler.IL.NativeCompilerOptions options, Burst.Compiler.IL.Server.ProfileDelegate profileCallback, System.Boolean includeRootAssemblyReferences, System.Boolean splitTargets) [0x00071] in <1a03c5c66b684dd7977b2882874450e5>:0 
+   --- End of inner exception stack trace ---
+  at Burst.Compiler.IL.Server.EntryPointMethodFinder.FindEntryPoints (System.String[] rootAssemblyNames, Burst.Compiler.IL.Hashing.CacheRuntime.HashCacheAssemblyStore assemblyStore, Burst.Compiler.IL.AssemblyLoader assemblyLoader, Burst.Compiler.IL.NativeCompilerOptions options, Burst.Compiler.IL.Server.ProfileDelegate profileCallback, System.Boolean includeRootAssemblyReferences, System.Boolean splitTargets) [0x00094] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer+<>c__DisplayClass18_1.<FindMethods>b__0 (Burst.Compiler.IL.Server.Caching.CacheManager cacheManager) [0x0005e] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer+<>c__DisplayClass26_0`1[TResult].<RunTask>b__0 () [0x00145] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer.RunTask[TResult] (Burst.Compiler.IL.Server.TargetKey target, System.String taskName, System.String[] assemblyFolders, System.Threading.CancellationToken cancellationToken, System.Func`2[T,TResult] function) [0x00131] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer.FindMethods (Burst.Compiler.IL.Server.CompilerServerOptions options, Burst.Compiler.IL.Aot.AotCompilerOptions aotOptions, Burst.Compiler.IL.AssemblyDefinesDict assemblyDefines, Burst.Compiler.IL.Server.TargetKey target, Burst.Compiler.IL.Server.Caching.CacheManager cacheManager, Burst.Compiler.IL.CompilerStatistics stats, System.Threading.CancellationToken cancellationToken) [0x00299] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer+<>c__DisplayClass26_0`1[TResult].<RunTask>b__0 () [0x00145] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer.RunTask[TResult] (Burst.Compiler.IL.Server.TargetKey target, System.String taskName, System.String[] assemblyFolders, System.Threading.CancellationToken cancellationToken, System.Func`2[T,TResult] function) [0x00131] in <1a03c5c66b684dd7977b2882874450e5>:0 
+  at Burst.Compiler.IL.Server.CompilerServer.Compile (Burst.Compiler.IL.Server.CompilerServerOptions options, Burst.Compiler.IL.Server.CompilationMessageStreamer streamer, System.Threading.CancellationToken cancellationToken) [0x001ca] in <1a03c5c66b684dd7977b2882874450e5>:0 
+
+While compiling job:
+2026-06-02 20:08:45 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-06-02 20:08:45 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-06-02 20:08:45 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-06-02 20:08:45 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes. Consider rearranging data or use `[SerializeReference]`. 
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageGroup.Versions
+0: ThunderKit.Core.Data::PackageSource.packages
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Error] Objects are trying to be loaded during a domain backup. This is not allowed as it will lead to undefined behaviour!
+
+2026-06-02 20:08:48 [Warning] Serialization depth limit 10 exceeded at 'ThunderKit.Core.Data::PackageVersion.dependencies'. There may be an object composition cycle in one or more of your serialized classes. Consider rearranging data or use `[SerializeReference]`. 
+
+Serialization hierarchy:
+11: ThunderKit.Core.Data::PackageVersion.dependencies
+10: ThunderKit.Core.Data::PackageVersion.dependencies
+9: ThunderKit.Core.Data::PackageVersion.dependencies
+8: ThunderKit.Core.Data::PackageVersion.dependencies
+7: ThunderKit.Core.Data::PackageVersion.dependencies
+6: ThunderKit.Core.Data::PackageVersion.dependencies
+5: ThunderKit.Core.Data::PackageVersion.dependencies
+4: ThunderKit.Core.Data::PackageVersion.dependencies
+3: ThunderKit.Core.Data::PackageVersion.dependencies
+2: ThunderKit.Core.Data::PackageVersion.dependencies
+1: ThunderKit.Core.Data::PackageVersion.dependencies
+0: ThunderKit.Core.Data::PackageGroup.Versions
+
+2026-06-02 20:08:50 [Error] System.Exception: Invalid path in TextDataProvider : 'C:/Disk D/TUFHelper-main/Assets/StreamingAssets/aa/settings.json'.
+2026-06-02 20:08:50 [Error] RuntimeData is null.  Please ensure you have built the correct Player Content.
+2026-06-02 20:08:50 [Warning] Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+2026-06-02 20:08:50 [Error] OperationException : Addressables - Unable to load runtime data at location UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle`1[[UnityEngine.AddressableAssets.Initialization.ResourceManagerRuntimeData, Unity.Addressables, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]].
+
+2026-06-02 20:09:01 [Error] Unable to update following assemblies:Packages/adanceoffireandice/Assembly-CSharp.dll (Name = Assembly-CSharp, Error = 131) (Output: C:\Users\User\AppData\Local\Temp\tmp7534491d.tmp)
+
+[AssemblyUpdater] Failed to resolve assembly UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. SearchPaths: C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\ref\2.1.0, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netstandard, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\AssetsTools.NET, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\Markdig, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpCompress, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpZipLib, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collab-proxy@e566cd3e7623\Lib\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ide.rider@4504839d03f7\Rider\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\EditorAssetResources, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\DotNetZip, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\YamlDotNet, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Runtime\VisualScripting.Flow\Dependencies\NCalc, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINx64, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\ARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\x64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.LowLevel.ILSupport, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.IO.Hashing, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9\Unity.Burst.CodeGen, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Managed\UnityEngine, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins.
+[AssemblyUpdater] Failed to resolve assembly UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null. SearchPaths: C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\ref\2.1.0, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netstandard, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\AssetsTools.NET, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\Markdig, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpCompress, C:\Disk D\TUFHelper-main\Library\PackageCache\com.passivepicasso.thunderkit@2f048021a13d\Editor\ThirdParty\SharpZipLib, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collab-proxy@e566cd3e7623\Lib\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ide.rider@4504839d03f7\Rider\Editor, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\EditorAssetResources, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\DotNetZip, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\YamlDotNet, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Runtime\VisualScripting.Flow\Dependencies\NCalc, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.visualscripting@191c0d7e3b69\Editor\VisualScripting.Core\Dependencies\Assemblies\WINx64, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.ext.nunit@d8c07649098d\net40\unity-custom, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\ARM64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.2d.animation@7396d8477ca9\Editor\SkinningModule\Lib\x64, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.LowLevel.ILSupport, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.IO.Hashing, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.collections@aea9d3bd5e19\Unity.Collections.Tests\System.Runtime.CompilerServices.Unsafe, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.burst@07790c2d06d9\Unity.Burst.CodeGen, C:\Disk D\TUFHelper-main\Library\PackageCache\com.unity.nuget.mono-cecil@ecb9724e46ff, C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Managed\UnityEngine, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice, C:\Disk D\TUFHelper-main\Packages\A Dance of Fire and Ice\plugins. Exception: Mono.Cecil.AssemblyResolutionException: Failed to resolve assembly: 'UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+   at Mono.Cecil.BaseAssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at APIUpdater.Framework.Core.AssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+System.Reflection.TargetInvocationException: Exception has been thrown by the target of an invocation.
+ ---> Mono.Cecil.AssemblyResolutionException: Failed to resolve assembly: 'UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+   at Mono.Cecil.BaseAssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at APIUpdater.Framework.Core.AssemblyResolver.Resolve(AssemblyNameReference name, ReaderParameters parameters)
+   at Mono.Cecil.DefaultAssemblyResolver.Resolve(AssemblyNameReference name)
+   at Mono.Cecil.MetadataResolver.Resolve(TypeReference type)
+   at Mono.Cecil.TypeReference.Resolve()
+   at APIUpdater.Framework.Util.CecilExtensions.GenericParametersFor(TypeReference type)
+   at APIUpdater.Framework.Util.CecilExtensions.GenericArgumentsFor(TypeReference type)
+   at APIUpdater.Framework.Util.CecilExtensions.AsReferenceSpec(TypeReference self)
+   at AssemblyUpdater.Steps.MoveToNamespace.Visit(TypeReference typeReference, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(GenericInstanceType genericInstanceType, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodReference methodReference, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodBody methodBody, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(MethodDefinition methodDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(TypeDefinition typeDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(ModuleDefinition moduleDefinition, Context context)
+   at Unity.Cecil.Visitor.Visitor.Visit(AssemblyDefinition assemblyDefinition, Context context)
+   at AssemblyUpdater.Steps.AssemblyUpdaterStepBase.Visit(AssemblyDefinition assemblyDefinition, Context context)
+   --- End of inner exception stack trace ---
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Span`1& arguments, Signature sig, Boolean constructor, Boolean wrapExceptions)
+   at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   at System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   at Unity.Cecil.Visitor.Visitor.Visit[T](T node, Context context)
+   at Unity.Cecil.Visitor.Extensions.DoAccept[T](T definition, Visitor visitor)
+   at Unity.Cecil.Visitor.Extensions.Accept(AssemblyDefinition assemblyDefinition, Visitor visitor)
+   at AssemblyUpdater.Steps.AssemblyUpdaterStepBase.Apply(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Core.AssemblyUpdaterPipeline.RunUpdateRound(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Core.AssemblyUpdaterPipeline.Run(AssemblyUpdaterContext context)
+   at AssemblyUpdater.Application.Program.UpdateAssembly(UpdateOptions config, AssemblyUpdaterContext context)
+   at AssemblyUpdater.Application.Program.<>c__DisplayClass0_0.<Main>b__1(UpdateOptions o)
+   at CommandLine.ParserResultExtensions.WithParsed[T](ParserResult`1 result, Action`1 action)
+   at AssemblyUpdater.Application.Program.Main(String[] args)
+Following assemblies were successfully updated but due to the failed ones above they were ignored (not copied to the destination folder):Packages/adanceoffireandice/DOTween.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp5d83e167.tmp)
+
+Packages/adanceoffireandice/DOTweenPro.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4c3b5fae.tmp)
+
+Packages/adanceoffireandice/Assembly-CSharp-firstpass.dll	(Result = 11) (Output: C:\Users\User\AppData\Local\Temp\tmp2fcb3f33.tmp)
+[AssemblyUpdater] Member 'System.Void UnityEngine.Rigidbody::set_velocity(UnityEngine.Vector3)' replaced with 'System.Void UnityEngine.Rigidbody::set_linearVelocity(UnityEngine.Vector3)' in method 'System.Void UnityEngine.UI.Extensions.CardPopup2D::Update()'.
+
+Packages/adanceoffireandice/SkyHook.Unity.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp65817753.tmp)
+
+Packages/adanceoffireandice/Unity.ResourceManager.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp2b656518.tmp)
+
+Packages/adanceoffireandice/com.rlabrecque.steamworks.net.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp5a431903.tmp)
+
+Packages/adanceoffireandice/RDTools.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1b41d339.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp74327ea8.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.SecurityStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp26fc07b9.tmp)
+
+Packages/adanceoffireandice/Rewired_Core.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmpf725605.tmp)
+
+Packages/adanceoffireandice/Unity.Addressables.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp53474795.tmp)
+
+Packages/adanceoffireandice/Rewired_Windows.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp3e11c19f.tmp)
+
+Packages/adanceoffireandice/DemiLib.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp76c4551a.tmp)
+
+Packages/adanceoffireandice/Rewired_Windows_Functions.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp2e38157c.tmp)
+
+Packages/adanceoffireandice/Unity.MemoryProfiler.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4bc0515b.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp3154de85.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Internal.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp6e3fc237.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Configuration.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp53afee69.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Device.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp72607fda.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Networking.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp73418e5.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Scheduler.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp59c84a52.tmp)
+
+Packages/adanceoffireandice/Unity.Services.Core.Registration.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp4a7aed06.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.AppleMacosStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp68147b85.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.AppleStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1132f77.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.WinRTStub.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp290a931b.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.Stores.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1bdb86fe.tmp)
+
+Packages/adanceoffireandice/UnityEngine.Purchasing.Codeless.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1ea1e1ce.tmp)
+
+Packages/adanceoffireandice/UnityModManager.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp1afd18b3.tmp)
+
+Packages/adanceoffireandice/XTUtilities.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp5b61c96f.tmp)
+
+Packages/adanceoffireandice/plugins/AdofaiTweaks.dll	(Result = 0) (Output: C:\Users\User\AppData\Local\Temp\tmp787743e.tmp)
+
+
+2026-06-02 20:09:01 [Log] [TMP Examples & Extras] have been imported.
+2026-06-02 20:09:01 [Warning] We have detected that your project includes custom elements added to the Unity Editor's main toolbar using unsupported methods. This approach is not supported and will lead to issues in future versions. Refer to the official <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Toolbars.MainToolbar.html">API documentation</a> for adding custom elements to the main toolbar.
+
+Your custom toolbar elements can be unhidden via the context menu (right-click the main toolbar -> <i>Unsupported User Elements</i>).
+2026-06-02 20:09:01 [Warning] We have detected that your project includes custom elements added to the Unity Editor's main toolbar using unsupported methods. This approach is not supported and will lead to issues in future versions. Refer to the official <a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Toolbars.MainToolbar.html">API documentation</a> for adding custom elements to the main toolbar.
+
+Your custom toolbar elements can be unhidden via the context menu (right-click the main toolbar -> <i>Unsupported User Elements</i>).
