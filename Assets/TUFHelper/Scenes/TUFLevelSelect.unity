@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2816,6 +2816,10 @@ PrefabInstance:
       propertyPath: m_text
       value: '#1'
       objectReference: {fileID: 0}
+    - target: {fileID: 1222982254968130541, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2900,6 +2904,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: IngameRankPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 3628291147057952528, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 5784681307943010344, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -2936,10 +2944,26 @@ PrefabInstance:
       propertyPath: m_text
       value: YOU
       objectReference: {fileID: 0}
+    - target: {fileID: 6766601030135770516, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: m_overflowMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766601030135770516, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113711891250839417, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7690106948850456061, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 9b4c81adcaf1eeb49ba4fda65ce0e9ff, type: 3}
+    - target: {fileID: 7728319183935291730, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 427913662987613321, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
     m_RemovedGameObjects: []
@@ -5131,7 +5155,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -6151,7 +6175,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 232616596}
   m_HandleRect: {fileID: 232616595}
   m_Direction: 2
-  m_Value: -0.0000028252448
+  m_Value: -0.0000002973942
   m_Size: 0.6579447
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12050,6 +12074,18 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 27573866c10cda147b541e872d28672f, type: 3}
+    - target: {fileID: 5645069190405704958, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645069190405704958, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5645069190405704958, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6355008598830357369, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: tabID
       value: bootstrap
@@ -12059,12 +12095,20 @@ PrefabInstance:
       value: Overlayer
       objectReference: {fileID: 0}
     - target: {fileID: 6355008598830357369, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6355008598830357369, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: settingsObject
       value: 
       objectReference: {fileID: 1994407158}
     - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_text
       value: Overlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 6971238858013482693, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_Name
@@ -21811,7 +21855,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -22035,6 +22079,10 @@ PrefabInstance:
     - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_text
       value: Nihaha
+      objectReference: {fileID: 0}
+    - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     - target: {fileID: 6971238858013482693, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_Name
@@ -23451,6 +23499,10 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 1325323200289385875, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 5316527369071024566, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: multiplier
       value: 1.44
@@ -23471,17 +23523,21 @@ PrefabInstance:
       propertyPath: m_fontColor32.rgba
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 6773788408817512779, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 6971238858013482693, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_Name
       value: PPDisplayerPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.85
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.50000006
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_AnchorMax.x
@@ -23545,11 +23601,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 298
+      value: 93.00476
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 20
+      value: 0.0000019073486
       objectReference: {fileID: 0}
     - target: {fileID: 7684523232582857152, guid: b353fcb61c30193498834ee82ec090b4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -24174,7 +24230,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -28483,7 +28539,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -30701,7 +30757,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -31517,11 +31573,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_Pivot.y
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_AnchorMax.x
@@ -31585,11 +31641,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -269
+      value: -93.99994
       objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 180
+      value: 0.000026359576
       objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0b7909251cee8f441877a6da50469199, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -32305,7 +32361,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1317501725}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -44273,6 +44329,10 @@ PrefabInstance:
       propertyPath: m_text
       value: '#2'
       objectReference: {fileID: 0}
+    - target: {fileID: 1222982254968130541, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 1851850413740538374, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -44361,6 +44421,10 @@ PrefabInstance:
       propertyPath: m_text
       value: 2727.72
       objectReference: {fileID: 0}
+    - target: {fileID: 3628291147057952528, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 5784681307943010344, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -44397,6 +44461,18 @@ PrefabInstance:
       propertyPath: m_text
       value: Another one
       objectReference: {fileID: 0}
+    - target: {fileID: 6766601030135770516, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: m_overflowMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6766601030135770516, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 7113711891250839417, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 7690106948850456061, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -44404,6 +44480,10 @@ PrefabInstance:
     - target: {fileID: 7728319183935291730, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
       propertyPath: m_text
       value: 99.8%
+      objectReference: {fileID: 0}
+    - target: {fileID: 7728319183935291730, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 427913662987613321, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
@@ -44827,7 +44907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00002670288, y: 102.616905}
+  m_AnchoredPosition: {x: 0.00002670288, y: 102.61662}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1460289219
@@ -46057,7 +46137,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -47599,6 +47679,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Audio
       objectReference: {fileID: 0}
+    - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 6971238858013482693, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_Name
       value: Audio
@@ -48272,7 +48356,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -50992,7 +51076,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 485630274}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c99681de511301f4aac64d3b38439716, type: 3}
   m_Name: 
@@ -62918,6 +63002,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Bootstrap
       objectReference: {fileID: 0}
+    - target: {fileID: 6773788408817512779, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 6971238858013482693, guid: 7d67f7a8edd784f4891b2965d80683c2, type: 3}
       propertyPath: m_Name
       value: Bootstrap
@@ -63823,7 +63911,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

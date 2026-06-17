@@ -17,5 +17,7 @@ public class AudioSettings : MonoBehaviour
         CustomMusicPlayer.instance.audioSource.volume = value;
         MusicControlScript.instance.audioSource.volume = value;
         Main.Setting.TUFHelperMusicVolume = value;
+
+        Main.Setting.Save(Main.ModEntry);
     }
 }

@@ -51,7 +51,7 @@ namespace TUFHelper
         [HarmonyPostfix]
         public static void Init()
         {
-            _ = typeof(IngameRatingPatch); // triggers static constructor
+            //_ = typeof(IngameRatingPatch); // triggers static constructor
         }
 
         // [HarmonyPatch(typeof(scrEnableIfBeta), "Awake")]

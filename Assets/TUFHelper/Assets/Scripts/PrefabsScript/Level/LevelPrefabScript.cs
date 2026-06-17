@@ -157,76 +157,83 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
     {
-        var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
-        if (levelOffline == null)
+        try
         {
-            folderButton.SetActive(false);
-            favoriteButton.SetActive(false);
-            addToFolderButton.SetActive(false);
-            removeLevelButton.SetActive(false);
-        }
+            var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
+            if (levelOffline == null)
+            {
+                folderButton.SetActive(false);
+                favoriteButton.SetActive(false);
+                addToFolderButton.SetActive(false);
+                removeLevelButton.SetActive(false);
+            }
 
-        if (string.IsNullOrEmpty(levelInfo.DlLink))
-        {
-            CanDownload = false;
-        }
-        if (levelInfo.DlLink == null ||
-            (!levelInfo.DlLink.Contains("drive.google") &&
-            !levelInfo.DlLink.Contains("discord") &&
-            !levelInfo.DlLink.Contains("hyonsu") &&
-            !levelInfo.DlLink.Contains("api.tuforums.com/cdn/")))
-        {
-            CanPlay = false;
-        }
-        if (levelInfo.Curation != null)
-        {
-            curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
-        }
-        else
-        {
-            curationIcon.gameObject.SetActive(false);
-        }
+            if (string.IsNullOrEmpty(levelInfo.DlLink))
+            {
+                CanDownload = false;
+            }
+            if (levelInfo.DlLink == null ||
+                (!levelInfo.DlLink.Contains("drive.google") &&
+                !levelInfo.DlLink.Contains("discord") &&
+                !levelInfo.DlLink.Contains("hyonsu") &&
+                !levelInfo.DlLink.Contains("api.tuforums.com/cdn/")))
+            {
+                CanPlay = false;
+            }
+            if (levelInfo.Curation != null)
+            {
+                curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
+            }
+            else
+            {
+                curationIcon.gameObject.SetActive(false);
+            }
 
-        this.levelInfo = levelInfo;
+            this.levelInfo = levelInfo;
 
-        idText.text = "#" + levelInfo.ID;
-        artistText.text = levelInfo.Artist;
-        levelNameText.text = levelInfo.Song;
+            idText.text = "#" + levelInfo.ID;
+            artistText.text = levelInfo.Artist;
+            levelNameText.text = levelInfo.Song;
 
-        if (Main.Setting.FavoriteLevels.Contains(levelInfo.ID))
-        {
-            this.favoriteImage.sprite = isFavoriteSprite;
+            if (Main.Setting.FavoriteLevels.Contains(levelInfo.ID))
+            {
+                this.favoriteImage.sprite = isFavoriteSprite;
+            }
+            else
+            {
+                this.favoriteImage.sprite = isNotFavoriteSprite;
+            }
+
+            if (!string.IsNullOrEmpty(levelInfo.Team))
+            {
+                creatorText.text = levelInfo.Team;
+            }
+            else
+            {
+                creatorText.text = levelInfo.Creator;
+            }
+
+            difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+
+            if (totalClears == 0)
+            {
+                totalClearsT.gameObject.SetActive(false);
+                totalClearsText.gameObject.SetActive(false);
+            }
+            else
+            {
+                totalClearsT.gameObject.SetActive(true);
+                totalClearsText.gameObject.SetActive(true);
+
+                totalClearsText.text = "" + totalClears;
+            }
+
+            totalLikesText.text = levelInfo.Likes.ToString();
         }
-        else
+        catch (Exception ex)
         {
-            this.favoriteImage.sprite = isNotFavoriteSprite;
+            Main.Logger.LogException(ex);
         }
-
-        if (!string.IsNullOrEmpty(levelInfo.Team))
-        {
-            creatorText.text = levelInfo.Team;
-        }
-        else
-        {
-            creatorText.text = levelInfo.Creator;
-        }
-
-        difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
-
-        if (totalClears == 0)
-        {
-            totalClearsT.gameObject.SetActive(false);
-            totalClearsText.gameObject.SetActive(false);
-        }
-        else
-        {
-            totalClearsT.gameObject.SetActive(true);
-            totalClearsText.gameObject.SetActive(true);
-
-            totalClearsText.text = "" + totalClears;
-        }
-
-        totalLikesText.text = levelInfo.Likes.ToString();
     }
 
     public void InfoButtonClick()

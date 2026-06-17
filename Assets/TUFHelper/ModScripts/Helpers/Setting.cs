@@ -71,6 +71,7 @@ namespace TUFHelper.Utils
         {
             if (modEntry == null)
             {
+                Main.Logger.Error("The mod entry is null");
                 return;
             }
             var filepath = GetPath(modEntry);
@@ -86,7 +87,12 @@ namespace TUFHelper.Utils
         }
         public Setting LoadFromJson(UnityModManager.ModEntry modEntry)
         {
-            if (!File.Exists(GetPath(modEntry))) return new();
+            Main.Logger.Log(GetPath(modEntry));
+            if (!File.Exists(GetPath(modEntry)))
+            {
+                Main.Logger.Log("the settings file doesnt exist");
+                return new();
+            }
             if (modEntry == null) return null;
             try
             {

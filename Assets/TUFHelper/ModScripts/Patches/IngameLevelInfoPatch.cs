@@ -42,7 +42,10 @@ namespace TUFHelper
                 instance.transform.SetParent(canvas, false);
             }
             else
+            {
                 Main.Logger.Error("Canvas is null");
+                return; // Safe exit if we can't spawn it
+            }
 
             IngameLevelInfoScript.Instance.SetLevelInfo(e.CurrentLevelInfo);
 
@@ -50,6 +53,20 @@ namespace TUFHelper
             bool showIngameLevelInfo = Main.Setting.ShowIngameLevelInfo;
             bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
             bool show = showInOverlayer && showIngameLevelInfo && !isRatingPageActive;
+
+            // --- UNITY UPDATE SCALE FIX FOR PREFAB ---
+            float canvasScaleFactor = 1f;
+            Canvas rootCanvas = IngameLevelInfoScript.Instance.GetComponentInParent<Canvas>();
+            if (rootCanvas != null)
+            {
+                canvasScaleFactor = rootCanvas.scaleFactor;
+            }
+
+            // Use 1f as the standard base scale since there's no configuration option
+            float finalScale = 1f / canvasScaleFactor;
+
+            IngameLevelInfoScript.Instance.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
+            // -----------------------------------------
 
             IngameLevelInfoScript.Instance.gameObject.SetActive(show);
         }

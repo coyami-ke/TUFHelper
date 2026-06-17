@@ -26,13 +26,44 @@ namespace TUFHelper
 
         private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
+            if (!ADOFAIGameplayHandler.IsFromTUFHelper) return;
+
+            string assetName = "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab";
+            GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
+            if (prefab != null && IngameLeaderboardScript.instance == null)
+            {
+                var obj = GameObject.Instantiate(prefab);
+                Transform canvas = GameObject.Find("Canvas")?.transform;
+                if (canvas != null)
+                    obj.transform.SetParent(canvas, false);
+                //GameObject.DontDestroyOnLoad(obj);
+            }
+
             LevelListInfoElementJson levelInfo = e.CurrentLevelInfo;
 
-            var passes = await GetPasses(levelInfo.ID);
+            
 
             if (IngameLeaderboardScript.instance != null)
             {
-                var account = AccountSaver.GetAccount();
+                float configScale;
+
+                if (Main.Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
+                {
+                    configScale = Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale;
+                }
+                else configScale = 1;
+
+                float canvasScaleFactor = 1f;
+                Canvas rootCanvas = IngameLeaderboardScript.instance.GetComponentInParent<Canvas>();
+                if (rootCanvas != null)
+                {
+                    canvasScaleFactor = rootCanvas.scaleFactor;
+                }
+                float finalScale = (1f / canvasScaleFactor) * configScale;
+
+                IngameLeaderboardScript.instance.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
+
+                //var account = AccountSaver.GetAccount();
                 bool showInOverlayer = Main.Setting.ShowTUFHelperOverlayer;
                 bool showIngameLeaderboard = Main.Setting.ShowIngameLeaderboard;
                 bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
@@ -40,16 +71,10 @@ namespace TUFHelper
 
                 IngameLeaderboardScript.instance.gameObject.SetActive(show);
 
+                var passes = await GetPasses(levelInfo.ID);
                 IngameLeaderboardScript.instance.StartCoroutine(
                     IngameLeaderboardScript.instance.LoadLeaderboardAsync(passes)
                 );
-
-                if (Main.Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
-                {
-                    IngameLeaderboardScript.instance.GetComponent<RectTransform>().localScale =
-                        new(Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale,
-                            Main.Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale);
-                }
 
                 if (IngameLeaderboardScript.PlayerRankPrefab?.PassInfo?.Judgements != null)
                 {
@@ -97,8 +122,6 @@ namespace TUFHelper
 
             _cachedLevelData.Difficulty.Name = nameDiff;
             _cachedLevelData.Difficulty.BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0;
-
-            Main.Logger.Log(_cachedLevelData.GetBaseScore().ToString()); // 15, но счет все равно 0 поинтов
 
             player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(_cachedPassData, _cachedLevelData);
             player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
@@ -169,18 +192,7 @@ namespace TUFHelper
         [HarmonyPrefix]
         public static void StartEditor()
         {
-            if (!ADOFAIGameplayHandler.IsFromTUFHelper) return;
-
-            string assetName = "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab";
-            GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
-            if (prefab != null && IngameLeaderboardScript.instance == null)
-            {
-                var obj = GameObject.Instantiate(prefab);
-                Transform canvas = GameObject.Find("Canvas")?.transform;
-                if (canvas != null)
-                    obj.transform.SetParent(canvas, false);
-                GameObject.DontDestroyOnLoad(obj);
-            }
+            
         }
     }
 }

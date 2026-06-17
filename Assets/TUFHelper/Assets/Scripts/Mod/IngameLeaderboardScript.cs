@@ -72,6 +72,15 @@ public class IngameLeaderboardScript : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && scnEditor.instance.playMode)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+    }
+
 
     public IEnumerator LoadLeaderboardAsync(PassesListInfoElementJson[] passes)
     {

@@ -79,7 +79,14 @@ public class LevelListScript : MonoBehaviour
             isLoading = false;
             HasMore = !value;
 
-            ViewModel.Clear();
+            try
+            {
+                ViewModel.Clear();
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.LogException(ex);
+            }
             DefaultRequest.Offset = 0;
 
         }

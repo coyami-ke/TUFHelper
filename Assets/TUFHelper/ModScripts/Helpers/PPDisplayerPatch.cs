@@ -10,7 +10,7 @@ namespace TUFHelper
     [HarmonyPatch]
     public static class PPDisplayerPatch
     {
-        private static PPDisplayerScript ppDisplayer;
+        public static PPDisplayerScript ppDisplayer { get; private set; }
         private static GameObject ppDisplayerObject;
         private static PPDisplayerScript.Judgements judgements = new();
 
@@ -73,7 +73,6 @@ namespace TUFHelper
             bool showInOverlayer = Main.Setting.ShowTUFHelperOverlayer;
             bool showIngameCounters = Main.Setting.ShowIngamePPCounter || Main.Setting.ShowIngameSpeed;
             bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
-            bool flag2 = Main.Setting.ShowIngameSpeed;
             bool show = showInOverlayer && showIngameCounters && !isRatingPageActive;
 
             ppDisplayerObject.SetActive(show);
@@ -84,7 +83,25 @@ namespace TUFHelper
             ppDisplayer.ApplySpped(speed);
             ppDisplayer.ApplyPP(0);
 
-            if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer")) ppDisplayer.GetComponent<RectTransform>().localScale = new(Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale, Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale);
+            float configScale;
+
+            if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
+            {
+                configScale = Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale;
+            }
+            else configScale = 1;
+
+            float canvasScaleFactor = 1f;
+            Canvas rootCanvas = ppDisplayer.GetComponentInParent<Canvas>();
+            if (rootCanvas != null)
+            {
+                canvasScaleFactor = rootCanvas.scaleFactor;
+            }
+            float finalScale = (1f / canvasScaleFactor) * configScale;
+
+            ppDisplayer.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
+
+            
         }
 
         private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)

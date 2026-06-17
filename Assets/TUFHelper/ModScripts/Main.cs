@@ -76,9 +76,18 @@ namespace TUFHelper
             };
             mainThread = SynchronizationContext.Current;
 
-            Setting = new Setting();
-            var settings = Setting.LoadFromJson(modEntry);
-            if (settings != null) Setting = settings;
+            try
+            {
+                Setting = new Setting();
+                var settings = Setting.LoadFromJson(modEntry);
+                if (settings != null) Setting = settings;
+
+                else Main.Logger.Error("The settings file is Null");
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.LogException(ex);
+            }
         }
 
         internal static bool OnToggle(ModEntry modEntry, bool value)
@@ -128,28 +137,28 @@ namespace TUFHelper
             if (!Setting.OverlayerElementsPositions.ContainsKey("IngameLeaderboard"))
                 Setting.OverlayerElementsPositions["IngameLeaderboard"] = new();
 
-            GUILayout.Label($"Leaderboard Scale: {Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale:F2}");
-            Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale = Mathf.Round(
-                GUILayout.HorizontalSlider(
-                    Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale,
-                    0.5f,
-                    2.0f,
-                    GUILayout.Width(300)
-                ) * 100f
-            ) / 100f;
+            //GUILayout.Label($"Leaderboard Scale: {Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale:F2}");
+            //Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale = Mathf.Round(
+            //    GUILayout.HorizontalSlider(
+            //        Setting.OverlayerElementsPositions["IngameLeaderboard"].Scale,
+            //        0.5f,
+            //        2.0f,
+            //        GUILayout.Width(300)
+            //    ) * 100f
+            //) / 100f;
 
-            if (!Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
-                Setting.OverlayerElementsPositions["PPDisplayer"] = new();
+            //if (!Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
+            //    Setting.OverlayerElementsPositions["PPDisplayer"] = new();
 
-            GUILayout.Label($"PP Displayer Scale: {Setting.OverlayerElementsPositions["PPDisplayer"].Scale:F2}");
-            Setting.OverlayerElementsPositions["PPDisplayer"].Scale = Mathf.Round(
-                GUILayout.HorizontalSlider(
-                    Setting.OverlayerElementsPositions["PPDisplayer"].Scale,
-                    0.5f,
-                    2.0f,
-                    GUILayout.Width(300)
-                ) * 100f
-            ) / 100f;
+            //GUILayout.Label($"PP Displayer Scale: {Setting.OverlayerElementsPositions["PPDisplayer"].Scale:F2}");
+            //Setting.OverlayerElementsPositions["PPDisplayer"].Scale = Mathf.Round(
+            //    GUILayout.HorizontalSlider(
+            //        Setting.OverlayerElementsPositions["PPDisplayer"].Scale,
+            //        0.5f,
+            //        2.0f,
+            //        GUILayout.Width(300)
+            //    ) * 100f
+            //) / 100f;
 
 
             GUILayout.EndVertical();

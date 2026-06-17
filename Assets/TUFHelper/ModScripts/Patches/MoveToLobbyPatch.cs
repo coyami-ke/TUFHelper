@@ -17,21 +17,28 @@ namespace TUFHelper
     {
         public static void MoveToTUFMenu()
         {
-            GCS.sceneToLoad = "";
-            scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
+            try
             {
-                Main.isInTUFHelper = true;
-                string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
-                if (!string.IsNullOrEmpty(scenePath))
+                GCS.sceneToLoad = "";
+                scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                 {
-                    SceneManager.LoadScene(scenePath);
-                    DiscordController.shouldUpdatePresence = true;
-                }
-                else
-                {
-                    Main.Logger.Error("Scene 'TUFLevelSelect' not found in AssetBundle. :sob:");
-                }
-            });
+                    Main.isInTUFHelper = true;
+                    string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
+                    if (!string.IsNullOrEmpty(scenePath))
+                    {
+                        SceneManager.LoadScene(scenePath);
+                        DiscordController.shouldUpdatePresence = true;
+                    }
+                    else
+                    {
+                        Main.Logger.Error("Scene 'TUFLevelSelect' not found in AssetBundle. :sob:");
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.LogException(ex);
+            }
         }
 
 
@@ -140,15 +147,34 @@ namespace TUFHelper
                 if (Main.isInTUFHelper)
                 {
                     Time.timeScale = 1;
-                    GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
                     ADOFAIGameplayHandler.IsFromTUFHelper = false;
-                    scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
-                    return false;
+
+                    // 1. Clear sceneToLoad so ADOFAI's base game doesn't try to load its own main menu
+                    GCS.sceneToLoad = "";
+
+                    // 2. Pass the scene load logic as a callback to WipeToBlack
+                    scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
+                    {
+                        // This code runs AFTER the screen turns fully black:
+                        string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
+                        if (!string.IsNullOrEmpty(scenePath))
+                        {
+                            SceneManager.LoadScene(scenePath);
+                            // Depending on how your asset bundle scene is structured, 
+                            // you might need to set Main.isInTUFHelper = true; or false here.
+                        }
+                        else
+                        {
+                            Main.Logger.Error("Scene 'TUFLevelSelect' not found when quitting editor.");
+                        }
+                    });
+
+                    return false; // Skip the original base game quit logic
                 }
                 return true;
             }
         }
-        
+
         private static readonly List<GameObject> portals = new List<GameObject>();
         private static readonly List<Transform> transforms = new List<Transform>();
 
