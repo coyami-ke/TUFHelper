@@ -60,7 +60,6 @@ namespace TUFHelper.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                // Fallback check if Main.ModEntry isn't loaded during early constructor assembly instantiation
                 string modPath = Main.ModEntry != null ? Main.ModEntry.Path : AppDomain.CurrentDomain.BaseDirectory;
                 LevelSaveFolder = Path.Combine(modPath, "SavedLevels");
             }
@@ -76,7 +75,6 @@ namespace TUFHelper.Utils
             var filepath = GetPath(modEntry);
             try
             {
-                // Force formatting indented so it's readable and writes cleanly
                 File.WriteAllText(filepath, JsonConvert.SerializeObject(this, Formatting.Indented));
             }
             catch (Exception e)
@@ -85,14 +83,10 @@ namespace TUFHelper.Utils
                 modEntry.Logger.LogException(e);
             }
         }
-
-        // Changed to a static helper method so it can load independently 
-        // without requiring a blank "new Setting()" instance first
         public static Setting LoadFromJson(UnityModManager.ModEntry modEntry)
         {
             if (modEntry == null) return new Setting();
 
-            // Create a reliable path compilation string separate from internal UMM wrappers
             string filepath = Path.Combine(modEntry.Path, "Settings.json");
             Main.Logger.Log($"Attempting to load settings from: {filepath}");
 
@@ -100,7 +94,7 @@ namespace TUFHelper.Utils
             {
                 Main.Logger.Log("Settings file doesn't exist. Creating fresh default settings.");
                 Setting newSettings = new Setting();
-                newSettings.Save(modEntry); // Write a clean default template immediately
+                newSettings.Save(modEntry); 
                 return newSettings;
             }
 
@@ -109,7 +103,6 @@ namespace TUFHelper.Utils
                 string text = File.ReadAllText(filepath);
                 Setting loadedSettings = JsonConvert.DeserializeObject<Setting>(text);
 
-                // Safety fallback if file is empty or corrupted JSON returns null
                 return loadedSettings ?? new Setting();
             }
             catch (Exception ex)
