@@ -8,6 +8,10 @@ using UnityEngine;
 
 namespace TUFHelper.Utils
 {
+    public class ScnGameTransferToEditorEventArgs : EventArgs
+    {
+
+    }
     public class PlayButtonEventArgs : EventArgs
     {
         public LevelListInfoElementJson CurrentLevelInfo { get; }
@@ -24,6 +28,7 @@ namespace TUFHelper.Utils
     {
         public static event EventHandler<PlayButtonEventArgs> Editor_PlayButtonPressed;
         public static event EventHandler<HitMargin> Editor_Hit;
+        public static event EventHandler<ScnGameTransferToEditorEventArgs> Editor_ScnGameTransferToEditor;
 
         public static bool IsFromTUFHelper { get; set; }
 
@@ -47,6 +52,18 @@ namespace TUFHelper.Utils
             {
                 if (!IsFromTUFHelper) return;
                 Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, RatingMode, CurrentRating));
+            }
+        }
+
+        [HarmonyPatch(typeof(scnEditor), "Update")]
+        public static class ScnGameTransferToEditor
+        {
+            public static void Prefix()
+            {
+                if (Input.GetKeyDown(KeyCode.Escape) && scnEditor.instance.playMode && IsFromTUFHelper)
+                {
+                    Editor_ScnGameTransferToEditor.Invoke(scnEditor.instance, new());
+                }
             }
         }
     }

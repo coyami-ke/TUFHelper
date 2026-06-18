@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Xml.Serialization;
 using Newtonsoft.Json;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
@@ -17,24 +16,22 @@ namespace TUFHelper.Utils
         public float Y { get; set; } = 0;
         public float Scale { get; set; } = 1;
     }
+
     public class DownloadedLevel
     {
         public LevelListInfoElementJson LevelInfo { get; set; }
         public string NameFolder { get; set; }
         public CustomLevelInfoJson LocalData { get; set; }
     }
+
     public class Setting : UnityModManager.ModSettings
     {
         public string LevelSaveFolder { get; set; } = null;
-
-        //public bool PlayBackgroundMusic { get; set; } = true;
         public int MinDiff { get; set; } = 1;
         public int MaxDiff { get; set; } = 60;
-
         public int MinQDiff { get; set; } = 1;
         public int MaxQDiff { get; set; } = 10;
-
-        public float TUFHelperMusicVolume = 0.5f;
+        public float TUFHelperMusicVolume { get; set; } = 0.5f; // Converted to property for consistent serialization
         public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
         public int SortBy { get; set; } = 0;
         public List<string> SelectedSpecialDiffs { get; set; } = new();
@@ -52,7 +49,6 @@ namespace TUFHelper.Utils
         public bool ShowIngameSpeed { get; set; } = true;
         public bool ShowIngamePPCounter { get; set; } = true;
         public bool ShowIngameLevelInfo { get; set; } = true;
-
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;
 
@@ -64,9 +60,12 @@ namespace TUFHelper.Utils
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                LevelSaveFolder = Path.Combine(Main.ModEntry.Path, "SavedLevels");
+                // Fallback check if Main.ModEntry isn't loaded during early constructor assembly instantiation
+                string modPath = Main.ModEntry != null ? Main.ModEntry.Path : AppDomain.CurrentDomain.BaseDirectory;
+                LevelSaveFolder = Path.Combine(modPath, "SavedLevels");
             }
         }
+
         public override void Save(UnityModManager.ModEntry modEntry)
         {
             if (modEntry == null)
@@ -77,7 +76,8 @@ namespace TUFHelper.Utils
             var filepath = GetPath(modEntry);
             try
             {
-                File.WriteAllText(filepath, JsonConvert.SerializeObject(this));
+                // Force formatting indented so it's readable and writes cleanly
+                File.WriteAllText(filepath, JsonConvert.SerializeObject(this, Formatting.Indented));
             }
             catch (Exception e)
             {
@@ -85,26 +85,41 @@ namespace TUFHelper.Utils
                 modEntry.Logger.LogException(e);
             }
         }
-        public Setting LoadFromJson(UnityModManager.ModEntry modEntry)
+
+        // Changed to a static helper method so it can load independently 
+        // without requiring a blank "new Setting()" instance first
+        public static Setting LoadFromJson(UnityModManager.ModEntry modEntry)
         {
-            Main.Logger.Log(GetPath(modEntry));
-            if (!File.Exists(GetPath(modEntry)))
+            if (modEntry == null) return new Setting();
+
+            // Create a reliable path compilation string separate from internal UMM wrappers
+            string filepath = Path.Combine(modEntry.Path, "Settings.json");
+            Main.Logger.Log($"Attempting to load settings from: {filepath}");
+
+            if (!File.Exists(filepath))
             {
-                Main.Logger.Log("the settings file doesnt exist");
-                return new();
+                Main.Logger.Log("Settings file doesn't exist. Creating fresh default settings.");
+                Setting newSettings = new Setting();
+                newSettings.Save(modEntry); // Write a clean default template immediately
+                return newSettings;
             }
-            if (modEntry == null) return null;
+
             try
             {
-                return JsonConvert.DeserializeObject<Setting>(File.ReadAllText(GetPath(modEntry)));
+                string text = File.ReadAllText(filepath);
+                Setting loadedSettings = JsonConvert.DeserializeObject<Setting>(text);
+
+                // Safety fallback if file is empty or corrupted JSON returns null
+                return loadedSettings ?? new Setting();
             }
             catch (Exception ex)
             {
-                modEntry.Logger.Error($"Can't save {GetPath(modEntry)}.");
+                modEntry.Logger.Error($"Can't load {filepath}. Reverting to default settings.");
                 modEntry.Logger.LogException(ex);
-                return null;
+                return new Setting();
             }
         }
+
         public override string GetPath(UnityModManager.ModEntry modEntry)
         {
             return Path.Combine(modEntry.Path, "Settings.json");

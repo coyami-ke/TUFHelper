@@ -22,6 +22,12 @@ namespace TUFHelper
             // Register event handlers
             ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnPlay;
             ADOFAIGameplayHandler.Editor_Hit += OnHit;
+            ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += ScnGameTransferToEditor;
+        }
+
+        private static void ScnGameTransferToEditor(object sender, ScnGameTransferToEditorEventArgs e)
+        {
+            IngameLeaderboardScript.instance.gameObject.SetActive(false);
         }
 
         private static async void OnPlay(object sender, PlayButtonEventArgs e)

@@ -21,6 +21,15 @@ namespace TUFHelper
         {
             // Register event handlers
             ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnPlay;
+            ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += ScnGameTransferToEditor;
+        }
+
+        private static void ScnGameTransferToEditor(object sender, ScnGameTransferToEditorEventArgs e)
+        {
+            if (IngameLevelInfoScript.Instance != null)
+            {
+                IngameLevelInfoScript.Instance.gameObject.SetActive(false);
+            }
         }
 
         private static void OnPlay(object sender, PlayButtonEventArgs e)
@@ -34,41 +43,51 @@ namespace TUFHelper
                 return;
             }
 
-            var canvas = GameObject.Find("Canvas")?.transform;
-            if (canvas != null)
+            var levelInfoScript = IngameLevelInfoScript.Instance;
+
+            if (levelInfoScript == null)
             {
-                if (IngameLevelInfoScript.Instance != null) return;
-                GameObject instance = GameObject.Instantiate(prefab);
-                instance.transform.SetParent(canvas, false);
-            }
-            else
-            {
-                Main.Logger.Error("Canvas is null");
-                return; // Safe exit if we can't spawn it
+                var canvas = GameObject.Find("Canvas")?.transform;
+                if (canvas != null)
+                {
+                    GameObject instance = GameObject.Instantiate(prefab);
+                    instance.transform.SetParent(canvas, false);
+
+                    levelInfoScript = instance.GetComponent<IngameLevelInfoScript>();
+                }
+                else
+                {
+                    Main.Logger.Error("Canvas is null");
+                    return;
+                }
             }
 
-            IngameLevelInfoScript.Instance.SetLevelInfo(e.CurrentLevelInfo);
+            if (levelInfoScript == null)
+            {
+                Main.Logger.Error("IngameLevelInfoScript component could not be found or initialized.");
+                return;
+            }
+
+            levelInfoScript.gameObject.SetActive(true);
+
+            levelInfoScript.SetLevelInfo(e.CurrentLevelInfo);
 
             bool showInOverlayer = Main.Setting.ShowTUFHelperOverlayer;
             bool showIngameLevelInfo = Main.Setting.ShowIngameLevelInfo;
-            bool isRatingPageActive = FrontPageScript.instance.IsRatingPageActive;
+
+            bool isRatingPageActive = FrontPageScript.instance != null && FrontPageScript.instance.IsRatingPageActive;
             bool show = showInOverlayer && showIngameLevelInfo && !isRatingPageActive;
 
-            // --- UNITY UPDATE SCALE FIX FOR PREFAB ---
             float canvasScaleFactor = 1f;
-            Canvas rootCanvas = IngameLevelInfoScript.Instance.GetComponentInParent<Canvas>();
+            Canvas rootCanvas = levelInfoScript.GetComponentInParent<Canvas>();
             if (rootCanvas != null)
             {
                 canvasScaleFactor = rootCanvas.scaleFactor;
             }
 
-            // Use 1f as the standard base scale since there's no configuration option
             float finalScale = 1f / canvasScaleFactor;
-
-            IngameLevelInfoScript.Instance.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
-            // -----------------------------------------
-
-            IngameLevelInfoScript.Instance.gameObject.SetActive(show);
+            levelInfoScript.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
+            levelInfoScript.gameObject.SetActive(show);
         }
 
         [HarmonyPatch(typeof(scnEditor), "Start")]

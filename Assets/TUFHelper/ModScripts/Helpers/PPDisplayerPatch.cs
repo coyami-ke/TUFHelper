@@ -18,6 +18,12 @@ namespace TUFHelper
         {
             ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnEditorPlayButtonPressed;
             ADOFAIGameplayHandler.Editor_Hit += OnEditorHit;
+            ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += Editor_ScnGameTransferToEditor;
+        }
+
+        private static void Editor_ScnGameTransferToEditor(object sender, ScnGameTransferToEditorEventArgs e)
+        {
+            ppDisplayer.gameObject.SetActive(false);
         }
 
         private static float speed => scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
