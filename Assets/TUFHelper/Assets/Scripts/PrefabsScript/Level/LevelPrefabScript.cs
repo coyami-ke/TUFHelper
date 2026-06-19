@@ -180,14 +180,14 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             {
                 CanPlay = false;
             }
-            if (levelInfo.Curation != null)
-            {
-                curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
-            }
-            else
-            {
-                curationIcon.gameObject.SetActive(false);
-            }
+            //if (levelInfo.Curation != null)
+            //{
+            //    //curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
+            //}
+            //else
+            //{
+            //    curationIcon.gameObject.SetActive(false);
+            //}
 
             this.levelInfo = levelInfo;
 

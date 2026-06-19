@@ -91,8 +91,8 @@ namespace TUFHelper.ModScripts.Json
         public int Likes { get; set; }
         [JsonProperty("passes")]
         public List<PassesListInfoElementJson> Passes { get; set; }
-        [JsonProperty("curation")]
-        public LevelListInfoElementCurationJson Curation { get; set; }
+        //[JsonProperty("curation")]
+        //public LevelListInfoElementCurationJson Curation { get; set; }
         [JsonProperty("tags")]
         public List<LevelListInfoElementTagJson> Tags { get; set; } = new();
         [JsonProperty("difficulty")]
@@ -134,12 +134,17 @@ namespace TUFHelper.ModScripts.Json
     }
     public class LevelListInfoElementCurationJson
     {
+        //[JsonProperty("id")]
+        //public int ID { get; set; }
+        //[JsonProperty("levelId")]
+        //public int LevelID { get; set; }
+        //[JsonProperty("typeId")]
+        //public int TypeID { get; set; } // you need this to make curation icon
+    }
+    public class LevelListInfoElementCurationTypeJson
+    {
         [JsonProperty("id")]
         public int ID { get; set; }
-        [JsonProperty("levelId")]
-        public int LevelID { get; set; }
-        [JsonProperty("typeId")]
-        public int TypeID { get; set; } // you need this to make curation icon
     }
     public class LevelListInfoElementTagJson
     {
