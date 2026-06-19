@@ -19,7 +19,6 @@ using TUFHelper.Utils;
 using System.IO;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
-using System.Diagnostics.Eventing.Reader;
 
 public class LevelListViewModel
 {
@@ -157,6 +156,7 @@ public class LevelListScript : MonoBehaviour
         foreach (var level in levels)
         {
             GameObject gameObject = Instantiate(levelPrefab);
+            BundleFontFixer.FixFontsIn(gameObject);
             RectTransform rect = gameObject.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform, false);
             rect.localScale = Vector3.one;

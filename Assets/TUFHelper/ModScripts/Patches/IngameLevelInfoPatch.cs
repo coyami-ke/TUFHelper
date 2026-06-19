@@ -51,6 +51,7 @@ namespace TUFHelper
                 if (canvas != null)
                 {
                     GameObject instance = GameObject.Instantiate(prefab);
+                    BundleFontFixer.FixFontsIn(instance);
                     instance.transform.SetParent(canvas, false);
 
                     levelInfoScript = instance.GetComponent<IngameLevelInfoScript>();

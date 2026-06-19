@@ -42,6 +42,7 @@ public class FolderList : MonoBehaviour
         foreach (var folder in Main.Setting.LevelFolders)
         {
             GameObject gameObject = Instantiate(folderPrefab);
+            BundleFontFixer.FixFontsIn(gameObject);
             RectTransform rect = gameObject.GetComponent<RectTransform>();
             rect.SetParent(listParent.transform, false);
             rect.localScale = Vector3.one;

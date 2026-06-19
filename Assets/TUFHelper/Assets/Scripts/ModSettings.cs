@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using TUFHelper;
 using UnityEngine;
 
 public class ModSettings : MonoBehaviour
@@ -27,6 +28,17 @@ public class ModSettings : MonoBehaviour
     public void Awake()
     {
         instance = this;
+    }
+
+    public void Start()
+    {
+        LanguageSettingsRuntime.Install(this);
+        LanguageManager.ApplyTo(gameObject);
+    }
+
+    public void OnEnable()
+    {
+        LanguageManager.ApplyTo(gameObject);
     }
 
     private bool _isShow;

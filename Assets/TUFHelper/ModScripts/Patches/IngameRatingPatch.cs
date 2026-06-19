@@ -36,6 +36,7 @@ namespace TUFHelper
                 {
                     if (IngameRatingPanelScript.instance != null) return;
                     GameObject instance = GameObject.Instantiate(prefab);
+                    BundleFontFixer.FixFontsIn(instance);
                     instance.transform.SetParent(canvas, false);
                 }
                 else

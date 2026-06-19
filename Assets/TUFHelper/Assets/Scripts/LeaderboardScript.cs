@@ -85,6 +85,7 @@ public class LeaderboardScript : MonoBehaviour
         foreach (var pass in passes)
         {
             GameObject obj = Instantiate(prefab, passListParent.transform);
+            BundleFontFixer.FixFontsIn(obj);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             var rps = obj.GetComponent<RankPrefabScript>();

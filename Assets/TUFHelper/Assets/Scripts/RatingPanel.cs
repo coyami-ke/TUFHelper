@@ -87,6 +87,7 @@ public class RatingPanel : MonoBehaviour
         foreach (var element in filtered)
         {
             GameObject obj = Instantiate(prefab, listParent.transform);
+            BundleFontFixer.FixFontsIn(obj);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             rect.localScale = Vector3.one;

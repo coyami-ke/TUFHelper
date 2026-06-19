@@ -8,6 +8,8 @@ using TUFHelper.Utils;
 using UnityEngine;
 using static UnityModManagerNet.UnityModManager;
 using System;
+using System.Linq;
+using DG.Tweening;
 
 namespace TUFHelper 
 {
@@ -39,7 +41,9 @@ namespace TUFHelper
                 _ => throw new ArgumentOutOfRangeException(nameof(Application.platform))
             };
 
-            string bundleFolder = Path.Combine(modEntry.Path, platformSuffix);
+            string legacyAssetsFolder = Path.Combine(modEntry.Path, "assets");
+            string platformAssetsFolder = Path.Combine(modEntry.Path, platformSuffix);
+            string bundleFolder = HasBundles(legacyAssetsFolder) ? legacyAssetsFolder : platformAssetsFolder;
             string assetsPath = Path.Combine(bundleFolder, "tuf_assets.bundle");
             string scenesPath = Path.Combine(bundleFolder, "tuf_scenes.bundle");
 
@@ -60,6 +64,8 @@ namespace TUFHelper
 
 
             Main.Logger.Log("TUFHelper assets and scenes loaded successfully.");
+            DOTween.SetTweensCapacity(10000, 500);
+            BundleFontFixer.Init();
 
             modEntry.Info.Version = modVersion;
             modEntry.Info.DisplayName = "TUFHelper";
@@ -88,6 +94,14 @@ namespace TUFHelper
             {
                 Main.Logger.LogException(ex);
             }
+
+            LanguageManager.Init();
+        }
+
+        private static bool HasBundles(string folder)
+        {
+            return File.Exists(Path.Combine(folder, "tuf_assets.bundle"))
+                && File.Exists(Path.Combine(folder, "tuf_scenes.bundle"));
         }
 
         internal static bool OnToggle(ModEntry modEntry, bool value)
@@ -173,18 +187,79 @@ namespace TUFHelper
         }
 
         private static Dictionary<string, Sprite> _cachedSprites = new();
+        private static Dictionary<string, string> _resolvedAssetNames = new();
+        private static HashSet<string> _missingSprites = new();
         public static Sprite GetSpriteFromAssets(string path)
         {
-            if (_cachedSprites.ContainsKey(path))
+            if (string.IsNullOrWhiteSpace(path) || assets == null)
             {
-                return _cachedSprites[path];
+                return null;
             }
-            else
+
+            if (_cachedSprites.TryGetValue(path, out Sprite cachedSprite))
             {
-                Sprite sprite = assets.LoadAsset<Sprite>(path);
-                _cachedSprites.Add(path, sprite);
-                return sprite;
+                return cachedSprite;
             }
+
+            Sprite sprite = assets.LoadAsset<Sprite>(path);
+            if (sprite == null)
+            {
+                string resolvedPath = ResolveAssetName(path);
+                if (!string.IsNullOrEmpty(resolvedPath))
+                {
+                    sprite = assets.LoadAsset<Sprite>(resolvedPath);
+                }
+            }
+
+            if (sprite != null)
+            {
+                _cachedSprites[path] = sprite;
+            }
+            else if (_missingSprites.Add(path))
+            {
+                Logger?.Error($"Sprite not found in TUFHelper AssetBundle: {path}");
+            }
+
+            return sprite;
+        }
+
+        private static string ResolveAssetName(string path)
+        {
+            if (_resolvedAssetNames.TryGetValue(path, out string cachedName))
+            {
+                return cachedName;
+            }
+
+            string normalizedPath = NormalizeAssetPath(path);
+            string fileName = Path.GetFileName(normalizedPath);
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(normalizedPath);
+
+            string resolved = assets.GetAllAssetNames()
+                .FirstOrDefault(assetName => NormalizeAssetPath(assetName) == normalizedPath)
+                ?? assets.GetAllAssetNames()
+                    .FirstOrDefault(assetName => Path.GetFileName(NormalizeAssetPath(assetName)) == fileName)
+                ?? assets.GetAllAssetNames()
+                    .FirstOrDefault(assetName => Path.GetFileNameWithoutExtension(NormalizeAssetPath(assetName)) == fileNameWithoutExtension)
+                ?? assets.GetAllAssetNames()
+                    .FirstOrDefault(assetName => Path.GetFileNameWithoutExtension(NormalizeAssetPath(assetName)).Contains(fileNameWithoutExtension))
+                ?? assets.GetAllAssetNames()
+                    .FirstOrDefault(assetName => NormalizeAssetPath(assetName).EndsWith(normalizedPath, StringComparison.Ordinal));
+
+            if (!string.IsNullOrEmpty(resolved))
+            {
+                _resolvedAssetNames[path] = resolved;
+            }
+
+            return resolved;
+        }
+
+        private static string NormalizeAssetPath(string path)
+        {
+            return (path ?? string.Empty)
+                .Replace('\\', '/')
+                .Trim()
+                .TrimStart('/')
+                .ToLowerInvariant();
         }
     }
 }

@@ -180,14 +180,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             {
                 CanPlay = false;
             }
-            //if (levelInfo.Curation != null)
-            //{
-            //    //curationIcon.sprite = Main.assets.LoadAsset<Sprite>(CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeID));
-            //}
-            //else
-            //{
-            //    curationIcon.gameObject.SetActive(false);
-            //}
+            if (curationIcon != null)
+            {
+                Sprite curationSprite = Main.GetSpriteFromAssets(CurationHelper.GetSpriteFromCuration(levelInfo.Curation));
+                curationIcon.sprite = curationSprite;
+                curationIcon.gameObject.SetActive(curationSprite != null);
+            }
 
             this.levelInfo = levelInfo;
 
@@ -213,7 +211,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 creatorText.text = levelInfo.Creator;
             }
 
-            difficultyIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+            difficultyIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
 
             if (totalClears == 0)
             {

@@ -58,10 +58,11 @@ public class MainLeaderboardScript : MonoBehaviour
         foreach (var playerJson in json.Results)
         {
             GameObject obj = Instantiate(prefab, playerListParent.transform);
+            BundleFontFixer.FixFontsIn(obj);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             var script = obj.GetComponent<MainLeaderboardPlayerPrefabScript>();
-            script.SetPlayerInfo(playerJson);
+            script.SetPlayerInfo(playerJson, rank);
 
             rect.localScale = Vector3.one;
             rect.anchoredPosition = new Vector2(0, (rank - 1) * -105 - 30);

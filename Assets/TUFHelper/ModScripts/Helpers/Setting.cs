@@ -51,6 +51,7 @@ namespace TUFHelper.Utils
         public bool ShowIngameLevelInfo { get; set; } = true;
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;
+        public string Language { get; set; } = "Auto";
 
         public Setting()
         {

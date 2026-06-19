@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TUFHelper;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class JobDispatcher : MonoBehaviour
@@ -14,7 +15,26 @@ public class JobDispatcher : MonoBehaviour
     public void Awake()
     {
         instance = this;
+        DisableDuplicateEventSystems();
         Debug.Log("[TUFHelper] Job Dispatcher New Instance: " + SceneManager.GetActiveScene().name);
+    }
+
+    private static void DisableDuplicateEventSystems()
+    {
+        EventSystem[] eventSystems = FindObjectsOfType<EventSystem>(true);
+        if (eventSystems.Length <= 1)
+        {
+            return;
+        }
+
+        EventSystem keep = EventSystem.current ?? eventSystems[0];
+        foreach (EventSystem eventSystem in eventSystems)
+        {
+            if (eventSystem != null && eventSystem != keep)
+            {
+                eventSystem.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void Update()

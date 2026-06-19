@@ -39,6 +39,7 @@ namespace TUFHelper
             if (prefab != null && IngameLeaderboardScript.instance == null)
             {
                 var obj = GameObject.Instantiate(prefab);
+                BundleFontFixer.FixFontsIn(obj);
                 Transform canvas = GameObject.Find("Canvas")?.transform;
                 if (canvas != null)
                     obj.transform.SetParent(canvas, false);

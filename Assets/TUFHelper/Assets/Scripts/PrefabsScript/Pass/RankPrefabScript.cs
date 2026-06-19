@@ -98,7 +98,7 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public static Sprite GetGradeSprite(GradesScore grade)
     {
         string path = "Assets/TUFHelper/Assets/Sprites/Grades/Grade_" + grade + ".png";
-        return Main.assets.LoadAsset<Sprite>(path);
+        return Main.GetSpriteFromAssets(path);
     }
 
     public void OnPointerClick(PointerEventData eventData)

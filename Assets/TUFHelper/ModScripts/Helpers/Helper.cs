@@ -9,7 +9,7 @@ namespace TUFHelper.Utils
         {
             if (Main.assets != null)
             {
-                return Main.assets.LoadAsset<Sprite>("Assets/TUFHelper/Assets/Sprites/Flags/" + countryCode.ToLower() + ".png");
+                return Main.GetSpriteFromAssets("Assets/TUFHelper/Assets/Sprites/Flags/" + countryCode.ToLower() + ".png");
             }
             else
             {

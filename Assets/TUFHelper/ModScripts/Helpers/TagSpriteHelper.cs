@@ -95,25 +95,12 @@ namespace TUFHelper.Utils
                 return null;
             }
 
-            // Try direct load first
-            var sprite = Main.assets.LoadAsset<Sprite>(fileName);
+            var sprite = Main.GetSpriteFromAssets(fileName);
             if (sprite != null)
                 return sprite;
-
-            // Fallback: search all asset names (case-sensitive)
-            foreach (var assetName in Main.assets.GetAllAssetNames())
-            {
-                if (assetName.EndsWith(fileName + ".png", StringComparison.OrdinalIgnoreCase) ||
-                    assetName.EndsWith(fileName, StringComparison.OrdinalIgnoreCase))
-                {
-                    return Main.assets.LoadAsset<Sprite>(assetName);
-                }
-            }
-
 
             Main.Logger.Log($"❌ Tag icon not found in AssetBundle: {fileName}");
             return null;
         }
     }
 }
-

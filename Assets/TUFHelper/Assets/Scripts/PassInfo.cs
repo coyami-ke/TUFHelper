@@ -50,7 +50,7 @@ public class PassInfo : MonoBehaviour
     public async void SetPassInfo(PassesListInfoElementJson pass, LevelListInfoElementJson level)
     {
         var info = await LoadPass(pass.ID);
-        levelIcon.sprite = Main.assets.LoadAsset<Sprite>(DiffSpriteHelper.GetSpriteFromId(level.DiffId));
+        levelIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(level.DiffId));
         levelNameText.text = level.Song;
         compositorText.text = level.Artist;
         authorText.text = level.Creator;

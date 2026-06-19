@@ -34,6 +34,7 @@ public class IngameRatingPanelScript : MonoBehaviour
         foreach (var vote in info.Details)
         {
             GameObject obj = Instantiate(votePrefab, parentVotesList.transform);
+            BundleFontFixer.FixFontsIn(obj);
             RectTransform rect = obj.GetComponent<RectTransform>();
 
             rect.localScale = Vector3.one;

@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Threading;
+using TMPro;
 using TUFHelper;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +31,59 @@ public class UIScript : MonoBehaviour
             {
                 scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
             });
+        }
+
+        AddByeolToCredits();
+    }
+
+    private static void AddByeolToCredits()
+    {
+        foreach (TextMeshProUGUI text in FindObjectsOfType<TextMeshProUGUI>(true))
+        {
+            if (text == null || text.gameObject.name != "Programmers")
+            {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(text.text) || text.text.Contains("Byeol"))
+            {
+                return;
+            }
+
+            if (text.text.Contains("Flower"))
+            {
+                text.text = text.text.Replace("Flower", "Flower\nByeol");
+                ExtendCreditsBox(text.rectTransform);
+                return;
+            }
+        }
+    }
+
+    private static void ExtendCreditsBox(RectTransform programmersRect)
+    {
+        if (programmersRect == null)
+        {
+            return;
+        }
+
+        if (programmersRect.sizeDelta.y < 170f)
+        {
+            programmersRect.sizeDelta = new Vector2(programmersRect.sizeDelta.x, programmersRect.sizeDelta.y + 30f);
+        }
+
+        Transform parent = programmersRect.parent;
+        while (parent != null)
+        {
+            RectTransform rect = parent as RectTransform;
+            Image image = parent.GetComponent<Image>();
+            if (rect != null && image != null && parent.name == "Credits" && rect.sizeDelta.y < 690f)
+            {
+                rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 30f);
+                rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y - 15f);
+                return;
+            }
+
+            parent = parent.parent;
         }
     }
 

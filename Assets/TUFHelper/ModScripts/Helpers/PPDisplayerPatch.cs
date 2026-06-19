@@ -58,6 +58,7 @@ namespace TUFHelper
             }
 
             ppDisplayerObject = GameObject.Instantiate(prefab);
+            BundleFontFixer.FixFontsIn(ppDisplayerObject);
             ppDisplayerObject.name = "TUFHelper_PPDisplayer";
 
             var canvas = GameObject.Find("Canvas")?.transform;
