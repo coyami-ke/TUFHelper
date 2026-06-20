@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -20,13 +17,14 @@ namespace TUFHelper
     {
         private static bool initialized;
         private static TUFHelperLanguage activeLanguage = TUFHelperLanguage.English;
+
         private static readonly Dictionary<int, string> OriginalTexts = new();
         private static readonly Dictionary<int, string> FixedTexts = new();
         private static readonly Dictionary<int, float> OriginalFontSizes = new();
         private static readonly Dictionary<int, TMP_FontAsset> OriginalFonts = new();
-        private const string ChineseFontResourceName = "TUFHelper.NotoSansSC-Medium.otf";
-        private const string ChineseFontFileName = "NotoSansSC-Medium.otf";
-        private static TMP_FontAsset ChineseFontAsset;
+
+        private const string ChineseFontAssetPath = "assets/TUFHelper/Assets/Fonts/NotoSansSC-Medium SDF.asset";
+        private static TMP_FontAsset cachedChineseFontAsset;
 
         private static readonly Dictionary<string, string[]> LocalizationRegistry = new(StringComparer.Ordinal)
         {
@@ -127,10 +125,7 @@ namespace TUFHelper
 
         public static void Init()
         {
-            if (initialized)
-            {
-                return;
-            }
+            if (initialized) return;
 
             initialized = true;
             SceneManager.sceneLoaded += (_, _) => Apply();
@@ -141,20 +136,9 @@ namespace TUFHelper
             get
             {
                 string mode = Main.Setting?.Language ?? "Auto";
-                if (mode.Equals("Korean", StringComparison.OrdinalIgnoreCase))
-                {
-                    return TUFHelperLanguage.Korean;
-                }
-
-                if (mode.Equals("Chinese", StringComparison.OrdinalIgnoreCase))
-                {
-                    return TUFHelperLanguage.Chinese;
-                }
-
-                if (mode.Equals("English", StringComparison.OrdinalIgnoreCase))
-                {
-                    return TUFHelperLanguage.English;
-                }
+                if (mode.Equals("Korean", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.Korean;
+                if (mode.Equals("Chinese", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.Chinese;
+                if (mode.Equals("English", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.English;
 
                 return GetAutoLanguage();
             }
@@ -162,10 +146,7 @@ namespace TUFHelper
 
         public static void SetLanguageMode(string mode)
         {
-            if (Main.Setting == null)
-            {
-                return;
-            }
+            if (Main.Setting == null) return;
 
             Main.Setting.Language = mode;
             Main.Setting.Save(Main.ModEntry);
@@ -176,14 +157,14 @@ namespace TUFHelper
         {
             if (string.IsNullOrEmpty(english) || !LocalizationRegistry.TryGetValue(english, out string[] translations))
             {
-                return english; // Fallback to English if key doesn't exist
+                return english;
             }
 
             return activeLanguage switch
             {
                 TUFHelperLanguage.Korean => translations[0],
                 TUFHelperLanguage.Chinese => translations[1],
-                _ => english // Default back to English source
+                _ => english
             };
         }
 
@@ -198,10 +179,7 @@ namespace TUFHelper
 
         public static void ApplyTo(GameObject root)
         {
-            if (root == null)
-            {
-                return;
-            }
+            if (root == null) return;
 
             RefreshActiveLanguage();
             foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
@@ -212,17 +190,11 @@ namespace TUFHelper
 
         public static void RememberCurrentFonts(GameObject root)
         {
-            if (root == null)
-            {
-                return;
-            }
+            if (root == null) return;
 
             foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
             {
-                if (text == null)
-                {
-                    continue;
-                }
+                if (text == null) continue;
 
                 int id = text.GetInstanceID();
                 OriginalFonts[id] = text.font;
@@ -242,10 +214,7 @@ namespace TUFHelper
 
         public static void RememberOriginal(TextMeshProUGUI text, string english)
         {
-            if (text == null)
-            {
-                return;
-            }
+            if (text == null) return;
 
             int id = text.GetInstanceID();
             FixedTexts.Remove(id);
@@ -260,10 +229,7 @@ namespace TUFHelper
 
         public static void RememberFixedText(TextMeshProUGUI text, string value)
         {
-            if (text == null)
-            {
-                return;
-            }
+            if (text == null) return;
 
             int id = text.GetInstanceID();
             OriginalTexts.Remove(id);
@@ -277,20 +243,13 @@ namespace TUFHelper
 
         public static void ApplyChineseJapaneseFont(TextMeshProUGUI text)
         {
-            if (text == null)
-            {
-                return;
-            }
-
+            if (text == null) return;
             ApplyChineseJapaneseFont(text, text.text);
         }
 
         public static void ApplyChineseJapaneseFont(TextMeshProUGUI text, string value)
         {
-            if (text == null)
-            {
-                return;
-            }
+            if (text == null) return;
 
             int id = text.GetInstanceID();
             if (!OriginalFontSizes.TryGetValue(id, out float originalSize))
@@ -317,10 +276,7 @@ namespace TUFHelper
 
         private static void ApplyToText(TextMeshProUGUI text)
         {
-            if (text == null)
-            {
-                return;
-            }
+            if (text == null) return;
 
             int id = text.GetInstanceID();
             if (FixedTexts.TryGetValue(id, out string fixedText))
@@ -333,10 +289,7 @@ namespace TUFHelper
             if (!OriginalTexts.TryGetValue(id, out string original))
             {
                 original = GetEnglishSource(text.text);
-                if (original == null)
-                {
-                    return;
-                }
+                if (original == null) return;
 
                 OriginalTexts[id] = original;
             }
@@ -348,10 +301,7 @@ namespace TUFHelper
 
         private static void ApplyChineseFont(TextMeshProUGUI text, string value)
         {
-            if (text == null)
-            {
-                return;
-            }
+            if (text == null) return;
 
             int id = text.GetInstanceID();
             if (!OriginalFontSizes.TryGetValue(id, out float originalSize))
@@ -378,96 +328,34 @@ namespace TUFHelper
             }
         }
 
+        // ✅ Zero-Allocation Bundle Loader: Pulls the pre-built asset safely out of Main.assets
         private static bool TryGetChineseFont(out TMP_FontAsset fontAsset)
         {
-            if (ChineseFontAsset != null)
+            if (cachedChineseFontAsset != null)
             {
-                fontAsset = ChineseFontAsset;
+                fontAsset = cachedChineseFontAsset;
                 return true;
             }
 
             fontAsset = null;
+            if (Main.assets == null) return false;
 
             try
             {
-                Font font = LoadEmbeddedChineseFont();
-                if (font == null)
-                {
-                    return false;
-                }
-
-                ChineseFontAsset = TMP_FontAsset.CreateFontAsset(font);
-                ChineseFontAsset.name = "TUFHelper_NotoSansSC_Medium";
-                fontAsset = ChineseFontAsset;
+                cachedChineseFontAsset = Main.assets.LoadAsset<TMP_FontAsset>(ChineseFontAssetPath);
+                fontAsset = cachedChineseFontAsset;
                 return fontAsset != null;
             }
             catch (Exception ex)
             {
-                Main.Logger?.Error("Failed to load Chinese font: " + ex.Message);
-                return false;
-            }
-        }
-
-        private static Font LoadEmbeddedChineseFont()
-        {
-            try
-            {
-                string fontPath = ExtractEmbeddedChineseFont();
-                return string.IsNullOrEmpty(fontPath) ? null : new Font(fontPath);
-            }
-            catch (Exception ex)
-            {
-                Main.Logger?.Error("Failed to load embedded Chinese font: " + ex.Message);
-                return null;
-            }
-        }
-
-        private static string ExtractEmbeddedChineseFont()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            using Stream stream = assembly.GetManifestResourceStream(ChineseFontResourceName);
-            if (stream == null)
-            {
-                return null;
-            }
-
-            string fontDir = Path.Combine(Path.GetTempPath(), "TUFHelper");
-            Directory.CreateDirectory(fontDir);
-
-            string fontPath = Path.Combine(fontDir, ChineseFontFileName);
-            if (File.Exists(fontPath) && new FileInfo(fontPath).Length == stream.Length)
-            {
-                return fontPath;
-            }
-
-            using FileStream fileStream = File.Create(fontPath);
-            stream.CopyTo(fileStream);
-            return fontPath;
-        }
-
-        private static bool UsesFallbackFontFor(string value, TMP_FontAsset font)
-        {
-            if (font == null || string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
-
-            try
-            {
-                return !font.HasCharacters(value);
-            }
-            catch
-            {
+                Main.Logger?.Error($"[LanguageManager] Critical failure pulling Chinese SDF asset path: {ex.Message}");
                 return false;
             }
         }
 
         private static bool ContainsCjk(string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
+            if (string.IsNullOrEmpty(value)) return false;
 
             foreach (char c in value)
             {
@@ -476,16 +364,12 @@ namespace TUFHelper
                     return true;
                 }
             }
-
             return false;
         }
 
         private static bool ContainsChineseOrJapanese(string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                return false;
-            }
+            if (string.IsNullOrEmpty(value)) return false;
 
             foreach (char c in value)
             {
@@ -498,29 +382,14 @@ namespace TUFHelper
                     return true;
                 }
             }
-
             return false;
-        }
-
-        private static bool IsSimplifiedChineseLanguageName(string value)
-        {
-            return !string.IsNullOrEmpty(value) && value.Contains("\u7B80\u4F53\u4E2D\u6587");
         }
 
         private static string GetEnglishSource(string current)
         {
-            if (string.IsNullOrEmpty(current))
-            {
-                return null;
-            }
+            if (string.IsNullOrEmpty(current)) return null;
+            if (LocalizationRegistry.ContainsKey(current)) return current;
 
-            // If the string is already a valid English key, return it directly
-            if (LocalizationRegistry.ContainsKey(current))
-            {
-                return current;
-            }
-
-            // Otherwise, check if it matches any translated value in our arrays
             foreach (KeyValuePair<string, string[]> pair in LocalizationRegistry)
             {
                 if (pair.Value[0] == current || pair.Value[1] == current)
@@ -528,27 +397,15 @@ namespace TUFHelper
                     return pair.Key;
                 }
             }
-
             return null;
         }
 
         private static TUFHelperLanguage DetectGameLanguage()
         {
-            string reflected = TryReadGameLanguageValue();
-            if (LooksKorean(reflected))
-            {
-                return TUFHelperLanguage.Korean;
-            }
-
-            if (LooksChineseLanguage(reflected))
-            {
-                return TUFHelperLanguage.Chinese;
-            }
-
-            if (LooksEnglish(reflected))
-            {
-                return TUFHelperLanguage.English;
-            }
+            string reflected = TryReadPlayerPrefsLanguage();
+            if (LooksKorean(reflected)) return TUFHelperLanguage.Korean;
+            if (LooksChineseLanguage(reflected)) return TUFHelperLanguage.Chinese;
+            if (LooksEnglish(reflected)) return TUFHelperLanguage.English;
 
             return Application.systemLanguage switch
             {
@@ -560,26 +417,9 @@ namespace TUFHelper
             };
         }
 
-        private static string TryReadGameLanguageValue()
-        {
-            return TryReadPlayerPrefsLanguage();
-        }
-
         private static string TryReadPlayerPrefsLanguage()
         {
-            string[] keys =
-            {
-                "language",
-                "Language",
-                "lang",
-                "Lang",
-                "locale",
-                "Locale",
-                "currentLanguage",
-                "CurrentLanguage",
-                "selectedLanguage",
-                "SelectedLanguage"
-            };
+            string[] keys = { "language", "Language", "lang", "Lang", "locale", "Locale" };
 
             foreach (string key in keys)
             {
@@ -588,78 +428,41 @@ namespace TUFHelper
                     if (PlayerPrefs.HasKey(key))
                     {
                         string value = PlayerPrefs.GetString(key);
-                        if (!string.IsNullOrWhiteSpace(value))
-                        {
-                            return value;
-                        }
+                        if (!string.IsNullOrEmpty(value)) return value;
                     }
                 }
-                catch
-                {
-                }
+                catch { }
             }
-
             return null;
         }
 
         private static bool LooksKorean(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return false;
-            }
-
+            if (string.IsNullOrWhiteSpace(value)) return false;
             value = value.ToLowerInvariant();
             return value.Contains("korean") || value == "ko" || value.Contains("kr") || value.Contains("한국");
         }
 
         private static bool LooksEnglish(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return false;
-            }
-
+            if (string.IsNullOrWhiteSpace(value)) return false;
             value = value.ToLowerInvariant();
             return value.Contains("english") || value == "en";
         }
 
         private static bool LooksChineseLanguage(string value)
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return false;
-            }
-
+            if (string.IsNullOrWhiteSpace(value)) return false;
             value = value.ToLowerInvariant();
-            return value.Contains("chinese")
-                || value.Contains("simplified")
-                || value.Contains("traditional")
-                || value.Contains("schinese")
-                || value.Contains("tchinese")
-                || value.Contains("zh")
-                || value.Contains("zhs")
-                || value.Contains("zht")
-                || value.Contains("cn")
-                || value.Contains("tw")
-                || value.Contains("中文")
-                || value.Contains("简体")
-                || value.Contains("簡體")
-                || value.Contains("繁体")
-                || value.Contains("繁體")
-                || value.Contains("中国")
-                || value.Contains("中國");
+            return value.Contains("chinese") || value.Contains("simplified") || value.Contains("traditional") ||
+                   value.Contains("schinese") || value.Contains("tchinese") || value.Contains("zh") ||
+                   value.Contains("cn") || value.Contains("中文") || value.Contains("简体");
         }
+    }
 
-        private static bool LooksChinese(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return false;
-            }
-
-            value = value.ToLowerInvariant();
-            return value.Contains("chinese") || value.Contains("zh") || value.Contains("cn") || value.Contains("tw") || value.Contains("中文") || value.Contains("简体") || value.Contains("繁體");
-        }
+    // Helper extension fallback string validation structure block
+    internal static class StringExtensions
+    {
+        public static bool MakeNullEmptyOrWhiteSpace(string value) => string.IsNullOrWhiteSpace(value);
     }
 }
