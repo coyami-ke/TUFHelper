@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class LanguageSettingsRuntime : MonoBehaviour
 {
+    private const string KoreanDisplayName = "\uD55C\uAD6D\uC5B4";
+    private const string ChineseDisplayName = "\u7B80\u4F53\u4E2D\u6587";
     private readonly List<OptionView> options = new();
     private GameObject optionMenu;
     private TextMeshProUGUI selectedLabel;
@@ -53,6 +55,8 @@ public class LanguageSettingsRuntime : MonoBehaviour
         panel.SetActive(false);
         BundleFontFixer.FixFontsIn(tabObject);
         BundleFontFixer.FixFontsIn(panel);
+        LanguageManager.RememberCurrentFonts(tabObject);
+        LanguageManager.RememberCurrentFonts(panel);
         LanguageManager.ApplyTo(settings.gameObject);
     }
 
@@ -243,10 +247,10 @@ public class LanguageSettingsRuntime : MonoBehaviour
         menuImage.color = new Color(0.07f, 0.08f, 0.12f, 0.96f);
         menuImage.raycastTarget = true;
 
-        CreateDropdownOption("Auto (Game Language)", "Auto", new Vector2(0, 87));
-        CreateDropdownOption("English", "English", new Vector2(0, 29));
-        CreateDropdownOption("Korean", "Korean", new Vector2(0, -29));
-        CreateDropdownOption("Chinese", "Chinese", new Vector2(0, -87));
+        CreateDropdownOption("Auto (Game Language)", "Auto", new Vector2(0, 87), true);
+        CreateDropdownOption("English", "English", new Vector2(0, 29), true);
+        CreateDropdownOption(KoreanDisplayName, "Korean", new Vector2(0, -29), true);
+        CreateDropdownOption(ChineseDisplayName, "Chinese", new Vector2(0, -87), true);
         SetMenuOpen(false);
     }
 
@@ -270,9 +274,9 @@ public class LanguageSettingsRuntime : MonoBehaviour
         return text;
     }
 
-    private void CreateDropdownOption(string englishLabel, string mode, Vector2 anchoredPosition)
+    private void CreateDropdownOption(string displayLabel, string mode, Vector2 anchoredPosition, bool fixedDisplay)
     {
-        GameObject obj = new(englishLabel + "Option", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        GameObject obj = new(mode + "Option", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
         obj.transform.SetParent(optionMenu.transform, false);
 
         RectTransform rect = obj.GetComponent<RectTransform>();
@@ -293,7 +297,11 @@ public class LanguageSettingsRuntime : MonoBehaviour
             Refresh();
         });
 
-        TextMeshProUGUI label = CreateChildText(obj.transform, "Label", englishLabel, 23, TextAlignmentOptions.Left);
+        TextMeshProUGUI label = CreateChildText(obj.transform, "Label", displayLabel, 23, TextAlignmentOptions.Left);
+        if (fixedDisplay)
+        {
+            LanguageManager.RememberFixedText(label, displayLabel);
+        }
         RectTransform labelRect = label.GetComponent<RectTransform>();
         labelRect.offsetMin = new Vector2(24, 0);
         labelRect.offsetMax = new Vector2(-56, 0);
@@ -306,7 +314,7 @@ public class LanguageSettingsRuntime : MonoBehaviour
         checkRect.anchoredPosition = new Vector2(-30, 0);
         checkRect.sizeDelta = new Vector2(36, 0);
 
-        options.Add(new OptionView(mode, englishLabel, image, check));
+        options.Add(new OptionView(mode, displayLabel, fixedDisplay, image, check));
     }
 
     private void ToggleMenu()
@@ -348,7 +356,14 @@ public class LanguageSettingsRuntime : MonoBehaviour
             option.Check.gameObject.SetActive(isSelected);
             if (isSelected && selectedLabel != null)
             {
-                LanguageManager.RememberOriginal(selectedLabel, option.EnglishLabel);
+                if (option.FixedDisplay)
+                {
+                    LanguageManager.RememberFixedText(selectedLabel, option.DisplayLabel);
+                }
+                else
+                {
+                    LanguageManager.RememberOriginal(selectedLabel, option.DisplayLabel);
+                }
             }
         }
     }
@@ -356,14 +371,16 @@ public class LanguageSettingsRuntime : MonoBehaviour
     private readonly struct OptionView
     {
         public readonly string Mode;
-        public readonly string EnglishLabel;
+        public readonly string DisplayLabel;
+        public readonly bool FixedDisplay;
         public readonly Image Background;
         public readonly TextMeshProUGUI Check;
 
-        public OptionView(string mode, string englishLabel, Image background, TextMeshProUGUI check)
+        public OptionView(string mode, string displayLabel, bool fixedDisplay, Image background, TextMeshProUGUI check)
         {
             Mode = mode;
-            EnglishLabel = englishLabel;
+            DisplayLabel = displayLabel;
+            FixedDisplay = fixedDisplay;
             Background = background;
             Check = check;
         }

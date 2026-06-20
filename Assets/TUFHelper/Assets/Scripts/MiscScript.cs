@@ -168,7 +168,7 @@ public class MiscScript : MonoBehaviour
 
                 LevelPrefabScript.SaveLevelToSettings(newLevel, level.NameFolder, LevelDownloader.FindAdofaiFiles(level.NameFolder)[0]);
 
-                textInfo.text = $"UPDATE INFO ({i + 1}/{count})...";
+                textInfo.text = $"{LanguageManager.Translate("UPDATE INFO")} ({i + 1}/{count})...";
 
                 i++;
             }
@@ -180,7 +180,7 @@ public class MiscScript : MonoBehaviour
         Main.Setting.Save(Main.ModEntry);
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
-        textInfo.text = "UPDATE INFO";
+        LanguageManager.RememberOriginal(textInfo, "UPDATE INFO");
     }
     public async void ImFuckingLucky()
     {

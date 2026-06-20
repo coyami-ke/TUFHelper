@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using DG.Tweening;
 using TMPro;
+using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -34,6 +35,7 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
     public void SetLevel(string levelName, LevelListInfoElementJson info)
     {
         this.levelName.text = Path.GetFileName(levelName);
+        LanguageManager.ApplyChineseJapaneseFont(this.levelName);
         fullPath = levelName;
         levelInfo = info;
     }

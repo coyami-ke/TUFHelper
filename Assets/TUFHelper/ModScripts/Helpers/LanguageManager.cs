@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using TMPro;
@@ -20,8 +21,11 @@ namespace TUFHelper
         private static bool initialized;
         private static TUFHelperLanguage activeLanguage = TUFHelperLanguage.English;
         private static readonly Dictionary<int, string> OriginalTexts = new();
+        private static readonly Dictionary<int, string> FixedTexts = new();
         private static readonly Dictionary<int, float> OriginalFontSizes = new();
-        private const float FallbackFontScale = 1.5f;
+        private static readonly Dictionary<int, TMP_FontAsset> OriginalFonts = new();
+        private const string ChineseFontPath = @"C:\Users\Administrator\Downloads\noto-sans-sc\NotoSansSC-Medium.otf";
+        private static TMP_FontAsset ChineseFontAsset;
 
         private static readonly Dictionary<string, string> Korean = new(StringComparer.Ordinal)
         {
@@ -108,7 +112,7 @@ namespace TUFHelper
             { "FORUM", "포럼 사이트" },
             { "Downloader", "다운로더" },
             { "MUSIC", "음악" },
-            { "UPDATE INFO", "새로고침" },
+            { "UPDATE INFO", "정보 업데이트" },
             { "EXIT", "나가기" },
             { "HIDDEN", "숨김" },
             { "State:", "상태:" },
@@ -299,6 +303,26 @@ namespace TUFHelper
             }
         }
 
+        public static void RememberCurrentFonts(GameObject root)
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            foreach (TextMeshProUGUI text in root.GetComponentsInChildren<TextMeshProUGUI>(true))
+            {
+                if (text == null)
+                {
+                    continue;
+                }
+
+                int id = text.GetInstanceID();
+                OriginalFonts[id] = text.font;
+                OriginalFontSizes[id] = text.fontSize;
+            }
+        }
+
         private static void RefreshActiveLanguage()
         {
             activeLanguage = CurrentLanguage;
@@ -316,12 +340,72 @@ namespace TUFHelper
                 return;
             }
 
-            OriginalTexts[text.GetInstanceID()] = english;
-            OriginalFontSizes.TryAdd(text.GetInstanceID(), text.fontSize);
+            int id = text.GetInstanceID();
+            FixedTexts.Remove(id);
+            OriginalTexts[id] = english;
+            OriginalFontSizes.TryAdd(id, text.fontSize);
+            OriginalFonts.TryAdd(id, text.font);
 
             string translated = Translate(english);
             text.text = translated;
-            ApplyFallbackFontScale(text, translated);
+            ApplyChineseFont(text, translated);
+        }
+
+        public static void RememberFixedText(TextMeshProUGUI text, string value)
+        {
+            if (text == null)
+            {
+                return;
+            }
+
+            int id = text.GetInstanceID();
+            OriginalTexts.Remove(id);
+            FixedTexts[id] = value;
+            OriginalFontSizes.TryAdd(id, text.fontSize);
+            OriginalFonts.TryAdd(id, text.font);
+
+            text.text = value;
+            ApplyChineseJapaneseFont(text, value);
+        }
+
+        public static void ApplyChineseJapaneseFont(TextMeshProUGUI text)
+        {
+            if (text == null)
+            {
+                return;
+            }
+
+            ApplyChineseJapaneseFont(text, text.text);
+        }
+
+        public static void ApplyChineseJapaneseFont(TextMeshProUGUI text, string value)
+        {
+            if (text == null)
+            {
+                return;
+            }
+
+            int id = text.GetInstanceID();
+            if (!OriginalFontSizes.TryGetValue(id, out float originalSize))
+            {
+                originalSize = text.fontSize;
+                OriginalFontSizes[id] = originalSize;
+            }
+            if (!OriginalFonts.TryGetValue(id, out TMP_FontAsset originalFont))
+            {
+                originalFont = text.font;
+                OriginalFonts[id] = originalFont;
+            }
+
+            text.fontSize = originalSize;
+            if (ContainsChineseOrJapanese(value) && TryGetChineseFont(out TMP_FontAsset chineseFont))
+            {
+                text.font = chineseFont;
+            }
+            else
+            {
+                text.font = originalFont;
+            }
         }
 
         private static void ApplyToText(TextMeshProUGUI text)
@@ -332,6 +416,13 @@ namespace TUFHelper
             }
 
             int id = text.GetInstanceID();
+            if (FixedTexts.TryGetValue(id, out string fixedText))
+            {
+                text.text = fixedText;
+                ApplyChineseJapaneseFont(text, fixedText);
+                return;
+            }
+
             if (!OriginalTexts.TryGetValue(id, out string original))
             {
                 original = GetEnglishSource(text.text);
@@ -345,10 +436,10 @@ namespace TUFHelper
 
             string translated = Translate(original);
             text.text = translated;
-            ApplyFallbackFontScale(text, translated);
+            ApplyChineseFont(text, translated);
         }
 
-        private static void ApplyFallbackFontScale(TextMeshProUGUI text, string value)
+        private static void ApplyChineseFont(TextMeshProUGUI text, string value)
         {
             if (text == null)
             {
@@ -361,12 +452,52 @@ namespace TUFHelper
                 originalSize = text.fontSize;
                 OriginalFontSizes[id] = originalSize;
             }
+            if (!OriginalFonts.TryGetValue(id, out TMP_FontAsset originalFont))
+            {
+                originalFont = text.font;
+                OriginalFonts[id] = originalFont;
+            }
 
-            bool shouldScale = activeLanguage == TUFHelperLanguage.Chinese
-                && ContainsCjk(value)
-                && (UsesFallbackFontFor(value, text.font) || IsSimplifiedChineseLanguageName(value));
+            text.fontSize = originalSize;
 
-            text.fontSize = shouldScale ? originalSize * FallbackFontScale : originalSize;
+            bool shouldUseChineseFont = activeLanguage == TUFHelperLanguage.Chinese && ContainsCjk(value);
+            if (shouldUseChineseFont && TryGetChineseFont(out TMP_FontAsset chineseFont))
+            {
+                text.font = chineseFont;
+            }
+            else
+            {
+                text.font = originalFont;
+            }
+        }
+
+        private static bool TryGetChineseFont(out TMP_FontAsset fontAsset)
+        {
+            if (ChineseFontAsset != null)
+            {
+                fontAsset = ChineseFontAsset;
+                return true;
+            }
+
+            fontAsset = null;
+            if (!File.Exists(ChineseFontPath))
+            {
+                return false;
+            }
+
+            try
+            {
+                Font font = new Font(ChineseFontPath);
+                ChineseFontAsset = TMP_FontAsset.CreateFontAsset(font);
+                ChineseFontAsset.name = "TUFHelper_NotoSansSC_Medium";
+                fontAsset = ChineseFontAsset;
+                return fontAsset != null;
+            }
+            catch (Exception ex)
+            {
+                Main.Logger?.Error("Failed to load Chinese font: " + ex.Message);
+                return false;
+            }
         }
 
         private static bool UsesFallbackFontFor(string value, TMP_FontAsset font)
@@ -396,6 +527,28 @@ namespace TUFHelper
             foreach (char c in value)
             {
                 if ((c >= '\u3400' && c <= '\u4DBF') || (c >= '\u4E00' && c <= '\u9FFF'))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private static bool ContainsChineseOrJapanese(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return false;
+            }
+
+            foreach (char c in value)
+            {
+                if ((c >= '\u3040' && c <= '\u30FF') ||
+                    (c >= '\u31F0' && c <= '\u31FF') ||
+                    (c >= '\u3400' && c <= '\u4DBF') ||
+                    (c >= '\u4E00' && c <= '\u9FFF') ||
+                    (c >= '\uF900' && c <= '\uFAFF'))
                 {
                     return true;
                 }

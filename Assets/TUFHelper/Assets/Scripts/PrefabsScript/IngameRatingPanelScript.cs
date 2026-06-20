@@ -28,6 +28,7 @@ public class IngameRatingPanelScript : MonoBehaviour
     public async Task SetRatingInfo(RatingElementJson info)
     {
         songArtist.text = $"{info.Level.Song} - {info.Level.Artist}";
+        LanguageManager.ApplyChineseJapaneseFont(songArtist);
         RatingInfo = info;
 
         float height = 0;

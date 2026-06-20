@@ -48,6 +48,10 @@ namespace TUFHelper.ModScripts.Web
                     throw new Exception($"Request error: {request.error}");
                 }
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 Debug.LogError($"[TUFAPIRequest] Request failed: {ex.Message}");

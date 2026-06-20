@@ -21,7 +21,8 @@ namespace TUFHelper.ModScripts.Web
 
         public async Task GetAnswerAsync(CancellationToken token)
         {
-            string url = $"{DEFAULT_URL}?query={Query}&sortBy=rankedScore&order=desc&offset={Offset}&limit={Limit}&showBanned=hide";
+            string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
+            string url = $"{DEFAULT_URL}?query={encodedQuery}&sortBy=rankedScore&order=desc&offset={Offset}&limit={Limit}&showBanned=hide";
 
             using var request = UnityWebRequest.Get(url);
             request.certificateHandler = new CertificateWhore();
@@ -49,6 +50,10 @@ namespace TUFHelper.ModScripts.Web
                 {
                     throw new Exception($"Request error: {request.error}");
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

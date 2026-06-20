@@ -7,13 +7,24 @@ namespace TUFHelper.Utils
     {
         public static Sprite GetFlagSprite(string countryCode)
         {
+            if (string.IsNullOrWhiteSpace(countryCode))
+            {
+                return null;
+            }
+
+            countryCode = countryCode.Trim().ToLowerInvariant();
+            if (countryCode is "xx" or "unknown" or "null")
+            {
+                return null;
+            }
+
             if (Main.assets != null)
             {
-                return Main.GetSpriteFromAssets("Assets/TUFHelper/Assets/Sprites/Flags/" + countryCode.ToLower() + ".png");
+                return Main.GetSpriteFromAssets("Assets/TUFHelper/Assets/Sprites/Flags/" + countryCode + ".png");
             }
             else
             {
-                return Resources.Load<Sprite>("Flags/" + countryCode.ToLower());
+                return Resources.Load<Sprite>("Flags/" + countryCode);
             }
         }
 

@@ -46,7 +46,8 @@ namespace TUFHelper.ModScripts.Web
             string order = SortAsc == AscendingOrDescending.Ascending ? "ASC" : "DESC";
             string sort = $"{SortBy}_{order}";
 
-            string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={Query}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
+            string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
+            string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={encodedQuery}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
             {
                 var cleaned = SpecialDifficulties
@@ -98,6 +99,10 @@ namespace TUFHelper.ModScripts.Web
                 {
                     throw new Exception($"Request error: {request.error}");
                 }
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
             catch (Exception ex)
             {

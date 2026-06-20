@@ -282,7 +282,7 @@ public class LevelListScript : MonoBehaviour
 
             var sortedLevels = SortLevels(levels);
 
-            string query = DefaultRequest.Query.ToLower();
+            string query = SearchScript.NormalizeSearchText(DefaultRequest.Query).ToLowerInvariant();
             bool searchId = query.StartsWith("#");
             int queryId = 0;
             if (searchId && int.TryParse(query.Substring(1), out int id))

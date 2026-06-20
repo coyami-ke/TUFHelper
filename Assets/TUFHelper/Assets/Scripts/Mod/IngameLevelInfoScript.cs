@@ -23,6 +23,8 @@ public class IngameLevelInfoScript : MonoBehaviour
     {
         artistText.text = "#" + levelInfo.ID + " " + levelInfo.Artist;
         songText.text = levelInfo.Song;
+        LanguageManager.ApplyChineseJapaneseFont(artistText);
+        LanguageManager.ApplyChineseJapaneseFont(songText);
 
         diffIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
     }

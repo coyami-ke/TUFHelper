@@ -192,6 +192,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             idText.text = "#" + levelInfo.ID;
             artistText.text = levelInfo.Artist;
             levelNameText.text = levelInfo.Song;
+            LanguageManager.ApplyChineseJapaneseFont(artistText);
+            LanguageManager.ApplyChineseJapaneseFont(levelNameText);
 
             if (Main.Setting.FavoriteLevels.Contains(levelInfo.ID))
             {
@@ -210,6 +212,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             {
                 creatorText.text = levelInfo.Creator;
             }
+            LanguageManager.ApplyChineseJapaneseFont(creatorText);
 
             difficultyIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
 

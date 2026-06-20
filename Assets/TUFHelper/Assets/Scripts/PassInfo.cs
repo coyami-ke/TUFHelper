@@ -54,6 +54,9 @@ public class PassInfo : MonoBehaviour
         levelNameText.text = level.Song;
         compositorText.text = level.Artist;
         authorText.text = level.Creator;
+        LanguageManager.ApplyChineseJapaneseFont(levelNameText);
+        LanguageManager.ApplyChineseJapaneseFont(compositorText);
+        LanguageManager.ApplyChineseJapaneseFont(authorText);
         chartText.text = $"Chart by: {level.Charter}";
         vfxText.text = $"VFX by: {level.Vfxer}";
         newPlayerScoreText.text = info.ScoreInfo.CurrentRankedScore.ToString("F1");

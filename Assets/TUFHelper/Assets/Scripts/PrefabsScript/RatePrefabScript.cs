@@ -31,6 +31,7 @@ public class RatePrefabScript : MonoBehaviour
     public void SetRateInfo(RatingElementJson info)
     {
         artistSong.text = $"{info.Level.Artist} - {info.Level.Song}";
+        LanguageManager.ApplyChineseJapaneseFont(artistSong);
 
         if (info.AverageDifficulty != null) managerRating.text = info.AverageDifficulty.Name;
 
@@ -47,6 +48,7 @@ public class RatePrefabScript : MonoBehaviour
         levelID.text = "#" + info.LevelID.ToString();
 
         rerateMessage.text = info.Level.RerateReason;
+        LanguageManager.ApplyChineseJapaneseFont(rerateMessage);
 
         if (info?.RequestedDiffID < 20) background.color = new(0.25f, 1, 0.25f, 50 / 255f);
         else if (info.Details.Count >= 4) background.color = new(1, 0.25f, 0.25f, 50 / 255f);

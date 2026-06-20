@@ -33,6 +33,7 @@ namespace TUFHelper
         private static async void OnPlay(object sender, PlayButtonEventArgs e)
         {
             if (!ADOFAIGameplayHandler.IsFromTUFHelper) return;
+            lastLeaderboardUpdateTime = -999f;
 
             string assetName = "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab";
             GameObject prefab = Main.assets.LoadAsset<GameObject>(assetName);
@@ -93,6 +94,8 @@ namespace TUFHelper
 
         private static readonly PPDisplayerScript.PassData _cachedPassData = new();
         private static readonly PPDisplayerScript.LevelData _cachedLevelData = new();
+        private const float LeaderboardUpdateInterval = 0.12f;
+        private static float lastLeaderboardUpdateTime = -999f;
 
         private static void OnHit(object sender, HitMargin e)
         {
@@ -129,6 +132,13 @@ namespace TUFHelper
 
             _cachedLevelData.Difficulty.Name = nameDiff;
             _cachedLevelData.Difficulty.BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0;
+
+            float now = Time.unscaledTime;
+            if (now - lastLeaderboardUpdateTime < LeaderboardUpdateInterval)
+            {
+                return;
+            }
+            lastLeaderboardUpdateTime = now;
 
             player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(_cachedPassData, _cachedLevelData);
             player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);

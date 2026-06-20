@@ -13,6 +13,8 @@ namespace TUFHelper
         public static PPDisplayerScript ppDisplayer { get; private set; }
         private static GameObject ppDisplayerObject;
         private static PPDisplayerScript.Judgements judgements = new();
+        private const float ScoreUpdateInterval = 0.08f;
+        private static float lastScoreUpdateTime = -999f;
 
         static PPDisplayerPatch()
         {
@@ -114,6 +116,7 @@ namespace TUFHelper
         private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)
         {
             judgements.Reset();
+            lastScoreUpdateTime = -999f;
 
             if (ppDisplayerObject == null)
             {
@@ -135,6 +138,13 @@ namespace TUFHelper
                 ppDisplayer.ApplyPP(-1310);
                 return;
             }
+
+            float now = Time.unscaledTime;
+            if (now - lastScoreUpdateTime < ScoreUpdateInterval)
+            {
+                return;
+            }
+            lastScoreUpdateTime = now;
 
             float score = CalculateScore();
             ppDisplayer.ApplyPP(score);
