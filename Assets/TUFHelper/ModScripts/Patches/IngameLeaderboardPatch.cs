@@ -44,7 +44,6 @@ namespace TUFHelper
                 Transform canvas = GameObject.Find("Canvas")?.transform;
                 if (canvas != null)
                     obj.transform.SetParent(canvas, false);
-                //GameObject.DontDestroyOnLoad(obj);
             }
 
             LevelListInfoElementJson levelInfo = e.CurrentLevelInfo;
@@ -125,12 +124,6 @@ namespace TUFHelper
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
             if (levelInfo == null) return;
-
-            //if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
-            //    nameDiff = "0";
-
-            //_cachedLevelData.BaseScore = levelInfo.Difficulty?.BaseScore;
-            //_cachedLevelData.PPBaseScore = levelInfo.PPBaseScore;
 
             float now = Time.unscaledTime;
             if (now - lastLeaderboardUpdateTime < LeaderboardUpdateInterval)

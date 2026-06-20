@@ -154,13 +154,6 @@ namespace TUFHelper
             };
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
-            //if (levelInfo == null) return 0f;
-
-            // ✅ Explicit Fallback Extraction: Solves type-mismatch and 0-score bugs
-            //double calculatedBase = levelInfo.BaseScore ?? levelInfo.Difficulty?.BaseScore ?? 0.0;
-            //double calculatedPPBase = levelInfo.PPBaseScore ?? calculatedBase;
-
-            // ✅ Uses the standard initialization route for direct live gameplay
             var levelData = new PPDisplayerScript.LevelData(levelInfo);
 
             return (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(passData, levelData);
