@@ -267,6 +267,7 @@ namespace TUFHelper
             if (ContainsChineseOrJapanese(value) && TryGetChineseFont(out TMP_FontAsset chineseFont))
             {
                 text.font = chineseFont;
+                text.fontSize *= 1.25f;
             }
             else
             {

@@ -309,6 +309,7 @@ public class MiscScript : MonoBehaviour
                 break;
             default:
                 LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
+                LevelSelector.instance.LevelInfo = lastLevel;
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;
         }

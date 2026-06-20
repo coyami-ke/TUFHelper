@@ -25,7 +25,6 @@ namespace TUFHelper
         internal static AssetBundle assets, scenes;
         internal static bool isInTUFHelper = false;
         
-        // internal static List<string> removeLevels = new();
         internal static SynchronizationContext mainThread;
 
         public static void Initialize(ModEntry modEntry)
@@ -82,18 +81,26 @@ namespace TUFHelper
             };
             mainThread = SynchronizationContext.Current;
 
+            mainThread = SynchronizationContext.Current;
+
             try
             {
-                Setting = new Setting();
-                var settings = Setting.LoadFromJson(modEntry);
-                if (settings != null) Setting = settings;
+                Setting = Setting.LoadFromJson(modEntry);
 
-                else Main.Logger.Error("The settings file is Null");
+                if (Setting == null)
+                {
+                    Main.Logger.Error("The settings generation failed. Reverting to application memory defaults.");
+                    Setting = new Setting();
+                }
             }
             catch (Exception ex)
             {
+                Main.Logger.Error("Critical failure during deserialization mapping:");
                 Main.Logger.LogException(ex);
+                Setting = new Setting();
             }
+
+            LanguageManager.Init();
 
             LanguageManager.Init();
         }

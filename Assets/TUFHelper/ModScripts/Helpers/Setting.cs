@@ -24,13 +24,13 @@ namespace TUFHelper.Utils
         public CustomLevelInfoJson LocalData { get; set; }
     }
 
-    public class Setting : UnityModManager.ModSettings
+    public class Setting
     {
         public string LevelSaveFolder { get; set; } = null;
         public int MinDiff { get; set; } = 1;
         public int MaxDiff { get; set; } = 60;
         public int MinQDiff { get; set; } = 1;
-        public int MaxQDiff { get; set; } = 10;
+        public int MaxQDiff { get; set; } = 11;
         public float TUFHelperMusicVolume { get; set; } = 0.5f; // Converted to property for consistent serialization
         public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
         public int SortBy { get; set; } = 0;
@@ -55,6 +55,7 @@ namespace TUFHelper.Utils
 
         public Setting()
         {
+            // Establish defaults if paths are evaluated natively
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 LevelSaveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TUFHelper", "Levels");
@@ -66,17 +67,18 @@ namespace TUFHelper.Utils
             }
         }
 
-        public override void Save(UnityModManager.ModEntry modEntry)
+        public void Save(UnityModManager.ModEntry modEntry)
         {
             if (modEntry == null)
             {
-                Main.Logger.Error("The mod entry is null");
+                Main.Logger?.Error("The mod entry is null");
                 return;
             }
             var filepath = GetPath(modEntry);
             try
             {
-                File.WriteAllText(filepath, JsonConvert.SerializeObject(this, Formatting.Indented));
+                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                File.WriteAllText(filepath, json);
             }
             catch (Exception e)
             {
@@ -89,32 +91,36 @@ namespace TUFHelper.Utils
             if (modEntry == null) return new Setting();
 
             string filepath = Path.Combine(modEntry.Path, "Settings.json");
-            Main.Logger.Log($"Attempting to load settings from: {filepath}");
 
             if (!File.Exists(filepath))
             {
-                Main.Logger.Log("Settings file doesn't exist. Creating fresh default settings.");
+                Main.Logger?.Log($"Settings file doesn't exist at path. Creating a fresh instance: {filepath}");
                 Setting newSettings = new Setting();
-                newSettings.Save(modEntry); 
+                newSettings.Save(modEntry);
                 return newSettings;
             }
 
             try
             {
                 string text = File.ReadAllText(filepath);
-                Setting loadedSettings = JsonConvert.DeserializeObject<Setting>(text);
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    Main.Logger?.Log("Settings file was empty. Reverting to default values.");
+                    return new Setting();
+                }
 
+                Setting loadedSettings = JsonConvert.DeserializeObject<Setting>(text);
                 return loadedSettings ?? new Setting();
             }
             catch (Exception ex)
             {
-                modEntry.Logger.Error($"Can't load {filepath}. Reverting to default settings.");
+                modEntry.Logger.Error($"Can't read setup parameters from {filepath}. Reverting to defaults safely.");
                 modEntry.Logger.LogException(ex);
                 return new Setting();
             }
         }
 
-        public override string GetPath(UnityModManager.ModEntry modEntry)
+        public string GetPath(UnityModManager.ModEntry modEntry)
         {
             return Path.Combine(modEntry.Path, "Settings.json");
         }
