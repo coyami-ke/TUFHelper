@@ -27,198 +27,101 @@ namespace TUFHelper
         private const string ChineseFontPath = @"C:\Users\Administrator\Downloads\noto-sans-sc\NotoSansSC-Medium.otf";
         private static TMP_FontAsset ChineseFontAsset;
 
-        private static readonly Dictionary<string, string> Korean = new(StringComparer.Ordinal)
+        private static readonly Dictionary<string, string[]> LocalizationRegistry = new(StringComparer.Ordinal)
         {
-            { "SETTINGS", "설정" },
-            { "Settings", "설정" },
-            { "Mod Settings", "모드 설정" },
-            { "Bootstrap", "부트스트랩" },
-            { "Overlayer", "오버레이" },
-            { "Audio", "오디오" },
-            { "Language", "언어" },
-            { "TUFHELPER MUSIC VOLUME", "TUFHelper 음악 볼륨" },
-            { "LEVEL SAVE PATH", "레벨 저장 경로" },
-            { "START WITH GAME", "게임 시작 시 열기" },
-            { "SHOW & HANDLE OVERLAYER", "오버레이 표시 및 조정" },
-            { "Show PP Displayer", "PP 표시기 보이기" },
-            { "Show Speed", "속도 표시 보이기" },
-            { "Show Leaderboard", "리더보드 보이기" },
-            { "Show Level Info", "레벨 정보 보이기" },
-            { "Scale", "크기" },
-            { "Auto (Game Language)", "자동 (게임 언어)" },
-            { "English", "English" },
-            { "Korean", "한국어" },
-            { "Chinese", "简体中文" },
-            { "Follow the game's language setting.", "게임 언어 설정을 따라갑니다." },
-            { "Select Language", "언어 선택" },
-            { "GROUP BY FOLDERS", "폴더별로 묶기" },
-            { "SHOW ONLY FAVORITES", "즐겨찾기만 보기" },
-            { "SHOW ONLY DOWNLOADED", "다운로드한 레벨만 보기" },
-            { "SORT BY:", "정렬 기준:" },
-            { "Ascending", "오름차순" },
-            { "Descending", "내림차순" },
-            { "ID", "ID" },
-            { "Difficulty", "난이도" },
-            { "Clears", "클리어 수" },
-            { "Likes", "좋아요" },
-            { "Tags", "태그" },
-            { "Play Style", "플레이 스타일" },
-            { "Key Limit", "키 제한" },
-            { "Judgement", "판정" },
-            { "Gimmick", "기믹" },
-            { "VFX", "VFX" },
-            { "Length", "길이" },
-            { "Required Mods", "필요 모드" },
-            { "DLC", "DLC" },
-            { "Misc", "기타" },
-            { "Special Difficulties", "특수 난이도" },
-            { "Unranked", "언랭크" },
-            { "HIDE RATED", "평가한 항목 숨기기" },
-            { "4+ RATED", "4명 이상 평가" },
-            { "Hide", "숨기기" },
-            { "Show", "보이기" },
-            { "Only", "만 보기" },
-            { "PLAY", "플레이" },
-            { "BACK", "뒤로" },
-            { "Close", "닫기" },
-            { "CANCEL", "취소" },
-            { "ADD", "추가" },
-            { "ADD FOLDER", "폴더 추가" },
-            { "Create a new folder", "새 폴더 만들기" },
-            { "Type a name folder", "폴더 이름 입력" },
-            { "Select Folder", "폴더 선택" },
-            { "Select Level", "레벨 선택" },
-            { "Select the folder you want to add the level to.", "레벨을 추가할 폴더를 선택하세요." },
-            { "The folder contains several levels. Which level will you open?", "어떤 레벨을 열까요?" },
-            { "Search by level name, artist...", "레벨 이름, 아티스트로 검색..." },
-            { "Type to search (Song, Artist, Creator, #ID)...", "검색어 입력 (곡, 아티스트, 제작자, #ID)..." },
-            { "Downloading", "다운로드 중" },
-            { "LOADING...", "불러오는 중..." },
-            { "An error has occured!", "오류가 발생했습니다!" },
-            { "Login", "로그인" },
-            { "SIGN IN", "로그인" },
-            { "Register", "가입" },
-            { "LOG OUT", "로그아웃" },
-            { "Email or Username", "이메일 또는 사용자 이름" },
-            { "Password", "비밀번호" },
-            { "LEADERBOARD", "리더보드" },
-            { "Leaderboard", "리더보드" },
-            { "Credits", "크레딧" },
-            { "CREDITS", "크레딧" },
-            { "PROGRAMMING", "프로그래밍" },
-            { "LEAD DEVELOPER", "리드 개발자" },
-            { "WEB BACKEND DEVELOPER", "웹 백엔드 개발자" },
-            { "SUPPORT", "지원" },
-            { "FORUM", "포럼 사이트" },
-            { "Downloader", "다운로더" },
-            { "MUSIC", "음악" },
-            { "UPDATE INFO", "정보 업데이트" },
-            { "EXIT", "나가기" },
-            { "HIDDEN", "숨김" },
-            { "State:", "상태:" },
-            { "Progress:", "진행률:" },
-            { "ACCURACY:", "정확도:" },
-            { "SPEED:", "속도:" },
-            { "BPM:", "BPM:" },
-            { "Tiles:", "타일:" },
-            { "Length:", "길이:" }
-        };
-
-        private static readonly Dictionary<string, string> Chinese = new(StringComparer.Ordinal)
-        {
-            { "SETTINGS", "设置" },
-            { "Settings", "设置" },
-            { "Mod Settings", "模组设置" },
-            { "Bootstrap", "启动" },
-            { "Overlayer", "覆盖层" },
-            { "Audio", "音频" },
-            { "Language", "语言" },
-            { "TUFHELPER MUSIC VOLUME", "TUFHelper 音乐音量" },
-            { "LEVEL SAVE PATH", "关卡保存路径" },
-            { "START WITH GAME", "随游戏启动" },
-            { "SHOW & HANDLE OVERLAYER", "显示并调整覆盖层" },
-            { "Show PP Displayer", "显示 PP 显示器" },
-            { "Show Speed", "显示速度" },
-            { "Show Leaderboard", "显示排行榜" },
-            { "Show Level Info", "显示关卡信息" },
-            { "Scale", "缩放" },
-            { "Auto (Game Language)", "自动（游戏语言）" },
-            { "English", "English" },
-            { "Korean", "한국어" },
-            { "Chinese", "简体中文" },
-            { "Follow the game's language setting.", "跟随游戏的语言设置。" },
-            { "Select Language", "选择语言" },
-            { "GROUP BY FOLDERS", "按文件夹分组" },
-            { "SHOW ONLY FAVORITES", "仅显示收藏" },
-            { "SHOW ONLY DOWNLOADED", "仅显示已下载" },
-            { "SORT BY:", "排序方式：" },
-            { "Ascending", "升序" },
-            { "Descending", "降序" },
-            { "ID", "ID" },
-            { "Difficulty", "难度" },
-            { "Clears", "通关数" },
-            { "Likes", "点赞数" },
-            { "Tags", "标签" },
-            { "Play Style", "游玩风格" },
-            { "Key Limit", "按键限制" },
-            { "Judgement", "判定" },
-            { "Gimmick", "机制" },
-            { "VFX", "视觉效果" },
-            { "Length", "长度" },
-            { "Required Mods", "所需模组" },
-            { "DLC", "DLC" },
-            { "Misc", "其他" },
-            { "Special Difficulties", "特殊难度" },
-            { "Unranked", "未排名" },
-            { "HIDE RATED", "隐藏已评级" },
-            { "4+ RATED", "4+ 评级" },
-            { "Hide", "隐藏" },
-            { "Show", "显示" },
-            { "Only", "仅显示" },
-            { "PLAY", "游玩" },
-            { "BACK", "返回" },
-            { "Close", "关闭" },
-            { "CANCEL", "取消" },
-            { "ADD", "添加" },
-            { "ADD FOLDER", "添加文件夹" },
-            { "Create a new folder", "创建新文件夹" },
-            { "Type a name folder", "输入文件夹名称" },
-            { "Select Folder", "选择文件夹" },
-            { "Select Level", "选择关卡" },
-            { "Select the folder you want to add the level to.", "选择要添加关卡的文件夹。" },
-            { "The folder contains several levels. Which level will you open?", "要打开哪一个？" },
-            { "Search by level name, artist...", "按关卡名、艺术家搜索..." },
-            { "Type to search (Song, Artist, Creator, #ID)...", "输入搜索内容（歌曲、艺术家、作者、#ID）..." },
-            { "Downloading", "下载中" },
-            { "LOADING...", "加载中..." },
-            { "An error has occured!", "发生错误！" },
-            { "Login", "登录" },
-            { "SIGN IN", "登录" },
-            { "Register", "注册" },
-            { "LOG OUT", "退出登录" },
-            { "Email or Username", "邮箱或用户名" },
-            { "Password", "密码" },
-            { "LEADERBOARD", "排行榜" },
-            { "Leaderboard", "排行榜" },
-            { "Credits", "制作人员" },
-            { "CREDITS", "制作人员" },
-            { "PROGRAMMING", "程序" },
-            { "LEAD DEVELOPER", "主开发者" },
-            { "WEB BACKEND DEVELOPER", "网页后端开发者" },
-            { "SUPPORT", "支持" },
-            { "FORUM", "论坛网站" },
-            { "Downloader", "下载器" },
-            { "MUSIC", "音乐" },
-            { "UPDATE INFO", "刷新" },
-            { "EXIT", "退出" },
-            { "HIDDEN", "隐藏" },
-            { "State:", "状态：" },
-            { "Progress:", "进度：" },
-            { "ACCURACY:", "准确率：" },
-            { "SPEED:", "速度：" },
-            { "BPM:", "BPM：" },
-            { "Tiles:", "格数：" },
-            { "Length:", "长度：" }
+            { "SETTINGS", new[] { "설정", "设置" } },
+            { "Settings", new[] { "설정", "设置" } },
+            { "Mod Settings", new[] { "모드 설정", "模组设置" } },
+            { "Bootstrap", new[] { "부트스트랩", "启动" } },
+            { "Overlayer", new[] { "오버레이", "覆盖层" } },
+            { "Audio", new[] { "오디오", "音频" } },
+            { "Language", new[] { "언어", "语言" } },
+            { "TUFHELPER MUSIC VOLUME", new[] { "TUFHelper 음악 볼륨", "TUFHelper 音乐音量" } },
+            { "LEVEL SAVE PATH", new[] { "레벨 저장 경로", "关卡保存路径" } },
+            { "START WITH GAME", new[] { "게임 시작 시 열기", "随游戏启动" } },
+            { "SHOW & HANDLE OVERLAYER", new[] { "오버레이 표시 및 조정", "显示并调整覆盖层" } },
+            { "Show PP Displayer", new[] { "PP 표시기 보이기", "显示 PP 显示器" } },
+            { "Show Speed", new[] { "속도 표시 보이기", "显示速度" } },
+            { "Show Leaderboard", new[] { "리더보드 보이기", "显示排行榜" } },
+            { "Show Level Info", new[] { "레벨 정보 보이기", "显示关卡信息" } },
+            { "Scale", new[] { "크기", "缩放" } },
+            { "Auto (Game Language)", new[] { "자동 (게임 언어)", "自动（游戏语言）" } },
+            { "English", new[] { "English", "English" } },
+            { "Korean", new[] { "한국어", "한국어" } },
+            { "Chinese", new[] { "简体中文", "简体中文" } },
+            { "Follow the game's language setting.", new[] { "게임 언어 설정을 따라갑니다.", "跟随游戏的语言设置。" } },
+            { "Select Language", new[] { "언어 선택", "选择语言" } },
+            { "GROUP BY FOLDERS", new[] { "폴더별로 묶기", "按文件夹分组" } },
+            { "SHOW ONLY FAVORITES", new[] { "즐겨찾기만 보기", "仅显示收藏" } },
+            { "SHOW ONLY DOWNLOADED", new[] { "다운로드한 레벨만 보기", "仅显示已下载" } },
+            { "SORT BY:", new[] { "정렬 기준:", "排序方式：" } },
+            { "Ascending", new[] { "오름차순", "升序" } },
+            { "Descending", new[] { "내림차순", "降序" } },
+            { "ID", new[] { "ID", "ID" } },
+            { "Difficulty", new[] { "난이도", "难度" } },
+            { "Clears", new[] { "클리어 수", "通关数" } },
+            { "Likes", new[] { "좋아요", "点赞数" } },
+            { "Tags", new[] { "태그", "标签" } },
+            { "Play Style", new[] { "플레이 스타일", "游玩风格" } },
+            { "Key Limit", new[] { "키 제한", "按键限制" } },
+            { "Judgement", new[] { "판정", "判定" } },
+            { "Gimmick", new[] { "기믹", "机制" } },
+            { "VFX", new[] { "VFX", "视觉效果" } },
+            { "Length", new[] { "길이", "长度" } },
+            { "Required Mods", new[] { "필요 모드", "所需模组" } },
+            { "DLC", new[] { "DLC", "DLC" } },
+            { "Misc", new[] { "기타", "其他" } },
+            { "Special Difficulties", new[] { "특수 난이도", "特殊难度" } },
+            { "Unranked", new[] { "언랭크", "未排名" } },
+            { "HIDE RATED", new[] { "평가한 항목 숨기기", "隐藏已评级" } },
+            { "4+ RATED", new[] { "4명 이상 평가", "4+ 评级" } },
+            { "Hide", new[] { "숨기기", "隐藏" } },
+            { "Show", new[] { "보이기", "显示" } },
+            { "Only", new[] { "만 보기", "仅显示" } },
+            { "PLAY", new[] { "플레이", "游玩" } },
+            { "BACK", new[] { "뒤로", "返回" } },
+            { "Close", new[] { "닫기", "关闭" } },
+            { "CANCEL", new[] { "취소", "取消" } },
+            { "ADD", new[] { "추가", "添加" } },
+            { "ADD FOLDER", new[] { "폴더 추가", "添加文件夹" } },
+            { "Create a new folder", new[] { "새 폴더 만들기", "创建新文件夹" } },
+            { "Type a name folder", new[] { "폴더 이름 입력", "输入文件夹名称" } },
+            { "Select Folder", new[] { "폴더 선택", "选择文件夹" } },
+            { "Select Level", new[] { "레벨 선택", "选择关卡" } },
+            { "Select the folder you want to add the level to.", new[] { "레벨을 추가할 폴더를 선택하세요.", "选择要添加关卡的文件夹。" } },
+            { "The folder contains several levels. Which level will you open?", new[] { "어떤 레벨을 열까요?", "要打开哪一个？" } },
+            { "Search by level name, artist...", new[] { "레벨 이름, 아티스트로 검색...", "按关卡名、艺术家搜索..." } },
+            { "Type to search (Song, Artist, Creator, #ID)...", new[] { "검색어 입력 (곡, 아티스트, 제작자, #ID)...", "输入搜索内容（歌曲、艺术家、作者、#ID）..." } },
+            { "Downloading", new[] { "다운로드 중", "下载中" } },
+            { "LOADING...", new[] { "불러오는 중...", "加载中..." } },
+            { "An error has occured!", new[] { "오류가 발생했습니다!", "发生错误！" } },
+            { "Login", new[] { "로그인", "登录" } },
+            { "SIGN IN", new[] { "로그인", "登录" } },
+            { "Register", new[] { "가입", "注册" } },
+            { "LOG OUT", new[] { "로그아웃", "退出登录" } },
+            { "Email or Username", new[] { "이메일 또는 사용자 이름", "邮箱或用户名" } },
+            { "Password", new[] { "비밀번호", "密码" } },
+            { "LEADERBOARD", new[] { "리더보드", "排行榜" } },
+            { "Leaderboard", new[] { "리더보드", "排行榜" } },
+            { "Credits", new[] { "크레딧", "制作人员" } },
+            { "CREDITS", new[] { "크레딧", "制作人员" } },
+            { "PROGRAMMING", new[] { "프로그래밍", "程序" } },
+            { "LEAD DEVELOPER", new[] { "리드 개발자", "主开发者" } },
+            { "WEB BACKEND DEVELOPER", new[] { "웹 백엔드 개발자", "网页后端开发者" } },
+            { "SUPPORT", new[] { "지원", "支持" } },
+            { "FORUM", new[] { "포럼 사이트", "论坛网站" } },
+            { "Downloader", new[] { "다운로더", "下载器" } },
+            { "MUSIC", new[] { "음악", "音乐" } },
+            { "UPDATE INFO", new[] { "정보 업데이트", "刷新" } },
+            { "EXIT", new[] { "나가기", "退出" } },
+            { "HIDDEN", new[] { "숨김", "隐藏" } },
+            { "State:", new[] { "상태:", "状态：" } },
+            { "Progress:", new[] { "진행률:", "进度：" } },
+            { "ACCURACY:", new[] { "정확도:", "准确率：" } },
+            { "SPEED:", new[] { "속도:", "速度：" } },
+            { "BPM:", new[] { "BPM:", "BPM：" } },
+            { "Tiles:", new[] { "타일:", "格数：" } },
+            { "Length:", new[] { "길이:", "长度：" } }
         };
 
         public static void Init()
@@ -270,14 +173,17 @@ namespace TUFHelper
 
         public static string Translate(string english)
         {
-            Dictionary<string, string> translations = activeLanguage switch
+            if (string.IsNullOrEmpty(english) || !LocalizationRegistry.TryGetValue(english, out string[] translations))
             {
-                TUFHelperLanguage.Korean => Korean,
-                TUFHelperLanguage.Chinese => Chinese,
-                _ => null
-            };
+                return english; // Fallback to English if key doesn't exist
+            }
 
-            return translations != null && translations.TryGetValue(english, out string translated) ? translated : english;
+            return activeLanguage switch
+            {
+                TUFHelperLanguage.Korean => translations[0],
+                TUFHelperLanguage.Chinese => translations[1],
+                _ => english // Default back to English source
+            };
         }
 
         public static void Apply()
@@ -569,27 +475,16 @@ namespace TUFHelper
                 return null;
             }
 
-            if (Korean.ContainsKey(current))
+            // If the string is already a valid English key, return it directly
+            if (LocalizationRegistry.ContainsKey(current))
             {
                 return current;
             }
 
-            if (Chinese.ContainsKey(current))
+            // Otherwise, check if it matches any translated value in our arrays
+            foreach (KeyValuePair<string, string[]> pair in LocalizationRegistry)
             {
-                return current;
-            }
-
-            foreach (KeyValuePair<string, string> pair in Korean)
-            {
-                if (pair.Value == current)
-                {
-                    return pair.Key;
-                }
-            }
-
-            foreach (KeyValuePair<string, string> pair in Chinese)
-            {
-                if (pair.Value == current)
+                if (pair.Value[0] == current || pair.Value[1] == current)
                 {
                     return pair.Key;
                 }
