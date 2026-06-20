@@ -222,6 +222,7 @@ namespace ADOFAIModdingHelper.Core
                     .WithPlatform(Platform.AnyCpu);
 
                 var compilation = CSharpCompilation.Create(assembly.name, trees, references, options);
+                var resources = GetEmbeddedResources(assembly.name);
 
                 if (!Directory.Exists(_buildPath)) Directory.CreateDirectory(_buildPath);
 
@@ -231,6 +232,7 @@ namespace ADOFAIModdingHelper.Core
                 using var pdbStream = GenerateDebugSymbols ? File.Create(pdbPath) : null;
 
                 var result = compilation.Emit(dllStream, pdbStream: pdbStream,
+                    manifestResources: resources,
                     options: new EmitOptions(pdbFilePath: GenerateDebugSymbols ? pdbPath + '\0' : null,
                         debugInformationFormat: DebugInformationFormat.PortablePdb));
 
@@ -253,6 +255,24 @@ namespace ADOFAIModdingHelper.Core
                     throw new Exception("compilation failed");
                 }
             });
+        }
+
+        private static IEnumerable<ResourceDescription> GetEmbeddedResources(string assemblyName)
+        {
+            var embeddedDirectory = Path.Combine(Application.dataPath, assemblyName, "Assets", "Embedded");
+            if (!Directory.Exists(embeddedDirectory))
+            {
+                return Enumerable.Empty<ResourceDescription>();
+            }
+
+            return Directory.GetFiles(embeddedDirectory)
+                .Where(path => !path.EndsWith(".meta", StringComparison.OrdinalIgnoreCase))
+                .Select(path =>
+                {
+                    var resourceName = $"{assemblyName}.{Path.GetFileName(path)}";
+                    return new ResourceDescription(resourceName, () => File.OpenRead(path), isPublic: true);
+                })
+                .ToArray();
         }
 
         /// <summary>
