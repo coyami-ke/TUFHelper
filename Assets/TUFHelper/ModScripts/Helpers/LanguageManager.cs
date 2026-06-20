@@ -24,7 +24,8 @@ namespace TUFHelper
         private static readonly Dictionary<int, string> FixedTexts = new();
         private static readonly Dictionary<int, float> OriginalFontSizes = new();
         private static readonly Dictionary<int, TMP_FontAsset> OriginalFonts = new();
-        private const string ChineseFontPath = @"C:\Users\Administrator\Downloads\noto-sans-sc\NotoSansSC-Medium.otf";
+        private const string ChineseFontResourceName = "TUFHelper.NotoSansSC-Medium.otf";
+        private const string ChineseFontFileName = "NotoSansSC-Medium.otf";
         private static TMP_FontAsset ChineseFontAsset;
 
         private static readonly Dictionary<string, string[]> LocalizationRegistry = new(StringComparer.Ordinal)
@@ -386,14 +387,15 @@ namespace TUFHelper
             }
 
             fontAsset = null;
-            if (!File.Exists(ChineseFontPath))
-            {
-                return false;
-            }
 
             try
             {
-                Font font = new Font(ChineseFontPath);
+                Font font = LoadEmbeddedChineseFont();
+                if (font == null)
+                {
+                    return false;
+                }
+
                 ChineseFontAsset = TMP_FontAsset.CreateFontAsset(font);
                 ChineseFontAsset.name = "TUFHelper_NotoSansSC_Medium";
                 fontAsset = ChineseFontAsset;
@@ -404,6 +406,43 @@ namespace TUFHelper
                 Main.Logger?.Error("Failed to load Chinese font: " + ex.Message);
                 return false;
             }
+        }
+
+        private static Font LoadEmbeddedChineseFont()
+        {
+            try
+            {
+                string fontPath = ExtractEmbeddedChineseFont();
+                return string.IsNullOrEmpty(fontPath) ? null : new Font(fontPath);
+            }
+            catch (Exception ex)
+            {
+                Main.Logger?.Error("Failed to load embedded Chinese font: " + ex.Message);
+                return null;
+            }
+        }
+
+        private static string ExtractEmbeddedChineseFont()
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using Stream stream = assembly.GetManifestResourceStream(ChineseFontResourceName);
+            if (stream == null)
+            {
+                return null;
+            }
+
+            string fontDir = Path.Combine(Path.GetTempPath(), "TUFHelper");
+            Directory.CreateDirectory(fontDir);
+
+            string fontPath = Path.Combine(fontDir, ChineseFontFileName);
+            if (File.Exists(fontPath) && new FileInfo(fontPath).Length == stream.Length)
+            {
+                return fontPath;
+            }
+
+            using FileStream fileStream = File.Create(fontPath);
+            stream.CopyTo(fileStream);
+            return fontPath;
         }
 
         private static bool UsesFallbackFontFor(string value, TMP_FontAsset font)
