@@ -10,7 +10,9 @@ public class PPDisplayerScript : MonoBehaviour
 {
     public TextMeshProUGUI PP, Speed;
     public LevelListInfoElementJson Levelinfo;
-    public static double curScore;
+
+    private double curScore;
+    private Tween _scoreTween;
 
     public static List<float> currentAnglePath = new();
     public static string currentPathdata;
@@ -18,54 +20,46 @@ public class PPDisplayerScript : MonoBehaviour
 
     static ADOFAI.LevelData leveldata
     {
-        get
-        {
-            return scnGame.instance.levelData;
-        }
+        get => scnGame.instance.levelData;
     }
 
-    // Assign some values
     private void Awake()
     {
         PP.text = string.Empty;
         Speed.text = string.Empty;
 
-        currentAnglePath = leveldata.angleData;
-        currentPathdata = leveldata.pathData;
+        if (leveldata != null)
+        {
+            currentAnglePath = leveldata.angleData;
+            currentPathdata = leveldata.pathData;
+        }
     }
 
-
-    private void Update()
-    {
-
-    }
     public void ApplyPP(double Score)
     {
-        bool flag = Score == -1310;
-
-        if (!flag)
-        {
-            // Animate the score
-            // Kill any existing tween to avoid overlaps
-            DOTween.Kill(PP);
-
-            // Tween from current value to target value
-            DOTween.To(() => curScore, x =>
-            {
-                curScore = x;
-                PP.text = curScore.ToString("0.00");
-            }, Score, 0.1f);
-        }
-        else
+        if (Score == -1310)
         {
             PP.text = "You died L";
+            return;
         }
+
+        if (_scoreTween != null && _scoreTween.IsActive())
+        {
+            _scoreTween.Kill();
+        }
+
+        _scoreTween = DOTween.To(() => (float)curScore, x =>
+        {
+            curScore = x;
+            PP.text = curScore.ToString("0.00");
+        }, (float)Score, 0.1f);
     }
-    // Dont ask why these function exists
+
     public void ApplySpped(float speed)
     {
         Speed.text = speed.ToString("0.00") + "x";
     }
+
     public static class ScoreCalculator
     {
         private const double GmConst = 315.0;
@@ -83,16 +77,14 @@ public class PPDisplayerScript : MonoBehaviour
             double ppBase = levelData.GetPPBaseScore();
             double standardBase = levelData.GetBaseScore();
 
+            Main.Logger.Log("BaseScore: " + standardBase);
+
             double effectiveBaseScore = (accuracy >= 0.999999) ? ppBase : standardBase;
 
             var xaccMtp = GetXaccMtp(inputs, effectiveBaseScore);
 
-            bool isMarathon = levelData.Difficulty?.Name == "Marathon";
-            var speedMtp = GetSpeedMtp(passData.Speed, isMarathon);
-
-            double scoreOrig = isMarathon
-                ? Math.Max(effectiveBaseScore * xaccMtp * speedMtp, 0)
-                : effectiveBaseScore * xaccMtp * speedMtp;
+            var speedMtp = GetSpeedMtp(passData.Speed);
+            double scoreOrig = effectiveBaseScore * xaccMtp * speedMtp;
 
             var mtp = GetScoreV2Mtp(inputs);
 
@@ -152,15 +144,8 @@ public class PPDisplayerScript : MonoBehaviour
             return 1;
         }
 
-
-        private static double GetSpeedMtp(double speed, bool isDesBus = false)
+        private static double GetSpeedMtp(double speed)
         {
-            if (isDesBus)
-            {
-                if (speed == 1 || speed == 0) return 1;
-                if (speed > 1) return Math.Max(2 - speed, 0);
-            }
-
             if (speed == 1 || speed == 0) return 1;
             if (speed < 1) return 0;
 
@@ -179,21 +164,16 @@ public class PPDisplayerScript : MonoBehaviour
             return FloorCount;
         }
 
-        // This Func is mind c:
         public static double CalcAcc(Judgements input)
         {
-            // Total hits recorded so far (all judgements)
             int totalHits = input.EarlyDouble + input.LateDouble +
                             input.EarlySingle + input.LateSingle +
                             input.EPerfect + input.LPerfect +
                             input.Perfect;
 
-            // Avoid division by zero: if no hits, assume 100%
-            if (totalHits == 0)
-                return 0;
+            if (totalHits == 0) return 0;
 
-            // Calculate weighted accuracy over hits so far
-            double accuracy = (
+            return (
                 (1.0 * input.Perfect) +
                 (0.75 * input.EPerfect) +
                 (0.75 * input.LPerfect) +
@@ -202,17 +182,24 @@ public class PPDisplayerScript : MonoBehaviour
                 (0.2 * input.EarlyDouble) +
                 (0.2 * input.LateDouble)
             ) / totalHits;
-
-            return accuracy;
         }
+
         public static double CalcAcc(PassesListInfoElementJudgementsJson input)
         {
-            return CalcAcc(new Judgements() { Perfect = input.Perfect, EPerfect = input.EPerfect, EarlySingle = input.EarlySingle, LateSingle = input.LateSingle, EarlyDouble = input.EarlyDouble, LateDouble = input.LateDouble, LPerfect = input.LPerfect, Deaths = input.Deaths});
+            return CalcAcc(new Judgements
+            {
+                Perfect = input.Perfect,
+                EPerfect = input.EPerfect,
+                EarlySingle = input.EarlySingle,
+                LateSingle = input.LateSingle,
+                EarlyDouble = input.EarlyDouble,
+                LateDouble = input.LateDouble,
+                LPerfect = input.LPerfect,
+                Deaths = input.Deaths
+            });
         }
-
     }
 
-    // Class Helpers
     public class Judgements
     {
         public int EarlyDouble { get; set; }
@@ -226,14 +213,7 @@ public class PPDisplayerScript : MonoBehaviour
 
         public void Reset()
         {
-            EarlyDouble = 0;
-            EarlySingle = 0;
-            LateDouble = 0;
-            LateSingle = 0;
-            Perfect = 0;
-            EPerfect = 0;
-            LPerfect = 0;
-            Deaths = 0;
+            EarlyDouble = EarlySingle = LateDouble = LateSingle = Perfect = EPerfect = LPerfect = Deaths = 0;
         }
     }
 
@@ -246,30 +226,29 @@ public class PPDisplayerScript : MonoBehaviour
 
     public class LevelData
     {
-        public Difficulty Difficulty { get; set; } = new();
-        public double? BaseScore { get; set; }
-        public double? PPBaseScore { get; set; }
-
-        public double GetBaseScore()
-        {
-            if (BaseScore == null || BaseScore == 0)
-                return Difficulty.BaseScore;
-
-            return BaseScore.Value;
-        }
-
-        public double GetPPBaseScore()
-        {
-            if (PPBaseScore == null || PPBaseScore == 0)
-                return Difficulty.BaseScore; 
-
-            return PPBaseScore.Value;
-        }
-    }
-
-    public class Difficulty
-    {
-        public string Name { get; set; }
         public double BaseScore { get; set; }
+        public double PPBaseScore { get; set; }
+
+        public double GetBaseScore() => BaseScore;
+        public double GetPPBaseScore() => PPBaseScore;
+
+        public LevelData(LevelListInfoElementJson levelInfo)
+        {
+            if (levelInfo.BaseScore != null && levelInfo.BaseScore > 0)
+                BaseScore = levelInfo.BaseScore.Value;
+            else if (levelInfo.Difficulty != null && levelInfo.Difficulty.BaseScore > 0)
+                BaseScore = levelInfo.Difficulty.BaseScore;
+            else
+                BaseScore = 0;
+
+            if (levelInfo.PPBaseScore != null && levelInfo.PPBaseScore > 0)
+                PPBaseScore = levelInfo.PPBaseScore.Value;
+            else if (levelInfo.BaseScore != null && levelInfo.BaseScore > 0)
+                PPBaseScore = levelInfo.BaseScore.Value;
+            else if (levelInfo.Difficulty != null && levelInfo.Difficulty.BaseScore > 0)
+                PPBaseScore = levelInfo.Difficulty.BaseScore;
+            else
+                PPBaseScore = 0;
+        }
     }
 }

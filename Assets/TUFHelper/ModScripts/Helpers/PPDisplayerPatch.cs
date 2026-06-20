@@ -25,7 +25,10 @@ namespace TUFHelper
 
         private static void Editor_ScnGameTransferToEditor(object sender, ScnGameTransferToEditorEventArgs e)
         {
-            ppDisplayer.gameObject.SetActive(false);
+            if (ppDisplayer != null && ppDisplayer.gameObject != null)
+            {
+                ppDisplayer.gameObject.SetActive(false);
+            }
         }
 
         private static float speed => scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
@@ -67,10 +70,6 @@ namespace TUFHelper
             if (canvas != null)
                 ppDisplayerObject.transform.SetParent(canvas, false);
 
-            var rect = ppDisplayerObject.GetComponent<RectTransform>();
-            //rect.anchoredPosition = new Vector2(-450, 0);
-            //rect.sizeDelta = new Vector2(857, 300);
-
             ppDisplayer = ppDisplayerObject.GetComponentInChildren<PPDisplayerScript>();
             PPDisplayerScript.FloorCount = FloorCount;
         }
@@ -90,10 +89,8 @@ namespace TUFHelper
             ppDisplayer.Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
 
             ppDisplayer.ApplySpped(speed);
-            ppDisplayer.ApplyPP(0);
 
             float configScale;
-
             if (Main.Setting.OverlayerElementsPositions.ContainsKey("PPDisplayer"))
             {
                 configScale = Main.Setting.OverlayerElementsPositions["PPDisplayer"].Scale;
@@ -109,8 +106,6 @@ namespace TUFHelper
             float finalScale = (1f / canvasScaleFactor) * configScale;
 
             ppDisplayer.GetComponent<RectTransform>().localScale = new Vector3(finalScale, finalScale, 1f);
-
-            
         }
 
         private static void OnEditorPlayButtonPressed(object sender, PlayButtonEventArgs e)
@@ -125,7 +120,6 @@ namespace TUFHelper
 
             UpdatePPDisplayer();
         }
-
 
         private static void OnEditorHit(object sender, HitMargin e)
         {
@@ -160,33 +154,23 @@ namespace TUFHelper
             };
 
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
+            //if (levelInfo == null) return 0f;
 
-            if (levelInfo == null) return 0f;
-            if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
-            {
-                nameDiff = "0";
-            }
+            // ✅ Explicit Fallback Extraction: Solves type-mismatch and 0-score bugs
+            //double calculatedBase = levelInfo.BaseScore ?? levelInfo.Difficulty?.BaseScore ?? 0.0;
+            //double calculatedPPBase = levelInfo.PPBaseScore ?? calculatedBase;
 
-            var levelData = new PPDisplayerScript.LevelData
-            {
-                BaseScore = levelInfo.Difficulty?.BaseScore,
-                PPBaseScore = levelInfo.PPBaseScore,
-
-                Difficulty = new PPDisplayerScript.Difficulty
-                {
-                    Name = nameDiff,
-                    BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0
-                }
-            };
+            // ✅ Uses the standard initialization route for direct live gameplay
+            var levelData = new PPDisplayerScript.LevelData(levelInfo);
 
             return (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(passData, levelData);
         }
+
         [HarmonyPatch(typeof(scnEditor), "Start")]
         [HarmonyPostfix]
         public static void InitPPDisplayer()
         {
-            // Force static constructor or call Init()
-            _ = typeof(TUFHelper.PPDisplayerPatch); // triggers static constructor
+            _ = typeof(TUFHelper.PPDisplayerPatch);
         }
     }
 }

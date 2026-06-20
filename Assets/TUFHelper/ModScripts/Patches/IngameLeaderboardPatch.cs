@@ -89,11 +89,13 @@ namespace TUFHelper
                     IngameLeaderboardScript.PlayerRankPrefab.PassInfo.Judgements = new();
                 }
             }
+
+            _cachedLevelData = new(levelInfo);
         }
 
 
         private static readonly PPDisplayerScript.PassData _cachedPassData = new();
-        private static readonly PPDisplayerScript.LevelData _cachedLevelData = new();
+        private static PPDisplayerScript.LevelData _cachedLevelData;
         private const float LeaderboardUpdateInterval = 0.12f;
         private static float lastLeaderboardUpdateTime = -999f;
 
@@ -124,14 +126,11 @@ namespace TUFHelper
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
             if (levelInfo == null) return;
 
-            if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
-                nameDiff = "0";
+            //if (!DiffSpriteHelper.DiffIDRegister.TryGetValue(levelInfo.DiffId, out string nameDiff))
+            //    nameDiff = "0";
 
-            _cachedLevelData.BaseScore = levelInfo.Difficulty?.BaseScore;
-            _cachedLevelData.PPBaseScore = levelInfo.PPBaseScore;
-
-            _cachedLevelData.Difficulty.Name = nameDiff;
-            _cachedLevelData.Difficulty.BaseScore = levelInfo.Difficulty?.BaseScore ?? 0.0;
+            //_cachedLevelData.BaseScore = levelInfo.Difficulty?.BaseScore;
+            //_cachedLevelData.PPBaseScore = levelInfo.PPBaseScore;
 
             float now = Time.unscaledTime;
             if (now - lastLeaderboardUpdateTime < LeaderboardUpdateInterval)

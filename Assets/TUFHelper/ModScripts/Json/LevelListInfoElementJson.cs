@@ -33,7 +33,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("ppBaseScore")]
         public float? PPBaseScore { get; set; }
-
+        [JsonProperty("baseScore")]
+        public float? BaseScore { get; set; }
         [JsonProperty("isCleared")]
         public bool IsCleared { get; set; }
 

@@ -17,7 +17,7 @@ namespace DirectLevel
     public class LevelDownloader
     {
         /// <summary>
-        /// WebClient for Google Drive download
+        /// WebClient for Google Drive download with built-in timeouts and cookie support
         /// </summary>
         private class CookieWebClient : WebClient
         {
@@ -29,8 +29,7 @@ namespace DirectLevel
                 {
                     get
                     {
-                        string cookie;
-                        return cookies.TryGetValue(address.Host, out cookie) ? cookie : null;
+                        return cookies.TryGetValue(address.Host, out var cookie) ? cookie : null;
                     }
                     set
                     {
@@ -46,9 +45,19 @@ namespace DirectLevel
                 var r = base.GetWebRequest(u);
                 if (r is HttpWebRequest request)
                 {
+                    // Add a realistic user agent to prevent servers like MediaFire/Google from throttling or blocking
+                    request.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+
+                    // Explicitly set network timeout parameters (30-second connection handshake)
+                    request.Timeout = 30000;
+                    // 5-minute read timeout window for downloading massive level zips
+                    request.ReadWriteTimeout = 300000;
+
                     var c = _cookies[u];
-                    if (_cookies != null)
+                    if (c != null)
+                    {
                         request.Headers.Set("cookie", c);
+                    }
                 }
                 return r;
             }
@@ -57,58 +66,24 @@ namespace DirectLevel
         private string _url;
         private CookieWebClient _cookieWeb;
 
-        /// <summary>
-        /// Run when an exception occurs
-        /// Runs in a thread other than the main thread!!!
-        /// </summary>
         public Action<Exception> ErrorHandler;
 
-        /// <summary>
-        /// Run if progress changes when downloading levels asynchronously
-        /// Runs in a thread other than the main thread!!!
-        /// </summary>
-        //public Action<float, string> OnUpdateProgress;
         public delegate void UpdateProgressEventHandler(object sender, UpdateProgressEventArgs args);
         public event UpdateProgressEventHandler UpdateProgress;
 
         public delegate void DownloadCompleteEventHandler(object sender, DownloadCompleteEventArgs args);
         public event DownloadCompleteEventHandler DownloadComplete;
 
-        /// <summary>
-        /// Run when asynchronously leveling down is complete.
-        /// Runs in a thread other than the main thread!!!
-        /// </summary>
-        //public Action<List<string>> OnDownloadComplete;
-
-        /// <summary>
-        /// Run when getting the size of a file from a URL.
-        /// The return type determines whether the download should continue or not.
-        /// Runs in a thread other than the main thread!!!
-        /// </summary>
         public Func<long, bool> OnCalculationCompleteFileSize;
 
-
-        /// <summary>
-        /// Level Downloader
-        /// </summary>
-        /// <param name="url">URL to download, may not be a direct URL if in Google Drive</param>
         public LevelDownloader(string url)
         {
-
             _cookieWeb = new CookieWebClient();
             _cookieWeb.Encoding = Encoding.UTF8;
             _cookieWeb.Proxy = null;
-
             _url = url;
-
         }
 
-
-        /// <summary>
-        /// Find the .adofai files in Level folder
-        /// </summary>
-        /// <param name="path">Level Folder</param>
-        /// <returns>.adofai files</returns>
         public static List<string> FindAdofaiFiles(string path)
         {
             var result = new List<string>();
@@ -121,21 +96,9 @@ namespace DirectLevel
                 result.Add(file.FullName);
             }
 
-            result = result.OrderByDescending(f => new FileInfo(f).Length).ToList();
-
-            return result;
+            return result.OrderByDescending(f => new FileInfo(f).Length).ToList();
         }
 
-
-
-
-
-        /// <summary>
-        /// Asynchronous level downloads
-        /// </summary>
-        /// <param name="defaultPath">Default parent path to download</param>
-        /// <param name="checkFileSize">If true, check the file size</param>
-        /// <returns>Tasks that are downloading</returns>
         public Task DownloadWithTask(string defaultPath, bool checkFileSize, CancellationToken token)
         {
             return Task.Run(async () =>
@@ -156,9 +119,11 @@ namespace DirectLevel
                         return;
                     }
 
+                    // Hand off the WebClient to resolve redirection chains securely
                     var directURL = GetDirectURL(_url, _cookieWeb);
+                    token.ThrowIfCancellationRequested();
 
-                    // file size check
+                    // File size check execution
                     if (checkFileSize && OnCalculationCompleteFileSize != null)
                     {
                         var v = OnCalculationCompleteFileSize.Invoke(Utils.GetFileSize(directURL));
@@ -181,9 +146,10 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloading));
 
+                    // Link the cancellation token safely to the WebClient request handler
                     using (token.Register(() => _cookieWeb.CancelAsync()))
                     {
-                        await _cookieWeb.DownloadFileTaskAsync(directURL, zipPath); // line 186
+                        await _cookieWeb.DownloadFileTaskAsync(directURL, zipPath);
                     }
 
                     token.ThrowIfCancellationRequested();
@@ -210,18 +176,15 @@ namespace DirectLevel
             }, token);
         }
 
-
-
-
         private static string GetDirectURL(string url, WebClient wc)
         {
             try
             {
-                // fix discord
+                // Fix Discord CDN Links
                 if (url.Contains("cdn.discordapp.com"))
                     return url.Replace("cdn.discordapp.com", "fixcdn.hyonsu.com");
 
-                // google drive file
+                // Google Drive Address Extraction Framework
                 if (url.StartsWith("https://drive.google.com/file/d/") ||
                     url.StartsWith("https://drive.google.com/open?id=") ||
                     url.StartsWith("https://drive.google.com/u/0/uc"))
@@ -230,11 +193,11 @@ namespace DirectLevel
                         return GetDirectURLFromGoogleLargeFile(url, wc);
 
                     var driveid = "";
-                    if (url.Contains("/d/") && url.Contains("/view"))
-                        driveid = url.GetValue("/d/", "/view");
-
-                    if (url.Contains("/d/") && url.Contains("/edit"))
-                        driveid = url.GetValue("/d/", "/edit");
+                    if (url.Contains("/d/"))
+                    {
+                        if (url.Contains("/view")) driveid = url.GetValue("/d/", "/view");
+                        else if (url.Contains("/edit")) driveid = url.GetValue("/d/", "/edit");
+                    }
 
                     if (url.Contains("id="))
                     {
@@ -243,29 +206,27 @@ namespace DirectLevel
                             driveid = driveid.StringSplit("&")[0];
                     }
 
-
-                    if (driveid == string.Empty)
-                        throw new Exception(
-                            $"Google Drive id not found\n\n-----Level Info-----\nURL: ${url}");
-
+                    if (string.IsNullOrEmpty(driveid))
+                        throw new Exception($"Google Drive ID not resolved.\nURL: {url}");
 
                     var downloadURL = $"https://drive.google.com/u/0/uc?export=download&id={driveid}";
 
-                    var stream = wc.OpenRead(downloadURL);
-                    var buffer = new byte[15];
-                    stream.Read(buffer, 0, buffer.Length);
-                    stream.Close();
-
-
-                    if (Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>")
+                    // Synchronous blocking network check—now bounded safely by our custom web timeouts
+                    using (var stream = wc.OpenRead(downloadURL))
                     {
-                        return GetDirectURLFromGoogleLargeFile(downloadURL, wc);
+                        var buffer = new byte[15];
+                        stream.Read(buffer, 0, buffer.Length);
+
+                        if (Encoding.UTF8.GetString(buffer) == "<!DOCTYPE html>")
+                        {
+                            return GetDirectURLFromGoogleLargeFile(downloadURL, wc);
+                        }
                     }
 
                     return downloadURL;
                 }
 
-                // mediafire
+                // MediaFire Parsing
                 if (url.StartsWith("https://www.mediafire.com"))
                 {
                     var mfhtml = wc.DownloadString(url);
@@ -275,7 +236,7 @@ namespace DirectLevel
                     return mfhtml.Substring(indexurl, indexend - indexurl);
                 }
 
-                // dropbox
+                // Dropbox Formatting
                 if (url.StartsWith("https://www.dropbox.com"))
                 {
                     var driveid = url.GetValue("https://www.dropbox.com/s/", "?");
@@ -283,30 +244,18 @@ namespace DirectLevel
                 }
 
                 if (url.StartsWith("https://drive.google.com/drive/folders/"))
-                {
-                    throw new Exception(
-                        $"Google Drive folder cannot be downloaded\n\n-----Level Info-----\nURL: {url}");
-                }
+                    throw new Exception($"Google Drive folders are not supported directly.\nURL: {url}");
 
                 if (url.StartsWith("https://steamcommunity.com/"))
-                {
-                    throw new Exception(
-                        $"Steam Workshop cannot be downloaded\n\n-----Level Info-----\nURL: {url}");
-                }
-                if (url.StartsWith("https://api.tuforums.com/cdn/"))
-                {
-                    return url;
-                }
+                    throw new Exception($"Steam Workshop links are not supported directly.\nURL: {url}");
 
                 return url;
             }
             catch (Exception e)
             {
-                throw new Exception(
-                    $"The download link is not accessible.\n\n-----Level Info-----\nException: {e.Message}");
+                throw new Exception($"The download link is not accessible.\nException Details: {e.Message}");
             }
         }
-
 
         private static string GetDirectURLFromGoogleLargeFile(string url, WebClient wc)
         {
@@ -315,12 +264,10 @@ namespace DirectLevel
             var uuid = result.GetValue("name=\"uuid\" value=\"", "\">");
 
             if (!result.Contains("name=\"at\" value=\""))
-                return
-                    $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}";
-            var at = result.GetValue("name=\"at\" value=\"", "\">");
-            return
-                $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}&at={at}";
+                return $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}";
 
+            var at = result.GetValue("name=\"at\" value=\"", "\">");
+            return $"https://drive.usercontent.google.com/download?id={id}&export=download&authuser=0&confirm=t&uuid={uuid}&at={at}";
         }
     }
 }
