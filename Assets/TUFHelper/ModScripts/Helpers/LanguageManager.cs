@@ -23,7 +23,7 @@ namespace TUFHelper
         private static readonly Dictionary<int, float> OriginalFontSizes = new();
         private static readonly Dictionary<int, TMP_FontAsset> OriginalFonts = new();
 
-        private const string ChineseFontAssetPath = "assets/TUFHelper/Assets/Fonts/NotoSansSC-Medium SDF.asset";
+        private const string ChineseFontAssetPath = "assets/TUFHelper/Assets/Fonts/NotoSansSC-Regular SDF.asset";
         private static TMP_FontAsset cachedChineseFontAsset;
 
         private static readonly Dictionary<string, string[]> LocalizationRegistry = new(StringComparer.Ordinal)
