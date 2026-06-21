@@ -156,7 +156,7 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Unzipping));
 
-                    ZipHelper.Unzip(zipPath, path);
+                    ZipExtractor.Unzip(zipPath, path);
                     File.Delete(zipPath);
 
                     Utils.MoveLastDirectory(path, path);
