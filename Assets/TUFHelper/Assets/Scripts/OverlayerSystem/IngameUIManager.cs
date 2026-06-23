@@ -89,23 +89,18 @@ namespace TUFHelper
             GameObject subCanvasObj = new GameObject("TUFHelper_CustomSubCanvas", typeof(RectTransform));
             subCanvasObj.transform.SetParent(mainCanvas, false);
 
-            // Completely match and anchor across the parent layout boundary
             RectTransform rect = subCanvasObj.GetComponent<RectTransform>();
             rect.anchorMin = Vector2.zero;
             rect.anchorMax = Vector2.one;
             rect.sizeDelta = Vector2.zero;
             rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one; // Enforce uncorrupted clean local scale matrix
+            rect.localScale = Vector3.one; 
 
             Canvas subCanvas = subCanvasObj.AddComponent<Canvas>();
 
-            // CRITICAL FIX: By telling Unity to override sorting but NOT adding a 
-            // separate CanvasScaler, this Sub-Canvas drops down into the exact rendering 
-            // scale factor and pixel density managed by ADOFAI's root canvas.
             subCanvas.overrideSorting = true;
             subCanvas.sortingOrder = 100;
 
-            // Make sure click and drag inputs still get picked up cleanly
             subCanvasObj.AddComponent<GraphicRaycaster>();
 
             _modCanvasTransform = subCanvasObj.transform;
