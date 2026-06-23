@@ -2,26 +2,93 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Together.Utils;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.Utils;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class IngameLeaderboardScript : MonoBehaviour
+[RegisterIngameElement("IngameLeaderboard", "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab")]
+public class IngameLeaderboardScript : BasicIngameElement
 {
     public GameObject parentList, prefab;
-
-    public static IngameLeaderboardScript instance { get; private set; }
     public static IngamerankPrefabScript PlayerRankPrefab { get; private set; }
-
     private List<IngamerankPrefabScript> ranks = new();
 
-    public void Awake()
+    public override string ID => "IngameLeaderboard";
+
+    // Scoring & calculation state cache variables
+    private readonly PPDisplayerScript.PassData _cachedPassData = new();
+    private PPDisplayerScript.LevelData _cachedLevelData;
+    private const float LeaderboardUpdateInterval = 0.12f;
+    private float lastLeaderboardUpdateTime = -999f;
+    private CancellationTokenSource currentRequestToken;
+
+    protected override bool ShouldElementBeVisible()
     {
-        instance = this;
+        return Main.Setting.ShowIngameLeaderboard;
     }
 
-    private float lastUpdateTime = 0f;
-    private const float UpdateInterval = 0.05f;
+    #region Self-Contained Gameplay Event Hooks
+
+    protected override async void OnPlay(PlayButtonEventArgs e)
+    {
+        if (!ADOFAIGameplayHandler.IsFromTUFHelper) return;
+        lastLeaderboardUpdateTime = -999f;
+
+        // Fetch web data directly from here
+        var passes = await GetPassesAsync(e.CurrentLevelInfo.ID);
+        StartCoroutine(LoadLeaderboardAsync(passes));
+
+        if (PlayerRankPrefab?.PassInfo?.Judgements != null)
+        {
+            PlayerRankPrefab.PassInfo.Judgements = new();
+        }
+
+        _cachedLevelData = new PPDisplayerScript.LevelData(e.CurrentLevelInfo);
+    }
+
+    protected override void OnHit(HitMargin hit)
+    {
+        if (PlayerRankPrefab == null) return;
+
+        var player = PlayerRankPrefab.PassInfo;
+        if (player.Judgements.Deaths > 0) return;
+
+        UpdateJudgements(player.Judgements, hit);
+        var judg = player.Judgements;
+
+        _cachedPassData.IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded;
+        _cachedPassData.Speed = scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
+
+        var pJudg = _cachedPassData.Judgements;
+        pJudg.Perfect = judg.Perfect;
+        pJudg.LPerfect = judg.LPerfect;
+        pJudg.EPerfect = judg.EPerfect;
+        pJudg.EarlySingle = judg.EarlySingle;
+        pJudg.LateSingle = judg.LateSingle;
+        pJudg.EarlyDouble = judg.EarlyDouble;
+        pJudg.LateDouble = judg.LateDouble;
+        pJudg.Deaths = judg.Deaths;
+
+        float now = Time.unscaledTime;
+        if (now - lastLeaderboardUpdateTime < LeaderboardUpdateInterval) return;
+        lastLeaderboardUpdateTime = now;
+
+        player.ScoreV2 = (float)PPDisplayerScript.ScoreCalculator.GetScoreV2(_cachedPassData, _cachedLevelData);
+        player.Accuracy = (float)PPDisplayerScript.ScoreCalculator.CalcAcc(judg);
+
+        PlayerRankPrefab.UpdateVisual();
+        UpdateRanks();
+    }
+
+    #endregion
+
+    #region Leaderboard Internal Logic & Sorting
 
     public void UpdateRanks()
     {
@@ -75,7 +142,6 @@ public class IngameLeaderboardScript : MonoBehaviour
     public IEnumerator LoadLeaderboardAsync(PassesListInfoElementJson[] passes)
     {
         PassesListInfoElementJson[] safePasses = passes ?? Array.Empty<PassesListInfoElementJson>();
-
         ranks.Clear();
         PlayerRankPrefab = null;
 
@@ -87,16 +153,7 @@ public class IngameLeaderboardScript : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         List<PassesListInfoElementJson> passList = safePasses.ToList();
-
-        bool hasYou = false;
-        foreach (var p in passList)
-        {
-            if (p?.Player != null && p.Player.Name == "YOU")
-            {
-                hasYou = true;
-                break;
-            }
-        }
+        bool hasYou = passList.Any(p => p?.Player != null && p.Player.Name == "YOU");
 
         if (!hasYou)
         {
@@ -126,10 +183,67 @@ public class IngameLeaderboardScript : MonoBehaviour
             }
 
             ranks.Add(script);
-
             if (ranks.Count % 50 == 0) yield return null;
         }
 
         UpdateRanks();
+    }
+
+    #endregion
+
+    #region Calculations & Web Helpers
+
+    private void UpdateJudgements(PassesListInfoElementJudgementsJson judgements, HitMargin hit)
+    {
+        switch (hit)
+        {
+            case HitMargin.TooEarly: judgements.EarlyDouble++; break;
+            case HitMargin.VeryEarly: judgements.EarlySingle++; break;
+            case HitMargin.EarlyPerfect: judgements.EPerfect++; break;
+            case HitMargin.Perfect: judgements.Perfect++; break;
+            case HitMargin.LatePerfect: judgements.LPerfect++; break;
+            case HitMargin.VeryLate: judgements.LateSingle++; break;
+            case HitMargin.TooLate: judgements.LateDouble++; break;
+            case HitMargin.FailMiss:
+            case HitMargin.FailOverload: judgements.Deaths++; break;
+        }
+    }
+
+    private async Task<PassesListInfoElementJson[]> GetPassesAsync(int levelID)
+    {
+        currentRequestToken?.Cancel();
+        currentRequestToken = new CancellationTokenSource();
+        CancellationToken token = currentRequestToken.Token;
+
+        string url = LeaderboardScript.GetDefaultUrl(levelID);
+        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
+        webRequest.certificateHandler = new CertificateWhore();
+        webRequest.timeout = 10;
+
+        var operation = webRequest.SendWebRequest();
+        while (!operation.isDone)
+        {
+            await Task.Yield();
+            if (token.IsCancellationRequested)
+            {
+                webRequest.Abort();
+                return null;
+            }
+        }
+
+        if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
+            return null;
+
+        PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(webRequest.downloadHandler.text);
+        if (levelDes == null) return Array.Empty<PassesListInfoElementJson>();
+        return levelDes.OrderByDescending(p => p.ScoreV2).ToArray();
+    }
+
+    #endregion
+
+    protected override void OnDestroy()
+    {
+        currentRequestToken?.Cancel();
+        base.OnDestroy();
     }
 }

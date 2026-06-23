@@ -21,7 +21,7 @@ MonoBehaviour:
   buildEveryPlatform: 1
   serializedBuildPlatforms: 13000000
   copyToDirectory: 1
-  runApplication: 0
+  runApplication: 1
   runApplicationThroughSteam: 0
   deleteBuildsExceptLastN: 0
   automaticallyDeleteBuilds: 0

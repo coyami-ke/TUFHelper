@@ -18,14 +18,14 @@ public class DraggableElement : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         parentRectTransform = transform.parent as RectTransform;
         canvas = GetComponentInParent<Canvas>();
 
-        if (Main.Setting.OverlayerElementsPositions.ContainsKey(saveID))
-        {
-            // Use anchoredPosition to ensure consistency with saving coordinates
-            rectTransform.anchoredPosition = new Vector2(
-                Main.Setting.OverlayerElementsPositions[saveID].X,
-                Main.Setting.OverlayerElementsPositions[saveID].Y
-            );
-        }
+        //if (Main.Setting.OverlayerElementsPositions.ContainsKey(saveID))
+        //{
+        //    // Use anchoredPosition to ensure consistency with saving coordinates
+        //    rectTransform.anchoredPosition = new Vector2(
+        //        Main.Setting.OverlayerElementsPositions[saveID].X,
+        //        Main.Setting.OverlayerElementsPositions[saveID].Y
+        //    );
+        //}
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -50,17 +50,17 @@ public class DraggableElement : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     {
         isDragging = false;
 
-        Vector2 currentPos = rectTransform.anchoredPosition;
+        //Vector2 currentPos = rectTransform.anchoredPosition;
 
-        if (!Main.Setting.OverlayerElementsPositions.ContainsKey(saveID))
-        {
-            Main.Setting.OverlayerElementsPositions[saveID] = new() { X = currentPos.x, Y = currentPos.y };
-        }
-        else
-        {
-            Main.Setting.OverlayerElementsPositions[saveID].X = currentPos.x;
-            Main.Setting.OverlayerElementsPositions[saveID].Y = currentPos.y;
-        }
+        //if (!Main.Setting.OverlayerElementsPositions.ContainsKey(saveID))
+        //{
+        //    Main.Setting.OverlayerElementsPositions[saveID] = new() { X = currentPos.x, Y = currentPos.y };
+        //}
+        //else
+        //{
+        //    Main.Setting.OverlayerElementsPositions[saveID].X = currentPos.x;
+        //    Main.Setting.OverlayerElementsPositions[saveID].Y = currentPos.y;
+        //}
 
         Main.Setting.Save(Main.ModEntry);
     }

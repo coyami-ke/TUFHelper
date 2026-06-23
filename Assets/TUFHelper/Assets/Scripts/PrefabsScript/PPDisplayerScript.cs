@@ -1,12 +1,14 @@
 ﻿using System;
-using DG.Tweening;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
-using TUFHelper.ModScripts.Json;
-using UnityEngine;
 using TUFHelper;
+using TUFHelper.ModScripts.Json;
+using TUFHelper.Utils;
+using UnityEngine;
 
-public class PPDisplayerScript : MonoBehaviour
+[RegisterIngameElement("PPDisplayer", "assets/tufhelper/assets/prefabs/PPDisplayerPrefab.prefab")]
+public class PPDisplayerScript : BasicIngameElement
 {
     public TextMeshProUGUI PP, Speed;
     public LevelListInfoElementJson Levelinfo;
@@ -18,10 +20,21 @@ public class PPDisplayerScript : MonoBehaviour
     public static string currentPathdata;
     public static int FloorCount;
 
-    static ADOFAI.LevelData leveldata
+    // Runtime state tracking cache
+    private readonly Judgements judgements = new();
+    private float lastScoreUpdateTime = -999f;
+    private const float ScoreUpdateInterval = 0.08f;
+    private LevelData _cachedLevelData;
+
+    public override string ID => "PPDisplayer";
+
+    private static ADOFAI.LevelData leveldata
     {
         get => scnGame.instance.levelData;
     }
+
+    private float CurrentLevelSpeed => scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
+    private int CurrentFloorCount => scrLevelMaker.instance.listFloors.Count - 1;
 
     private void Awake()
     {
@@ -34,6 +47,73 @@ public class PPDisplayerScript : MonoBehaviour
             currentPathdata = leveldata.pathData;
         }
     }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        // Sub-elements visibility based on unique individual configurations
+        PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
+        Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
+    }
+
+    protected override bool ShouldElementBeVisible()
+    {
+        return Main.Setting.ShowIngamePPCounter || Main.Setting.ShowIngameSpeed;
+    }
+
+    #region Self-Contained Gameplay Event Hooks
+
+    protected override void OnPlay(PlayButtonEventArgs e)
+    {
+        judgements.Reset();
+        lastScoreUpdateTime = -999f;
+        FloorCount = CurrentFloorCount;
+
+        // Initialize and display current layout configuration stats immediately
+        ApplySpped(CurrentLevelSpeed);
+
+        var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
+        if (levelInfo != null)
+        {
+            _cachedLevelData = new LevelData(levelInfo);
+        }
+    }
+
+    protected override void OnHit(HitMargin hit)
+    {
+        RegisterJudgement(hit);
+
+        if (judgements.Deaths > 0)
+        {
+            ApplyPP(-1310);
+            return;
+        }
+
+        float now = Time.unscaledTime;
+        if (now - lastScoreUpdateTime < ScoreUpdateInterval)
+        {
+            return;
+        }
+        lastScoreUpdateTime = now;
+
+        if (_cachedLevelData != null)
+        {
+            var passData = new PassData
+            {
+                IsNoHoldTap = Persistence.holdBehavior == HoldBehavior.NoHoldNeeded,
+                Judgements = judgements,
+                Speed = CurrentLevelSpeed
+            };
+
+            double computedScore = ScoreCalculator.GetScoreV2(passData, _cachedLevelData);
+            ApplyPP(computedScore);
+        }
+    }
+
+    #endregion
+
+    #region Visual Application
 
     public void ApplyPP(double Score)
     {
@@ -59,6 +139,36 @@ public class PPDisplayerScript : MonoBehaviour
     {
         Speed.text = speed.ToString("0.00") + "x";
     }
+
+    #endregion
+
+    private void RegisterJudgement(HitMargin hit)
+    {
+        switch (hit)
+        {
+            case HitMargin.TooEarly: judgements.EarlyDouble++; break;
+            case HitMargin.VeryEarly: judgements.EarlySingle++; break;
+            case HitMargin.EarlyPerfect: judgements.EPerfect++; break;
+            case HitMargin.Perfect: judgements.Perfect++; break;
+            case HitMargin.LatePerfect: judgements.LPerfect++; break;
+            case HitMargin.VeryLate: judgements.LateSingle++; break;
+            case HitMargin.TooLate: judgements.LateDouble++; break;
+            case HitMargin.FailMiss:
+            case HitMargin.FailOverload: judgements.Deaths++; break;
+        }
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        if (_scoreTween != null && _scoreTween.IsActive())
+        {
+            _scoreTween.Kill();
+        }
+    }
+
+    #region Score Engine (Nested Classes)
 
     public static class ScoreCalculator
     {
@@ -251,4 +361,6 @@ public class PPDisplayerScript : MonoBehaviour
                 PPBaseScore = 0;
         }
     }
+
+    #endregion
 }

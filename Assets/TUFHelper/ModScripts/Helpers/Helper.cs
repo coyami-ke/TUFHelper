@@ -3,6 +3,24 @@ using UnityEngine;
 
 namespace TUFHelper.Utils
 {
+    public static class VectorExtensions
+    {
+        /// <summary>
+        /// Converts a System.Numerics.Vector2 to a UnityEngine.Vector2
+        /// </summary>
+        public static UnityEngine.Vector2 ToUnity(this System.Numerics.Vector2 vector)
+        {
+            return new UnityEngine.Vector2(vector.X, vector.Y);
+        }
+
+        /// <summary>
+        /// Converts a UnityEngine.Vector2 to a System.Numerics.Vector2
+        /// </summary>
+        public static System.Numerics.Vector2 ToSystem(this UnityEngine.Vector2 vector)
+        {
+            return new System.Numerics.Vector2(vector.x, vector.y);
+        }
+    }
     public static class Helper
     {
         public static Sprite GetFlagSprite(string countryCode)

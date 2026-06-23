@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
@@ -7,25 +6,41 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IngameLevelInfoScript : MonoBehaviour
+[RegisterIngameElement("IngameLevelInfo", "assets/tufhelper/assets/prefabs/IngameLevelInfoPrefab.prefab")]
+public class IngameLevelInfoScript : BasicIngameElement
 {
-    public static IngameLevelInfoScript Instance { get; private set; }
-
     public TextMeshProUGUI artistText, songText;
     public Image diffIcon;
 
-    public void Awake()
+    public override string ID => "IngameLevelInfo";
+
+    #region Self-Contained Gameplay Event Hooks
+
+    protected override void OnPlay(PlayButtonEventArgs e)
     {
-        Instance = this;
+        if (e.CurrentLevelInfo != null)
+        {
+            SetLevelInfo(e.CurrentLevelInfo);
+        }
     }
+
+    #endregion
+
+    #region UI Presentation Logic
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo)
     {
         artistText.text = "#" + levelInfo.ID + " " + levelInfo.Artist;
         songText.text = levelInfo.Song;
+
         LanguageManager.ApplyChineseJapaneseFont(artistText);
         LanguageManager.ApplyChineseJapaneseFont(songText);
 
-        diffIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+        if (diffIcon != null)
+        {
+            diffIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+        }
     }
+
+    #endregion
 }

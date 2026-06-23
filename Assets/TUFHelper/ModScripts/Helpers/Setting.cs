@@ -43,7 +43,8 @@ namespace TUFHelper.Utils
         public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
         public HashSet<int> FavoriteLevels { get; set; } = new();
         public List<LevelFolder> LevelFolders { get; set; } = new();
-        public Dictionary<string, TransformOverlayerElement> OverlayerElementsPositions { get; set; } = new();
+        //public Dictionary<string, TransformOverlayerElement> OverlayerElementsPositions { get; set; } = new();
+        public Dictionary<string, IngameElementModel> IngameElementsSettings { get; set; } = new();
         public bool ShowTUFHelperOverlayer { get; set; } = true;
         public bool ShowIngameLeaderboard { get; set; } = true;
         public bool ShowIngameSpeed { get; set; } = true;

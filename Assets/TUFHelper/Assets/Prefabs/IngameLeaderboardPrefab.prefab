@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8919544443992896430}
   - component: {fileID: 5883571505532960067}
   - component: {fileID: 5176673626370832035}
-  - component: {fileID: 2222690187379635372}
   m_Layer: 5
   m_Name: IngameLeaderboardPrefab
   m_TagString: Untagged
@@ -30,16 +29,16 @@ RectTransform:
   m_GameObject: {fileID: 2657405769457343265}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -200.92, y: 150}
+  m_AnchoredPosition: {x: -10, y: 0}
   m_SizeDelta: {x: 350, y: 320}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 1, y: 0.5}
 --- !u!222 &4185429210115954618
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -105,16 +104,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
---- !u!114 &2222690187379635372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2657405769457343265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 382411dbc885cd04c992033ee157b844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveID: IngameLeaderboard
