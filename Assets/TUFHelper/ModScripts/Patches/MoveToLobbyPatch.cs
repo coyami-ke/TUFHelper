@@ -117,27 +117,27 @@ namespace TUFHelper
             }
         }
 
-        [HarmonyPatch(typeof(PauseMenu), "Choose")]
-        public static class Choose_Patch
-        {
-            public static bool Prefix(PauseMenu __instance, int ___selectedIndex)
-            {
-                if (Main.isInTUFHelper)
-                {
-                    PauseMenu.ButtonType bt = (__instance.currentButtons[___selectedIndex] as PauseButton).buttonType;
-                    if (bt.ToString().Equals("Quit"))
-                    {
-   
-                        Time.timeScale = 1;
-                        GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
-                        ADOFAIGameplayHandler.IsFromTUFHelper = false;
-                        scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
+        //[HarmonyPatch(typeof(PauseMenu), "Choose")]
+        //public static class Choose_Patch
+        //{
+        //    public static bool Prefix(PauseMenu __instance, int ___selectedIndex)
+        //    {
+        //        if (Main.isInTUFHelper)
+        //        {
+        //            PauseMenu.ButtonType bt = (__instance.currentButtons[___selectedIndex] as PauseButton).buttonType;
+        //            if (bt.ToString().Equals("Quit"))
+        //            {
+
+        //                Time.timeScale = 1;
+        //                GCS.sceneToLoad = "Assets/TUFHelper/Scenes/TUFLevelSelect.unity";
+        //                ADOFAIGameplayHandler.IsFromTUFHelper = false;
+        //                scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, null);
+        //                return false;
+        //            }
+        //        }
+        //        return true;
+        //    }
+        //}
 
         [HarmonyPatch(typeof(scnEditor), "QuitToMenu")]
         public static class QuitToMenu_Patch

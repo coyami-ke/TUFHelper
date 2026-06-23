@@ -136,16 +136,16 @@ namespace TUFHelper
         }
         internal static void OnGUI(ModEntry modEntry)
         {
-            GUILayout.BeginHorizontal();
+            //GUILayout.BeginHorizontal();
 
-            GUILayout.Label("Level Save Path");
-            Setting.LevelSaveFolder = GUILayout.TextField(Setting.LevelSaveFolder, GUILayout.MinWidth(500));
+            //GUILayout.Label("Level Save Path");
+            //Setting.LevelSaveFolder = GUILayout.TextField(Setting.LevelSaveFolder, GUILayout.MinWidth(500));
 
-            GUILayout.EndHorizontal();
+            //GUILayout.EndHorizontal();
 
-            GUILayout.BeginHorizontal();
-            Setting.StartWithGame = GUILayout.Toggle(Setting.StartWithGame, "Start With Game");
-            GUILayout.EndHorizontal();
+            //GUILayout.BeginHorizontal();
+            //Setting.StartWithGame = GUILayout.Toggle(Setting.StartWithGame, "Start With Game");
+            //GUILayout.EndHorizontal();
 
             //GUILayout.BeginVertical("box");
             //GUILayout.Label("In-game Overlayer");
@@ -183,7 +183,7 @@ namespace TUFHelper
             //) / 100f;
 
 
-            GUILayout.EndVertical();
+            //GUILayout.EndVertical();
         }
 
 
