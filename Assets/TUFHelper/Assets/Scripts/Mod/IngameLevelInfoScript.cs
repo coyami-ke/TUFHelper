@@ -6,13 +6,15 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RegisterIngameElement("IngameLevelInfo", "assets/tufhelper/assets/prefabs/IngameLevelInfoPrefab.prefab")]
+[RegisterIngameElement("LevelInfo", "assets/tufhelper/assets/prefabs/IngameLevelInfoPrefab.prefab")]
 public class IngameLevelInfoScript : BasicIngameElement
 {
     public TextMeshProUGUI artistText, songText;
     public Image diffIcon;
 
-    public override string ID => "IngameLevelInfo";
+    public override string ID => "LevelInfo";
+    public override string NameInSettings => "Level Info";
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/info.png");
 
     #region Self-Contained Gameplay Event Hooks
 

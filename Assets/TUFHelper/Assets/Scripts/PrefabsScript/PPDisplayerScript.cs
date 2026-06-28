@@ -27,38 +27,61 @@ public class PPDisplayerScript : BasicIngameElement
     private LevelData _cachedLevelData;
 
     public override string ID => "PPDisplayer";
+    public override string NameInSettings => "Score & Speed";
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
 
     private static ADOFAI.LevelData leveldata
     {
-        get => scnGame.instance.levelData;
+        get => scnGame.instance != null ? scnGame.instance.levelData : null;
     }
 
-    private float CurrentLevelSpeed => scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed;
-    private int CurrentFloorCount => scrLevelMaker.instance.listFloors.Count - 1;
+    private float CurrentLevelSpeed =>
+        (scnGame.instance != null && scnEditor.instance != null)
+            ? scnGame.instance.levelData.pitch / 100f * scnEditor.instance.playbackSpeed
+            : 1.0f;
+
+    private int CurrentFloorCount =>
+        (scrLevelMaker.instance != null && scrLevelMaker.instance.listFloors != null)
+            ? scrLevelMaker.instance.listFloors.Count - 1
+            : 0;
 
     private void Awake()
     {
-        PP.text = string.Empty;
-        Speed.text = string.Empty;
+        if (PP != null) PP.text = string.Empty;
+        if (Speed != null) Speed.text = string.Empty;
 
-        if (leveldata != null)
+        if (scnGame.instance != null && leveldata != null)
         {
-            currentAnglePath = leveldata.angleData;
-            currentPathdata = leveldata.pathData;
+            currentAnglePath = leveldata.angleData ?? new List<float>();
+            currentPathdata = leveldata.pathData ?? string.Empty;
         }
+        else
+        {
+            currentAnglePath = new List<float>();
+            currentPathdata = string.Empty;
+        }
+    }
+
+    public override void OnSettingsOpened()
+    {
+        ApplyPP(727.7f);
+        ApplySpped(1.0f);
     }
 
     protected override void Start()
     {
         base.Start();
 
-        // Sub-elements visibility based on unique individual configurations
-        PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
-        Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
+        if (PP != null && Main.Setting != null)
+            PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
+
+        if (Speed != null && Main.Setting != null)
+            Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
     }
 
     protected override bool ShouldElementBeVisible()
     {
+        if (Main.Setting == null) return true;
         return Main.Setting.ShowIngamePPCounter || Main.Setting.ShowIngameSpeed;
     }
 
@@ -70,12 +93,11 @@ public class PPDisplayerScript : BasicIngameElement
         lastScoreUpdateTime = -999f;
         FloorCount = CurrentFloorCount;
 
-        // Initialize and display current layout configuration stats immediately
         ApplySpped(CurrentLevelSpeed);
 
-        var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
-        if (levelInfo != null)
+        if (ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo != null)
         {
+            var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
             _cachedLevelData = new LevelData(levelInfo);
         }
     }
@@ -117,6 +139,8 @@ public class PPDisplayerScript : BasicIngameElement
 
     public void ApplyPP(double Score)
     {
+        if (PP == null) return;
+
         if (Score == -1310)
         {
             PP.text = "You died L";
@@ -137,7 +161,10 @@ public class PPDisplayerScript : BasicIngameElement
 
     public void ApplySpped(float speed)
     {
-        Speed.text = speed.ToString("0.00") + "x";
+        if (Speed != null)
+        {
+            Speed.text = speed.ToString("0.00") + "x";
+        }
     }
 
     #endregion

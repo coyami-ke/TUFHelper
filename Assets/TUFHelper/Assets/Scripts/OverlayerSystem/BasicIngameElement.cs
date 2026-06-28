@@ -16,6 +16,9 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public IngameElementModel Model { get; private set; }
 
     public virtual string ID => GetType().Name;
+    public virtual string NameInSettings => ID;
+    public virtual Sprite Icon => null;
+    public virtual Vector2 DefaultPosition => Vector2.zero;
 
     protected virtual void Start()
     {
@@ -29,7 +32,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
         else
         {
-            Model = new IngameElementModel();
+            Model = new IngameElementModel() { Position = DefaultPosition.ToSystem() };
             Main.Setting.IngameElementsSettings[ID] = Model;
         }
 
@@ -67,8 +70,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         if (Model == null) return;
 
         bool globalOverlayerActive = Main.Setting.ShowTUFHelperOverlayer;
-        bool ratingPageBlocking = FrontPageScript.instance != null;
-        bool shouldShow = globalOverlayerActive && Model.IsShowed && !ratingPageBlocking && ShouldElementBeVisible();
+        bool shouldShow = globalOverlayerActive && Model.IsShowed && ShouldElementBeVisible();
 
         if (gameObject.activeSelf != shouldShow)
             gameObject.SetActive(shouldShow);
@@ -111,6 +113,8 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     protected virtual void OnHit(HitMargin hit) { }
 
     protected virtual void OnReturnToEditor(ScnGameTransferToEditorEventArgs e) { }
+
+    public virtual void OnSettingsOpened() { }
 
     #endregion
 

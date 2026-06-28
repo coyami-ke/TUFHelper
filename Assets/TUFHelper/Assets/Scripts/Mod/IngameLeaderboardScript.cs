@@ -12,14 +12,15 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RegisterIngameElement("IngameLeaderboard", "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab")]
+[RegisterIngameElement("Leaderboard", "assets/tufhelper/assets/prefabs/ingameleaderboardprefab.prefab")]
 public class IngameLeaderboardScript : BasicIngameElement
 {
     public GameObject parentList, prefab;
     public static IngamerankPrefabScript PlayerRankPrefab { get; private set; }
     private List<IngamerankPrefabScript> ranks = new();
 
-    public override string ID => "IngameLeaderboard";
+    public override string ID => "Leaderboard";
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/leaderboard.png");
 
     // Scoring & calculation state cache variables
     private readonly PPDisplayerScript.PassData _cachedPassData = new();
@@ -86,6 +87,19 @@ public class IngameLeaderboardScript : BasicIngameElement
         UpdateRanks();
     }
 
+    public override void OnSettingsOpened()
+    {
+        List<PassesListInfoElementJson> passes = new()
+        {
+            new() { Accuracy = 0.99f, ScoreV2 = 777.77f, Player = new() { Name = "Player 1" } },
+            new() { Accuracy = 0.97f, ScoreV2 = 677.21f, Player = new() { Name = "Player 2" } },
+            new() { Accuracy = 0.92f, ScoreV2 = 555.83f, Player = new() { Name = "Player 3" } },
+            new() { Accuracy = 0.89f, ScoreV2 = 252.01f, Player = new() { Name = "Player 4" } },
+            new() { Accuracy = 0.78f, ScoreV2 = 89.25f, Player = new() { Name = "Player 5" } },
+        };
+        StartCoroutine(LoadLeaderboardAsync(passes.ToArray(), true));
+    }
+
     #endregion
 
     #region Leaderboard Internal Logic & Sorting
@@ -139,7 +153,7 @@ public class IngameLeaderboardScript : BasicIngameElement
         }
     }
 
-    public IEnumerator LoadLeaderboardAsync(PassesListInfoElementJson[] passes)
+    public IEnumerator LoadLeaderboardAsync(PassesListInfoElementJson[] passes, bool fromSettings = false)
     {
         PassesListInfoElementJson[] safePasses = passes ?? Array.Empty<PassesListInfoElementJson>();
         ranks.Clear();
@@ -157,13 +171,26 @@ public class IngameLeaderboardScript : BasicIngameElement
 
         if (!hasYou)
         {
-            passList.Add(new PassesListInfoElementJson
+            if (fromSettings)
             {
-                Player = new() { Name = "YOU" },
-                Accuracy = 0f,
-                Judgements = new(),
-                ScoreV2 = 0
-            });
+                passList.Add(new PassesListInfoElementJson
+                {
+                    Player = new() { Name = "YOU" },
+                    Accuracy = 1f,
+                    Judgements = new(),
+                    ScoreV2 = 9012.22f
+                });
+            }
+            else
+            {
+                passList.Add(new PassesListInfoElementJson
+                {
+                    Player = new() { Name = "YOU" },
+                    Accuracy = 0f,
+                    Judgements = new(),
+                    ScoreV2 = 0,
+                });
+            }
         }
 
         foreach (var pass in passList)
