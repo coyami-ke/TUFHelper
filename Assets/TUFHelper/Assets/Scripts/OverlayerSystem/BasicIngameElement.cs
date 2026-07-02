@@ -223,6 +223,8 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             Vector2 targetLocalPos = localMousePos + dragOffset;
             rectTransform.anchoredPosition = targetLocalPos;
 
+            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+
             Vector3[] elementCorners = new Vector3[4];
             Vector3[] parentCorners = new Vector3[4];
 
