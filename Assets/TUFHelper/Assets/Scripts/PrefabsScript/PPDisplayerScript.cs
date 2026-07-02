@@ -13,6 +13,8 @@ public class PPDisplayerScript : BasicIngameElement
     public TextMeshProUGUI PP, Speed;
     public LevelListInfoElementJson Levelinfo;
 
+    public override bool IsShownOnlyInTUFHelper => true;
+
     private double curScore;
     private Tween _scoreTween;
 
@@ -75,16 +77,16 @@ public class PPDisplayerScript : BasicIngameElement
         base.Start();
 
         if (PP != null && Main.Setting != null)
-            PP.gameObject.SetActive(Main.Setting.ShowIngamePPCounter);
+            PP.gameObject.SetActive(displayerSettings.IsShowScore);
 
         if (Speed != null && Main.Setting != null)
-            Speed.gameObject.SetActive(Main.Setting.ShowIngameSpeed);
+            Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
     }
 
     protected override bool ShouldElementBeVisible()
     {
         if (Main.Setting == null) return true;
-        return Main.Setting.ShowIngamePPCounter || Main.Setting.ShowIngameSpeed;
+        return displayerSettings.IsShowScore || displayerSettings.IsShowSpeed;
     }
 
     #region Self-Contained Gameplay Event Hooks

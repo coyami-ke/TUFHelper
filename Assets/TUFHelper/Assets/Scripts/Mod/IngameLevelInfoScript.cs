@@ -15,6 +15,7 @@ public class IngameLevelInfoScript : BasicIngameElement
     public override string ID => "LevelInfo";
     public override string NameInSettings => "Level Info";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/info.png");
+    public override bool IsShownOnlyInTUFHelper => true;
 
     #region Self-Contained Gameplay Event Hooks
 

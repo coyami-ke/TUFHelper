@@ -46,10 +46,10 @@ namespace TUFHelper.Utils
         //public Dictionary<string, TransformOverlayerElement> OverlayerElementsPositions { get; set; } = new();
         public Dictionary<string, IngameElementModel> IngameElementsSettings { get; set; } = new();
         public bool ShowTUFHelperOverlayer { get; set; } = true;
-        public bool ShowIngameLeaderboard { get; set; } = true;
-        public bool ShowIngameSpeed { get; set; } = true;
-        public bool ShowIngamePPCounter { get; set; } = true;
-        public bool ShowIngameLevelInfo { get; set; } = true;
+        //public bool ShowIngameLeaderboard { get; set; } = true;
+        //public bool ShowIngameSpeed { get; set; } = true;
+        //public bool ShowIngamePPCounter { get; set; } = true;
+        //public bool ShowIngameLevelInfo { get; set; } = true;
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;
         public string Language { get; set; } = "Auto";

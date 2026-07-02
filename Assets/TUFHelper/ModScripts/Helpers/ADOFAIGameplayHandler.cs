@@ -10,16 +10,22 @@ namespace TUFHelper.Utils
 {
     public class ScnGameTransferToEditorEventArgs : EventArgs
     {
-
+        public bool IsFromTUFHelper { get; }
+        public ScnGameTransferToEditorEventArgs(bool isFromTUFHelper)
+        {
+            IsFromTUFHelper = isFromTUFHelper;
+        }
     }
     public class PlayButtonEventArgs : EventArgs
     {
         public LevelListInfoElementJson CurrentLevelInfo { get; }
         public bool RatingMode { get; }
+        public bool IsFromTUFHelper { get; }
         public RatingElementJson CurrentRatingInfo { get; }
-        public PlayButtonEventArgs(LevelListInfoElementJson level, bool ratingMode = false, RatingElementJson rating = null)
+        public PlayButtonEventArgs(LevelListInfoElementJson level, bool isFromTUFHelper, bool ratingMode = false, RatingElementJson rating = null)
         {
             CurrentLevelInfo = level;
+            IsFromTUFHelper = isFromTUFHelper;
             RatingMode = ratingMode;
             CurrentRatingInfo = rating;
 
@@ -53,7 +59,7 @@ namespace TUFHelper.Utils
             public static void Prefix()
             {
                 if (!IsFromTUFHelper) return;
-                Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, RatingMode, CurrentRating));
+                Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, IsFromTUFHelper, RatingMode, CurrentRating));
             }
         }
 
@@ -62,9 +68,9 @@ namespace TUFHelper.Utils
         {
             public static void Prefix()
             {
-                if (Input.GetKeyDown(KeyCode.Escape) && scnEditor.instance.playMode && IsFromTUFHelper)
+                if (Input.GetKeyDown(KeyCode.Escape) && scnEditor.instance.playMode)
                 {
-                    Editor_ScnGameTransferToEditor.Invoke(scnEditor.instance, new());
+                    Editor_ScnGameTransferToEditor.Invoke(scnEditor.instance, new(IsFromTUFHelper));
                 }
             }
         }

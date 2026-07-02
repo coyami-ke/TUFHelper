@@ -21,6 +21,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual string NameInSettings => ID;
     public virtual Sprite Icon => null;
     public virtual Vector2 DefaultPosition => Vector2.zero;
+    public abstract bool IsShownOnlyInTUFHelper { get; }
 
     protected virtual void Start()
     {
@@ -53,7 +54,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
         if (gameObject.activeSelf && ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo != null)
         {
-            var dummyArgs = new PlayButtonEventArgs(ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo);
+            var dummyArgs = new PlayButtonEventArgs(ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo, ADOFAIGameplayHandler.IsFromTUFHelper);
             OnPlay(dummyArgs);
         }
     }
@@ -74,7 +75,8 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         if (Model == null) return;
 
         bool globalOverlayerActive = Main.Setting.ShowTUFHelperOverlayer;
-        bool shouldShow = globalOverlayerActive && Model.IsShowed && ShouldElementBeVisible();
+        bool shouldShowWithoutMod = (ADOFAIGameplayHandler.IsFromTUFHelper == IsShownOnlyInTUFHelper) || IsShownOnlyInTUFHelper;
+        bool shouldShow = globalOverlayerActive && Model.IsShowed && ShouldElementBeVisible() && shouldShowWithoutMod;
 
         if (gameObject.activeSelf != shouldShow)
             gameObject.SetActive(shouldShow);

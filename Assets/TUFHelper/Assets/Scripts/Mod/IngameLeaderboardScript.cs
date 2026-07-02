@@ -19,6 +19,7 @@ public class IngameLeaderboardScript : BasicIngameElement
     public static IngamerankPrefabScript PlayerRankPrefab { get; private set; }
     private List<IngamerankPrefabScript> ranks = new();
 
+    public override bool IsShownOnlyInTUFHelper => true;
     public override string ID => "Leaderboard";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/leaderboard.png");
 
@@ -28,11 +29,6 @@ public class IngameLeaderboardScript : BasicIngameElement
     private const float LeaderboardUpdateInterval = 0.12f;
     private float lastLeaderboardUpdateTime = -999f;
     private CancellationTokenSource currentRequestToken;
-
-    protected override bool ShouldElementBeVisible()
-    {
-        return Main.Setting.ShowIngameLeaderboard;
-    }
 
     #region Self-Contained Gameplay Event Hooks
 
