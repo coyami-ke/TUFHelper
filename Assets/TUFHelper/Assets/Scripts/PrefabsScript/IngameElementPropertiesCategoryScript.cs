@@ -17,11 +17,13 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
             _isSelected = value;
             if (value)
             {
-                lineImage.rectTransform.DOSizeDelta(new(220, 2), 0.5f).SetEase(Ease.OutExpo);
+                lineImage.rectTransform.DOScaleX(1f, 0.5f).SetEase(Ease.OutExpo);
+                backgroundImage.DOColor(new Color(1, 1, 1, 20 / 255f), 0.5f).SetEase(Ease.OutExpo);
             }
             else
             {
-                lineImage.rectTransform.DOSizeDelta(new(0, 2), 0.5f).SetEase(Ease.OutExpo);
+                lineImage.rectTransform.DOScaleX(0f, 0.5f).SetEase(Ease.OutExpo);
+                backgroundImage.DOColor(new Color(1, 1, 1, 10 / 255f), 0.5f).SetEase(Ease.OutExpo);
             }
         }
     }
@@ -30,5 +32,10 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
     {
         text.text = category.DisplayName;
         iconImage.sprite = category.Icon;
+    }
+
+    public void OnClicked()
+    {
+        IsSelected = true;
     }
 }
