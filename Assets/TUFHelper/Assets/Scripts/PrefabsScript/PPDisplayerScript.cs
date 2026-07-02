@@ -26,6 +26,8 @@ public class PPDisplayerScript : BasicIngameElement
     private const float ScoreUpdateInterval = 0.08f;
     private LevelData _cachedLevelData;
 
+    private PPDisplayerSettingsCategory displayerSettings;
+
     public override string ID => "PPDisplayer";
     public override string NameInSettings => "Score & Speed";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
@@ -100,6 +102,9 @@ public class PPDisplayerScript : BasicIngameElement
             var levelInfo = ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo;
             _cachedLevelData = new LevelData(levelInfo);
         }
+
+        Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+        PP.gameObject.SetActive(displayerSettings.IsShowScore);
     }
 
     protected override void OnHit(HitMargin hit)
@@ -131,6 +136,10 @@ public class PPDisplayerScript : BasicIngameElement
             double computedScore = ScoreCalculator.GetScoreV2(passData, _cachedLevelData);
             ApplyPP(computedScore);
         }
+    }
+    protected override void OnLoadCustomSettings(IngameElementModel model)
+    {
+        displayerSettings = model.GetCategory("PPDisplayer", new PPDisplayerSettingsCategory());
     }
 
     #endregion
@@ -390,4 +399,31 @@ public class PPDisplayerScript : BasicIngameElement
     }
 
     #endregion
+}
+
+public class PPDisplayerSettingsCategory : IngameElementSettingsCategory
+{
+    public override string DisplayName => "Speed & Score";
+
+    private bool _isShowSpeed = true;
+    public bool IsShowSpeed
+    {
+        get => _isShowSpeed;
+        set
+        {
+            _isShowSpeed = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private bool _isShowScore = true;
+    public bool IsShowScore
+    {
+        get => _isShowScore;
+        set
+        {
+            _isShowScore = value;
+            OnPropertyChanged();
+        }
+    }
 }

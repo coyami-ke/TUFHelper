@@ -12,7 +12,10 @@ public class OverlayerSettings : MonoBehaviour
     private Dictionary<string, string> _prefabRegistry = new();
 
     public GameObject elementInListPrefab;
-    public Transform canvasTransform, listTransform;
+    public Transform canvasTransform, listTransform, categoriesParentTransform;
+
+    public List<IngameElementPropertiesCategoryScript> CategoryScripts {  get; private set; }
+    
     public List<BasicIngameElement> Elements { get; private set; } = new();
     public void Start()
     {
@@ -41,6 +44,7 @@ public class OverlayerSettings : MonoBehaviour
                 //element.gameObject.SetActive(true);
                 element.UpdateVisibility();
                 element.OnSettingsOpened();
+                element.CreateSettingsHandles();
 
                 Elements.Add(element);
             }
@@ -52,7 +56,10 @@ public class OverlayerSettings : MonoBehaviour
             GameObject instance = GameObject.Instantiate(elementInListPrefab, listTransform, false);
             var script = instance.GetComponent<IngameElementInListScript>();
             if (script != null)
+            {
                 script.SetElementInfo(element);
+                script.Selected += ElementInList_Clicked;
+            }
 
             instance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -62.5f * i);
 
@@ -60,6 +67,13 @@ public class OverlayerSettings : MonoBehaviour
 
             i++;
         }
+    }
+
+    private void ElementInList_Clicked(object sender, IngameElementInListScript.IngameElementInListSelectedEventArgs e)
+    {
+        MonoBehaviour obj = (MonoBehaviour)sender;
+        IngameElementInListScript script = obj.GetComponent<IngameElementInListScript>();
+        Main.Logger.Log("Selected: " + script.Element.NameInSettings);
     }
 
     public void SetRegistryIngamePrefabs()
