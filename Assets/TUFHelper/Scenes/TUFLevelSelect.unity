@@ -5877,7 +5877,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 232616596}
   m_HandleRect: {fileID: 232616595}
   m_Direction: 2
-  m_Value: -0.0000001486971
+  m_Value: 0.0000004460913
   m_Size: 0.6579447
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -41995,7 +41995,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00002670288, y: 102.61659}
+  m_AnchoredPosition: {x: 0.00002670288, y: 102.61656}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1460289219
@@ -60859,6 +60859,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementInListPrefab: {fileID: 8312932090939806684, guid: 2f9cabe37ad1ee3458e1495552cb0a2b, type: 3}
+  categoryPrefab: {fileID: 8312932090939806684, guid: 001ab43d0afd38b40a073613d4fe0627, type: 3}
   canvasTransform: {fileID: 684368538}
   listTransform: {fileID: 889173232}
   categoriesParentTransform: {fileID: 67568261}

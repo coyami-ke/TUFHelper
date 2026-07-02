@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using DG.Tweening;
 using TMPro;
 using TUFHelper;
 using UnityEngine;
 using UnityEngine.UI;
+using static scnCLS;
 
 public class OverlayerSettings : MonoBehaviour
 {
     private Dictionary<string, string> _prefabRegistry = new();
 
-    public GameObject elementInListPrefab;
+    public GameObject elementInListPrefab, categoryPrefab;
     public Transform canvasTransform, listTransform, categoriesParentTransform;
 
     public List<IngameElementPropertiesCategoryScript> CategoryScripts {  get; private set; }
@@ -74,6 +76,54 @@ public class OverlayerSettings : MonoBehaviour
         MonoBehaviour obj = (MonoBehaviour)sender;
         IngameElementInListScript script = obj.GetComponent<IngameElementInListScript>();
         Main.Logger.Log("Selected: " + script.Element.NameInSettings);
+
+        if (categoriesParentTransform != null)
+        {
+            for (int i = categoriesParentTransform.childCount - 1; i >= 0; i--)
+            {
+                Transform child = categoriesParentTransform.GetChild(i);
+                Destroy(child.gameObject);
+            }
+        }
+
+        AddCategories(script.Element.Model);
+    }
+    
+    private void AddCategories(IngameElementModel model)
+    {
+        GameObject spawnedTransformCategory = Instantiate(categoryPrefab);
+
+        RectTransform categoryTransformRect = spawnedTransformCategory.GetComponent<RectTransform>();
+        categoryTransformRect.SetParent(categoriesParentTransform, false);
+
+        var categoryTransformScript = spawnedTransformCategory.GetComponent<IngameElementPropertiesCategoryScript>();
+        if (categoryTransformScript != null && categoryTransformScript.text != null)
+        {
+            categoryTransformScript.text.text = "Transform";
+        }
+
+        categoryTransformRect.DOAnchorPosX(0, 0.5f).SetEase(Ease.OutExpo);
+
+        //
+
+        int i = 0;
+        foreach (var category in model.Categories)
+        {
+            GameObject spawnedCategory = Instantiate(categoryPrefab);
+
+            RectTransform categoryRect = spawnedCategory.GetComponent<RectTransform>();
+            categoryRect.SetParent(categoriesParentTransform, false);
+
+            var categoryScript = spawnedCategory.GetComponent<IngameElementPropertiesCategoryScript>();
+            if (categoryScript != null && categoryScript.text != null)
+            {
+                categoryScript.SetCategory(category.Value);
+            }
+
+            categoryRect.DOAnchorPosX((i + 1) * 202.5f, 0.5f).SetEase(Ease.OutExpo);
+
+            i++;
+        }
     }
 
     public void SetRegistryIngamePrefabs()

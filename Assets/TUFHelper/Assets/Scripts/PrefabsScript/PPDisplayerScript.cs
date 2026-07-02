@@ -404,6 +404,7 @@ public class PPDisplayerScript : BasicIngameElement
 public class PPDisplayerSettingsCategory : IngameElementSettingsCategory
 {
     public override string DisplayName => "Speed & Score";
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
 
     private bool _isShowSpeed = true;
     public bool IsShowSpeed

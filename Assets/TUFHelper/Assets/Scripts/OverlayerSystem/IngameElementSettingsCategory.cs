@@ -7,6 +7,8 @@ public abstract class IngameElementSettingsCategory : INotifyPropertyChanged
 {
     [JsonIgnore]
     public abstract string DisplayName { get; }
+    [JsonIgnore]
+    public abstract Sprite Icon { get; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 

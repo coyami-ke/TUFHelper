@@ -25,4 +25,10 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
             }
         }
     }
+
+    public void SetCategory(IngameElementSettingsCategory category)
+    {
+        text.text = category.DisplayName;
+        iconImage.sprite = category.Icon;
+    }
 }
