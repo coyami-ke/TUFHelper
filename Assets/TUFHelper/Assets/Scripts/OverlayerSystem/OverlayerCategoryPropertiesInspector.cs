@@ -2,28 +2,27 @@ using System;
 using System.Reflection;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class OverlayerCategoryPropertiesInspector : MonoBehaviour
 {
-    [Header("UI Spawn Grid Layout Parent")]
     public Transform propertiesContainerParent;
-
-    [Header("Input Control Element Prefabs")]
     public GameObject togglePrefab;
     public GameObject sliderPrefab;
 
-    public void GenerateInspectorUI(IngameElementSettingsCategory targetCategory)
+    public void GenerateInspectorUI(object target)
     {
         foreach (Transform child in propertiesContainerParent)
         {
             Destroy(child.gameObject);
         }
 
-        if (targetCategory == null) return;
+        if (target == null) return;
 
-        PropertyInfo[] properties = targetCategory.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        PropertyInfo[] properties = target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-        float y = 0;
+
+        float y = 0f;
         foreach (PropertyInfo prop in properties)
         {
             var settingsAttr = prop.GetCustomAttribute<ShowInOverlayerSettingsAttribute>();
@@ -37,12 +36,14 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
                 GameObject controlObj = Instantiate(togglePrefab, propertiesContainerParent, false);
                 var controlScript = controlObj.GetComponent<OverlayerTogglePropertyControl>();
 
-                controlScript.BindProperty(visualLabel, prop.GetValue(targetCategory), (newValue) => {
-                    prop.SetValue(targetCategory, newValue);
+                controlScript.BindProperty(visualLabel, prop.GetValue(target), (newValue) => {
+                    prop.SetValue(target, newValue);
                 });
 
-                controlObj.GetComponent<RectTransform>().DOAnchorPosY(-y, 0.5f).SetEase(Ease.OutExpo);
-                y += controlObj.GetComponent<RectTransform>().sizeDelta.y;
+                RectTransform rect = controlObj.GetComponent<RectTransform>();
+                rect.DOAnchorPosY(-y, 0.5f).SetEase(Ease.OutExpo);
+
+                y += rect.sizeDelta.y;
             }
         }
     }

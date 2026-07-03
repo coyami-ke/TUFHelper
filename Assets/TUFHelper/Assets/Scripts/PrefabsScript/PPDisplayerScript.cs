@@ -142,6 +142,15 @@ public class PPDisplayerScript : BasicIngameElement
     protected override void OnLoadCustomSettings(IngameElementModel model)
     {
         displayerSettings = model.GetCategory("PPDisplayer", new PPDisplayerSettingsCategory());
+        displayerSettings.PropertyChanged += DisplayerSettings_PropertyChanged;
+    }
+
+    private void DisplayerSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+        PP.gameObject.SetActive(displayerSettings.IsShowScore);
+
+        UpdateVisibility();
     }
 
     #endregion

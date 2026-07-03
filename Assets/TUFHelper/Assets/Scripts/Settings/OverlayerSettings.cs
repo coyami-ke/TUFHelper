@@ -88,40 +88,35 @@ public class OverlayerSettings : MonoBehaviour
 
         AddCategories(script.Element.Model);
     }
-    
+
     private void AddCategories(IngameElementModel model)
     {
         GameObject spawnedTransformCategory = Instantiate(categoryPrefab);
-
         RectTransform categoryTransformRect = spawnedTransformCategory.GetComponent<RectTransform>();
         categoryTransformRect.SetParent(categoriesParentTransform, false);
 
-        var categoryTransformScript = spawnedTransformCategory.GetComponent<IngameElementPropertiesCategoryScript>();
-        if (categoryTransformScript != null && categoryTransformScript.text != null)
+        var transformScript = spawnedTransformCategory.GetComponent<IngameElementPropertiesCategoryScript>();
+        if (transformScript != null)
         {
-            categoryTransformScript.text.text = "Transform";
+            transformScript.SetModelTarget("Transform", model, categoryPropertiesTransform);
         }
 
         categoryTransformRect.DOAnchorPosX(0, 0.5f).SetEase(Ease.OutExpo);
-
-        //
 
         int i = 0;
         foreach (var category in model.Categories)
         {
             GameObject spawnedCategory = Instantiate(categoryPrefab);
-
             RectTransform categoryRect = spawnedCategory.GetComponent<RectTransform>();
             categoryRect.SetParent(categoriesParentTransform, false);
 
             var categoryScript = spawnedCategory.GetComponent<IngameElementPropertiesCategoryScript>();
-            if (categoryScript != null && categoryScript.text != null)
+            if (categoryScript != null)
             {
                 categoryScript.SetCategory(category.Value, categoryPropertiesTransform);
             }
 
             categoryRect.DOAnchorPosX((i + 1) * 202.5f, 0.5f).SetEase(Ease.OutExpo);
-
             i++;
         }
     }

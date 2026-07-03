@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 public class IngameElementModel : INotifyPropertyChanged
 {
     private Vector2 _position = new();
+    [ShowInOverlayerSettings("Position")]
     public Vector2 Position
     {
         get => _position;
@@ -13,6 +14,7 @@ public class IngameElementModel : INotifyPropertyChanged
     }
 
     private float _scale = 0.5f;
+    [ShowInOverlayerSettings("Scale")]
     public float Scale
     {
         get => _scale;

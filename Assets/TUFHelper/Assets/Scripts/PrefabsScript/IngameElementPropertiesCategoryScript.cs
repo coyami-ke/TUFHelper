@@ -12,6 +12,7 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
     private Transform categoryPropertiesTransform;
 
     public IngameElementSettingsCategory Category { get; private set; }
+    public object TargetObject { get; private set; }
 
     private bool _isSelected = false;
     public bool IsSelected
@@ -35,14 +36,26 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
         }
     }
 
+    public void SetModelTarget(string displayName, object modelTarget, Transform propertiesParent)
+    {
+        categoryPropertiesTransform = propertiesParent;
+        text.text = displayName;
+        //if (iconImage != null) iconImage.gameObject.SetActive(false); 
+
+        TargetObject = modelTarget;
+    }
+    
     public void SetCategory(IngameElementSettingsCategory category, Transform propertiesParent)
     {
         categoryPropertiesTransform = propertiesParent;
-
         text.text = category.DisplayName;
-        iconImage.sprite = category.Icon;
+        if (iconImage != null)
+        {
+            iconImage.gameObject.SetActive(category.Icon != null);
+            iconImage.sprite = category.Icon;
+        }
 
-        Category = category;
+        TargetObject = category;
     }
 
     public void OnClicked()
@@ -68,7 +81,7 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
             var inspectorEngine = categoryPropertiesTransform.GetComponent<OverlayerCategoryPropertiesInspector>();
             if (inspectorEngine != null)
             {
-                inspectorEngine.GenerateInspectorUI(Category);
+                inspectorEngine.GenerateInspectorUI(TargetObject);
             }
         }
     }
