@@ -2103,7 +2103,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 50}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &68952037
 GameObject:
@@ -2710,6 +2710,7 @@ GameObject:
   - component: {fileID: 99785327}
   - component: {fileID: 99785329}
   - component: {fileID: 99785328}
+  - component: {fileID: 99785330}
   m_Layer: 5
   m_Name: Properties
   m_TagString: Untagged
@@ -2776,6 +2777,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99785326}
   m_CullTransparentMesh: 1
+--- !u!114 &99785330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99785326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7f7431f2db615409e4de39bf4013fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::OverlayerCategoryPropertiesInspector
+  propertiesContainerParent: {fileID: 2069310992}
+  togglePrefab: {fileID: 8312932090939806684, guid: 9ccd0bd62dbac2f45a1592e794e48f1f, type: 3}
+  sliderPrefab: {fileID: 0}
 --- !u!1 &102215210
 GameObject:
   m_ObjectHideFlags: 0
@@ -5877,7 +5893,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 232616596}
   m_HandleRect: {fileID: 232616595}
   m_Direction: 2
-  m_Value: 0.0000004460913
+  m_Value: -0.0000001486971
   m_Size: 0.6579447
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -41995,7 +42011,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00002670288, y: 102.61656}
+  m_AnchoredPosition: {x: 0.00002670288, y: 102.61658}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1460289219
@@ -60799,8 +60815,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1891600232}
-  - {fileID: 99785327}
   - {fileID: 761393897}
+  - {fileID: 99785327}
   m_Father: {fileID: 1460289220}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -60863,6 +60879,7 @@ MonoBehaviour:
   canvasTransform: {fileID: 684368538}
   listTransform: {fileID: 889173232}
   categoriesParentTransform: {fileID: 67568261}
+  categoryPropertiesTransform: {fileID: 99785327}
 --- !u!1 &2016652499
 GameObject:
   m_ObjectHideFlags: 0
@@ -61867,6 +61884,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2069310992}
+  - component: {fileID: 2069310994}
+  - component: {fileID: 2069310993}
   m_Layer: 5
   m_Name: CategoryContent
   m_TagString: Untagged
@@ -61890,9 +61909,47 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -25}
-  m_SizeDelta: {x: 0, y: -50}
+  m_AnchoredPosition: {x: 0, y: -20}
+  m_SizeDelta: {x: 0, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2069310993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069310991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.019607844}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2069310994
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069310991}
+  m_CullTransparentMesh: 1
 --- !u!1 &2070025897
 GameObject:
   m_ObjectHideFlags: 0

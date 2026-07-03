@@ -9,6 +9,8 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
     public Image backgroundImage, lineImage, iconImage;
     public TextMeshProUGUI text;
 
+    private Transform categoryPropertiesTransform;
+
     public IngameElementSettingsCategory Category { get; private set; }
 
     private bool _isSelected = false;
@@ -33,8 +35,10 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
         }
     }
 
-    public void SetCategory(IngameElementSettingsCategory category)
+    public void SetCategory(IngameElementSettingsCategory category, Transform propertiesParent)
     {
+        categoryPropertiesTransform = propertiesParent;
+
         text.text = category.DisplayName;
         iconImage.sprite = category.Icon;
 
@@ -58,5 +62,14 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
         }
 
         IsSelected = true;
+
+        if (categoryPropertiesTransform != null)
+        {
+            var inspectorEngine = categoryPropertiesTransform.GetComponent<OverlayerCategoryPropertiesInspector>();
+            if (inspectorEngine != null)
+            {
+                inspectorEngine.GenerateInspectorUI(Category);
+            }
+        }
     }
 }

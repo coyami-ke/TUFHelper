@@ -14,7 +14,7 @@ public class OverlayerSettings : MonoBehaviour
     private Dictionary<string, string> _prefabRegistry = new();
 
     public GameObject elementInListPrefab, categoryPrefab;
-    public Transform canvasTransform, listTransform, categoriesParentTransform;
+    public Transform canvasTransform, listTransform, categoriesParentTransform, categoryPropertiesTransform;
 
     public List<IngameElementPropertiesCategoryScript> CategoryScripts {  get; private set; }
     
@@ -117,7 +117,7 @@ public class OverlayerSettings : MonoBehaviour
             var categoryScript = spawnedCategory.GetComponent<IngameElementPropertiesCategoryScript>();
             if (categoryScript != null && categoryScript.text != null)
             {
-                categoryScript.SetCategory(category.Value);
+                categoryScript.SetCategory(category.Value, categoryPropertiesTransform);
             }
 
             categoryRect.DOAnchorPosX((i + 1) * 202.5f, 0.5f).SetEase(Ease.OutExpo);

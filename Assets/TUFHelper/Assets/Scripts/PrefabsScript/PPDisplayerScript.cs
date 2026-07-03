@@ -409,6 +409,7 @@ public class PPDisplayerSettingsCategory : IngameElementSettingsCategory
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
 
     private bool _isShowSpeed = true;
+    [ShowInOverlayerSettings("Show Speed")]
     public bool IsShowSpeed
     {
         get => _isShowSpeed;
@@ -420,6 +421,7 @@ public class PPDisplayerSettingsCategory : IngameElementSettingsCategory
     }
 
     private bool _isShowScore = true;
+    [ShowInOverlayerSettings("Show Score")]
     public bool IsShowScore
     {
         get => _isShowScore;
