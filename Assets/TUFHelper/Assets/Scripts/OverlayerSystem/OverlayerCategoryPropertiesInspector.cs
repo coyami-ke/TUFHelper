@@ -9,6 +9,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
     public Transform propertiesContainerParent;
     public GameObject togglePrefab;
     public GameObject floatPrefab;
+    public GameObject vector2Prefab;
 
     public void GenerateInspectorUI(object target)
     {
@@ -38,7 +39,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
                 controlObj = Instantiate(togglePrefab, propertiesContainerParent, false);
                 var controlScript = controlObj.GetComponent<OverlayerTogglePropertyControl>();
 
-                controlScript.BindProperty(visualLabel, prop.GetValue(target), (newValue) => {
+                controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) => {
                     prop.SetValue(target, newValue);
                 });
             }
@@ -48,12 +49,18 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
                 var controlScript = controlObj.GetComponent<OverlayerFloatPropertyControl>();
 
                 var rangeAttr = prop.GetCustomAttribute<SettingsRangeAttribute>();
-                if (rangeAttr != null)
-                {
-                    controlScript.SetLimitations(rangeAttr.MinValue, rangeAttr.MaxValue);
-                }
+                if (rangeAttr != null) controlScript.SetLimitations(rangeAttr.MinValue, rangeAttr.MaxValue);
 
-                controlScript.BindProperty(visualLabel, prop.GetValue(target), (newValue) => {
+                controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) => {
+                    prop.SetValue(target, newValue);
+                });
+            }
+            else if (propType == typeof(System.Numerics.Vector2))
+            {
+                controlObj = Instantiate(vector2Prefab, propertiesContainerParent, false);
+                var controlScript = controlObj.GetComponent<OverlayerVector2PropertyControl>();
+
+                controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) => {
                     prop.SetValue(target, newValue);
                 });
             }
