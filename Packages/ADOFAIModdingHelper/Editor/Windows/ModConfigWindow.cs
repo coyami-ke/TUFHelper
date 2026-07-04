@@ -402,7 +402,8 @@ namespace ADOFAIModdingHelper.Windows
             var platformContainer = _subPanel.Q<VisualElement>(Names.Platforms);
             var allPlatformToggle = _subPanel.Q<Toggle>(Names.AllPlatformToggle);
 
-            _subPanel.Q<VisualElement>(Names.PanelBuilder).Bind(new SerializedObject(config));
+            var boundPanel = _subPanel.Q<VisualElement>(Names.PanelBuilder);
+            boundPanel.Bind(configSO);
 
             var assetBundlesProp = configSO.FindProperty("AssetBundles");
             List<string> projectBundles = AssetDatabase.GetAllAssetBundleNames().ToList();
@@ -493,7 +494,7 @@ namespace ADOFAIModdingHelper.Windows
             var builderPanel = _subPanel.Q<VisualElement>(Names.PanelBuilder);
 
             // ------------------------------------------------------------------
-            // Inner helper: rebuild the ObjectField rows for one entry's file list
+            // Inner helper: rebuild the ObjectField + EnumField rows for one entry
             // ------------------------------------------------------------------
             void RebuildFileSlots(VisualElement slotsContainer, int entryIndex)
             {
@@ -501,7 +502,7 @@ namespace ADOFAIModdingHelper.Windows
                 if (entryIndex < 0 || entryIndex >= config.RawFileCopies.Count) return;
 
                 var entry = config.RawFileCopies[entryIndex];
-                entry.Files ??= new List<UnityEngine.Object>();
+                entry.Files ??= new List<RawFileItem>();
 
                 for (int f = 0; f < entry.Files.Count; f++)
                 {
@@ -509,50 +510,59 @@ namespace ADOFAIModdingHelper.Windows
 
                     var row = new VisualElement
                     {
-                        style = { flexDirection = FlexDirection.Row, marginTop = 1 }
+                        style = { flexDirection = FlexDirection.Row, marginTop = 2 }
                     };
 
+                    // Asset selection field
                     var objField = new ObjectField
                     {
                         objectType = typeof(UnityEngine.Object),
                         allowSceneObjects = false,
-                        style = { flexGrow = 1 }
+                        style = { flexGrow = 1, marginRight = 4 }
                     };
-                    objField.SetValueWithoutNotify(entry.Files[fileIndex]);
+                    objField.SetValueWithoutNotify(entry.Files[fileIndex].File);
                     objField.RegisterValueChangedCallback(evt =>
                     {
-                        if (slotsContainer.userData is not int idx ||
-                            idx >= config.RawFileCopies.Count ||
-                            fileIndex >= config.RawFileCopies[idx].Files.Count) return;
-
-                        config.RawFileCopies[idx].Files[fileIndex] = evt.newValue;
+                        if (slotsContainer.userData is not int idx || idx >= config.RawFileCopies.Count) return;
+                        config.RawFileCopies[idx].Files[fileIndex].File = evt.newValue;
                         EditorUtility.SetDirty(config);
                     });
 
+                    // Per-file platform restriction dropdown
+                    var fileTargetField = new EnumField(entry.Files[fileIndex].Target)
+                    {
+                        style = { width = 100, marginRight = 2 }
+                    };
+                    fileTargetField.RegisterValueChangedCallback(evt =>
+                    {
+                        if (slotsContainer.userData is not int idx || idx >= config.RawFileCopies.Count) return;
+                        config.RawFileCopies[idx].Files[fileIndex].Target = (BuildTarget)evt.newValue;
+                        EditorUtility.SetDirty(config);
+                    });
+
+                    // Remove item button
                     var removeBtn = new Button
                     {
                         text = "−",
-                        style = { width = 20, marginLeft = 2, paddingLeft = 0, paddingRight = 0 }
+                        style = { width = 20, paddingLeft = 0, paddingRight = 0 }
                     };
                     removeBtn.clicked += () =>
                     {
-                        if (slotsContainer.userData is not int idx ||
-                            idx >= config.RawFileCopies.Count ||
-                            fileIndex >= config.RawFileCopies[idx].Files.Count) return;
-
+                        if (slotsContainer.userData is not int idx || idx >= config.RawFileCopies.Count) return;
                         config.RawFileCopies[idx].Files.RemoveAt(fileIndex);
                         EditorUtility.SetDirty(config);
                         RebuildFileSlots(slotsContainer, idx);
                     };
 
                     row.Add(objField);
+                    row.Add(fileTargetField);
                     row.Add(removeBtn);
                     slotsContainer.Add(row);
                 }
             }
 
             // ------------------------------------------------------------------
-            // Outer ListView – one item per destination folder
+            // Outer ListView – one item per entry path
             // ------------------------------------------------------------------
             var outerList = new ListView(config.RawFileCopies)
             {
@@ -570,8 +580,32 @@ namespace ADOFAIModdingHelper.Windows
             {
                 var root = new VisualElement
                 {
-                    style = { paddingLeft = 4, paddingRight = 4, paddingTop = 3, paddingBottom = 4 }
+                    style = { paddingLeft = 4, paddingRight = 4, paddingTop = 4, paddingBottom = 4 }
                 };
+
+                // --- Entry global Target Platform dropdown ---
+                var platformRow = new VisualElement
+                {
+                    style = { flexDirection = FlexDirection.Row, marginBottom = 3 }
+                };
+                var platformLabel = new Label("Global Target")
+                {
+                    style = { minWidth = 110, unityTextAlign = TextAnchor.MiddleLeft, fontSize = 11 }
+                };
+                var platformField = new EnumField(BuildTarget.NoTarget)
+                {
+                    name = "EntryTargetPlatformField",
+                    style = { flexGrow = 1 }
+                };
+                platformField.RegisterValueChangedCallback(evt =>
+                {
+                    if (root.userData is not int idx || idx >= config.RawFileCopies.Count) return;
+                    config.RawFileCopies[idx].Target = (BuildTarget)evt.newValue;
+                    EditorUtility.SetDirty(config);
+                });
+                platformRow.Add(platformLabel);
+                platformRow.Add(platformField);
+                root.Add(platformRow);
 
                 // --- Destination path row ---
                 var pathRow = new VisualElement
@@ -585,19 +619,14 @@ namespace ADOFAIModdingHelper.Windows
                 var pathField = new TextField
                 {
                     name = "RawCopyPathField",
-                    tooltip = "Sub-folder inside the mod root. Leave blank for root. Use '/' as separator (e.g. win/helpers).",
                     style = { flexGrow = 1 }
                 };
-
-                // Callback reads the current entry index from root.userData so it
-                // remains correct when the ListView recycles this visual element.
                 pathField.RegisterValueChangedCallback(evt =>
                 {
                     if (root.userData is not int idx || idx >= config.RawFileCopies.Count) return;
                     config.RawFileCopies[idx].DestinationPath = evt.newValue;
                     EditorUtility.SetDirty(config);
                 });
-
                 pathRow.Add(pathLabel);
                 pathRow.Add(pathField);
                 root.Add(pathRow);
@@ -607,7 +636,7 @@ namespace ADOFAIModdingHelper.Windows
                 {
                     style = { flexDirection = FlexDirection.Row, marginBottom = 2 }
                 };
-                var filesLabel = new Label("Files")
+                var filesLabel = new Label("Files (Object | Platform)")
                 {
                     style = { minWidth = 110, unityTextAlign = TextAnchor.MiddleLeft, fontSize = 11 }
                 };
@@ -619,8 +648,8 @@ namespace ADOFAIModdingHelper.Windows
                 addFileBtn.clicked += () =>
                 {
                     if (root.userData is not int idx || idx >= config.RawFileCopies.Count) return;
-                    config.RawFileCopies[idx].Files ??= new List<UnityEngine.Object>();
-                    config.RawFileCopies[idx].Files.Add(null);
+                    config.RawFileCopies[idx].Files ??= new List<RawFileItem>();
+                    config.RawFileCopies[idx].Files.Add(new RawFileItem());
                     EditorUtility.SetDirty(config);
 
                     var slots = root.Q<VisualElement>("RawFileSlotsContainer");
@@ -640,14 +669,11 @@ namespace ADOFAIModdingHelper.Windows
 
             outerList.bindItem = (element, i) =>
             {
-                // Store the current index so all closures registered in makeItem
-                // can read the live index even after element recycling.
                 element.userData = i;
-
                 var entry = config.RawFileCopies[i];
 
-                element.Q<TextField>("RawCopyPathField")
-                    .SetValueWithoutNotify(entry.DestinationPath ?? string.Empty);
+                element.Q<EnumField>("EntryTargetPlatformField").SetValueWithoutNotify(entry.Target);
+                element.Q<TextField>("RawCopyPathField").SetValueWithoutNotify(entry.DestinationPath ?? string.Empty);
 
                 var slotsContainer = element.Q<VisualElement>("RawFileSlotsContainer");
                 slotsContainer.userData = i;
@@ -663,21 +689,18 @@ namespace ADOFAIModdingHelper.Windows
 
             outerList.itemsAdded += indices =>
             {
-                // The ListView inserts null for reference-type items; replace with a proper instance.
                 for (int i = 0; i < config.RawFileCopies.Count; i++)
                 {
                     if (config.RawFileCopies[i] == null)
-                        config.RawFileCopies[i] = new RawFileCopyEntry { Files = new List<UnityEngine.Object>() };
+                    {
+                        config.RawFileCopies[i] = new RawFileCopyEntry();
+                    }
                 }
                 EditorUtility.SetDirty(config);
                 outerList.schedule.Execute(outerList.RefreshItems);
             };
 
-            outerList.itemsRemoved += _ =>
-            {
-                EditorUtility.SetDirty(config);
-            };
-
+            outerList.itemsRemoved += _ => EditorUtility.SetDirty(config);
             builderPanel.Add(outerList);
         }
 
@@ -717,6 +740,7 @@ namespace ADOFAIModdingHelper.Windows
             List<string> BuildChoicesFor(int index)
             {
                 if (!hasChoices) return new List<string>() { emptyText };
+                if (index < 0 || index >= prop.arraySize) return new List<string> { "None" };
 
                 var currentValue = prop.GetArrayElementAtIndex(index).stringValue;
                 var usedElsewhere = new HashSet<string>();
@@ -797,6 +821,7 @@ namespace ADOFAIModdingHelper.Windows
 
             listView.itemsAdded += indices =>
             {
+                prop.serializedObject.Update();
                 foreach (var index in indices)
                     prop.GetArrayElementAtIndex(index).stringValue = string.Empty;
                 prop.serializedObject.ApplyModifiedProperties();

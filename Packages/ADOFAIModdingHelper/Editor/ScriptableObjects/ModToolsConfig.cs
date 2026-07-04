@@ -1,6 +1,7 @@
 //Original Code from https://github.com/ADOFAI-gg/ADOFAI-Modding-Toolkit
 using ADOFAIModdingHelper.Common;
 using ADOFAIModdingHelper.Core;
+using ADOFAIModdingHelper.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,19 +15,29 @@ using UnityEngine;
 namespace ADOFAIModdingHelper.ScriptableObjects
 {
     [Serializable]
+    public class RawFileItem
+    {
+        public UnityEngine.Object File;
+        public BuildTarget Target = BuildTarget.NoTarget; // NoTarget pretty much acts as "All / Ignore" 
+    }
+
+    [Serializable]
     public class RawFileCopyEntry
     {
         /// <summary>
-        /// Destination sub-folder relative to the mod root.
-        /// Leave empty to copy directly into the root.
-        /// Forward slashes are supported: "win/helpers", "mac/libs", etc.
+        /// Destination sub-folder relative to the mod root
         /// </summary>
         public string DestinationPath = string.Empty;
 
         /// <summary>
-        /// Assets (any type) to copy into <see cref="DestinationPath"/>.
+        /// Entry-level global platform restriction. If set to NoTarget, it copies for all platforms
         /// </summary>
-        public List<UnityEngine.Object> Files = new();
+        public BuildTarget Target = BuildTarget.NoTarget;
+
+        /// <summary>
+        /// Individual assets paired with their target platform restriction
+        /// </summary>
+        public List<RawFileItem> Files = new();
     }
 
     public class ModToolsConfig : ScriptableObject
@@ -59,6 +70,7 @@ namespace ADOFAIModdingHelper.ScriptableObjects
 
         public bool developmentBuild = true;
         public bool generateDebugSymbols;
+        public bool splitBuild;
 
         public bool buildEveryPlatform;
         public BuildTarget[] serializedBuildPlatforms;
@@ -76,7 +88,7 @@ namespace ADOFAIModdingHelper.ScriptableObjects
         public List<string> AssetBundles;
 
         /// <summary>
-        /// Files to copy verbatim into the build, organised by destination sub-folder.
+        /// Files to copy verbatim into the build, organised by destination sub-folder
         /// </summary>
         public List<RawFileCopyEntry> RawFileCopies = new();
 
@@ -110,44 +122,50 @@ namespace ADOFAIModdingHelper.ScriptableObjects
             ModBuilder.SkipAssetBundleBuild = skipAssetBundleBuild;
             ModBuilder.DevelopmentBuild = developmentBuild;
             ModBuilder.GenerateDebugSymbols = generateDebugSymbols;
+            ModBuilder.SplitBuild = splitBuild;
 
             ModBuilder.AssemblyDefinitions = AssemblyDefinitions;
             ModBuilder.AssetBundles = RemoveNoneFromList(AssetBundles);
             ModBuilder.PrecompAssemblies = RemoveNoneFromList(PrecompAssemblies);
 
-            // Resolve raw-file-copy asset paths now, on the main thread, so ModBuilder
-            // can do pure File I/O without touching the Unity Asset Database.
-            var resolvedFileCopies = new Dictionary<string, List<string>>();
-            foreach (var entry in RawFileCopies ?? new List<RawFileCopyEntry>())
-            {
-                if (entry?.Files == null || entry.Files.Count == 0) continue;
-                var paths = entry.Files
-                    .Where(f => f != null)
-                    .Select(f => System.IO.Path.GetFullPath(AssetDatabase.GetAssetPath(f)))
-                    .Where(System.IO.File.Exists)
-                    .ToList();
-                if (paths.Count > 0)
-                    resolvedFileCopies[entry.DestinationPath ?? string.Empty] = paths;
-            }
-            ModBuilder.RawFileCopies = resolvedFileCopies;
+            HashSet<BuildTarget> platformsToBuild = buildEveryPlatform
+                ? new HashSet<BuildTarget> { BuildTarget.StandaloneWindows64, BuildTarget.StandaloneLinux64, BuildTarget.StandaloneOSX }
+                : (BuildPlatforms != null && BuildPlatforms.Count > 0 ? BuildPlatforms : new HashSet<BuildTarget> { EditorUserBuildSettings.activeBuildTarget });
 
-            ModBuilder.Build(copyDestination, buildEveryPlatform, BuildPlatforms)
+            var platformFileMap = new Dictionary<BuildTarget, Dictionary<string, List<string>>>();
+
+            foreach (var targetPlatform in platformsToBuild)
+            {
+                var resolvedFileCopies = new Dictionary<string, List<string>>();
+
+                foreach (var entry in RawFileCopies ?? new List<RawFileCopyEntry>())
+                {
+                    if (entry?.Files == null || entry.Files.Count == 0) continue;
+
+                    if (entry.Target != BuildTarget.NoTarget && entry.Target != targetPlatform) continue;
+
+                    var paths = entry.Files
+                        .Where(f => f != null && f.File != null)
+                        .Where(f => f.Target == BuildTarget.NoTarget || f.Target == targetPlatform)
+                        .Select(f => Path.GetFullPath(AssetDatabase.GetAssetPath(f.File)))
+                        .Where(path => File.Exists(path) || Directory.Exists(path))
+                        .ToList();
+
+                    if (paths.Count > 0)
+                    {
+                        resolvedFileCopies[entry.DestinationPath ?? string.Empty] = paths;
+                    }
+                }
+
+                platformFileMap[targetPlatform] = resolvedFileCopies;
+            }
+
+            ModBuilder.PlatformRawFileCopies = platformFileMap;
+
+            ProjectUtilities.OpenConsoleWindow();
+            ModBuilder.Build(copyDestination, buildEveryPlatform, platformsToBuild)
                 .ContinueWith(task =>
                 {
-                    if (createZip)
-                    {
-                        using var stream =
-                            new FileStream(Path.Combine(Path.GetDirectoryName(task.Result)!, string.IsNullOrWhiteSpace(ModInfo.Info.Id) ? "Null" : ModInfo.Info.Id + ".zip"),
-                                FileMode.Create);
-                        using var archive = new ZipArchive(stream, ZipArchiveMode.Create);
-
-                        foreach (var file in Directory.GetFiles(task.Result, "*", SearchOption.AllDirectories))
-                        {
-                            archive.CreateEntryFromFile(file,
-                                Path.Combine(ModInfo.Info.Id, Path.GetRelativePath(task.Result, file)));
-                        }
-                    }
-
                     if (automaticallyDeleteBuilds)
                         DeleteBuilds(1);
 

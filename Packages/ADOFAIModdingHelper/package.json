@@ -1,6 +1,6 @@
 {
   "name": "com.jofo.adofaimoddinghelper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "displayName": "ADOFAI Modding Helper",
   "description": "A Unity Editor package that streamline some stuff during ADOFAI mod development.",
   "unity": "2022.3",

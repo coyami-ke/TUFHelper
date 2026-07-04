@@ -125,6 +125,49 @@ namespace ADOFAIModdingHelper.Core
                     true));
         }
 
+        //        private void CopyAssemblies()
+        //        {
+        //            var assemblyPaths = new List<string>();
+        //            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+        //            {
+        //                try
+        //                {
+        //                    assemblyPaths.Add(asm.Location);
+        //                }
+        //                catch (Exception)
+        //                {
+        //                    // ignored
+        //                }
+        //            }
+
+        //            var assemblyNames = (from path in assemblyPaths select Path.GetFileName(path)).ToList();
+        //            var managedDir = Path.Combine(DataPath, "Managed");
+        //            var bepInExDir = Path.Combine(ModdingRoot, "BepInEx");
+
+        //            var dirs = new[] { managedDir, bepInExDir };
+
+        //            foreach (var dir in dirs)
+        //            {
+        //                if (!Directory.Exists(dir)) continue;
+
+        //                var files = Directory.GetFiles(dir, "*.dll", SearchOption.AllDirectories);
+        //                foreach (var file in files)
+        //                {
+        //                    var name = Path.GetFileName(file);
+        //                    if (assemblyNames.Contains(name)) continue;
+        //                    if (BlacklistedAssemblyNames.Contains(name)) continue;
+
+        //                    var dest = Path.Combine(_packagePath, name);
+        //                    File.Copy(file, dest, true);
+        //                    File.WriteAllText(dest + ".meta", $@"
+        //fileFormatVersion:
+        //    guid: {GUID.Generate()}
+        //PluginImporter:
+        //    isExplicitlyReferenced: 1
+        //    validateReferences: 1");
+        //                }
+        //            }
+        //        }
         private void CopyAssemblies()
         {
             var assemblyPaths = new List<string>();
@@ -132,7 +175,10 @@ namespace ADOFAIModdingHelper.Core
             {
                 try
                 {
-                    assemblyPaths.Add(asm.Location);
+                    if (!string.IsNullOrEmpty(asm.Location))
+                    {
+                        assemblyPaths.Add(asm.Location);
+                    }
                 }
                 catch (Exception)
                 {
@@ -143,10 +189,59 @@ namespace ADOFAIModdingHelper.Core
             var assemblyNames = (from path in assemblyPaths select Path.GetFileName(path)).ToList();
             var managedDir = Path.Combine(DataPath, "Managed");
             var bepInExDir = Path.Combine(ModdingRoot, "BepInEx");
+            var melonLoaderBaseDir = Path.Combine(ModdingRoot, "MelonLoader");
 
-            var dirs = new[] { managedDir, bepInExDir };
+            var dirsToScan = new List<string> { managedDir, bepInExDir };
 
-            foreach (var dir in dirs)
+            if (Directory.Exists(melonLoaderBaseDir))
+            {
+                string chosenBackend = "net35"; 
+
+                bool isIl2Cpp = Directory.Exists(Path.Combine(DataPath, "il2cpp_data")) ||
+                                 File.Exists(Path.Combine(ModdingRoot, "GameAssembly.dll"));
+
+                if (isIl2Cpp)
+                {
+                    chosenBackend = "net6";
+                }
+                else
+                {
+                    bool isMonoBleedingEdge = Directory.Exists(Path.Combine(ModdingRoot, "MonoBleedingEdge"));
+
+                    if (isMonoBleedingEdge)
+                    {
+                        chosenBackend = "net35";
+                    }
+                    else
+                    {
+                        chosenBackend = "net472";
+                    }
+                }
+
+                var targetBackendDir = Path.Combine(melonLoaderBaseDir, chosenBackend);
+                if (Directory.Exists(targetBackendDir))
+                {
+                    dirsToScan.Add(targetBackendDir);
+                    Debug.Log($"[ADOFAI Modding Helper] Actively selected MelonLoader backend folder: {chosenBackend}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[ADOFAI Modding Helper] Target backend folder {chosenBackend} wasn't found. Falling back to search layout.");
+
+                    string[] potentialBackends = { "net35", "net472", "net6" };
+                    foreach (var backend in potentialBackends)
+                    {
+                        var fallbackDir = Path.Combine(melonLoaderBaseDir, backend);
+                        if (Directory.Exists(fallbackDir))
+                        {
+                            dirsToScan.Add(fallbackDir);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            foreach (var dir in dirsToScan)
             {
                 if (!Directory.Exists(dir)) continue;
 
@@ -158,13 +253,30 @@ namespace ADOFAIModdingHelper.Core
                     if (BlacklistedAssemblyNames.Contains(name)) continue;
 
                     var dest = Path.Combine(_packagePath, name);
-                    File.Copy(file, dest, true);
-                    File.WriteAllText(dest + ".meta", $@"
-fileFormatVersion:
-    guid: {GUID.Generate()}
+                    try
+                    {
+                        File.Copy(file, dest, true);
+                        File.WriteAllText(dest + ".meta", $@"fileFormatVersion: 2
+guid: {GUID.Generate()}
 PluginImporter:
+    externalObjects: {{}}
+    serializedVersion: 2
+    iconMap: {{}}
+    executionOrder: {{}}
+    defineConstraints: []
     isExplicitlyReferenced: 1
-    validateReferences: 1");
+    validateReferences: 1
+    platformData:
+      - first:
+          Any: Any
+        second:
+          enabled: 1
+          settings: {{}}");
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError($"Failed to copy assembly {name}: {e.Message}");
+                    }
                 }
             }
         }
