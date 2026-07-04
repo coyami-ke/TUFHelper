@@ -8,7 +8,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
 {
     public Transform propertiesContainerParent;
     public GameObject togglePrefab;
-    public GameObject sliderPrefab;
+    public GameObject floatPrefab;
 
     public void GenerateInspectorUI(object target)
     {
@@ -21,8 +21,8 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
 
         PropertyInfo[] properties = target.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
-
         float y = 0f;
+
         foreach (PropertyInfo prop in properties)
         {
             var settingsAttr = prop.GetCustomAttribute<ShowInOverlayerSettingsAttribute>();
@@ -31,16 +31,37 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
             string visualLabel = settingsAttr.LabelName;
             Type propType = prop.PropertyType;
 
+            GameObject controlObj = null;
+
             if (propType == typeof(bool))
             {
-                GameObject controlObj = Instantiate(togglePrefab, propertiesContainerParent, false);
+                controlObj = Instantiate(togglePrefab, propertiesContainerParent, false);
                 var controlScript = controlObj.GetComponent<OverlayerTogglePropertyControl>();
 
                 controlScript.BindProperty(visualLabel, prop.GetValue(target), (newValue) => {
                     prop.SetValue(target, newValue);
                 });
+            }
+            else if (propType == typeof(float))
+            {
+                controlObj = Instantiate(floatPrefab, propertiesContainerParent, false);
+                var controlScript = controlObj.GetComponent<OverlayerFloatPropertyControl>();
 
+                var rangeAttr = prop.GetCustomAttribute<SettingsRangeAttribute>();
+                if (rangeAttr != null)
+                {
+                    controlScript.SetLimitations(rangeAttr.MinValue, rangeAttr.MaxValue);
+                }
+
+                controlScript.BindProperty(visualLabel, prop.GetValue(target), (newValue) => {
+                    prop.SetValue(target, newValue);
+                });
+            }
+
+            if (controlObj != null)
+            {
                 RectTransform rect = controlObj.GetComponent<RectTransform>();
+
                 rect.DOAnchorPosY(-y, 0.5f).SetEase(Ease.OutExpo);
 
                 y += rect.sizeDelta.y;

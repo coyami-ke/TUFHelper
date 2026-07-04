@@ -14,7 +14,7 @@ public class OverlayerSettings : MonoBehaviour
     private Dictionary<string, string> _prefabRegistry = new();
 
     public GameObject elementInListPrefab, categoryPrefab;
-    public Transform canvasTransform, listTransform, categoriesParentTransform, categoryPropertiesTransform;
+    public Transform canvasTransform, listTransform, categoriesParentTransform, categoryPropertiesTransform, categoryPropertiesContentTransform;
 
     public List<IngameElementPropertiesCategoryScript> CategoryScripts {  get; private set; }
     
@@ -77,6 +77,15 @@ public class OverlayerSettings : MonoBehaviour
         IngameElementInListScript script = obj.GetComponent<IngameElementInListScript>();
         Main.Logger.Log("Selected: " + script.Element.NameInSettings);
 
+        if (categoryPropertiesContentTransform != null)
+        {
+            for (int j = categoryPropertiesContentTransform.childCount - 1; j >= 0; j--)
+            {
+                Transform child = categoryPropertiesContentTransform.GetChild(j);
+                Destroy(child.gameObject);
+            }
+        }
+
         if (categoriesParentTransform != null)
         {
             for (int i = categoriesParentTransform.childCount - 1; i >= 0; i--)
@@ -88,9 +97,10 @@ public class OverlayerSettings : MonoBehaviour
 
         AddCategories(script.Element.Model);
     }
-
     private void AddCategories(IngameElementModel model)
     {
+        
+
         GameObject spawnedTransformCategory = Instantiate(categoryPrefab);
         RectTransform categoryTransformRect = spawnedTransformCategory.GetComponent<RectTransform>();
         categoryTransformRect.SetParent(categoriesParentTransform, false);

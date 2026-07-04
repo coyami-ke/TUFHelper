@@ -15,6 +15,7 @@ public class IngameElementModel : INotifyPropertyChanged
 
     private float _scale = 0.5f;
     [ShowInOverlayerSettings("Scale")]
+    [SettingsRange(0.1f, 1f)]
     public float Scale
     {
         get => _scale;
