@@ -18,6 +18,7 @@ MonoBehaviour:
   createZip: 1
   developmentBuild: 0
   generateDebugSymbols: 1
+  splitBuild: 1
   buildEveryPlatform: 1
   serializedBuildPlatforms: 13000000
   copyToDirectory: 1
@@ -33,16 +34,24 @@ MonoBehaviour:
   - tuf_scenes.bundle
   RawFileCopies:
   - DestinationPath: win
+    Target: 19
     Files:
-    - {fileID: 102900000, guid: 30204ce84cdf91c4a9fbd17c2e1be8c8, type: 3}
-    - {fileID: 102900000, guid: 99ccbd09ec542c44db75205c1c515800, type: 3}
+    - File: {fileID: 102900000, guid: 30204ce84cdf91c4a9fbd17c2e1be8c8, type: 3}
+      Target: -2
+    - File: {fileID: 102900000, guid: 99ccbd09ec542c44db75205c1c515800, type: 3}
+      Target: -2
   - DestinationPath: linux
+    Target: 24
     Files:
-    - {fileID: 102900000, guid: 3610decc492759348bae11248be9d66b, type: 3}
-    - {fileID: 102900000, guid: 39d7274b486607045b7f5ee5c8bb6052, type: 3}
+    - File: {fileID: 102900000, guid: 3610decc492759348bae11248be9d66b, type: 3}
+      Target: -2
+    - File: {fileID: 102900000, guid: 39d7274b486607045b7f5ee5c8bb6052, type: 3}
+      Target: -2
   - DestinationPath: mac
+    Target: 2
     Files:
-    - {fileID: 102900000, guid: 7acbfdb33c3952b44b6e8ea882f9d3da, type: 3}
+    - File: {fileID: 102900000, guid: 7acbfdb33c3952b44b6e8ea882f9d3da, type: 3}
+      Target: -2
   RepositoryLink: 
   IssuesLink: 
   PullRequestsLink: 
