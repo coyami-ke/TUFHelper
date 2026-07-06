@@ -413,7 +413,6 @@ public class PPDisplayerScript : BasicIngameElement
     #endregion
 }
 
-//[ObservableObject]
 public partial class PPDisplayerSettingsCategory : IngameElementSettingsCategory
 {
     public override string DisplayName => "Speed & Score";
@@ -425,28 +424,4 @@ public partial class PPDisplayerSettingsCategory : IngameElementSettingsCategory
     [ObservableProperty]
     [property: ShowInOverlayerSettings("Show Score")]
     private bool _isShowScore = true;
-
-    //private bool _isShowSpeed = true;
-    //[ShowInOverlayerSettings("Show Speed")]
-    //public bool IsShowSpeed
-    //{
-    //    get => _isShowSpeed;
-    //    set
-    //    {
-    //        _isShowSpeed = value;
-    //        OnPropertyChanged();
-    //    }
-    //}
-
-    //private bool _isShowScore = true;
-    //[ShowInOverlayerSettings("Show Score")]
-    //public bool IsShowScore
-    //{
-    //    get => _isShowScore;
-    //    set
-    //    {
-    //        _isShowScore = value;
-    //        OnPropertyChanged();
-    //    }
-    //}
 }
