@@ -32,6 +32,22 @@ namespace TUFHelper
             ModEntry = modEntry;
             Logger = modEntry.Logger;
 
+            foreach (var file in Directory.GetFiles(ModEntry.Path, "*.dll"))
+            {
+                if (file.EndsWith("TUFHelper.dll"))
+                    continue;
+
+                try
+                {
+                    Assembly.LoadFrom(file);
+                    Main.Logger.Log("Loaded assembly from " + file);
+                }
+                catch (Exception ex)
+                {
+                    Main.Logger.Error($"Failed to load supplementary dependency DLL ({Path.GetFileName(file)}): {ex.Message}");
+                }
+            }
+
             string platformSuffix = Application.platform switch
             {
                 RuntimePlatform.WindowsPlayer => "win",

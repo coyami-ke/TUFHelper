@@ -16,7 +16,8 @@
         "DOTween.dll",
         "DOTweenPro.dll",
         "UnityModManager.dll",
-        "RDTools.dll"
+        "RDTools.dll",
+        "CommunityToolkit.Mvvm.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

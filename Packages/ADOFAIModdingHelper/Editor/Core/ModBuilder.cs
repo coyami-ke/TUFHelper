@@ -272,7 +272,59 @@ namespace ADOFAIModdingHelper.Core
                     .WithAllowUnsafe(assembly.compilerOptions.AllowUnsafeCode)
                     .WithPlatform(Platform.AnyCpu);
 
-                var compilation = CSharpCompilation.Create(assembly.name, trees, references, options);
+                Compilation compilation = CSharpCompilation.Create(assembly.name, trees, references, options);
+
+                var generators = new List<ISourceGenerator>();
+
+                string generatorDllPath = assembly.allReferences.FirstOrDefault(r =>
+                    r.Contains("CommunityToolkit.Mvvm.SourceGenerators", StringComparison.OrdinalIgnoreCase));
+
+                if (string.IsNullOrEmpty(generatorDllPath))
+                {
+                    var foundFiles = Directory.GetFiles(Application.dataPath, "CommunityToolkit.Mvvm.SourceGenerators.dll", SearchOption.AllDirectories);
+                    if (foundFiles.Length > 0)
+                    {
+                        generatorDllPath = foundFiles[0];
+                        Debug.Log("Found Generator");
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(generatorDllPath) && File.Exists(generatorDllPath))
+                {
+                    try
+                    {
+                        var asm = System.Reflection.Assembly.LoadFrom(generatorDllPath);
+
+                        var propertyGenType = asm.GetType("CommunityToolkit.Mvvm.SourceGenerators.ObservablePropertyGenerator");
+                        var objectGenType = asm.GetType("CommunityToolkit.Mvvm.SourceGenerators.ObservableObjectGenerator");
+
+                        if (propertyGenType != null && Activator.CreateInstance(propertyGenType) is IIncrementalGenerator propGen)
+                        {
+                            generators.Add(propGen.AsSourceGenerator());
+                        }
+                        if (objectGenType != null && Activator.CreateInstance(objectGenType) is IIncrementalGenerator objGen)
+                        {
+                            generators.Add(objGen.AsSourceGenerator());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[ModBuilder] Failed to initialize hardcoded MVVM generators: {ex.Message}");
+                    }
+                }
+
+                if (generators.Count > 0)
+                {
+                    GeneratorDriver driver = CSharpGeneratorDriver.Create(generators, parseOptions: parseOptions);
+                    driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var diagnostics);
+
+                    compilation = outputCompilation;
+
+                    foreach (var diag in diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
+                    {
+                        Debug.LogError($"[ModBuilder Generator Error]: {diag}");
+                    }
+                }
 
                 using var dllStream = File.Create(Path.Combine(targetPath, assembly.name + ".dll"));
                 var pdbPath = Path.Combine(targetPath, assembly.name + ".pdb");

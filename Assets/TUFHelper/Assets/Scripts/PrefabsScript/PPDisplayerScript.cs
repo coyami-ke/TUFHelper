@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DG.Tweening;
 using TMPro;
 using TUFHelper;
@@ -412,32 +413,40 @@ public class PPDisplayerScript : BasicIngameElement
     #endregion
 }
 
-public class PPDisplayerSettingsCategory : IngameElementSettingsCategory
+//[ObservableObject]
+public partial class PPDisplayerSettingsCategory : IngameElementSettingsCategory
 {
     public override string DisplayName => "Speed & Score";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
 
+    [ObservableProperty]
+    [property: ShowInOverlayerSettings("Show Speed")]
     private bool _isShowSpeed = true;
-    [ShowInOverlayerSettings("Show Speed")]
-    public bool IsShowSpeed
-    {
-        get => _isShowSpeed;
-        set
-        {
-            _isShowSpeed = value;
-            OnPropertyChanged();
-        }
-    }
-
+    [ObservableProperty]
+    [property: ShowInOverlayerSettings("Show Score")]
     private bool _isShowScore = true;
-    [ShowInOverlayerSettings("Show Score")]
-    public bool IsShowScore
-    {
-        get => _isShowScore;
-        set
-        {
-            _isShowScore = value;
-            OnPropertyChanged();
-        }
-    }
+
+    //private bool _isShowSpeed = true;
+    //[ShowInOverlayerSettings("Show Speed")]
+    //public bool IsShowSpeed
+    //{
+    //    get => _isShowSpeed;
+    //    set
+    //    {
+    //        _isShowSpeed = value;
+    //        OnPropertyChanged();
+    //    }
+    //}
+
+    //private bool _isShowScore = true;
+    //[ShowInOverlayerSettings("Show Score")]
+    //public bool IsShowScore
+    //{
+    //    get => _isShowScore;
+    //    set
+    //    {
+    //        _isShowScore = value;
+    //        OnPropertyChanged();
+    //    }
+    //}
 }

@@ -28,7 +28,8 @@ MonoBehaviour:
   automaticallyDeleteBuilds: 0
   AssemblyDefinitions:
   - {fileID: 5897886265953266890, guid: ff60bf7961245e548b29091ebf1c042f, type: 3}
-  PrecompAssemblies: []
+  PrecompAssemblies:
+  - CommunityToolkit.Mvvm.dll
   AssetBundles:
   - tuf_assets.bundle
   - tuf_scenes.bundle
