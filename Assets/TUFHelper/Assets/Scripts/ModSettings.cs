@@ -32,7 +32,6 @@ public class ModSettings : MonoBehaviour
 
     public void Start()
     {
-        LanguageSettingsRuntime.Install(this);
         LanguageManager.ApplyTo(gameObject);
     }
 
