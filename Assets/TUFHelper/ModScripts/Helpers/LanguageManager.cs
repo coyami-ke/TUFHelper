@@ -167,11 +167,10 @@ namespace TUFHelper
                 _ => english
             };
         }
-
         public static void Apply()
         {
             RefreshActiveLanguage();
-            foreach (TextMeshProUGUI text in UnityEngine.Object.FindObjectsOfType<TextMeshProUGUI>(true))
+            foreach (TextMeshProUGUI text in UnityEngine.Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None))
             {
                 ApplyToText(text);
             }
@@ -329,7 +328,6 @@ namespace TUFHelper
             }
         }
 
-        // ✅ Zero-Allocation Bundle Loader: Pulls the pre-built asset safely out of Main.assets
         private static bool TryGetChineseFont(out TMP_FontAsset fontAsset)
         {
             if (cachedChineseFontAsset != null)
