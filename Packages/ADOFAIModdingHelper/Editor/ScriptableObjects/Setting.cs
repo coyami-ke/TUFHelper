@@ -33,6 +33,7 @@ namespace ADOFAIModdingHelper.ScriptableObjects
 
         public GameImporter Importer = new GameImporter();
         public string ADOFAIPath;
+        public string DecompilerPath;
         public bool SeperateBuildTabs = true;
         public int CurrentPage = 0;
 

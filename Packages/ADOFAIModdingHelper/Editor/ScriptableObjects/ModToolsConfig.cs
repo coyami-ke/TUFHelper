@@ -210,6 +210,7 @@ namespace ADOFAIModdingHelper.ScriptableObjects
                 }
             }
         }
+
         public void DeleteBuilds(int? saveLeast = null)
         {
             var buildDir = Path.Combine(Directory.GetCurrentDirectory(), "Builds");

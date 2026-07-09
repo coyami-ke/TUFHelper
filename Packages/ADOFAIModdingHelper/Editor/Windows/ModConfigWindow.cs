@@ -39,6 +39,9 @@ namespace ADOFAIModdingHelper.Windows
             public const string PathBrowseButton = "ADOFAIPathBrowseButton";
             public const string ImportGameButton = "ImportGameButton";
             public const string SeperateTabsToggle = "SeperateTabsToggle";
+            public const string DecompilerPathTextField = "DecompilerPathTextField";
+            public const string DecompilerPathBrowseButton = "DecompilerPathBrowseButton";
+            public const string OpenDecompilerButton = "OpenDecompilerButton";
 
             // Mod Info
             public const string ModEntry = "ModEntry";
@@ -275,7 +278,9 @@ namespace ADOFAIModdingHelper.Windows
             settingsProperties.Bind(new SerializedObject(Setting.Config));
 
             SetupPathBrowse(settingsProperties);
+            SetupDecompilerPathBrowser(settingsProperties);
             SetupImportGame(settingsProperties);
+            SetupOpenDecompiler(settingsProperties);
             SetupSeparateTabsToggle();
         }
 
@@ -311,7 +316,6 @@ namespace ADOFAIModdingHelper.Windows
                 }
             };
         }
-
         private static void SetupImportGame(VisualElement panel)
         {
             var importButton = panel.Q<Button>(Names.ImportGameButton);
@@ -337,6 +341,62 @@ namespace ADOFAIModdingHelper.Windows
 
                 config.Importer.SetGamePath(config.ADOFAIPath);
                 config.Importer.Import();
+            };
+        }
+
+        private void SetupDecompilerPathBrowser(VisualElement panel)
+        {
+            var pathField = panel.Q<TextField>(Names.DecompilerPathTextField);
+            var browseButton = panel.Q<Button>(Names.DecompilerPathBrowseButton);
+
+            browseButton.clicked += () =>
+            {
+                // Logic from from https://github.com/ADOFAI-gg/ADOFAI-Modding-Toolkit
+                string initialDirectory = Application.dataPath;
+                string extension;
+
+#if UNITY_EDITOR_WIN
+                extension = "exe";
+#elif UNITY_EDITOR_OSX
+                extension = "app";
+#elif UNITY_EDITOR_LINUX
+                extension = string.Empty;
+#else
+                extension = string.Empty;
+#endif
+
+                string path = EditorUtility.OpenFilePanel("Select Decompiler Path", initialDirectory, extension);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    pathField.value = path;
+                    pathField.Blur();
+                }
+            };
+        }
+
+        private static void SetupOpenDecompiler(VisualElement panel)
+        {
+            var importButton = panel.Q<Button>(Names.OpenDecompilerButton);
+
+            importButton.clicked += () =>
+            {
+                var config = Setting.Config;
+
+                if (string.IsNullOrEmpty(config.DecompilerPath) || !File.Exists(config.DecompilerPath))
+                {
+                    EditorUtility.DisplayDialog("Error", "Please set the Decompiler Executable Path first.", "OK");
+                    return;
+                }
+                string gameDirectory = Path.GetDirectoryName(config.DecompilerPath);
+
+                System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = config.DecompilerPath,
+                    WorkingDirectory = gameDirectory,
+                    UseShellExecute = true
+                };
+
+                System.Diagnostics.Process.Start(startInfo);
             };
         }
 

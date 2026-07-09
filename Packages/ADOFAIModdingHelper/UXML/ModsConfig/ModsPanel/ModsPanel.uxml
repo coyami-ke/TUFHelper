@@ -24,6 +24,16 @@
                     <ui:VisualElement name="ImportGame" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
                         <ui:Button text="Import Game" parse-escape-sequences="true" display-tooltip-when-elided="true" name="ImportGameButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 1; text-overflow: ellipsis; height: auto;"/>
                     </ui:VisualElement>
+                    <ui:VisualElement name="DecompilerPath" class="AMH-Field">
+                        <ui:Label text="Decompiler Path" name="DecompilerPathLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: 250px; flex-shrink: 1;"/>
+                        <ui:VisualElement class="horizontal grow m0 AMH-Field-input" style="height: 25px;">
+                            <ui:TextField binding-path="DecompilerPath" name="DecompilerPathTextField" class="grow m0" style="margin-right: 4px;"/>
+                            <ui:Button text="Browse" parse-escape-sequences="true" display-tooltip-when-elided="true" name="DecompilerPathBrowseButton" class="AMH-standardButton" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; text-overflow: ellipsis; height: auto; padding-top: 0; padding-right: 16px; padding-bottom: 0; padding-left: 16px;"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="OpenDecompiler" class="AMH-Field" style="flex-grow: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;">
+                        <ui:Button text="Open Decompiler" parse-escape-sequences="true" display-tooltip-when-elided="true" name="OpenDecompilerButton" class="AMH-standardButton" style="flex-grow: 1; margin-top: 4px; margin-right: 4px; margin-bottom: 4px; margin-left: 4px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; flex-shrink: 1; text-overflow: ellipsis; height: auto;"/>
+                    </ui:VisualElement>
                     <ui:VisualElement name="SeperateTabs" class="AMH-Field">
                         <ui:Toggle binding-path="SeperateBuildTabs" name="SeperateTabsToggle" class="AMH-Toggle"/>
                         <ui:Label text="Seperate Build Tabs" name="SeperateTabsLabel" class="AMH-Field-label" style="align-self: center; font-size: 25px; flex-basis: auto; margin-left: 4px;"/>

@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -32,12 +31,12 @@ namespace ADOFAIModdingHelper.Core
         public List<string> AssetBundles;
 
         /// <summary>
-        /// Used when SplitBuild is FALSE.
+        /// Used when SplitBuild is FALSE
         /// </summary>
         public Dictionary<string, List<string>> RawFileCopies = new Dictionary<string, List<string>>();
 
         /// <summary>
-        /// Used when SplitBuild is TRUE to separate verbatim file targets.
+        /// Used when SplitBuild is TRUE to separate tehm files targets
         /// </summary>
         public Dictionary<BuildTarget, Dictionary<string, List<string>>> PlatformRawFileCopies = new();
 
@@ -258,7 +257,17 @@ namespace ADOFAIModdingHelper.Core
             {
                 var trees = new List<SyntaxTree>();
                 var defines = assembly.defines.Concat(_defines).ToList();
-                var parseOptions = new CSharpParseOptions(preprocessorSymbols: defines);
+                var parseOptions = new CSharpParseOptions(languageVersion: LanguageVersion.CSharp9, preprocessorSymbols: defines);
+
+                //Version roslynVersion = typeof(CSharpCompilation).Assembly.GetName().Version;
+
+                //string generatedMetadata = $@"
+                //        using System.Reflection;
+                //        [assembly: AssemblyMetadata(""RoslynVersion"", ""{roslynVersion}"")]
+                //    ";
+
+                //var metadataTree = CSharpSyntaxTree.ParseText(generatedMetadata, parseOptions, "GeneratedRoslynMetadata.cs", Encoding.UTF8);
+                //trees.Add(metadataTree);
 
                 foreach (var scriptPath in assembly.sourceFiles)
                 {

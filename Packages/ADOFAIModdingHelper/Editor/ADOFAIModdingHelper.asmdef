@@ -2,8 +2,7 @@
     "name": "ADOFAIModdingHelper",
     "rootNamespace": "",
     "references": [
-        "ToolbarExtender.Editor",
-        "Unity.EditorCoroutines.Editor"
+        "ToolbarExtender.Editor"
     ],
     "includePlatforms": [
         "Editor"
@@ -12,9 +11,9 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
-        "Newtonsoft.Json.dll",
         "Microsoft.CodeAnalysis.CSharp.dll",
         "Microsoft.CodeAnalysis.dll",
+        "Newtonsoft.Json.AMH.dll",
         "System.Collections.Immutable.dll"
     ],
     "autoReferenced": true,
