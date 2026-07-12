@@ -159,9 +159,11 @@ namespace TUFHelper
                         string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
                         if (!string.IsNullOrEmpty(scenePath))
                         {
-                            SceneManager.LoadScene(scenePath);
+                            //SceneManager.LoadScene(scenePath);
                             // Depending on how your asset bundle scene is structured, 
                             // you might need to set Main.isInTUFHelper = true; or false here.
+
+                            ADOBase.loader.LoadScene(scenePath);
                         }
                         else
                         {

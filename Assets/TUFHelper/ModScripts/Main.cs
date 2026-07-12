@@ -10,11 +10,14 @@ using static UnityModManagerNet.UnityModManager;
 using System;
 using System.Linq;
 using DG.Tweening;
+using System.Net.Http;
 
 namespace TUFHelper 
 {
     public static class Main
     {
+        internal static readonly HttpClient Client = new();
+
         internal static string modVersion = "2.6.2";
 
         internal static ModEntry.ModLogger Logger;
@@ -136,7 +139,7 @@ namespace TUFHelper
             } 
             else
             {
-                Harmony.UnpatchAll();
+                Main.Harmony.UnpatchAll();
                 ADOBase.loader.LoadScene("scnLevelSelect");
             }
             return true;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Together.Utils;
@@ -73,43 +74,30 @@ namespace TUFHelper.ModScripts.Web
                 url += "&tagsFilter=" + encoded;
             }
 
-            using var request = UnityWebRequest.Get(url);
-            request.certificateHandler = new CertificateWhore();
-            request.disposeCertificateHandlerOnDispose = true;
-
+            string answer = "";
             try
             {
-                var operation = request.SendWebRequest();
+                HttpResponseMessage response = await Main.Client.GetAsync(url, token);
 
-                while (!operation.isDone)
-                {
-                    if (token.IsCancellationRequested)
-                    {
-                        request.Abort(); // explicitly abort
-                        token.ThrowIfCancellationRequested();
-                    }
-                    await Task.Yield();
-                }
+                response.EnsureSuccessStatusCode();
 
-                if (request.result == UnityWebRequest.Result.Success)
-                {
-                    Answer = request.downloadHandler.text;
-                }
-                else
-                {
-                    throw new Exception($"Request error: {request.error}");
-                }
+                answer = await response.Content.ReadAsStringAsync();
+            }
+            catch (HttpRequestException ex)
+            {
+                Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
+                throw;
             }
             catch (OperationCanceledException)
             {
-                throw;
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[TUFAPIRequest] Request failed: {ex.Message}");
+                Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
                 throw;
             }
-        }
 
+            Answer = answer;
+        }
     }
 }

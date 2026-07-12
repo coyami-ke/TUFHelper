@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -46,24 +47,31 @@ public class LeaderboardScript : MonoBehaviour
         CancellationToken token = currentRequestToken.Token;
 
         string url = GetDefaultUrl(level.ID);
-        using UnityWebRequest webRequest = UnityWebRequest.Get(url);
-        webRequest.certificateHandler = new CertificateWhore();
-        webRequest.timeout = 10;
-
-        var operation = webRequest.SendWebRequest();
-        while (!operation.isDone)
+        string answer = "";
+        try
         {
-            await Task.Yield();
-            if (token.IsCancellationRequested)
-            {
-                webRequest.Abort();
-                return;
-            }
+            HttpResponseMessage response = await Main.Client.GetAsync(url, token);
+
+            response.EnsureSuccessStatusCode();
+
+            answer = await response.Content.ReadAsStringAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.LogError($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
+            throw;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[TUFAPIRequest] Unexpected error: {ex.Message}");
+            throw;
         }
 
-        if (webRequest.result is UnityWebRequest.Result.ConnectionError or UnityWebRequest.Result.ProtocolError)
-            return;
-        PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(webRequest.downloadHandler.text);
+
+        PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
         List<PassesListInfoElementJson> passes = levelDes.ToList();
         if (passes == null)
         {

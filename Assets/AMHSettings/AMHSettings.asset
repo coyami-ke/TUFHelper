@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ADOFAIPath: C:/Program Files (x86)/Steam/steamapps/common/A Dance of Fire and Ice/A
     Dance of Fire and Ice.exe
-  DecompilerPath: 
+  DecompilerPath: C:/Disk D/dnSpy/dnSpy.exe
   SeperateBuildTabs: 1
   CurrentPage: 0

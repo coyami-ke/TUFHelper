@@ -1,3 +1,6 @@
+using System;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
@@ -16,7 +19,8 @@ public class PackPrefabScript : MonoBehaviour
         nameText.text = info.Name;
         levelsNumberText.text = info.LevelCount + " level(s)";
         favoritesText.text = info.FavoritesCount.ToString();
-        nicknameText.text = info.PackOwner.Nickname;
+        if (info.PackOwner.Nickname != null) nicknameText.text = info.PackOwner.Nickname;
+        else nicknameText.text = info.PackOwner.Username;
 
         int remindedLevels = Mathf.Max(0, info.LevelCount - 3);
 
@@ -29,7 +33,8 @@ public class PackPrefabScript : MonoBehaviour
             hasMoreText.text = "";
         }
 
-        LoadProfilePicture(info.PackOwner.AvatarURL);
+        if (info.PackOwner != null && !string.IsNullOrEmpty(info.PackOwner.AvatarURL)) LoadProfilePicture(info.PackOwner.AvatarURL);
+        if (!string.IsNullOrEmpty(info.IconURL)) LoadIconPicture(info.IconURL);
     }
 
     public async void LoadProfilePicture(string url)
@@ -37,11 +42,12 @@ public class PackPrefabScript : MonoBehaviour
         byte[] imageData = await GetImageFromURL(url);
         if (imageData == null) return;
 
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(imageData);
-
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        pfpImage.sprite = sprite;
+        // Create the sprite asynchronously using our background-threaded helper
+        Sprite sprite = await CreateSpriteAsync(imageData);
+        if (sprite != null && pfpImage != null)
+        {
+            pfpImage.sprite = sprite;
+        }
     }
 
     public async void LoadIconPicture(string url)
@@ -49,27 +55,93 @@ public class PackPrefabScript : MonoBehaviour
         byte[] imageData = await GetImageFromURL(url);
         if (imageData == null) return;
 
-        Texture2D texture = new Texture2D(2, 2);
-        texture.LoadImage(imageData);
-
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        iconImage.sprite = sprite;
+        // Create the sprite asynchronously using our background-threaded helper
+        Sprite sprite = await CreateSpriteAsync(imageData);
+        if (sprite != null && iconImage != null)
+        {
+            iconImage.sprite = sprite;
+        }
     }
 
-    public async Task<byte[]> GetImageFromURL(string url)
+    private async Task<Sprite> CreateSpriteAsync(byte[] imageData)
     {
-        using UnityWebRequest www = UnityWebRequest.Get(url);
-        var operation = www.SendWebRequest();
+        Texture2D texture = new Texture2D(2, 2);
 
-        while (!operation.isDone)
-            await Task.Yield();
-
-        if (www.result != UnityWebRequest.Result.Success)
+        // 2. Load the raw PNG data into the texture
+        if (texture.LoadImage(imageData))
         {
-            Main.Logger.Error($"Failed to download profile picture: {www.error}");
-            return null;
+            Rect rect = new Rect(0, 0, texture.width, texture.height);
+            Vector2 pivot = new Vector2(0.5f, 0.5f);
+
+            return Sprite.Create(texture, rect, pivot);
         }
 
-        return www.downloadHandler.data;
+        Debug.LogError("Failed to load PNG byte array into Texture2D.");
+        return null;
+    }
+
+    private async Task<Sprite> DownloadSpriteAsync(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return null;
+
+        using UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
+
+        request.certificateHandler = new Together.Utils.CertificateWhore();
+        request.disposeCertificateHandlerOnDispose = true;
+
+        try
+        {
+            var operation = request.SendWebRequest();
+
+            while (!operation.isDone)
+            {
+                await Task.Yield();
+            }
+
+            if (request.result != UnityWebRequest.Result.Success)
+            {
+                Main.Logger.Error($"[ImageDownloader] Error loading image from {url}: {request.error}");
+                return null;
+            }
+
+            Texture2D texture = DownloadHandlerTexture.GetContent(request);
+            if (texture == null) return null;
+
+            texture.filterMode = FilterMode.Bilinear;
+            texture.wrapMode = TextureWrapMode.Clamp;
+
+            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"[ImageDownloader] Unexpected exception: {ex.Message}");
+            return null;
+        }
+    }
+
+    public async Task<byte[]> GetImageFromURL(string url, CancellationToken token = default)
+    {
+        try
+        {
+            HttpResponseMessage response = await Main.Client.GetAsync(url, HttpCompletionOption.ResponseContentRead, token);
+
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsByteArrayAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            Main.Logger.Error($"Failed to download profile picture: {ex.Message}");
+            return null;
+        }
+        catch (OperationCanceledException)
+        {
+            return null;
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"Unexpected error downloading profile picture: {ex.Message}");
+            return null;
+        }
     }
 }

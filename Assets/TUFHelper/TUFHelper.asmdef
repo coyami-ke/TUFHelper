@@ -9,13 +9,13 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
+        "UnityModManager.dll",
+        "0Harmony.dll",
         "Newtonsoft.Json.dll",
         "Assembly-CSharp.dll",
         "Assembly-CSharp-firstpass.dll",
-        "0Harmony.dll",
         "DOTween.dll",
         "DOTweenPro.dll",
-        "UnityModManager.dll",
         "RDTools.dll",
         "CommunityToolkit.Mvvm.dll"
     ],
