@@ -137,14 +137,14 @@ public class MiscScript : MonoBehaviour
 
         CancellationToken token = requestCancelToken.Token;
 
-        int count = Main.Setting.DownloadedLevels.Count;
+        int count = Main.DownloadedLevels.Levels.Count;
         int i = 0;
-        foreach (var level in Main.Setting.DownloadedLevels.ToArray())
+        foreach (var level in Main.DownloadedLevels.Levels.ToArray())
         {
-            if (level.LevelInfo == null) continue;
+            if (level == null) continue;
             try
             {
-                string url = $"https://api.tuforums.com/v2/database/levels/byId/{level.LevelInfo.ID}";
+                string url = $"https://api.tuforums.com/v2/database/levels/byId/{level.ID}";
 
                 using var request = UnityWebRequest.Get(url);
                 request.certificateHandler = new CertificateWhore();
@@ -164,9 +164,6 @@ public class MiscScript : MonoBehaviour
 
                 var json = request.downloadHandler.text;
                 var newLevel = JsonConvert.DeserializeObject<LevelListInfoElementJson>(json);
-                level.LevelInfo = newLevel;
-
-                LevelPrefabScript.SaveLevelToSettings(newLevel, level.NameFolder, LevelDownloader.FindAdofaiFiles(level.NameFolder)[0]);
 
                 textInfo.text = $"{LanguageManager.Translate("UPDATE INFO")} ({i + 1}/{count})...";
 
@@ -197,15 +194,15 @@ public class MiscScript : MonoBehaviour
         LevelListInfoElementJson selectedLevel = null;
         if (Main.Setting.ShowOnlyDownloaded)
         {
-            UnityEngine.Random.Range(0, Main.Setting.DownloadedLevels.Count - 1);
+            UnityEngine.Random.Range(0, Main.DownloadedLevels.Levels.Count - 1);
 
-            var filteredLevels = Main.Setting.DownloadedLevels.Where(level =>
+            var filteredLevels = Main.DownloadedLevels.Levels.Where(level =>
             {
                 // Filter by difficulty
-                if (DiffSpriteHelper.IsSpecialDiff(level.LevelInfo.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.LevelInfo.DiffId))
+                if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
                 {
-                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]) ||
-                        LevelListScript.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.LevelInfo.DiffId]))
+                    if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) ||
+                        LevelListScript.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
                         return false;
                 }
 
@@ -218,14 +215,14 @@ public class MiscScript : MonoBehaviour
 
                 else
                 {
-                    if (level.LevelInfo.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.LevelInfo.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
+                    if (level.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
                         return false;
                 }
 
                 return true;
             }).ToList();
 
-            selectedLevel = filteredLevels[0].LevelInfo;
+            selectedLevel = filteredLevels[0];
         }
         else
         {
@@ -271,7 +268,7 @@ public class MiscScript : MonoBehaviour
             }
 
             if (selectedLevel.DlLink == null) Main.Logger.Error("THERES NULL");
-            LevelDownloader levelDownloder = new(selectedLevel.DlLink) 
+            LevelDownloader levelDownloder = new(selectedLevel) 
             {
                 ErrorHandler = (ex) =>
                 {
@@ -304,11 +301,9 @@ public class MiscScript : MonoBehaviour
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(lastLevel, args.Levels[0]));
                 break;
             default:
-                LevelPrefabScript.SaveLevelToSettings(lastLevel, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 LevelSelector.instance.LevelInfo = lastLevel;
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;

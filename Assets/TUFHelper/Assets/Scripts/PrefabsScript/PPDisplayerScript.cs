@@ -235,8 +235,6 @@ public class PPDisplayerScript : BasicIngameElement
             double ppBase = levelData.GetPPBaseScore();
             double standardBase = levelData.GetBaseScore();
 
-            Main.Logger.Log("BaseScore: " + standardBase);
-
             double effectiveBaseScore = (accuracy >= 0.999999) ? ppBase : standardBase;
 
             var xaccMtp = GetXaccMtp(inputs, effectiveBaseScore);

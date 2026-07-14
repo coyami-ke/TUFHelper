@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
@@ -41,23 +42,55 @@ public class PackListScript : MonoBehaviour
 
     public GameObject packPrefab, packsParent, verticalScroll;
 
+    public TMP_InputField searchField;
+    public TMP_Dropdown sortByDropdown, sortOrderDropdown;
+
     private RectTransform packsParentRect;
 
     public TUFAPIRequest_Packs WebRequest { get; private set; }
-    public PackListViewModel ViewModel { get; private set;  }
+    public PackListViewModel ViewModel { get; private set; }
 
     public void Awake()
     {
-        WebRequest = new(30);
+        WebRequest = new(15);
         ViewModel = new();
 
         ViewModel.AddedRange += ViewModel_AddedRange;
         ViewModel.Cleared += ViewModel_Cleared;
     }
 
+    public async void Start()
+    {
+        packsParentRect = packsParent.GetComponent<RectTransform>();
+
+        // --- DYNAMIC EVENT LISTENER REGISTRATION ---
+        if (searchField != null)
+        {
+            // Fires automatically when the player presses Enter or deselects the box
+            searchField.onEndEdit.AddListener(OnSearchBarEnter);
+        }
+
+        if (sortByDropdown != null)
+        {
+            // Fires instantly when a new option item is clicked
+            sortByDropdown.onValueChanged.AddListener(OnSortByChanged);
+        }
+
+        if (sortOrderDropdown != null)
+        {
+            sortOrderDropdown.onValueChanged.AddListener(OnSortOrderChanged);
+        }
+
+        // Run the initial API request data fetch
+        await UpdatePackListAsync();
+    }
+
     public async void Update()
     {
-        if (!isLoading && verticalScroll.GetComponent<ScrollRect>().verticalNormalizedPosition <= 0.01f)
+        if (verticalScroll == null) return;
+
+        ScrollRect scroll = verticalScroll.GetComponent<ScrollRect>();
+        if (!isLoading && scroll != null && scroll.verticalNormalizedPosition <= 0.01f)
         {
             isLoading = true;
             WebRequest.Offset = GetPackPrefabScripts().Length;
@@ -70,25 +103,28 @@ public class PackListScript : MonoBehaviour
         for (int i = packsParent.transform.childCount - 1; i >= 0; i--)
         {
             Transform child = packsParent.transform.GetChild(i);
-
             child.SetParent(null);
             Destroy(child.gameObject);
         }
 
-        verticalScroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
+        if (verticalScroll != null)
+        {
+            ScrollRect scroll = verticalScroll.GetComponent<ScrollRect>();
+            if (scroll != null) scroll.verticalNormalizedPosition = 1f;
+        }
     }
 
     private void ViewModel_AddedRange(PackListElementJson[] scripts)
     {
         int currentTotalCount = packsParent.transform.childCount;
 
-        float widthPack = 332;   
-        float heightPack = 240;  
+        float widthPack = 332;
+        float heightPack = 240;
 
         float spacingX = 20f;
         float spacingY = 40f;
 
-        float startX = 50f ;
+        float startX = 50f;
         float startY = -20f;
 
         foreach (var pack in scripts)
@@ -120,19 +156,16 @@ public class PackListScript : MonoBehaviour
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
 
-    public async void Start()
-    {
-        packsParentRect = packsParent.GetComponent<RectTransform>();
-
-        await UpdatePackListAsync();
-    }
     public async void OnSearchBarEnter(string text)
     {
-        WebRequest.Query = SearchScript.NormalizeSearchText(text);
+        WebRequest.Query = text;
 
         ClearPacks();
         await UpdatePackListAsync();
+
+        Main.Logger.Log("Search: " + WebRequest.Query);
     }
+
     public async void OnSortByChanged(int index)
     {
         switch (index)
@@ -148,12 +181,15 @@ public class PackListScript : MonoBehaviour
                 break;
             case 3:
                 WebRequest.SortBy = "FAVORITES";
-                break; 
+                break;
         }
 
         ClearPacks();
         await UpdatePackListAsync();
+
+        Main.Logger.Log("Sort By: " + WebRequest.SortBy.ToString());
     }
+
     public async void OnSortOrderChanged(int index)
     {
         switch (index)
@@ -168,6 +204,8 @@ public class PackListScript : MonoBehaviour
 
         ClearPacks();
         await UpdatePackListAsync();
+
+        Main.Logger.Log("Sort Order: " + WebRequest.SortAsc.ToString());
     }
 
     public async Task UpdatePackListAsync()
@@ -178,19 +216,35 @@ public class PackListScript : MonoBehaviour
         requestCancelToken = new CancellationTokenSource();
         CancellationToken token = requestCancelToken.Token;
 
-        await WebRequest.GetAnswerAsync(token);
-
-        if (!string.IsNullOrEmpty(WebRequest.Answer))
+        try
         {
-            var json = JsonConvert.DeserializeObject<PackListJson>(WebRequest.Answer);
-            ViewModel.AddRange(json.Packs);
-        }
-        else
-        {
-            Main.Logger.Error("Empty answer");
-        }
+            await WebRequest.GetAnswerAsync(token);
 
-        isLoading = false;
+            if (!string.IsNullOrEmpty(WebRequest.Answer))
+            {
+                var json = JsonConvert.DeserializeObject<PackListJson>(WebRequest.Answer);
+                if (json?.Packs != null)
+                {
+                    ViewModel.AddRange(json.Packs);
+                }
+            }
+            else
+            {
+                Main.Logger.Error("Empty answer");
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            // Canceled cleanly
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"Update operation failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 
     public void ClearPacks()
@@ -202,5 +256,14 @@ public class PackListScript : MonoBehaviour
     public PackPrefabScript[] GetPackPrefabScripts()
     {
         return packsParent.GetComponentsInChildren<PackPrefabScript>(includeInactive: false);
+    }
+
+    private void OnDestroy()
+    {
+        if (searchField != null) searchField.onEndEdit.RemoveListener(OnSearchBarEnter);
+        if (sortByDropdown != null) sortByDropdown.onValueChanged.RemoveListener(OnSortByChanged);
+        if (sortOrderDropdown != null) sortOrderDropdown.onValueChanged.RemoveListener(OnSortOrderChanged);
+
+        requestCancelToken?.Cancel();
     }
 }

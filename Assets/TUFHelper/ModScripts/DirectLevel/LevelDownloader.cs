@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TUFHelper;
+using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace DirectLevel
 {
     public class LevelDownloader
     {
-        private readonly string _url;
+        private LevelListInfoElementJson _levelInfo;
 
         public Action<Exception> ErrorHandler;
 
@@ -27,9 +28,9 @@ namespace DirectLevel
 
         public Func<long, bool> OnCalculationCompleteFileSize;
 
-        public LevelDownloader(string url)
+        public LevelDownloader(LevelListInfoElementJson levelInfo)
         {
-            _url = url;
+            _levelInfo = levelInfo;
         }
 
         public static List<string> FindAdofaiFiles(string path)
@@ -59,13 +60,14 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
-                    var path = Path.Combine(defaultPath, _url.GetHashCode().ToString());
+                    var path = Path.Combine(defaultPath, $"{_levelInfo.Artist} - {_levelInfo.Song} {_levelInfo.ID}");
                     var zipPath = $"{path}.zip";
 
                     if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
                     {
                         UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
                         DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
+                        Main.DownloadedLevels.SaveLevel(_levelInfo);
                         return;
                     }
 
@@ -73,7 +75,7 @@ namespace DirectLevel
 
                     if (checkFileSize && OnCalculationCompleteFileSize != null)
                     {
-                        long fileSize = await GetRemoteFileSizeAsync(_url, token);
+                        long fileSize = await GetRemoteFileSizeAsync(_levelInfo.DlLink, token);
                         if (fileSize > 0)
                         {
                             bool cancelDownload = OnCalculationCompleteFileSize.Invoke(fileSize);
@@ -92,7 +94,7 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloading));
 
-                    await DownloadFileWithProgressAsync(_url, zipPath, token);
+                    await DownloadFileWithProgressAsync(_levelInfo.DlLink, zipPath, token);
 
                     token.ThrowIfCancellationRequested();
 
@@ -106,6 +108,8 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Downloaded));
                     DownloadComplete?.Invoke(this, new DownloadCompleteEventArgs(FindAdofaiFiles(path)));
+
+                    Main.DownloadedLevels.SaveLevel(_levelInfo);
                 }
                 catch (OperationCanceledException)
                 {

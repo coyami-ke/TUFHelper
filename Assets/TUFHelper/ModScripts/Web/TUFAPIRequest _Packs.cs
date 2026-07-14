@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Together.Utils;
 using UnityEngine;
-using UnityEngine.Networking;
 
 namespace TUFHelper.ModScripts.Web
 {
@@ -28,38 +27,35 @@ namespace TUFHelper.ModScripts.Web
         public async Task GetAnswerAsync(CancellationToken token)
         {
             string order = SortAsc == AscendingOrDescending.Ascending ? "ASC" : "DESC";
-            string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
+            string encodedQuery = Uri.EscapeDataString(Query ?? "");
 
             string url = $"{DEFAULT_URL}?offset={Offset}&limit={Limit}&sort={SortBy}&order={order}&query={encodedQuery}&viewMode=1";
 
-            using var request = UnityWebRequest.Get(url);
-            request.certificateHandler = new CertificateWhore();
-            request.disposeCertificateHandlerOnDispose = true;
+            Main.Logger.Log(url);
 
-            string answer = "";
             try
             {
                 HttpResponseMessage response = await Main.Client.GetAsync(url, token);
-
                 response.EnsureSuccessStatusCode();
-
-                answer = await response.Content.ReadAsStringAsync();
+                Answer = await response.Content.ReadAsStringAsync();
             }
             catch (HttpRequestException ex)
             {
                 Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
+                Answer = "";
                 throw;
             }
             catch (OperationCanceledException)
             {
+                Answer = "";
+                throw;
             }
             catch (Exception ex)
             {
                 Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
+                Answer = "";
                 throw;
             }
-
-            Answer = answer;
         }
     }
 }

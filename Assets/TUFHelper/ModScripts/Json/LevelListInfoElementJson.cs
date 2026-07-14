@@ -98,6 +98,12 @@ namespace TUFHelper.ModScripts.Json
         public List<LevelListInfoElementTagJson> Tags { get; set; } = new();
         [JsonProperty("difficulty")]
         public LevelListInfoElementDifficultyJson Difficulty { get; set; } = new();
+        [JsonProperty("bpm")]
+        public float BPM { get; set; }
+        [JsonProperty("tilecount")]
+        public int TileCount { get; set; }
+        [JsonProperty("levelLengthInMs")]
+        public float LevelLengthInMs { get; set; }
     }
     public class LevelListInfoElementDifficultyJson
     {

@@ -76,15 +76,15 @@ public class IngameRatingPanelScript : MonoBehaviour
         if (deleteLevelInput.isOn)
         {
 
-            var level = Main.Setting.DownloadedLevels.FirstOrDefault(e => e.LevelInfo.ID == RatingInfo.Level.ID);
+            //var level = Main.Setting.DownloadedLevels.FirstOrDefault(e => e.LevelInfo.ID == RatingInfo.Level.ID);
 
-            if (Directory.Exists(level.NameFolder))
-            {
-                Directory.Delete(level.NameFolder, true);
-            }
+            //if (Directory.Exists(level.NameFolder))
+            //{
+            //    Directory.Delete(level.NameFolder, true);
+            //}
 
-            Main.Setting.FavoriteLevels.Remove(level.LevelInfo.ID);
-            Main.Setting.DownloadedLevels.Remove(level);
+            //Main.Setting.FavoriteLevels.Remove(level.LevelInfo.ID);
+            //Main.Setting.DownloadedLevels.Remove(level);
         }
     }
 }

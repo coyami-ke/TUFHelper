@@ -54,7 +54,7 @@ public class LevelListScript : MonoBehaviour
 
     public GameObject levelPrefab, levelListParent, verticalScroll;
 
-    public ScrollRect VerticalScrollComponent { get; private set; } 
+    public ScrollRect VerticalScrollComponent { get; private set; }
     public bool HasMore { get; private set; }
     private bool isLoading = false;
     private CancellationTokenSource requestCancelToken;
@@ -96,17 +96,11 @@ public class LevelListScript : MonoBehaviour
         get => showOnlyFavorites;
         set
         {
-            // if (showOnlyFavorites == value)
-            //     return;
             showOnlyFavorites = value;
 
             requestCancelToken?.Cancel();
 
-            //isLoading = false;
-            //HasMore = !value;
-
             ViewModel.Clear();
-            //DefaultRequest.Offset = 0;
         }
     }
 
@@ -276,9 +270,7 @@ public class LevelListScript : MonoBehaviour
             DefaultRequest.Offset = 0;
             HasMore = false;
 
-            var levels = Main.Setting.DownloadedLevels
-                .Where(dl => dl.LevelInfo != null)
-                .Select(dl => dl.LevelInfo);
+            var levels = Main.DownloadedLevels.Levels;
 
             var sortedLevels = SortLevels(levels);
 
@@ -432,7 +424,7 @@ public class LevelListScript : MonoBehaviour
         }
     }
 
-    
+
     public void ClearLevels()
     {
         ViewModel.Clear();
@@ -441,7 +433,7 @@ public class LevelListScript : MonoBehaviour
 
     public void DeselectAll()
     {
-        foreach (var level in GetLevelPrefabScripts()) 
+        foreach (var level in GetLevelPrefabScripts())
         {
             level.IsSelected = false;
         }
@@ -460,7 +452,7 @@ public class LevelListScript : MonoBehaviour
         }
         return -1;
     }
-    
+
     public LevelPrefabScript[] GetLevelPrefabScripts() =>
     instance.levelListParent
         .GetComponentsInChildren<LevelPrefabScript>(includeInactive: false);

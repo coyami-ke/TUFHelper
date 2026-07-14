@@ -55,6 +55,5 @@
         "UserSettings/": true,
         "temp/": true,
         "Temp/": true
-    },
-    "dotnet.defaultSolution": "TUFHelper-main.sln"
+    }
 }

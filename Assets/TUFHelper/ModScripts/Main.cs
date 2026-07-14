@@ -25,6 +25,8 @@ namespace TUFHelper
         internal static Harmony Harmony;
         internal static Setting Setting;
 
+        internal static DownloadedLevelsFile DownloadedLevels;
+
         internal static AssetBundle assets, scenes;
         internal static bool isInTUFHelper = false;
         
@@ -117,6 +119,17 @@ namespace TUFHelper
                 Main.Logger.Error("Critical failure during deserialization mapping:");
                 Main.Logger.LogException(ex);
                 Setting = new Setting();
+            }
+
+            try
+            {
+                DownloadedLevels = DownloadedLevelsFile.Load(Path.Combine(ModEntry.Path, "Levels.json"));
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.Error("Critical failure during deserialization mapping:");
+                Main.Logger.LogException(ex);
+                DownloadedLevels = new(Path.Combine(ModEntry.Path, "Levels.json"));
             }
 
             LanguageManager.Init();

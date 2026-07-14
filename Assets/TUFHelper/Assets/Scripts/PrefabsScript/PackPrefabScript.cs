@@ -1,21 +1,32 @@
 using System;
 using System.Net.Http;
+using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
+using DG.Tweening;
+using Newtonsoft.Json;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PackPrefabScript : MonoBehaviour
+public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     public Image backgroundImage, iconImage, pfpImage;
     public TextMeshProUGUI nameText, levelsNumberText, favoritesText, nicknameText, hasMoreText;
 
+    public PackPefab_ReferencedLevelScript level1, level2, level3;
+
+    public PackListElementJson PackInfo { get; private set; }
+
     public void SetPackInfo(PackListElementJson info)
     {
+        PackInfo = info;
+
         nameText.text = info.Name;
         levelsNumberText.text = info.LevelCount + " level(s)";
         favoritesText.text = info.FavoritesCount.ToString();
@@ -33,6 +44,25 @@ public class PackPrefabScript : MonoBehaviour
             hasMoreText.text = "";
         }
 
+        if (info.PackItems.Length >= 1)
+        {
+            level1.gameObject.SetActive(true);
+            level1.SetLevelInfo(info.PackItems[0]);
+        }
+        else level1.gameObject.SetActive(false);
+        if (info.PackItems.Length >= 2)
+        {
+            level2.SetLevelInfo(info.PackItems[1]);
+            level2.gameObject.SetActive(true);
+        }
+        else level2.gameObject.SetActive(false);
+        if (info.PackItems.Length >= 3)
+        {
+            level3.SetLevelInfo(info.PackItems[2]);
+            level3.gameObject.SetActive(true);
+        }
+        else level3.gameObject.SetActive(false);
+
         if (info.PackOwner != null && !string.IsNullOrEmpty(info.PackOwner.AvatarURL)) LoadProfilePicture(info.PackOwner.AvatarURL);
         if (!string.IsNullOrEmpty(info.IconURL)) LoadIconPicture(info.IconURL);
     }
@@ -42,7 +72,6 @@ public class PackPrefabScript : MonoBehaviour
         byte[] imageData = await GetImageFromURL(url);
         if (imageData == null) return;
 
-        // Create the sprite asynchronously using our background-threaded helper
         Sprite sprite = await CreateSpriteAsync(imageData);
         if (sprite != null && pfpImage != null)
         {
@@ -55,7 +84,6 @@ public class PackPrefabScript : MonoBehaviour
         byte[] imageData = await GetImageFromURL(url);
         if (imageData == null) return;
 
-        // Create the sprite asynchronously using our background-threaded helper
         Sprite sprite = await CreateSpriteAsync(imageData);
         if (sprite != null && iconImage != null)
         {
@@ -67,7 +95,6 @@ public class PackPrefabScript : MonoBehaviour
     {
         Texture2D texture = new Texture2D(2, 2);
 
-        // 2. Load the raw PNG data into the texture
         if (texture.LoadImage(imageData))
         {
             Rect rect = new Rect(0, 0, texture.width, texture.height);
@@ -76,47 +103,8 @@ public class PackPrefabScript : MonoBehaviour
             return Sprite.Create(texture, rect, pivot);
         }
 
-        Debug.LogError("Failed to load PNG byte array into Texture2D.");
+        Main.Logger.Error("Failed to load PNG byte array into Texture2D.");
         return null;
-    }
-
-    private async Task<Sprite> DownloadSpriteAsync(string url)
-    {
-        if (string.IsNullOrEmpty(url)) return null;
-
-        using UnityWebRequest request = UnityWebRequestTexture.GetTexture(url);
-
-        request.certificateHandler = new Together.Utils.CertificateWhore();
-        request.disposeCertificateHandlerOnDispose = true;
-
-        try
-        {
-            var operation = request.SendWebRequest();
-
-            while (!operation.isDone)
-            {
-                await Task.Yield();
-            }
-
-            if (request.result != UnityWebRequest.Result.Success)
-            {
-                Main.Logger.Error($"[ImageDownloader] Error loading image from {url}: {request.error}");
-                return null;
-            }
-
-            Texture2D texture = DownloadHandlerTexture.GetContent(request);
-            if (texture == null) return null;
-
-            texture.filterMode = FilterMode.Bilinear;
-            texture.wrapMode = TextureWrapMode.Clamp;
-
-            return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        }
-        catch (Exception ex)
-        {
-            Main.Logger.Error($"[ImageDownloader] Unexpected exception: {ex.Message}");
-            return null;
-        }
     }
 
     public async Task<byte[]> GetImageFromURL(string url, CancellationToken token = default)
@@ -142,6 +130,63 @@ public class PackPrefabScript : MonoBehaviour
         {
             Main.Logger.Error($"Unexpected error downloading profile picture: {ex.Message}");
             return null;
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        backgroundImage.DOColor(new Color(1, 1, 1, 22f / 255), 0.25f);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        backgroundImage.DOColor(new Color(1, 1, 1, 10f / 255), 0.25f);
+    }
+
+    public async void OnPointerClick(PointerEventData eventData)
+    {
+        try 
+        {
+            HttpResponseMessage response = await Main.Client.GetAsync($"{TUFAPIRequest_Packs.DEFAULT_URL}/{PackInfo.ID}?tree=true");
+            string json = await response.Content.ReadAsStringAsync();
+
+            PackRootJson pack = JsonConvert.DeserializeObject<PackRootJson>(json);
+
+            ProcessNode(pack.Items[0]);
+        }
+        catch (HttpRequestException ex)
+        {
+            Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure: {ex.Message}");
+            throw;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
+            throw;
+        }
+    }
+
+    private void ProcessNode(PackItemNode node, int depth = 0)
+    {
+        string indent = new string('-', depth * 2);
+
+        if (node.IsFolder)
+        {
+            Main.Logger.Log($"{indent}[Folder] Name: {node.Name} (ID: {node.Id})");
+
+            foreach (var childNode in node.Children)
+            {
+                ProcessNode(childNode, depth + 1);
+            }
+        }
+        else if (node.IsLevel)
+        {
+            var track = node.ReferencedLevel;
+            Main.Logger.Log($"{indent}[Level] Track: {track?.Artist} - {track?.Song} (Diff: {track?.DiffID})");
         }
     }
 }

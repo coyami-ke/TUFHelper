@@ -72,33 +72,33 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                     ScrollToSelf();
                     LeaderboardScript.instance.LoadPasses(levelInfo);
 
-                    var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
+                    var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
                     if (levelOffline != null)
                     {
-                        LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
-                        string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
-                        if (!File.Exists(pathToBG))
-                            pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
+                        //LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
+                        //string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
+                        //if (!File.Exists(pathToBG))
+                        //    pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
 
-                        if (File.Exists(pathToBG))
-                        {
-                            SpriteLoader.instance.gameObject.SetActive(true);
-                            SpriteLoader.instance.FromFile(pathToBG);
-                        }
-                        else
-                        {
-                            SpriteLoader.instance.gameObject.SetActive(false);
-                        }
+                        //if (File.Exists(pathToBG))
+                        //{
+                        //    SpriteLoader.instance.gameObject.SetActive(true);
+                        //    SpriteLoader.instance.FromFile(pathToBG);
+                        //}
+                        //else
+                        //{
+                        //    SpriteLoader.instance.gameObject.SetActive(false);
+                        //}
 
-                        string oggFile = Directory.GetFiles(levelOffline.NameFolder)
-                                                      .FirstOrDefault(f => f.EndsWith(".ogg"));
-                        string mp3File = Directory.GetFiles(levelOffline.NameFolder)
-                                                  .FirstOrDefault(f => f.EndsWith(".mp3"));
+                        //string oggFile = Directory.GetFiles(levelOffline.NameFolder)
+                        //                              .FirstOrDefault(f => f.EndsWith(".ogg"));
+                        //string mp3File = Directory.GetFiles(levelOffline.NameFolder)
+                        //                          .FirstOrDefault(f => f.EndsWith(".mp3"));
 
-                        if (oggFile != null)
-                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
-                        else if (mp3File != null)
-                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
+                        //if (oggFile != null)
+                        //    StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
+                        //else if (mp3File != null)
+                        //    StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
                         //else if (Main.Setting.PlayBackgroundMusic)
                         //    CustomMusicPlayer.instance.StopPlay();
                     }
@@ -159,7 +159,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         try
         {
-            var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
+            var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
             if (levelOffline == null)
             {
                 folderButton.SetActive(false);
@@ -275,7 +275,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         try
         {
 
-            LevelDownloader levelDownloder = new(levelInfo.DlLink)
+            LevelDownloader levelDownloder = new(levelInfo)
             {
                 ErrorHandler = (ex) =>
                 {
@@ -296,126 +296,21 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
-        // Donates Current Levelinfo to PPDisplayer & notify that play mode is from TUFHelper
-        // PPDisplayerPatch.Levelinfo = levelInfo;
-        // PPDisplayerPatch.IsFromTUFH = true;
-
         switch (args.Levels.Count)
         {
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 UIScript.SwipeToBlack(() => TryToLoadLevel(levelInfo, args.Levels[0]));
                 break;
             default:
-                SaveLevelToSettings(levelInfo, Path.GetDirectoryName(args.Levels[0]), args.Levels[0]);
                 LevelSelector.instance.LevelInfo = this.levelInfo;
                 StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
                 break;
         }
 
-        // IngameLeaderboardPatch.LevelInfo = this.levelInfo;
-        // IngameLeaderboardPatch.IsInTUFHelper = true;
-
         ADOFAIGameplayHandler.IsFromTUFHelper = true;
         ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
-    }
-    public static void SaveLevelToSettings(LevelListInfoElementJson levelJson, string folder, string saveableLevel)
-    {
-        foreach (var level in Main.Setting.DownloadedLevels.ToArray())
-        {
-            if (level.LevelInfo.ID == levelJson.ID)
-            {
-                Main.Setting.DownloadedLevels.Remove(level);
-            }
-        }
-        LevelData levelData;
-        try
-        {
-            string rawJson = File.ReadAllText(saveableLevel);
-
-            // Fix double comma in requiredMods
-            string fixRequiredModsDoubleComma = @"""requiredMods""\s*:\s*\[\]\s*,\s*,";
-            rawJson = Regex.Replace(rawJson, fixRequiredModsDoubleComma, @"""requiredMods"": [],");
-
-            // Existing fixes
-            string fixMissingCommas = @"}\s*{";
-            rawJson = Regex.Replace(rawJson, fixMissingCommas, "},\n{");
-
-            string pattern = @"\](\s*)""decorations""";
-            string replacement = "],$1\"decorations\"";
-            rawJson = Regex.Replace(rawJson, pattern, replacement);
-
-
-            // Попытка десериализации
-            levelData = JsonConvert.DeserializeObject<LevelData>(rawJson);
-        }
-        catch (JsonReaderException jsonEx)
-        {
-            Main.Logger.Error("JSON parse error: " + jsonEx.Message);
-            return;
-        }
-
-        float bpm = levelData.Settings.BPM;
-        int pathData = levelData.PathData.Length;
-        int angleData = levelData.AngleData.Count;
-
-        int countTiles = pathData + angleData;
-
-        var oggs = Directory.GetFiles(folder)
-            .Where(f => f.EndsWith(".ogg"))
-            .OrderByDescending(e => new FileInfo(e).Length)
-            .ToArray();
-
-        string oggFile = oggs.FirstOrDefault();
-        CustomLevelInfoJson localInfo = new();
-
-        if (!string.IsNullOrEmpty(oggFile) && LevelListScript.instance != null)
-        {
-            LevelListScript.instance.StartCoroutine(GetOggLength(oggFile, length =>
-            {
-                localInfo.Lenght = length;
-                FinalizeLevelInfo();
-            }));
-        }
-        else
-        {
-            localInfo.Lenght = 0;
-            FinalizeLevelInfo();
-        }
-
-        void FinalizeLevelInfo()
-        {
-            localInfo.BPM = bpm;
-            localInfo.Tiles = countTiles;
-
-            Main.Setting.DownloadedLevels.Add(new()
-            {
-                LevelInfo = levelJson,
-                NameFolder = folder,
-                LocalData = localInfo
-            });
-
-            Main.Setting.Save(Main.ModEntry);
-        }
-    }
-    public static IEnumerator GetOggLength(string path, Action<float> onLengthReceived)
-    {
-        string url = "file:///" + path.Replace("\\", "/");
-        using UnityWebRequest uwr = UnityWebRequestMultimedia.GetAudioClip(url, AudioType.OGGVORBIS);
-        yield return uwr.SendWebRequest();
-
-        if (uwr.result != UnityWebRequest.Result.Success)
-        {
-            Debug.LogError("Error loading .ogg: " + uwr.error);
-            onLengthReceived?.Invoke(0f);
-        }
-        else
-        {
-            AudioClip clip = DownloadHandlerAudioClip.GetContent(uwr);
-            onLengthReceived?.Invoke(clip.length);
-        }
     }
     public void OnFavoriteButtonClicked()
     {
@@ -437,23 +332,18 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     public async void RemoveLevel()
     {
-        var info = Main.Setting.DownloadedLevels.FirstOrDefault(e => e.LevelInfo.ID == this.levelInfo.ID);
+        var info = Main.DownloadedLevels.Levels.FirstOrDefault(e => e.ID == this.levelInfo.ID);
         if (info != null)
         {
-            if (Directory.Exists(info.NameFolder))
-            {
-                Directory.Delete(info.NameFolder, true);
-            }
-
             Main.Setting.FavoriteLevels.Remove(this.levelInfo.ID);
-            Main.Setting.DownloadedLevels.Remove(info);
+            Main.DownloadedLevels.Levels.Remove(info);
             LevelListScript.instance.ClearLevels();
             await LevelListScript.instance.UpdateLevelListAsync();
         }
     }
     public void TryLikeLevel()
     {
-        
+
     }
     public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
     {
@@ -470,11 +360,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         try
         {
             var account = AccountSaver.GetAccount();
-            //if (account != null && account.IsRatingMode)
-            //{
-            //    ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = account.IsRatingMode;
-            //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingPanel.instance.RatingElements.FirstOrDefault(e => e.Level.ID == levelInfo.ID);
-            //}
         }
         catch
         {
@@ -523,34 +408,5 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     public void OpenFolder()
     {
-        var levelOffline = Main.Setting.DownloadedLevels.FirstOrDefault(l => l.LevelInfo.ID == levelInfo.ID);
-        if (levelOffline == null) return;
-        FolderOpener.OpenFolder(levelOffline.NameFolder);
-    }
-}
-internal class LevelData
-{
-    [JsonProperty("pathData")]
-    public string PathData { get; set; } = "";
-    [JsonProperty("angleData")]
-    public List<float> AngleData { get; set; } = new();
-
-    [JsonProperty("settings")]
-    public LevelSettings Settings { get; set; }
-}
-
-internal class LevelSettings
-{
-    [JsonProperty("bpm")]
-    public float BPM { get; set; }
-}
-
-public static class SceneLoaderExtensions
-{
-    public static Task AsTask(this AsyncOperation asyncOp)
-    {
-        var tcs = new TaskCompletionSource<bool>();
-        asyncOp.completed += _ => tcs.SetResult(true);
-        return tcs.Task;
     }
 }

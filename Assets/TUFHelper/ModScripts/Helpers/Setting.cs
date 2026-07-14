@@ -10,20 +10,6 @@ using UnityModManagerNet;
 
 namespace TUFHelper.Utils
 {
-    public class TransformOverlayerElement
-    {
-        public float X { get; set; } = 0;
-        public float Y { get; set; } = 0;
-        public float Scale { get; set; } = 1;
-    }
-
-    public class DownloadedLevel
-    {
-        public LevelListInfoElementJson LevelInfo { get; set; }
-        public string NameFolder { get; set; }
-        public CustomLevelInfoJson LocalData { get; set; }
-    }
-
     public class Setting
     {
         public string LevelSaveFolder { get; set; } = null;
@@ -40,16 +26,10 @@ namespace TUFHelper.Utils
         public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;
         public bool GroupByFolders { get; set; } = false;
-        public List<DownloadedLevel> DownloadedLevels { get; set; } = new();
         public HashSet<int> FavoriteLevels { get; set; } = new();
         public List<LevelFolder> LevelFolders { get; set; } = new();
-        //public Dictionary<string, TransformOverlayerElement> OverlayerElementsPositions { get; set; } = new();
         public Dictionary<string, IngameElementModel> IngameElementsSettings { get; set; } = new();
         public bool ShowTUFHelperOverlayer { get; set; } = true;
-        //public bool ShowIngameLeaderboard { get; set; } = true;
-        //public bool ShowIngameSpeed { get; set; } = true;
-        //public bool ShowIngamePPCounter { get; set; } = true;
-        //public bool ShowIngameLevelInfo { get; set; } = true;
         public bool IsShowedKeyviewerError { get; set; } = false;
         public bool IsShowedFmodError { get; set; } = false;
         public string Language { get; set; } = "Auto";

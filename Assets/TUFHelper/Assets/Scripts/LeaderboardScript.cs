@@ -72,6 +72,7 @@ public class LeaderboardScript : MonoBehaviour
 
 
         PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
+        if (levelDes == null) return;
         List<PassesListInfoElementJson> passes = levelDes.ToList();
         if (passes == null)
         {

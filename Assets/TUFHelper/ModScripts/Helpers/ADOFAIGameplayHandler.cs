@@ -28,8 +28,6 @@ namespace TUFHelper.Utils
             IsFromTUFHelper = isFromTUFHelper;
             RatingMode = ratingMode;
             CurrentRatingInfo = rating;
-
-            Main.Logger.Log($"Base Diff Score: {CurrentLevelInfo.Difficulty.BaseScore}, PP Base Score: {CurrentLevelInfo.PPBaseScore}, Base Score: {CurrentLevelInfo.BaseScore}");
         }
     }
     public static class ADOFAIGameplayHandler
