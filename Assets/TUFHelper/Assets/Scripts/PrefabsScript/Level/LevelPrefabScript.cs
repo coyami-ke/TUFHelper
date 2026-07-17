@@ -104,7 +104,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                     }
                     else
                     {
-                        LevelInfo.instance.IsShow = false;
                         CustomMusicPlayer.instance.StopPlay();
                         SpriteLoader.instance.gameObject.SetActive(false);
 
@@ -115,6 +114,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                     Main.Logger.LogException(ex);
                 }
             }
+
+            LevelInfo.instance.LoadLevelInfo(levelInfo);
+            LeaderboardScript.instance.LoadPasses(levelInfo);
         }
     }
 
@@ -125,7 +127,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         set
         {
             _canPlay = value;
-            canPlayImage.gameObject.SetActive(value);
         }
     }
 
@@ -136,11 +137,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         set
         {
             _canDownload = value;
-            canDownloadImage.gameObject.SetActive(value);
         }
     }
 
-    public Image difficultyIcon, background, canDownloadImage, canPlayImage, likeImage, curationIcon;
+    public Image difficultyIcon, background, likeImage, curationIcon;
     public TextMeshProUGUI idText,
         artistText,
         levelNameText,
@@ -172,11 +172,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             {
                 CanDownload = false;
             }
-            if (levelInfo.DlLink == null ||
-                (!levelInfo.DlLink.Contains("drive.google") &&
-                !levelInfo.DlLink.Contains("discord") &&
-                !levelInfo.DlLink.Contains("hyonsu") &&
-                !levelInfo.DlLink.Contains("api.tuforums.com/cdn/")))
+            if (levelInfo.DlLink == null || !levelInfo.DlLink.Contains("api.tuforums.com/cdn/"))
             {
                 CanPlay = false;
             }
@@ -239,8 +235,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void InfoButtonClick()
     {
-        LeaderboardScript.instance.LoadPasses(levelInfo);
-
         if (!IsSelected)
         {
             foreach (var level in LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>())

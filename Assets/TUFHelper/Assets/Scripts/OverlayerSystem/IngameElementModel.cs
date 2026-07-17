@@ -1,16 +1,23 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Numerics;
-using Newtonsoft.Json;
-
+using UnityEngine;
+using Vector2 = System.Numerics.Vector2;
 public class IngameElementModel : INotifyPropertyChanged
 {
-    private Vector2 _position = new();
+    private Vector2 _position = new Vector2();
+
     [ShowInOverlayerSettings("Position")]
     public Vector2 Position
     {
         get => _position;
-        set { _position = value; OnPropertyChanged(); }
+        set
+        {
+            if (_position.X == value.X && _position.Y == value.Y) return;
+            _position = value;
+            OnPropertyChanged();
+        }
     }
 
     private float _scale = 0.5f;
@@ -19,14 +26,24 @@ public class IngameElementModel : INotifyPropertyChanged
     public float Scale
     {
         get => _scale;
-        set { _scale = value; OnPropertyChanged(); }
+        set
+        {
+            if (Mathf.Approximately(_scale, value)) return; 
+            _scale = value;
+            OnPropertyChanged();
+        }
     }
 
     private bool _isShowed = true;
     public bool IsShowed
     {
         get => _isShowed;
-        set { _isShowed = value; OnPropertyChanged(); }
+        set
+        {
+            if (_isShowed == value) return;
+            _isShowed = value;
+            OnPropertyChanged();
+        }
     }
 
     [JsonProperty(ItemTypeNameHandling = TypeNameHandling.Auto)]

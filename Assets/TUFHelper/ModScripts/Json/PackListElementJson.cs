@@ -25,6 +25,8 @@ namespace TUFHelper.ModScripts.Json
         public UserJson PackOwner { get; set; }
         [JsonProperty("packItems")]
         public PackReferenceLevelJson[] PackItems { get; set; }
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
     }
     public class ReferenceLevelJson
     {

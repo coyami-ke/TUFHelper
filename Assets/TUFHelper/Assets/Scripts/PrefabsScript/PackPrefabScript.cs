@@ -147,12 +147,9 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         try 
         {
-            HttpResponseMessage response = await Main.Client.GetAsync($"{TUFAPIRequest_Packs.DEFAULT_URL}/{PackInfo.ID}?tree=true");
-            string json = await response.Content.ReadAsStringAsync();
+            PackListScript.Instance.ShowPackView();
 
-            PackRootJson pack = JsonConvert.DeserializeObject<PackRootJson>(json);
-
-            ProcessNode(pack.Items[0]);
+            PackListScript.Instance.SetPackInfo(PackInfo, pfpImage.sprite, iconImage.sprite);
         }
         catch (HttpRequestException ex)
         {

@@ -1,8 +1,9 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
@@ -40,18 +41,23 @@ public class PackListScript : MonoBehaviour
     private CancellationTokenSource requestCancelToken;
     private bool isLoading = false;
 
-    public GameObject packPrefab, packsParent, verticalScroll;
+    public GameObject packPrefab, packsParent, verticalScroll, packView;
+
+    public TextMeshProUGUI packInfo_levelsNumber, packInfo_itemsNumber, packInfo_created, packInfo_name, packInfo_ownerName;
+    public Image packInfo_pfpImage, packInfo_iconImage;
 
     public TMP_InputField searchField;
     public TMP_Dropdown sortByDropdown, sortOrderDropdown;
 
-    private RectTransform packsParentRect;
-
     public TUFAPIRequest_Packs WebRequest { get; private set; }
     public PackListViewModel ViewModel { get; private set; }
 
+    public static PackListScript Instance { get; private set;  }
+
     public void Awake()
     {
+        Instance = this;
+
         WebRequest = new(15);
         ViewModel = new();
 
@@ -61,18 +67,13 @@ public class PackListScript : MonoBehaviour
 
     public async void Start()
     {
-        packsParentRect = packsParent.GetComponent<RectTransform>();
-
-        // --- DYNAMIC EVENT LISTENER REGISTRATION ---
         if (searchField != null)
         {
-            // Fires automatically when the player presses Enter or deselects the box
             searchField.onEndEdit.AddListener(OnSearchBarEnter);
         }
 
         if (sortByDropdown != null)
         {
-            // Fires instantly when a new option item is clicked
             sortByDropdown.onValueChanged.AddListener(OnSortByChanged);
         }
 
@@ -81,8 +82,42 @@ public class PackListScript : MonoBehaviour
             sortOrderDropdown.onValueChanged.AddListener(OnSortOrderChanged);
         }
 
-        // Run the initial API request data fetch
         await UpdatePackListAsync();
+    }
+
+    public void ShowPackView()
+    {
+        packView.SetActive(true);
+        searchField.gameObject.SetActive(false);
+        sortByDropdown.gameObject.SetActive(false);
+        sortOrderDropdown.gameObject.SetActive(false);
+        gameObject.SetActive(false);
+    }
+    public void HidePackView()
+    {
+        packView.SetActive(false);
+        searchField.gameObject.SetActive(true);
+        sortByDropdown.gameObject.SetActive(true);
+        sortOrderDropdown.gameObject.SetActive(true);
+        gameObject.SetActive(true);
+    }
+    public async void SetPackInfo(PackListElementJson info, Sprite pfp, Sprite icon)
+    {
+        packInfo_pfpImage.sprite = pfp;
+        packInfo_iconImage.sprite = icon;
+        packInfo_name.text = info.Name;
+        if (info.PackOwner.Nickname != null) packInfo_ownerName.text = info.PackOwner.Nickname;
+        else if (info.PackOwner.Username != null) packInfo_ownerName.text = info.PackOwner.Username;
+        else packInfo_ownerName.text = "";
+
+        packInfo_levelsNumber.text = info.TotalLevelCount.ToString();
+        packInfo_created.text = info.CreatedAt.ToShortDateString();
+        packInfo_itemsNumber.text = "items";
+
+        HttpResponseMessage response = await Main.Client.GetAsync($"{TUFAPIRequest_Packs.DEFAULT_URL}/{info.ID}?tree=true");
+        string json = await response.Content.ReadAsStringAsync();
+
+        PackRootJson pack = JsonConvert.DeserializeObject<PackRootJson>(json);
     }
 
     public async void Update()
@@ -162,8 +197,6 @@ public class PackListScript : MonoBehaviour
 
         ClearPacks();
         await UpdatePackListAsync();
-
-        Main.Logger.Log("Search: " + WebRequest.Query);
     }
 
     public async void OnSortByChanged(int index)
@@ -186,8 +219,6 @@ public class PackListScript : MonoBehaviour
 
         ClearPacks();
         await UpdatePackListAsync();
-
-        Main.Logger.Log("Sort By: " + WebRequest.SortBy.ToString());
     }
 
     public async void OnSortOrderChanged(int index)
@@ -204,8 +235,6 @@ public class PackListScript : MonoBehaviour
 
         ClearPacks();
         await UpdatePackListAsync();
-
-        Main.Logger.Log("Sort Order: " + WebRequest.SortAsc.ToString());
     }
 
     public async Task UpdatePackListAsync()

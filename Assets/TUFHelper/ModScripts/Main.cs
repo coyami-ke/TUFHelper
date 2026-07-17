@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using DG.Tweening;
 using System.Net.Http;
+using UnityModManagerNet;
 
 namespace TUFHelper 
 {
@@ -135,6 +136,12 @@ namespace TUFHelper
             LanguageManager.Init();
 
             IngameUIManager.Instance.Initialize();
+
+            //var mod = UnityModManager.modEntries.FirstOrDefault(e => e.Info.Id == "XPerfect");
+            //if (mod != null)
+            //{
+            //    Main.Logger.Log("XPerfect is detected");
+            //}
         }
 
         private static bool HasBundles(string folder)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -18,10 +19,9 @@ public class LevelInfo : MonoBehaviour
     }
     public void Start()
     {
-        IsShow = Main.Setting.ShowOnlyDownloaded;
     }
 
-    private bool isShow;
+    private bool isShow = true;
     public bool IsShow
     {
         get => isShow;
@@ -32,14 +32,28 @@ public class LevelInfo : MonoBehaviour
         }
     }
 
-    public void LoadInfoFromFile(CustomLevelInfoJson info)
+    public void LoadLevelInfo(LevelListInfoElementJson info)
     {
-        bpm.text = info.BPM.ToString();
-        tiles.text = info.Tiles.ToString();
+        if (info == null)
+        {
+            bpm.text = "unknown";
+            tiles.text = "unknown";
+            lenght.text = "unknown";
+        }
+        if (info.BPM != null) bpm.text = info.BPM.ToString();
+        else bpm.text = "unknown";
+        if (info.TileCount != null) tiles.text = info.TileCount.ToString();
+        else tiles.text = "unknown";
 
-        int minutes = Mathf.FloorToInt(info.Lenght / 60f);
-        int seconds = Mathf.FloorToInt(info.Lenght % 60f);
-        lenght.text = $"{minutes}:{seconds:D2}";
+        if (info.LevelLengthInMs.HasValue)
+        {
+            TimeSpan time = TimeSpan.FromMilliseconds(info.LevelLengthInMs.Value);
+
+            lenght.text = string.Format("{0}:{1:D2}", (int)time.TotalMinutes, time.Seconds);
+        }
+        else
+        {
+            lenght.text = "unknown";
+        }
     }
-
 }

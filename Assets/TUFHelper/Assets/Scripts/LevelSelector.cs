@@ -56,20 +56,13 @@ public class LevelSelector : MonoBehaviour
             RectTransform rect = obj.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform);
 
-            rect.localScale = Vector3.one;
-            rect.offsetMin = new Vector2(0, 0);
-            rect.offsetMax = new Vector2(0, 0);
-            rect.sizeDelta = new Vector2(0, 120);
-            rect.sizeDelta = new(400, 62.5f);
             rect.anchoredPosition = new Vector3(0, (count * - 62.5f) -50);
-
-
 
             count++;
         }
 
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-        float totalHeight = count * 62.5f + 70;
+        float totalHeight = count * 62.5f + 50;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
     public IEnumerator LoadLevelsCo(List<string> levels)

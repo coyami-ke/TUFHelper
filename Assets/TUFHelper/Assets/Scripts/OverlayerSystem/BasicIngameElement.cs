@@ -16,6 +16,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     private GameObject[] settingsHandles;
 
     public IngameElementModel Model { get; private set; }
+    public bool IsInSettings { get; set; } = false;
 
     public virtual string ID => GetType().Name;
     public virtual string NameInSettings => ID;
@@ -23,11 +24,18 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual Vector2 DefaultPosition => Vector2.zero;
     public abstract bool IsShownOnlyInTUFHelper { get; }
 
-    protected virtual void Start()
+    // Change Start to Awake for structural caching
+    protected virtual void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         parentRectTransform = transform.parent as RectTransform;
         canvas = GetComponentInParent<Canvas>();
+    }
+
+    protected virtual void Start()
+    {
+        if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
+        if (parentRectTransform == null) parentRectTransform = transform.parent as RectTransform;
 
         if (Main.Setting.IngameElementsSettings.ContainsKey(ID))
         {
@@ -37,12 +45,15 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         {
             Model = new IngameElementModel() { Position = DefaultPosition.ToSystem() };
             Main.Setting.IngameElementsSettings[ID] = Model;
+            Main.Setting.Save(Main.ModEntry);
         }
 
         OnLoadCustomSettings(Model);
 
         rectTransform.anchoredPosition = Model.Position.ToUnity();
         rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f);
+
+        Canvas.ForceUpdateCanvases();
 
         UpdateVisibility();
 
@@ -51,12 +62,15 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ADOFAIGameplayHandler.Editor_PlayButtonPressed += HandlePlay;
         ADOFAIGameplayHandler.Editor_Hit += HandleHit;
         ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += HandleReturnToEditor;
+        ADOFAIGameplayHandler.Editor_HitMargin += ADOFAIGameplayHandler_Editor_HitMargin;
 
         if (gameObject.activeSelf && ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo != null)
         {
             var dummyArgs = new PlayButtonEventArgs(ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo, ADOFAIGameplayHandler.IsFromTUFHelper);
             OnPlay(dummyArgs);
         }
+
+        Main.Logger.Log(Model.Position.ToString());
     }
 
     private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -75,7 +89,9 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         if (Model == null) return;
 
         bool globalOverlayerActive = Main.Setting.ShowTUFHelperOverlayer;
-        bool shouldShowWithoutMod = (ADOFAIGameplayHandler.IsFromTUFHelper == IsShownOnlyInTUFHelper) || IsShownOnlyInTUFHelper;
+
+        bool shouldShowWithoutMod = !IsShownOnlyInTUFHelper || (ADOFAIGameplayHandler.IsFromTUFHelper || IsInSettings);
+
         bool shouldShow = globalOverlayerActive && Model.IsShowed && ShouldElementBeVisible() && shouldShowWithoutMod;
 
         if (gameObject.activeSelf != shouldShow)
@@ -104,6 +120,14 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
     }
 
+    private void ADOFAIGameplayHandler_Editor_HitMargin(object sender, HitMarginEventArgs e)
+    {
+        if (gameObject.activeSelf)
+        {
+            OnHitMargin(e);
+        }
+    }
+
     private void HandleReturnToEditor(object sender, ScnGameTransferToEditorEventArgs e)
     {
         gameObject.SetActive(false);
@@ -117,6 +141,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     protected virtual void OnPlay(PlayButtonEventArgs e) { }
 
     protected virtual void OnHit(HitMargin hit) { }
+    protected virtual void OnHitMargin(HitMarginEventArgs e) { }
 
     protected virtual void OnReturnToEditor(ScnGameTransferToEditorEventArgs e) { }
     protected virtual void OnLoadCustomSettings(IngameElementModel model) { }

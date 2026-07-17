@@ -39,15 +39,39 @@ namespace DirectLevel
 
             if (!Directory.Exists(path)) return result;
 
-            foreach (var file in new DirectoryInfo(path).GetFiles())
+            try
             {
-                if (!file.Extension.ToLower().Contains("adofai")) continue;
-                if (file.Name.Contains("backup")) continue;
+                var files = new DirectoryInfo(path).GetFiles("*.adofai", SearchOption.AllDirectories);
 
-                result.Add(file.FullName);
+                foreach (var file in files)
+                {
+                    if (file.Name.Contains("backup")) continue;
+
+                    result.Add(file.FullName);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                Main.Logger.Error($"Access denied to some folders in path {path}: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.Error($"Failed searching directories: {ex.Message}");
             }
 
             return result.OrderByDescending(f => new FileInfo(f).Length).ToList();
+        }
+
+        private static readonly char[] InvalidFilenameChars = Path.GetInvalidFileNameChars();
+        public static string MakeSafeFilename(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return "Unknown";
+
+            string clean = string.Join("_", name.Split(InvalidFilenameChars, StringSplitOptions.RemoveEmptyEntries));
+
+            clean = clean.Trim().TrimEnd('.');
+
+            return string.IsNullOrEmpty(clean) ? "Restricted_Name" : clean;
         }
 
         public Task DownloadWithTask(string defaultPath, bool checkFileSize, CancellationToken token)
@@ -60,7 +84,10 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
-                    var path = Path.Combine(defaultPath, $"{_levelInfo.Artist} - {_levelInfo.Song} {_levelInfo.ID}");
+                    string safeArtist = MakeSafeFilename(_levelInfo.Artist);
+                    string safeSong = MakeSafeFilename(_levelInfo.Song);
+
+                    var path = Path.Combine(defaultPath, $"{safeArtist} - {safeSong} {_levelInfo.ID}");
                     var zipPath = $"{path}.zip";
 
                     if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)
