@@ -6,6 +6,7 @@ using System.Reflection;
 using TUFHelper.ModScripts.Json;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityModManagerNet;
 
 namespace TUFHelper.Utils
@@ -18,6 +19,7 @@ namespace TUFHelper.Utils
             IsFromTUFHelper = isFromTUFHelper;
         }
     }
+
     public class PlayButtonEventArgs : EventArgs
     {
         public LevelListInfoElementJson CurrentLevelInfo { get; }
@@ -32,22 +34,57 @@ namespace TUFHelper.Utils
             CurrentRatingInfo = rating;
         }
     }
+
     public class HitMarginEventArgs : EventArgs
     {
-        public bool IsXPerfect { get; }
+        public DetailedJudge DetailedJudge { get; }
         public HitMargin Hit { get; }
-        public HitMarginEventArgs(bool isXPerfect, HitMargin hit)
+        public HitMarginEventArgs(DetailedJudge detailedJudge, HitMargin hit)
         {
-            IsXPerfect = isXPerfect;
+            DetailedJudge = detailedJudge;
             Hit = hit;
         }
     }
+
+    public enum DetailedJudge
+    {
+        None,
+        XPerfect,
+        PlusPerfect,
+        MinusPerfect,
+    }
+
     public static class ADOFAIGameplayHandler
     {
         public static event EventHandler<PlayButtonEventArgs> Editor_PlayButtonPressed;
         public static event EventHandler<HitMargin> Editor_Hit;
         public static event EventHandler<ScnGameTransferToEditorEventArgs> Editor_ScnGameTransferToEditor;
-        public static event EventHandler<HitMarginEventArgs> Editor_HitMargin; 
+        public static event EventHandler<HitMarginEventArgs> Editor_HitMargin;
+
+        public static void OpenLevel(string pathToLevel, LevelListInfoElementJson levelInfo)
+        {
+            HideUIFixPatch.RecentDirectLevelOpend = true;
+
+            GCS.sceneToLoad = "scnEditor";
+            GCS.worldEntrance = null;
+            scnEditor.levelToOpenOnLoad = pathToLevel;
+
+            IsFromTUFHelper = true;
+
+            EditorPlayPatch.CurrentLevelInfo = levelInfo;
+
+            try
+            {
+                var account = AccountSaver.GetAccount();
+            }
+            catch
+            {
+                EditorPlayPatch.RatingMode = false;
+                EditorPlayPatch.CurrentRating = null;
+            }
+
+            SceneManager.LoadScene("scnEditor");
+        }
 
         public static bool IsFromTUFHelper { get; set; }
 
@@ -68,7 +105,6 @@ namespace TUFHelper.Utils
             public static bool RatingMode { get; set; }
             public static void Prefix()
             {
-                Main.Logger.Log("onplay");
                 Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, IsFromTUFHelper, RatingMode, CurrentRating));
             }
         }
@@ -97,13 +133,13 @@ namespace TUFHelper.Utils
                 {
                     if (__result != HitMargin.Perfect)
                     {
-                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(false, __result));
+                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
                         return;
                     }
 
                     if (RDC.auto)
                     {
-                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(true, __result));
+                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.XPerfect, __result));
                         return;
                     }
 
@@ -115,14 +151,26 @@ namespace TUFHelper.Utils
                     double val = radBoundary * RadToDegMultiplier;
                     double actualXPerfectBoundaryDeg = Math.Max(15.0, val);
 
-                    bool isXPerfect = (double)absoluteDeltaDeg <= actualXPerfectBoundaryDeg;
+                    DetailedJudge judge;
+                    if ((double)absoluteDeltaDeg <= actualXPerfectBoundaryDeg)
+                    {
+                        judge = DetailedJudge.XPerfect;
+                    }
+                    else if (signedDeltaDeg < 0f)
+                    {
+                        judge = DetailedJudge.PlusPerfect;
+                    }
+                    else
+                    {
+                        judge = DetailedJudge.MinusPerfect;
+                    }
 
-                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(isXPerfect, __result));
+                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(judge, __result));
                 }
                 catch (Exception arg)
                 {
                     Main.Logger.Log($"[TUFHelper] Error during self-contained XPerfect calculation: {arg}");
-                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(false, __result));
+                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
                 }
             }
         }

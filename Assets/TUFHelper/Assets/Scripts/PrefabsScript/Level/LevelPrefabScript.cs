@@ -295,11 +295,11 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => TryToLoadLevel(levelInfo, args.Levels[0]));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], levelInfo));
                 break;
             default:
-                LevelSelector.instance.LevelInfo = this.levelInfo;
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
+                LevelSelector.instance.LevelInfo = levelInfo;
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, levelInfo));
                 break;
         }
 
@@ -338,30 +338,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public void TryLikeLevel()
     {
 
-    }
-    public static void TryToLoadLevel(LevelListInfoElementJson levelInfo, string levelFilePath = null)
-    {
-        HideUIFixPatch.RecentDirectLevelOpend = true;
-
-        GCS.sceneToLoad = "scnEditor";
-        GCS.worldEntrance = null;
-        scnEditor.levelToOpenOnLoad = levelFilePath;
-
-        ADOFAIGameplayHandler.IsFromTUFHelper = true;
-
-        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
-
-        try
-        {
-            var account = AccountSaver.GetAccount();
-        }
-        catch
-        {
-            ADOFAIGameplayHandler.EditorPlayPatch.RatingMode = false;
-            ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = null;
-        }
-
-        SceneManager.LoadScene("scnEditor");
     }
 
     public void OnPointerClick(PointerEventData eventData)

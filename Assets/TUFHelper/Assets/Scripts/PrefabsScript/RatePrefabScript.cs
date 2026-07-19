@@ -117,16 +117,16 @@ public class RatePrefabScript : MonoBehaviour
     {
         switch (args.Levels.Count)
         {
-            case 0:
-                throw new Exception("adofai file was not found");
-            case 1:
-                UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(lastLevel, args.Levels[0]));
-                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
-                break;
-            default:
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
-                ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
-                break;
+            //case 0:
+            //    throw new Exception("adofai file was not found");
+            //case 1:
+            //    UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(lastLevel, args.Levels[0]));
+            //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
+            //    break;
+            //default:
+            //    StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels));
+            //    ADOFAIGameplayHandler.EditorPlayPatch.CurrentRating = RatingInfo;
+            //    break;
         }
     }
     private void ExceptionCatch(Exception ex)

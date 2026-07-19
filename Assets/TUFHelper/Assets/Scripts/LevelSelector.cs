@@ -65,12 +65,12 @@ public class LevelSelector : MonoBehaviour
         float totalHeight = count * 62.5f + 50;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
-    public IEnumerator LoadLevelsCo(List<string> levels)
+    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo)
     {
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
         yield return new WaitForEndOfFrame();
 
-        LoadLevels(levels, LevelInfo);
+        LoadLevels(levels, levelInfo);
     }
 
     public void Hide()

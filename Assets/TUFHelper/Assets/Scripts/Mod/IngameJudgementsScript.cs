@@ -11,12 +11,14 @@ public class IngameJudgementsScript : BasicIngameElement
     private int tooEarlyCount = 0;
     private int veryEarlyCount = 0;
     private int earlyPerfectCount = 0;
-    private int perfectCount = 0;
+    private int plusPerfectCount = 0;
     private int xPerfectCount = 0;
+    private int minusPerfectCount = 0;
     private int latePerfectCount = 0;
     private int veryLateCount = 0;
     private int tooLateCount = 0;
     private int missOverloadCount = 0;
+    private int missDeathCount = 0;
 
     public override bool IsShownOnlyInTUFHelper => false;
 
@@ -24,35 +26,33 @@ public class IngameJudgementsScript : BasicIngameElement
     public override string ID => "Judgements";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
 
-    public override void OnSettingsOpened()
+    private void ResetCounters()
     {
         tooEarlyCount = 0;
         veryEarlyCount = 0;
         earlyPerfectCount = 0;
-        perfectCount = 0;
+        plusPerfectCount = 0;
         xPerfectCount = 0;
+        minusPerfectCount = 0;
         latePerfectCount = 0;
         veryLateCount = 0;
         tooLateCount = 0;
         missOverloadCount = 0;
+        missDeathCount = 0;
+    }
 
+    public override void OnSettingsOpened()
+    {
+        ResetCounters();
         UpdateTextDisplay();
     }
 
     protected override void OnPlay(PlayButtonEventArgs e)
     {
-        tooEarlyCount = 0;
-        veryEarlyCount = 0;
-        earlyPerfectCount = 0;
-        perfectCount = 0;
-        xPerfectCount = 0;
-        latePerfectCount = 0;
-        veryLateCount = 0;
-        tooLateCount = 0;
-        missOverloadCount = 0;
-
+        ResetCounters();
         UpdateTextDisplay();
     }
+
     protected override void OnHitMargin(HitMarginEventArgs e)
     {
         if (e.Hit == HitMargin.Auto) return;
@@ -60,13 +60,17 @@ public class IngameJudgementsScript : BasicIngameElement
         switch (e.Hit)
         {
             case HitMargin.Perfect:
-                if (e.IsXPerfect)
+                if (e.DetailedJudge == DetailedJudge.XPerfect)
                 {
                     xPerfectCount++;
                 }
-                else
+                else if (e.DetailedJudge == DetailedJudge.PlusPerfect)
                 {
-                    perfectCount++;
+                    plusPerfectCount++;
+                }
+                else if (e.DetailedJudge == DetailedJudge.MinusPerfect)
+                {
+                    minusPerfectCount++;
                 }
                 break;
 
@@ -95,6 +99,9 @@ public class IngameJudgementsScript : BasicIngameElement
                 break;
 
             case HitMargin.FailMiss:
+                missDeathCount++;
+                break;
+
             case HitMargin.FailOverload:
             case HitMargin.Multipress:
             case HitMargin.OverPress:
@@ -109,11 +116,13 @@ public class IngameJudgementsScript : BasicIngameElement
     {
         if (text == null) return;
 
-        text.text = $"<color=red>{tooEarlyCount}</color> " +
+        text.text = $"<color=#ca69ff>{missDeathCount}</color> " +
+                    $"<color=red>{tooEarlyCount}</color> " +
                     $"<color=orange>{veryEarlyCount}</color> " +
                     $"<color=yellow>{earlyPerfectCount}</color> " +
-                    $"<color=green>{perfectCount}</color> " +
+                    $"<color=green>{plusPerfectCount}</color> " +
                     $"<color=#69afff>{xPerfectCount}</color> " +
+                    $"<color=green>{minusPerfectCount}</color> " +
                     $"<color=yellow>{latePerfectCount}</color> " +
                     $"<color=orange>{veryLateCount}</color> " +
                     $"<color=red>{tooLateCount}</color> " +

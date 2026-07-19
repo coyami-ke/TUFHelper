@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        UIScript.SwipeToBlack(() => LevelPrefabScript.TryToLoadLevel(levelInfo, fullPath));
+        UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(fullPath, levelInfo));
     }
 
     public void OnPointerEnter(PointerEventData eventData)
