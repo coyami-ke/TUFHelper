@@ -73,15 +73,15 @@ namespace TUFHelper.Utils
 
             EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
-            try
-            {
-                var account = AccountSaver.GetAccount();
-            }
-            catch
-            {
-                EditorPlayPatch.RatingMode = false;
-                EditorPlayPatch.CurrentRating = null;
-            }
+            //try
+            //{
+            //    var account = AccountSaver.GetAccount();
+            //}
+            //catch
+            //{
+            //    EditorPlayPatch.RatingMode = false;
+            //    EditorPlayPatch.CurrentRating = null;
+            //}
 
             SceneManager.LoadScene("scnEditor");
         }

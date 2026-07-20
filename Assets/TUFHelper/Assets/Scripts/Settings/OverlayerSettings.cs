@@ -33,16 +33,6 @@ public class OverlayerSettings : MonoBehaviour
             var element = instance.GetComponentInChildren<BasicIngameElement>();
             if (element != null)
             {
-                //if (Main.Setting.IngameElementsSettings.ContainsKey(element.ID))
-                //{
-                //}
-                //else
-                //{
-                //    var newModel = new IngameElementModel();
-                //    Main.Setting.IngameElementsSettings[element.ID] = newModel;
-                //}
-
-                //element.gameObject.SetActive(true);
                 element.IsInSettings = true;
                 element.UpdateVisibility();
                 element.OnSettingsOpened();
