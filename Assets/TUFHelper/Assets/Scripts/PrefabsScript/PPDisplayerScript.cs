@@ -35,7 +35,7 @@ public class PPDisplayerScript : BasicIngameElement
     public override string NameInSettings => "Score & Speed";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
 
-    private static ADOFAI.LevelData leveldata
+    private ADOFAI.LevelData leveldata
     {
         get => scnGame.instance != null ? scnGame.instance.levelData : null;
     }
@@ -50,8 +50,9 @@ public class PPDisplayerScript : BasicIngameElement
             ? scrLevelMaker.instance.listFloors.Count - 1
             : 0;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         if (PP != null) PP.text = string.Empty;
         if (Speed != null) Speed.text = string.Empty;
 
