@@ -1,7 +1,10 @@
 using DG.Tweening;
+using DirectLevel;
+using System;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,6 +21,8 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (!node.IsLevel) return;
 
+        LevelInfo = node.ReferencedLevel;
+
         levelNameText.text = node.ReferencedLevel.Song;
         artistText.text = node.ReferencedLevel.Artist;
         creatorText.text = node.ReferencedLevel.Creator;
@@ -29,7 +34,53 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        
+        ErrorScript.instance.gameObject.SetActive(false);
+
+        try
+        {
+
+            LevelDownloader levelDownloder = new(LevelInfo)
+            {
+                ErrorHandler = (ex) =>
+                {
+                    DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
+                }
+            };
+
+            DownloadPanel.instance.DownloadLevel(levelDownloder);
+
+            levelDownloder.DownloadComplete += OnCompleteDownload;
+
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            ExceptionCatch(ex);
+        }
+    }
+    private void ExceptionCatch(Exception ex)
+    {
+        ErrorScript.ShowError(ex.Message);
+        Main.Logger.Error(ex.StackTrace);
+    }
+
+    private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
+    {
+        switch (args.Levels.Count)
+        {
+            case 0:
+                throw new Exception("adofai file was not found");
+            case 1:
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], LevelInfo));
+                break;
+            default:
+                LevelSelector.instance.LevelInfo = LevelInfo;
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, LevelInfo));
+                break;
+        }
+
+        ADOFAIGameplayHandler.IsFromTUFHelper = true;
+        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = LevelInfo;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

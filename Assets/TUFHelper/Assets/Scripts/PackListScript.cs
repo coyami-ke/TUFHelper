@@ -126,6 +126,7 @@ public class PackListScript : MonoBehaviour
 
             if (packTreeController != null && packRoot?.Items != null)
             {
+                packInfo_itemsNumber.text = packRoot.Items.Count.ToString();
                 packTreeController.BuildTree(packRoot.Items);
             }
         }
