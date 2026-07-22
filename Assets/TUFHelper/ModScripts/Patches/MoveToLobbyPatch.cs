@@ -91,14 +91,6 @@ namespace TUFHelper
                 }
             }
         }
-        [HarmonyPatch(typeof(scnEditor), "OpenLevelCo")]
-        public static class OnLevelOpen
-        {
-            public static void Prefix()
-            {
-                ADOFAIGameplayHandler.IsFromTUFHelper = false;
-            }
-        }
 
         [HarmonyPatch(typeof(scrController), "OnLandOnPortal")]
         public static class OnLandOnPortal

@@ -42,6 +42,7 @@ public class PackListScript : MonoBehaviour
     private bool isLoading = false;
 
     public GameObject packPrefab, packsParent, verticalScroll, packView;
+    public PackTreeUIController packTreeController;
 
     public TextMeshProUGUI packInfo_levelsNumber, packInfo_itemsNumber, packInfo_created, packInfo_name, packInfo_ownerName;
     public Image packInfo_pfpImage, packInfo_iconImage;
@@ -114,10 +115,24 @@ public class PackListScript : MonoBehaviour
         packInfo_created.text = info.CreatedAt.ToShortDateString();
         packInfo_itemsNumber.text = "items";
 
-        HttpResponseMessage response = await Main.Client.GetAsync($"{TUFAPIRequest_Packs.DEFAULT_URL}/{info.ID}?tree=true");
-        string json = await response.Content.ReadAsStringAsync();
+        ShowPackView();
 
-        PackRootJson pack = JsonConvert.DeserializeObject<PackRootJson>(json);
+        try
+        {
+            HttpResponseMessage response = await Main.Client.GetAsync($"{TUFAPIRequest_Packs.DEFAULT_URL}/{info.ID}?tree=true");
+            string json = await response.Content.ReadAsStringAsync();
+
+            PackRootJson packRoot = JsonConvert.DeserializeObject<PackRootJson>(json);
+
+            if (packTreeController != null && packRoot?.Items != null)
+            {
+                packTreeController.BuildTree(packRoot.Items);
+            }
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"Failed to load pack tree structure for pack {info.ID}: {ex.Message}");
+        }
     }
 
     public async void Update()

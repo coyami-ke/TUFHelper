@@ -173,8 +173,6 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
         if (node.IsFolder)
         {
-            Main.Logger.Log($"{indent}[Folder] Name: {node.Name} (ID: {node.Id})");
-
             foreach (var childNode in node.Children)
             {
                 ProcessNode(childNode, depth + 1);
@@ -183,7 +181,6 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         else if (node.IsLevel)
         {
             var track = node.ReferencedLevel;
-            Main.Logger.Log($"{indent}[Level] Track: {track?.Artist} - {track?.Song} (Diff: {track?.DiffID})");
         }
     }
 }

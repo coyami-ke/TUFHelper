@@ -75,32 +75,31 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                     var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
                     if (levelOffline != null)
                     {
-                        //LevelInfo.instance.LoadInfoFromFile(levelOffline.LocalData);
-                        //string pathToBG = Path.Combine(levelOffline.NameFolder, "bg.png");
-                        //if (!File.Exists(pathToBG))
-                        //    pathToBG = Path.Combine(levelOffline.NameFolder, "bg.jpg");
+                        string pathToFolder = LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID);
 
-                        //if (File.Exists(pathToBG))
-                        //{
-                        //    SpriteLoader.instance.gameObject.SetActive(true);
-                        //    SpriteLoader.instance.FromFile(pathToBG);
-                        //}
-                        //else
-                        //{
-                        //    SpriteLoader.instance.gameObject.SetActive(false);
-                        //}
+                        string pathToBG = Path.Combine(pathToFolder, "bg.png");
+                        if (!File.Exists(pathToBG))
+                            pathToBG = Path.Combine(pathToFolder, "bg.jpg");
 
-                        //string oggFile = Directory.GetFiles(levelOffline.NameFolder)
-                        //                              .FirstOrDefault(f => f.EndsWith(".ogg"));
-                        //string mp3File = Directory.GetFiles(levelOffline.NameFolder)
-                        //                          .FirstOrDefault(f => f.EndsWith(".mp3"));
+                        if (File.Exists(pathToBG))
+                        {
+                            SpriteLoader.instance.gameObject.SetActive(true);
+                            SpriteLoader.instance.FromFile(pathToBG);
+                        }
+                        else
+                        {
+                            SpriteLoader.instance.gameObject.SetActive(false);
+                        }
 
-                        //if (oggFile != null)
-                        //    StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
-                        //else if (mp3File != null)
-                        //    StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
-                        //else if (Main.Setting.PlayBackgroundMusic)
-                        //    CustomMusicPlayer.instance.StopPlay();
+                        string oggFile = Directory.GetFiles(pathToFolder)
+                                                      .FirstOrDefault(f => f.EndsWith(".ogg"));
+                        string mp3File = Directory.GetFiles(pathToFolder)
+                                                  .FirstOrDefault(f => f.EndsWith(".mp3"));
+
+                        if (oggFile != null)
+                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
+                        else if (mp3File != null)
+                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
                     }
                     else
                     {
@@ -331,6 +330,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             Main.Setting.FavoriteLevels.Remove(this.levelInfo.ID);
             Main.DownloadedLevels.Levels.Remove(info);
+            Directory.Delete(LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID), true);
             LevelListScript.instance.ClearLevels();
             await LevelListScript.instance.UpdateLevelListAsync();
         }

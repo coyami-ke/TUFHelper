@@ -69,8 +69,6 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             var dummyArgs = new PlayButtonEventArgs(ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo, ADOFAIGameplayHandler.IsFromTUFHelper);
             OnPlay(dummyArgs);
         }
-
-        Main.Logger.Log(Model.Position.ToString());
     }
 
     private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)

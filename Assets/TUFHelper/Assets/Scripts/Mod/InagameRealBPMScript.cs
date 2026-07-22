@@ -20,6 +20,7 @@ public class IngameRealBPMScript : BasicIngameElement
     protected override void OnHit(HitMargin hit)
     {
         scrFloor currentFloor = scrController.instance.currFloor.nextfloor;
+        if (currentFloor == null || currentFloor.nextfloor == null) return;
         float bpm = Mathf.Abs((float)(60f / (currentFloor.nextfloor.entryTime - currentFloor.entryTime)));
         text.text = $"TBPM: " + bpm.ToString("F2");
     }

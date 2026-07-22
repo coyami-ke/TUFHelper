@@ -74,6 +74,14 @@ namespace DirectLevel
             return string.IsNullOrEmpty(clean) ? "Restricted_Name" : clean;
         }
 
+        public static string GetPathToLevelFolder(string defaultPath, string song, string artist, int id)
+        {
+            string safeArtist = MakeSafeFilename(artist);
+            string safeSong = MakeSafeFilename(song);
+
+            return Path.Combine(defaultPath, $"{safeArtist} - {safeSong} {id}");
+        }
+
         public Task DownloadWithTask(string defaultPath, bool checkFileSize, CancellationToken token)
         {
             return Task.Run(async () =>
@@ -84,10 +92,7 @@ namespace DirectLevel
 
                     UpdateProgress?.Invoke(this, new UpdateProgressEventArgs(LevelDownloaderStates.Preparing));
 
-                    string safeArtist = MakeSafeFilename(_levelInfo.Artist);
-                    string safeSong = MakeSafeFilename(_levelInfo.Song);
-
-                    var path = Path.Combine(defaultPath, $"{safeArtist} - {safeSong} {_levelInfo.ID}");
+                    var path = GetPathToLevelFolder(defaultPath, _levelInfo.Song, _levelInfo.Artist, _levelInfo.ID);
                     var zipPath = $"{path}.zip";
 
                     if (!File.Exists(zipPath) && Directory.Exists(path) && Directory.GetFiles(path).Length > 0)

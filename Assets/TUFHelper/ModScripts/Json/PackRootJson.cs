@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Newtonsoft.Json;
+using UnityEngine;
 
 namespace TUFHelper.ModScripts.Json
 {
@@ -45,7 +46,7 @@ namespace TUFHelper.ModScripts.Json
         public int? LevelId { get; set; }
 
         [JsonProperty("referencedLevel")]
-        public ReferenceLevelJson ReferencedLevel { get; set; }
+        public LevelListInfoElementJson ReferencedLevel { get; set; }
         [JsonProperty("children")]
         public List<PackItemNode> Children { get; set; } = new();
         [JsonIgnore]
@@ -53,5 +54,10 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonIgnore]
         public bool IsLevel => Type == "level";
+
+        [JsonIgnore]
+        public bool IsExpanded = false;
+        [JsonIgnore]
+        public MonoBehaviour SpawnedUIScript;
     }
 }

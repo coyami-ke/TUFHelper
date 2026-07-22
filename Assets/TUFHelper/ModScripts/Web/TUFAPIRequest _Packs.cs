@@ -31,8 +31,6 @@ namespace TUFHelper.ModScripts.Web
 
             string url = $"{DEFAULT_URL}?offset={Offset}&limit={Limit}&sort={SortBy}&order={order}&query={encodedQuery}&viewMode=1";
 
-            Main.Logger.Log(url);
-
             try
             {
                 HttpResponseMessage response = await Main.Client.GetAsync(url, token);

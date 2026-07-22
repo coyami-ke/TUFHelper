@@ -55,8 +55,6 @@ public class OverlayerSettings : MonoBehaviour
 
             instance.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -62.5f * i);
 
-            Main.Logger.Log(script.text.text);
-
             i++;
         }
     }
@@ -65,7 +63,6 @@ public class OverlayerSettings : MonoBehaviour
     {
         MonoBehaviour obj = (MonoBehaviour)sender;
         IngameElementInListScript script = obj.GetComponent<IngameElementInListScript>();
-        Main.Logger.Log("Selected: " + script.Element.NameInSettings);
 
         if (categoryPropertiesContentTransform != null)
         {

@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 462.1, y: -13.974998}
+  m_AnchoredPosition: {x: 505.14, y: -16.203}
   m_SizeDelta: {x: 11.474976, y: 11.475}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6265027405510773649
@@ -259,8 +259,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 480.5564, y: -13.974998}
-  m_SizeDelta: {x: 21.7271, y: 7.0501}
+  m_AnchoredPosition: {x: 547.5453, y: -16.203}
+  m_SizeDelta: {x: 65.8364, y: 11.475}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8825681827795909684
 CanvasRenderer:
@@ -317,8 +317,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 4
@@ -396,8 +396,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 369.01227, y: -13.974998}
-  m_SizeDelta: {x: 36.6347, y: 7.0501}
+  m_AnchoredPosition: {x: 379.78375, y: -16.1951}
+  m_SizeDelta: {x: 58.1777, y: 11.4902}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7079920012928013621
 CanvasRenderer:
@@ -454,8 +454,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 4
@@ -666,12 +666,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 16
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 4
-  m_fontSizeMax: 14
+  m_fontSizeMax: 16
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -803,12 +803,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 16
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 4
-  m_fontSizeMax: 14
+  m_fontSizeMax: 16
   m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -882,8 +882,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 421.28983, y: -13.974998}
-  m_SizeDelta: {x: 56.6144, y: 7.0501}
+  m_AnchoredPosition: {x: 454.14, y: -16.195}
+  m_SizeDelta: {x: 90.533, y: 11.49}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1100778114821573444
 CanvasRenderer:
@@ -940,8 +940,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
-  m_fontSizeBase: 8
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 4
@@ -1077,12 +1077,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
+  m_fontSize: 16
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 4
-  m_fontSizeMax: 14
+  m_fontSizeMax: 16
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
@@ -1131,6 +1131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8552517566439648897}
+  - component: {fileID: 6999799186239321949}
   m_Layer: 5
   m_Name: LevelInPack
   m_TagString: Untagged
@@ -1167,3 +1168,23 @@ RectTransform:
   m_AnchoredPosition: {x: 25, y: 0}
   m_SizeDelta: {x: -50, y: 50}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &6999799186239321949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9146151147549208432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6358cbc97f6ee4e83d83d34324d5b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::LevelInPackScript
+  diffIconImage: {fileID: 2338320537991343535}
+  backgroundImage: {fileID: 6178987154960313467}
+  levelNameText: {fileID: 6003605721478787026}
+  artistText: {fileID: 1983211441276486754}
+  creatorText: {fileID: 398210670759296668}
+  idText: {fileID: 5592561333570797902}
+  clearsText: {fileID: 2090570662058523567}
+  likesText: {fileID: 6723071002487639250}
