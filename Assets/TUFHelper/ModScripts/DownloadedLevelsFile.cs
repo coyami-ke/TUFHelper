@@ -45,7 +45,14 @@ namespace TUFHelper
 
         public static DownloadedLevelsFile Load(string path)
         {
-            return JsonConvert.DeserializeObject<DownloadedLevelsFile>(File.ReadAllText(path));
+            if (File.Exists(path))
+            {
+                return JsonConvert.DeserializeObject<DownloadedLevelsFile>(File.ReadAllText(path));
+            }
+            else
+            {
+                return new(path);
+            }
         }
     }
 }

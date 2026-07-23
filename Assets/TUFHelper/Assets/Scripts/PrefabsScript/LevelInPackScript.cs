@@ -1,6 +1,10 @@
 using DG.Tweening;
 using DirectLevel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
+using System.Security.Policy;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
@@ -32,14 +36,43 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         likesText.text = node.ReferencedLevel.Likes.ToString();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    public async void OnPointerClick(PointerEventData eventData)
     {
+        Main.Logger.Log("OnPointerClick");
+
         ErrorScript.instance.gameObject.SetActive(false);
+
+        string url = $"https://api.tuforums.com/v2/database/levels/{LevelInfo.ID}";
+        using var response = await Main.Client.GetAsync(url);
+
+        response.EnsureSuccessStatusCode();
+
+        string json = await response.Content.ReadAsStringAsync();
+
+        var settings = new JsonSerializerSettings
+        {
+            Error = (sender, args) =>
+            {
+                Main.Logger.Log($"[JSON Error] {args.ErrorContext.Error.Message} at {args.ErrorContext.Path}");
+                args.ErrorContext.Handled = true; // Prevents crashing and populates as much of the object as possible
+            }
+        };
+
+        var deserializedLevel = JsonConvert.DeserializeObject<LevelListElementId>(json, settings);
+        if (deserializedLevel == null) Main.Logger.Log("The Level ID is null");
+        var level = deserializedLevel.Level; // null reference exception
+
+        if (deserializedLevel.Level == null) Main.Logger.Log("The Level is null");
+
+        lastLevel = level;
+
+        Main.Logger.Log($"LLL: Base Score : {level.BaseScore}, Diff Base Score : {level.Difficulty.BaseScore}"); // line 60
+        File.WriteAllText(Path.Combine(Main.ModEntry.Path, "level.json"), json);
 
         try
         {
 
-            LevelDownloader levelDownloder = new(LevelInfo)
+            LevelDownloader levelDownloder = new(level)
             {
                 ErrorHandler = (ex) =>
                 {
@@ -64,23 +97,24 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         Main.Logger.Error(ex.StackTrace);
     }
 
-    private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
+    private LevelListInfoElementJson lastLevel;
+    private async void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
         switch (args.Levels.Count)
         {
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], LevelInfo));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], lastLevel));
                 break;
             default:
-                LevelSelector.instance.LevelInfo = LevelInfo;
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, LevelInfo));
+                LevelSelector.instance.LevelInfo = lastLevel;
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, lastLevel));
                 break;
         }
 
         ADOFAIGameplayHandler.IsFromTUFHelper = true;
-        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = LevelInfo;
+        ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = lastLevel;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

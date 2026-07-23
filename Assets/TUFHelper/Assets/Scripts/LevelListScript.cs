@@ -1,24 +1,25 @@
-using Newtonsoft.Json.Linq;
+using DG.Tweening;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TUFHelper;
-using UnityEngine;
-using UnityEngine.Networking;
-using Together.Utils;
-using TUFHelper.ModScripts.Json;
-using UnityEngine.UI;
-using TUFHelper.ModScripts.Web;
-using TMPro;
+using System.IO;
 using System.Linq;
-using UnityEngine.EventSystems;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using TMPro;
+using Together.Utils;
+using TUFHelper;
+using TUFHelper.ModScripts.Json;
+using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
-using System.IO;
-using System.Runtime.CompilerServices;
-using DG.Tweening;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class LevelListViewModel
 {
@@ -369,30 +370,36 @@ public class LevelListScript : MonoBehaviour
             if (DefaultRequest.Query.StartsWith("#"))
             {
                 string id = DefaultRequest.Query.Substring(1);
-                string url = $"https://api.tuforums.com/v2/database/levels/byId/{id}";
+                string url = $"https://api.tuforums.com/v2/database/levels/{id}";
 
-                using var request = UnityWebRequest.Get(url);
-                request.certificateHandler = new CertificateWhore();
-                request.disposeCertificateHandlerOnDispose = true;
-
-                var op = request.SendWebRequest();
-                while (!op.isDone)
+                try
                 {
-                    await Task.Yield();
-                    token.ThrowIfCancellationRequested();
-                }
+                    using var response = await Main.Client.GetAsync(url, token);
 
-                if (request.result != UnityWebRequest.Result.Success)
+                    response.EnsureSuccessStatusCode();
+
+                    string json = await response.Content.ReadAsStringAsync();
+
+                    var level = JsonConvert.DeserializeObject<LevelListElementId>(json).Level;
+
+                    if (level == null) return;
+
+                    ViewModel.Clear();
+                    ViewModel.Add(level);
+                    HasMore = false;
+                }
+                catch (OperationCanceledException)
                 {
-                    return;
+                    // Task was canceled via CancellationToken
                 }
-
-                var json = request.downloadHandler.text;
-                var level = JsonConvert.DeserializeObject<LevelListInfoElementJson>(json);
-
-                ViewModel.Clear();
-                ViewModel.Add(level);
-                HasMore = false;
+                catch (HttpRequestException ex)
+                {
+                    Main.Logger.Error($"[TUFHelper] Network error fetching level {id}: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Main.Logger.Error($"[TUFHelper] Error parsing level {id}: {ex.Message}");
+                }
             }
             else
             {

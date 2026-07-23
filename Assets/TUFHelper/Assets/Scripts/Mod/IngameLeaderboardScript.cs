@@ -48,6 +48,8 @@ public class IngameLeaderboardScript : BasicIngameElement
         }
 
         _cachedLevelData = new PPDisplayerScript.LevelData(e.CurrentLevelInfo);
+
+        Main.Logger.Log($"Base Level Score: {e.CurrentLevelInfo.BaseScore}, Base PP Level Score: {e.CurrentLevelInfo.PPBaseScore}, Diff Base Score: {e.CurrentLevelInfo.Difficulty.BaseScore}");
     }
 
     protected override void OnHit(HitMargin hit)

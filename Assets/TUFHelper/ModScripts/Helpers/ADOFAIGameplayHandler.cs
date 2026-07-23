@@ -131,17 +131,19 @@ namespace TUFHelper.Utils
             {
                 try
                 {
+                    if (RDC.auto)
+                    {
+                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.XPerfect, HitMargin.Perfect));
+                        return;
+                    }
+
                     if (__result != HitMargin.Perfect)
                     {
                         ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
                         return;
                     }
 
-                    if (RDC.auto)
-                    {
-                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.XPerfect, __result));
-                        return;
-                    }
+                    
 
                     float rawDelta = (hitangle - refangle) * RadToDegFloatMultiplier;
                     float signedDeltaDeg = isCW ? rawDelta : -rawDelta;

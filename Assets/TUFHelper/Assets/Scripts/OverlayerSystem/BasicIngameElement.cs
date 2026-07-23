@@ -62,7 +62,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ADOFAIGameplayHandler.Editor_PlayButtonPressed += HandlePlay;
         ADOFAIGameplayHandler.Editor_Hit += HandleHit;
         ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += HandleReturnToEditor;
-        ADOFAIGameplayHandler.Editor_HitMargin += ADOFAIGameplayHandler_Editor_HitMargin;
+        ADOFAIGameplayHandler.Editor_HitMargin += HandleHitMargin;
 
         if (gameObject.activeSelf && ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo != null)
         {
@@ -118,9 +118,9 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
     }
 
-    private void ADOFAIGameplayHandler_Editor_HitMargin(object sender, HitMarginEventArgs e)
+    private void HandleHitMargin(object sender, HitMarginEventArgs e)
     {
-        if (gameObject.activeSelf)
+        if (gameObject.activeSelf) // 123 line in basicingameelement
         {
             OnHitMargin(e);
         }
@@ -278,5 +278,6 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ADOFAIGameplayHandler.Editor_PlayButtonPressed -= HandlePlay;
         ADOFAIGameplayHandler.Editor_Hit -= HandleHit;
         ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor -= HandleReturnToEditor;
+        ADOFAIGameplayHandler.Editor_HitMargin -= HandleHitMargin;
     }
 }
