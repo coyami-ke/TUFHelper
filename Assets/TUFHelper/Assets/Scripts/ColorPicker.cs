@@ -25,8 +25,6 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     private float _hueSelectorInnerRadius = 0.8f;
     [SerializeField, Range(0, 0.5f)] 
     private float _saturationValueSquareSize = 0.25f;
-    [SerializeField] 
-    private string ColorPickerShaderName = "UI/ColorPicker";
 
     [SerializeField, FormerlySerializedAs("colorPickerShader")] private Shader _colorPickerShader;
     private Material _generatedMaterial;
