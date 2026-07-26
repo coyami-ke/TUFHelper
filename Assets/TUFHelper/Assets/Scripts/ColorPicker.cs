@@ -50,15 +50,6 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
 
     public event Action<Color> ColorChanged;
 
-#if UNITY_EDITOR
-    protected override void Reset()
-    {
-        base.Reset();
-
-        _colorPickerShader = Shader.Find(ColorPickerShaderName);
-    }
-#endif
-
     protected override void OnRectTransformDimensionsChange()
     {
         base.OnRectTransformDimensionsChange();

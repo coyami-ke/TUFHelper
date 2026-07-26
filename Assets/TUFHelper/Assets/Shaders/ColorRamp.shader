@@ -85,15 +85,12 @@ Shader "UI/ColorRamp"
 
             float3 EvaluateCatmullRom(float3 p0, float3 p1, float3 p2, float3 p3, float t)
             {
-                float t2 = t * t;
-                float t3 = t2 * t;
+                float3 a = -p0 + 3.0 * p1 - 3.0 * p2 + p3;
+                float3 b = 2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3;
+                float3 c = -p0 + p2;
+                float3 d = 2.0 * p1;
 
-                return 0.5 * (
-                    (2.0 * p1) +
-                    (-p0 + p2) * t +
-                    (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * t2 +
-                    (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * t3
-                );
+                return 0.5 * (((a * t + b) * t + c) * t + d);
             }
 
             fixed4 frag(v2f IN) : SV_Target
