@@ -10,6 +10,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
     public GameObject togglePrefab;
     public GameObject floatPrefab;
     public GameObject vector2Prefab;
+    public GameObject stringPrefab;
 
     public void GenerateInspectorUI(object target)
     {
@@ -59,6 +60,15 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
             {
                 controlObj = Instantiate(vector2Prefab, propertiesContainerParent, false);
                 var controlScript = controlObj.GetComponent<OverlayerVector2PropertyControl>();
+
+                controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) => {
+                    prop.SetValue(target, newValue);
+                });
+            }
+            else if (propType == typeof(string))
+            {
+                controlObj = Instantiate(stringPrefab, propertiesContainerParent, false);
+                var controlScript = controlObj.GetComponent<OverlayerStringPropertyControl>();
 
                 controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) => {
                     prop.SetValue(target, newValue);

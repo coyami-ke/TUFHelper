@@ -15,6 +15,22 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     private Vector2 dragOffset;
     private GameObject[] settingsHandles;
 
+    private bool isSelected = false;
+    public bool IsSelected
+    {
+        get => isSelected;
+        set
+        {
+            if (value == isSelected) return;
+            foreach (var handle in settingsHandles)
+            {
+                if (value) handle.GetComponent<Image>().color = Color.yellow;
+                else handle.GetComponent<Image>().color = Color.green;
+            }
+            isSelected = value;
+        }
+    }
+
     public IngameElementModel Model { get; private set; }
     public bool IsInSettings { get; set; } = false;
 

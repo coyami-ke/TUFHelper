@@ -4,7 +4,7 @@ using TUFHelper;
 using UnityEngine;
 
 [RegisterIngameElement("RealBPM", "assets/tufhelper/assets/prefabs/ingamerealbpm.prefab")]
-public class IngameRealBPMScript : BasicIngameElement
+public class IngameRealBPMScript : IngameVariableScript
 {
     public TextMeshProUGUI text;
 
@@ -14,14 +14,16 @@ public class IngameRealBPMScript : BasicIngameElement
     public override string ID => "RealBPM";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/speed.png");
 
-    public override void OnSettingsOpened()
-    {
-    }
+    protected override TextMeshProUGUI GetText => text;
+
+    protected override string DefaultVariableName => "TBPM";
+
     protected override void OnHit(HitMargin hit)
     {
         scrFloor currentFloor = scrController.instance.currFloor.nextfloor;
         if (currentFloor == null || currentFloor.nextfloor == null) return;
         float bpm = Mathf.Abs((float)(60f / (currentFloor.nextfloor.entryTime - currentFloor.entryTime)));
-        text.text = $"TBPM: " + bpm.ToString("F2");
+
+        UpdateText(bpm.ToString("F2"));
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using DG.Tweening;
 using TMPro;
@@ -83,6 +84,17 @@ public class OverlayerSettings : MonoBehaviour
         }
 
         AddCategories(script.Element.Model);
+
+        foreach (var basicElement in Elements)
+        {
+            basicElement.IsSelected = false;
+        }
+
+        BasicIngameElement element = Elements.FirstOrDefault(b => b.NameInSettings == script.text.text);
+        if (element != null)
+        {
+            element.IsSelected = true;
+        }
     }
     private void AddCategories(IngameElementModel model)
     {

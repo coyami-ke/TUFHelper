@@ -34,7 +34,7 @@ public class SettingTabPrefabScript : MonoBehaviour, IPointerClickHandler, IPoin
             _isSelected = value;
 
             rectTransformLine
-                .DOScaleX(value ? 1 : 0, 1)
+                .DOScaleX(value ? 1 : 0, 0.5f)
                 .SetEase(Ease.OutExpo);
 
             if (value) // only update CurrentTab when selecting
