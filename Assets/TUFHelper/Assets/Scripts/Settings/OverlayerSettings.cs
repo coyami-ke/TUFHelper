@@ -137,8 +137,8 @@ public class OverlayerSettings : MonoBehaviour
             if (baseType.IsAssignableFrom(type) && !type.IsAbstract)
             {
                 var attribute = type.GetCustomAttribute<RegisterIngameElementAttribute>();
-                if (attribute != null)
-                {
+                if (attribute != null)                                   
+                {                                                        
                     _prefabRegistry[attribute.ID] = attribute.PrefabPath;
                 }
             }
