@@ -105,10 +105,7 @@ public class OverlayerSettings : MonoBehaviour
         categoryTransformRect.SetParent(categoriesParentTransform, false);
 
         var transformScript = spawnedTransformCategory.GetComponent<IngameElementPropertiesCategoryScript>();
-        if (transformScript != null)
-        {
-            transformScript.SetModelTarget("Transform", model, categoryPropertiesTransform);
-        }
+        transformScript.SetModelTarget("Transform", model, categoryPropertiesTransform);
 
         categoryTransformRect.DOAnchorPosX(0, 0.5f).SetEase(Ease.OutExpo);
 
@@ -120,10 +117,7 @@ public class OverlayerSettings : MonoBehaviour
             categoryRect.SetParent(categoriesParentTransform, false);
 
             var categoryScript = spawnedCategory.GetComponent<IngameElementPropertiesCategoryScript>();
-            if (categoryScript != null)
-            {
-                categoryScript.SetCategory(category.Value, categoryPropertiesTransform);
-            }
+            categoryScript.SetCategory(category.Value, categoryPropertiesTransform);
 
             categoryRect.DOAnchorPosX((i + 1) * 202.5f, 0.5f).SetEase(Ease.OutExpo);
             i++;

@@ -42,7 +42,7 @@ public class ColorRamp
 
             if (t >= p0.position && t <= p1.position)
             {
-                float localT = (t - p0.position) / Mathf.Max(0.0001f, p1.position - p0.position); // i have no idea wtf this line is even about
+                float localT = (t - p0.position) / Mathf.Max(0.0001f, p1.position - p0.position);
 
                 switch (p0.interpolation)
                 {

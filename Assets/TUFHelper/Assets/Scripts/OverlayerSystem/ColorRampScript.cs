@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
+[ExecuteAlways]
 public class ColorRampScript : MonoBehaviour
 {
     private static readonly int PointCountID = Shader.PropertyToID("_PointCount");
@@ -17,10 +18,6 @@ public class ColorRampScript : MonoBehaviour
 
     [SerializeField]
     private Shader shader;
-
-    private readonly float[] positions = new float[MaxPoints];
-    private readonly Vector4[] colors = new Vector4[MaxPoints];
-    private readonly float[] interps = new float[MaxPoints];
 
     private void Awake()
     {
@@ -45,15 +42,16 @@ public class ColorRampScript : MonoBehaviour
     {
         if (ramp == null || ramp.points == null) return;
 
-        if (image == null)
-            image = GetComponent<Image>();
-
         EnsureMaterialInstance();
         if (instanceMaterial == null) return;
 
         ramp.points.Sort((a, b) => a.position.CompareTo(b.position));
 
         int count = Mathf.Min(ramp.points.Count, MaxPoints);
+
+        float[] positions = new float[MaxPoints];
+        Vector4[] colors = new Vector4[MaxPoints];
+        float[] interps = new float[MaxPoints];
 
         for (int i = 0; i < count; i++)
         {
