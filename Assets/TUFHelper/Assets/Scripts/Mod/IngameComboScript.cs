@@ -17,6 +17,7 @@ public class IngameComboScript : BasicIngameElement
     public override string NameInSettings => "Combo";
     public override string ID => "Combo";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
+    public override Anchor DefaultAnchor => Anchor.MiddleTop;
 
     protected override void Awake()
     {

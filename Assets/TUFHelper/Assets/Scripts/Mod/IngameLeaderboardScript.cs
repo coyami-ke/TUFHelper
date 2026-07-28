@@ -23,6 +23,7 @@ public class IngameLeaderboardScript : BasicIngameElement
     public override bool IsShownOnlyInTUFHelper => true;
     public override string ID => "Leaderboard";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/leaderboard.png");
+    public override Anchor DefaultAnchor => Anchor.RightMiddle;
 
     // Scoring & calculation state cache variables
     private readonly PPDisplayerScript.PassData _cachedPassData = new();

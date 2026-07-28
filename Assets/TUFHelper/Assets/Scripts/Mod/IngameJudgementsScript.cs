@@ -25,6 +25,7 @@ public class IngameJudgementsScript : BasicIngameElement
     public override string NameInSettings => "Judgements";
     public override string ID => "Judgements";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
+    public override Anchor DefaultAnchor => Anchor.MiddleBottom;
 
     private void ResetCounters()
     {

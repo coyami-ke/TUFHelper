@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using TUFHelper;
 using TUFHelper.Utils;
@@ -38,6 +39,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual string NameInSettings => ID;
     public virtual Sprite Icon => null;
     public virtual Vector2 DefaultPosition => Vector2.zero;
+    public virtual Anchor DefaultAnchor => Anchor.Center;
     public abstract bool IsShownOnlyInTUFHelper { get; }
 
     // Change Start to Awake for structural caching
@@ -59,7 +61,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
         else
         {
-            Model = new IngameElementModel() { Position = DefaultPosition.ToSystem() };
+            Model = new IngameElementModel() { Position = DefaultPosition.ToSystem(), Anchor = DefaultAnchor };
             Main.Setting.IngameElementsSettings[ID] = Model;
             Main.Setting.Save(Main.ModEntry);
         }
@@ -67,6 +69,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         OnLoadCustomSettings(Model);
 
         rectTransform.anchoredPosition = Model.Position.ToUnity();
+        UpdateAnchorAndPivot(Model.Anchor);
         rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f);
 
         Canvas.ForceUpdateCanvases();
@@ -87,15 +90,68 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
     }
 
+    public readonly Dictionary<Anchor, Vector2> PivotsForAnchors = new()
+    {
+        { Anchor.LeftTop,      new Vector2(0.0f, 1.0f) },
+        { Anchor.MiddleTop,    new Vector2(0.5f, 1.0f) },
+        { Anchor.RightTop,     new Vector2(1.0f, 1.0f) },
+
+        { Anchor.LeftMiddle,   new Vector2(0.0f, 0.5f) },
+        { Anchor.Center,       new Vector2(0.5f, 0.5f) },
+        { Anchor.RightMiddle,  new Vector2(1.0f, 0.5f) },
+
+        { Anchor.LeftBottom,   new Vector2(0.0f, 0.0f) },
+        { Anchor.MiddleBottom, new Vector2(0.5f, 0.0f) },
+        { Anchor.RightBottom,  new Vector2(1.0f, 0.0f) }
+    };
     private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
         {
-            case "IsShowed": UpdateVisibility(); break;
-            case "Position": rectTransform.anchoredPosition = Model.Position.ToUnity(); break;
-            case "Scale": rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f); break;
+            case "IsShowed":
+                UpdateVisibility();
+                break;
+
+            case "Position":
+                rectTransform.anchoredPosition = Model.Position.ToUnity();
+                break;
+
+            case "Scale":
+                rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f);
+                break;
+
+            case "Anchor":
+                UpdateAnchorAndPivot(Model.Anchor);
+                break;
         }
+
         Main.Setting.Save(Main.ModEntry);
+    }
+
+    private void UpdateAnchorAndPivot(Anchor anchor)
+    {
+        if (PivotsForAnchors.TryGetValue(anchor, out Vector2 targetVector))
+        {
+            rectTransform.anchorMin = targetVector;
+            rectTransform.anchorMax = targetVector;
+
+            SetPivotKeepPosition(rectTransform, targetVector);
+
+            rectTransform.anchoredPosition = Model.Position.ToUnity();
+        }
+    }
+    private void SetPivotKeepPosition(RectTransform rect, Vector2 newPivot)
+    {
+        Vector2 size = rect.rect.size;
+        Vector2 deltaPivot = rect.pivot - newPivot;
+        Vector3 deltaPosition = new(
+            deltaPivot.x * size.x * rect.localScale.x,
+            deltaPivot.y * size.y * rect.localScale.y,
+            0f
+        );
+
+        rect.pivot = newPivot;
+        rect.localPosition -= deltaPosition;
     }
 
     public void UpdateVisibility()

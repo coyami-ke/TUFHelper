@@ -13,6 +13,7 @@ public class IngameRealBPMScript : IngameVariableScript
     public override string NameInSettings => "Real BPM";
     public override string ID => "RealBPM";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/speed.png");
+    public override Anchor DefaultAnchor => Anchor.LeftTop;
 
     protected override TextMeshProUGUI GetText => text;
 

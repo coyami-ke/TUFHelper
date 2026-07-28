@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -7,11 +6,19 @@ using UnityEngine.UI;
 
 using static UnityEngine.Mathf;
 
+public class ColorPickerEventArgs : EventArgs
+{
+    public Color Color { get; }
+    public ColorPickerEventArgs(Color color)
+    {
+        Color = color;
+    }
+}
+
 [ExecuteInEditMode, RequireComponent(typeof(Image))]
 public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler, IMaterialModifier
 {
     private const float Recip2Pi = 0.5f / PI;
-    
 
     private static readonly int _HSV = Shader.PropertyToID(nameof(_HSV));
     private static readonly int _AspectRatio = Shader.PropertyToID(nameof(_AspectRatio));
@@ -26,7 +33,8 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     [SerializeField, Range(0, 0.5f)] 
     private float _saturationValueSquareSize = 0.25f;
 
-    [SerializeField, FormerlySerializedAs("colorPickerShader")] private Shader _colorPickerShader;
+    [SerializeField, FormerlySerializedAs("colorPickerShader")] 
+    private Shader _colorPickerShader;
     private Material _generatedMaterial;
 
     private enum PointerDownLocation { HueCircle, SVSquare, Outside }
@@ -46,7 +54,7 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         }
     }
 
-    public event Action<Color> ColorChanged;
+    public event EventHandler<ColorPickerEventArgs> ColorChanged;
 
     protected override void OnRectTransformDimensionsChange()
     {
@@ -145,7 +153,7 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     {
         _generatedMaterial.SetVector(_HSV, new Vector3(_h, _s, _v));
 
-        ColorChanged?.Invoke(SelectedColor);
+        ColorChanged?.Invoke(this, new(SelectedColor));
     }
 
     protected override void OnDestroy()
@@ -165,9 +173,7 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     {
         var rect = GetSquaredRect();
 
-        Vector2 rtPos;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, eventData.pressEventCamera, out rtPos);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, eventData.pressEventCamera, out Vector2 rtPos);
 
         return new Vector2(InverseLerpUnclamped(rect.xMin, rect.xMax, rtPos.x), InverseLerpUnclamped(rect.yMin, rect.yMax, rtPos.y)) - Vector2.one * 0.5f;
     }

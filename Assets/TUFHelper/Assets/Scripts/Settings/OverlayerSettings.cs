@@ -128,6 +128,8 @@ public class OverlayerSettings : MonoBehaviour
             categoryRect.DOAnchorPosX((i + 1) * 202.5f, 0.5f).SetEase(Ease.OutExpo);
             i++;
         }
+
+        transformScript.OnClicked();
     }
 
     public void SetRegistryIngamePrefabs()

@@ -1,12 +1,24 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Numerics;
 using UnityEngine;
 using Vector2 = System.Numerics.Vector2;
+
 public class IngameElementModel : INotifyPropertyChanged
 {
-    private Vector2 _position = new Vector2();
+    private Anchor _anchor = Anchor.Center;
+    [ShowInOverlayerSettings("Anchor")]
+    public Anchor Anchor
+    {
+        get => _anchor;
+        set
+        {
+            _anchor = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private Vector2 _position = new();
 
     [ShowInOverlayerSettings("Position")]
     public Vector2 Position
