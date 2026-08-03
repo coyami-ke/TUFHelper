@@ -13,7 +13,7 @@ public class OverlayerSettings : MonoBehaviour
 {
     private Dictionary<string, string> _prefabRegistry = new();
 
-    public GameObject elementInListPrefab, categoryPrefab;
+    public GameObject elementInListPrefab, categoryPrefab, settingWindow;
     public Transform canvasTransform, listTransform, categoriesParentTransform, categoryPropertiesTransform, categoryPropertiesContentTransform;
 
     public List<IngameElementPropertiesCategoryScript> CategoryScripts {  get; private set; }
@@ -143,5 +143,10 @@ public class OverlayerSettings : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void BackToSettings()
+    {
+        settingWindow.SetActive(false);
     }
 }

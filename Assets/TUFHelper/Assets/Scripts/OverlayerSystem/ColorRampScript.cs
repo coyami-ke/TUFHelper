@@ -1,10 +1,11 @@
 using TUFHelper;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Image))]
 [ExecuteAlways]
-public class ColorRampScript : MonoBehaviour
+public class ColorRampScript : UIBehaviour, IMaterialModifier
 {
     private static readonly int PointCountID = Shader.PropertyToID("_PointCount");
     private static readonly int PositionsID = Shader.PropertyToID("_RampPositions");
@@ -15,32 +16,62 @@ public class ColorRampScript : MonoBehaviour
 
     private Image image;
     private Material instanceMaterial;
+    private ColorRamp cachedRamp;
 
     [SerializeField]
     private Shader shader;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         image = GetComponent<Image>();
         EnsureMaterialInstance();
     }
 
-    private void Start()
+    protected override void OnEnable()
     {
-        ApplyRampToImage(new());
+        base.OnEnable();
+        if (image != null) image.SetMaterialDirty();
     }
 
-    private void OnDestroy()
+    protected override void OnDisable()
     {
+        base.OnDisable();
+        if (image != null) image.SetMaterialDirty();
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
         if (instanceMaterial != null)
         {
-            Destroy(instanceMaterial);
+            if (Application.isPlaying) Destroy(instanceMaterial);
+            else DestroyImmediate(instanceMaterial);
         }
+    }
+
+    protected override void OnRectTransformDimensionsChange()
+    {
+        base.OnRectTransformDimensionsChange();
+
+        if (image != null)
+        {
+            if (cachedRamp != null) ApplyRampToImage(cachedRamp);
+            image.SetVerticesDirty();
+            image.SetMaterialDirty();
+        }
+    }
+
+    public Material GetModifiedMaterial(Material baseMaterial)
+    {
+        EnsureMaterialInstance();
+        return instanceMaterial != null ? instanceMaterial : baseMaterial;
     }
 
     public void ApplyRampToImage(ColorRamp ramp)
     {
         if (ramp == null || ramp.points == null) return;
+        cachedRamp = ramp;
 
         EnsureMaterialInstance();
         if (instanceMaterial == null) return;
@@ -65,18 +96,19 @@ public class ColorRampScript : MonoBehaviour
         instanceMaterial.SetFloatArray(PositionsID, positions);
         instanceMaterial.SetVectorArray(ColorsID, colors);
         instanceMaterial.SetFloatArray(InterpID, interps);
+
+        if (image != null) image.SetMaterialDirty();
     }
 
     private void EnsureMaterialInstance()
     {
-        if (instanceMaterial == null)
+        if (instanceMaterial == null && shader != null)
         {
             instanceMaterial = new Material(shader)
             {
-                name = $"{gameObject.name}_ColorRamp_Inst"
+                name = $"{gameObject.name}_ColorRamp_Inst",
+                hideFlags = HideFlags.HideAndDontSave
             };
-
-            image.material = instanceMaterial;
         }
     }
 }

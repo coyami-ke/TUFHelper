@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-
 using static UnityEngine.Mathf;
 
 public class ColorPickerEventArgs : EventArgs
@@ -26,14 +25,14 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     private static readonly int _HueSelectorInner = Shader.PropertyToID(nameof(_HueSelectorInner));
     private static readonly int _SVSquareSize = Shader.PropertyToID(nameof(_SVSquareSize));
 
-    [SerializeField, Range(0, 0.5f)] 
+    [SerializeField, Range(0, 0.5f)]
     private float _hueCircleInnerRadius = 0.4f;
-    [SerializeField, Range(0, 1)] 
+    [SerializeField, Range(0, 1)]
     private float _hueSelectorInnerRadius = 0.8f;
-    [SerializeField, Range(0, 0.5f)] 
+    [SerializeField, Range(0, 0.5f)]
     private float _saturationValueSquareSize = 0.25f;
 
-    [SerializeField, FormerlySerializedAs("colorPickerShader")] 
+    [SerializeField, FormerlySerializedAs("colorPickerShader")]
     private Shader _colorPickerShader;
     private Material _generatedMaterial;
 
@@ -50,7 +49,7 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         set
         {
             Color.RGBToHSV(value, out _h, out _s, out _v);
-            ApplyColor();
+            ApplyColor(notify: false);
         }
     }
 
@@ -67,7 +66,6 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         if (_generatedMaterial != null)
         {
             var rect = _rectTransform.rect;
-
             _generatedMaterial.SetFloat(_AspectRatio, rect.width / rect.height);
         }
     }
@@ -76,12 +74,16 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
     {
         if (_generatedMaterial == null)
         {
+            if (_colorPickerShader == null)
+            {
+                _colorPickerShader = Shader.Find("UI/Default"); // Fallback check
+            }
             _generatedMaterial = new Material(_colorPickerShader);
             _generatedMaterial.hideFlags = HideFlags.HideAndDontSave;
         }
 
         UpdateAspectRatio();
-        ApplyColor();
+        ApplyColor(notify: false);
         ApplySizesOfElements();
 
         return _generatedMaterial;
@@ -104,42 +106,41 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         if (_pointerDownLocation == PointerDownLocation.HueCircle)
         {
             _h = (Atan2(relativePosition.y, relativePosition.x) * Recip2Pi + 1) % 1;
-            ApplyColor();
+            ApplyColor(notify: true);
         }
 
         if (_pointerDownLocation == PointerDownLocation.SVSquare)
         {
-            var size = _generatedMaterial.GetFloat(_SVSquareSize);
+            var size = _generatedMaterial != null ? _generatedMaterial.GetFloat(_SVSquareSize) : _saturationValueSquareSize;
 
             _s = InverseLerp(-size, size, relativePosition.x);
             _v = InverseLerp(-size, size, relativePosition.y);
-            ApplyColor();
+            ApplyColor(notify: true);
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         var relativePosition = GetRelativePosition(eventData);
-
         float r = relativePosition.magnitude;
+        float hueInner = _generatedMaterial != null ? _generatedMaterial.GetFloat(_HueCircleInner) : _hueCircleInnerRadius;
 
-        if (r < 0.5f && r > _generatedMaterial.GetFloat(_HueCircleInner))
+        if (r < 0.5f && r > hueInner)
         {
             _pointerDownLocation = PointerDownLocation.HueCircle;
             _h = (Atan2(relativePosition.y, relativePosition.x) * Recip2Pi + 1) % 1;
-            ApplyColor();
+            ApplyColor(notify: true);
         }
         else
         {
-            var size = _generatedMaterial.GetFloat(_SVSquareSize);
+            var size = _generatedMaterial != null ? _generatedMaterial.GetFloat(_SVSquareSize) : _saturationValueSquareSize;
 
-            // s -> x, v -> y
             if (relativePosition.x >= -size && relativePosition.x <= size && relativePosition.y >= -size && relativePosition.y <= size)
             {
                 _pointerDownLocation = PointerDownLocation.SVSquare;
                 _s = InverseLerp(-size, size, relativePosition.x);
                 _v = InverseLerp(-size, size, relativePosition.y);
-                ApplyColor();
+                ApplyColor(notify: true);
             }
         }
     }
@@ -149,11 +150,17 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         _pointerDownLocation = PointerDownLocation.Outside;
     }
 
-    private void ApplyColor()
+    private void ApplyColor(bool notify = true)
     {
-        _generatedMaterial.SetVector(_HSV, new Vector3(_h, _s, _v));
+        if (_generatedMaterial != null)
+        {
+            _generatedMaterial.SetVector(_HSV, new Vector3(_h, _s, _v));
+        }
 
-        ColorChanged?.Invoke(this, new(SelectedColor));
+        if (notify)
+        {
+            ColorChanged?.Invoke(this, new(SelectedColor));
+        }
     }
 
     protected override void OnDestroy()
@@ -166,15 +173,10 @@ public class ColorPicker : UIBehaviour, IPointerDownHandler, IDragHandler, IPoin
         }
     }
 
-    /// <summary>
-    /// Returns position in range -0.5..0.5 when it's inside color picker square area
-    /// </summary>
     public Vector2 GetRelativePosition(PointerEventData eventData)
     {
         var rect = GetSquaredRect();
-
         RectTransformUtility.ScreenPointToLocalPointInRectangle(_rectTransform, eventData.position, eventData.pressEventCamera, out Vector2 rtPos);
-
         return new Vector2(InverseLerpUnclamped(rect.xMin, rect.xMax, rtPos.x), InverseLerpUnclamped(rect.yMin, rect.yMax, rtPos.y)) - Vector2.one * 0.5f;
     }
 

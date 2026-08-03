@@ -12,6 +12,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
     public GameObject vector2Prefab;
     public GameObject stringPrefab;
     public GameObject anchorPrefab;
+    public GameObject colorRampPrefab;
 
     public void GenerateInspectorUI(object target)
     {
@@ -89,6 +90,16 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
                     prop.SetValue(target, newValue);
                 });
             }
+            else if (propType == typeof(ColorRamp))
+            {
+                controlObj = Instantiate(colorRampPrefab, propertiesContainerParent, false);
+                var controlScript = controlObj.GetComponent<ColorRampEditor>();
+
+                controlScript.BindProperty(target, prop.Name, visualLabel, prop.GetValue(target), (newValue) =>
+                {
+                    prop.SetValue(target, newValue);
+                });
+            }
 
             if (controlObj != null)
             {
@@ -99,5 +110,7 @@ public class OverlayerCategoryPropertiesInspector : MonoBehaviour
                 y += rect.sizeDelta.y;
             }
         }
+
+        propertiesContainerParent.GetComponent<RectTransform>().sizeDelta = new(0, y + 110);
     }
 }
