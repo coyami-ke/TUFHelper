@@ -2068,8 +2068,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficultyIcon: {fileID: 2304346932507099045}
   background: {fileID: 6178987154960313467}
-  canDownloadImage: {fileID: 0}
-  canPlayImage: {fileID: 0}
   likeImage: {fileID: 0}
   curationIcon: {fileID: 376065038760107044}
   idText: {fileID: 1765443826744612165}
@@ -2087,6 +2085,7 @@ MonoBehaviour:
   favoriteImage: {fileID: 69289062868395979}
   isFavoriteSprite: {fileID: 21300000, guid: 2212b7cfd6fe52f46a173deaa6edc795, type: 3}
   isNotFavoriteSprite: {fileID: 21300000, guid: 2824c576f73ceaf45afb3e71e27d4787, type: 3}
+  visualContainer: {fileID: 345922179649308701}
 --- !u!1 &9149335362912521862
 GameObject:
   m_ObjectHideFlags: 0

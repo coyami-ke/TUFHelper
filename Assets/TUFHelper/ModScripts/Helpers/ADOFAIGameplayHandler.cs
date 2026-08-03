@@ -171,7 +171,7 @@ namespace TUFHelper.Utils
                 }
                 catch (Exception arg)
                 {
-                    Main.Logger.Log($"[TUFHelper] Error during self-contained XPerfect calculation: {arg}");
+                    Main.Logger.Log($"Error during self-contained XPerfect calculation: {arg}");
                     ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
                 }
             }

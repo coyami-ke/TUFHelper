@@ -175,47 +175,47 @@ public class LevelListScript : MonoBehaviour
 
     public async void Update()
     {
-        var levelPrefabs = GetLevelPrefabScripts();
-        int selectedIndex = GetIndexSelected();
+        //var levelPrefabs = GetLevelPrefabScripts();
+        //int selectedIndex = GetIndexSelected();
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            var selected = EventSystem.current.currentSelectedGameObject;
-            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-            bool isTyping = inputField != null && inputField.isFocused;
+        //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        //{
+        //    var selected = EventSystem.current.currentSelectedGameObject;
+        //    var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+        //    bool isTyping = inputField != null && inputField.isFocused;
 
-            if (!isTyping && levelPrefabs.Length > 0)
-            {
-                if (selectedIndex == -1)
-                {
-                    SelectIndex(levelPrefabs, 0);
-                    return;
-                }
+        //    if (!isTyping && levelPrefabs.Length > 0)
+        //    {
+        //        if (selectedIndex == -1)
+        //        {
+        //            SelectIndex(levelPrefabs, 0);
+        //            return;
+        //        }
 
-                // Wrap to 0 if at last
-                int nextIndex = (selectedIndex + 1) % levelPrefabs.Length;
-                SelectIndex(levelPrefabs, nextIndex);
-            }
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            var selected = EventSystem.current.currentSelectedGameObject;
-            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-            bool isTyping = inputField != null && inputField.isFocused;
+        //        // Wrap to 0 if at last
+        //        int nextIndex = (selectedIndex + 1) % levelPrefabs.Length;
+        //        SelectIndex(levelPrefabs, nextIndex);
+        //    }
+        //}
+        //else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
+        //{
+        //    var selected = EventSystem.current.currentSelectedGameObject;
+        //    var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+        //    bool isTyping = inputField != null && inputField.isFocused;
 
-            if (!isTyping && levelPrefabs.Length > 0)
-            {
-                if (selectedIndex == -1)
-                {
-                    SelectIndex(levelPrefabs, 0);
-                    return;
-                }
+        //    if (!isTyping && levelPrefabs.Length > 0)
+        //    {
+        //        if (selectedIndex == -1)
+        //        {
+        //            SelectIndex(levelPrefabs, 0);
+        //            return;
+        //        }
 
-                // Wrap to last if at 0
-                int prevIndex = (selectedIndex - 1 + levelPrefabs.Length) % levelPrefabs.Length;
-                SelectIndex(levelPrefabs, prevIndex);
-            }
-        }
+        //        // Wrap to last if at 0
+        //        int prevIndex = (selectedIndex - 1 + levelPrefabs.Length) % levelPrefabs.Length;
+        //        SelectIndex(levelPrefabs, prevIndex);
+        //    }
+        //}
 
 
 

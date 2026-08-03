@@ -31,19 +31,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         scrollView = scrollViewObj;
         _scrollRect = scrollView.GetComponent<ScrollRect>();
-    }
-    public void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
-        {
-            var selected = EventSystem.current.currentSelectedGameObject;
-            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-            bool isTyping = inputField != null && inputField.isFocused;
 
-            if (!isTyping)
-            {
-                if (IsSelected) PlayButtonClick();
-            }
+        if (_scrollRect != null)
+        {
+            _viewportTransform = _scrollRect.viewport;
+
+            _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
         }
     }
 
@@ -139,6 +132,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
+    private RectTransform _viewportTransform;
+
     public Image difficultyIcon, background, likeImage, curationIcon;
     public TextMeshProUGUI idText,
         artistText,
@@ -151,6 +146,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public GameObject folderButton, favoriteButton, addToFolderButton, removeLevelButton;
     public Image favoriteImage;
     public Sprite isFavoriteSprite, isNotFavoriteSprite;
+
+    public GameObject visualContainer;
 
     public LevelListInfoElementJson levelInfo;
 
@@ -378,5 +375,71 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     public void OpenFolder()
     {
+    }
+
+    private void OnDestroy()
+    {
+        if (_scrollRect != null)
+        {
+            _scrollRect.onValueChanged.RemoveListener(OnScrollValueChanged);
+        }
+    }
+
+    private void OnScrollValueChanged(Vector2 pos)
+    {
+        UpdateVisibility();
+    }
+
+    public bool IsVisibleInScrollView()
+    {
+        if (_scrollRect == null || _viewportTransform == null || _rectTransform == null)
+            return true;
+
+        Vector3[] itemCorners = new Vector3[4];
+        _rectTransform.GetWorldCorners(itemCorners);
+
+        Vector3[] viewportCorners = new Vector3[4];
+        _viewportTransform.GetWorldCorners(viewportCorners);
+
+        bool verticalOverlap = itemCorners[1].y >= viewportCorners[0].y && itemCorners[0].y <= viewportCorners[1].y;
+
+        return verticalOverlap;
+    }
+
+    public void UpdateVisibility()
+    {
+        bool isVisible = IsVisibleInScrollView();
+
+        if (visualContainer != null)
+        {
+            if (visualContainer.activeSelf != isVisible)
+            {
+                visualContainer.SetActive(isVisible);
+            }
+        }
+        else
+        {
+            if (gameObject.activeSelf != isVisible)
+            {
+                gameObject.SetActive(isVisible);
+            }
+        }
+    }
+
+    public void Update()
+    {
+        UpdateVisibility();
+
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+        {
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
+
+            if (!isTyping)
+            {
+                if (IsSelected) PlayButtonClick();
+            }
+        }
     }
 }

@@ -97,5 +97,5 @@ public partial class IngameVariableSettingsCategory : IngameElementSettingsCateg
     private ColorRamp adjustColorByValueGradient = new();
 
     public override string DisplayName => "Variable";
-    public override Sprite Icon => null;
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/variable.png");
 }
