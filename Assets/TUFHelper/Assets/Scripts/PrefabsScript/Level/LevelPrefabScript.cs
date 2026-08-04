@@ -375,6 +375,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     }
     public void OpenFolder()
     {
+        FolderOpener.OpenFolder(LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID));
     }
 
     private void OnDestroy()
