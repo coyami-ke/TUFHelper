@@ -32,6 +32,7 @@ namespace TUFHelper.ModScripts.Web
         public List<string> TagsFilter { get; set; } = new();
         public string SortBy = "RECENT";
         public AscendingOrDescending SortAsc = AscendingOrDescending.Descending;
+        public bool EnableQRange { get; set; } = true;
 
         public string Answer { get; private set; }
 
@@ -51,10 +52,13 @@ namespace TUFHelper.ModScripts.Web
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={encodedQuery}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
             {
-                var cleaned = SpecialDifficulties
-                    .Concat(QDifficulties)
-                    .Where(x => !string.IsNullOrWhiteSpace(x))
-                    .ToList();
+                //var cleaned = SpecialDifficulties
+                //    .Concat(QDifficulties)
+                //    .Where(x => !string.IsNullOrWhiteSpace(x))
+                //    .ToList();
+
+                var cleaned = SpecialDifficulties;
+                if (EnableQRange) cleaned = cleaned.Concat(QDifficulties).ToList();
 
                 if (cleaned.Count > 0)
                 {

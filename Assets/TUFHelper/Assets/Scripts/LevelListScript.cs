@@ -290,8 +290,10 @@ public class LevelListScript : MonoBehaviour
                 // Filter by difficulty
                 var diffName = DiffSpriteHelper.DiffIDRegister[level.DiffId];
 
+
                 if (DiffSpriteHelper.IsQuantumDiff(level.DiffId))
                 {
+                    if (!DefaultRequest.EnableQRange) return false;
                     if (!DefaultRequest.QDifficulties.Contains(diffName))
                         return false;
                 }

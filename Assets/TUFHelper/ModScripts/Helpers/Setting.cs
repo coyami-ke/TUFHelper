@@ -26,6 +26,7 @@ namespace TUFHelper.Utils
         public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;
         public bool GroupByFolders { get; set; } = false;
+        public bool EnableQRange { get; set; } = true; 
         public HashSet<int> FavoriteLevels { get; set; } = new();
         public List<LevelFolder> LevelFolders { get; set; } = new();
         public Dictionary<string, IngameElementModel> IngameElementsSettings { get; set; } = new();
