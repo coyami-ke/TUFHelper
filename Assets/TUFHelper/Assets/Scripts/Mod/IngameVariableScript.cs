@@ -45,14 +45,29 @@ public abstract class IngameVariableScript : BasicIngameElement
         UpdateText("");
     }
 
-    protected void UpdateText(float value, string format = "F1")
+    protected void UpdateText(float value, string format = "F0")
     {
         if (GetText == null) return;
 
-        float range = Mathf.Max(0.0001f, MaxValue - MinValue);
-        float normalizedPos = Mathf.Clamp01((value - MinValue) / range);
+        float range = MaxValue - MinValue;
+        if (Mathf.Approximately(range, 0f))
+        {
+            range = 0.0001f;
+        }
 
-        Color color = VariableSettings?.AdjustColorByValueGradient?.Evaluate(normalizedPos) ?? Color.white;
+        float rawPos = (value - MinValue) / range;
+        float normalizedPos = Mathf.Clamp01(rawPos);
+
+        Color color = Color.white;
+        if (VariableSettings?.AdjustColorByValueGradient != null)
+        {
+            color = VariableSettings.AdjustColorByValueGradient.Evaluate(normalizedPos);
+
+            if (color == default || color.a <= 0f)
+            {
+                color = Color.white;
+            }
+        }
 
         string valueText = value.ToString(format);
         string coloredValue = $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{valueText}</color>";

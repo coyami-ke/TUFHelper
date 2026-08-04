@@ -19,7 +19,7 @@ namespace TUFHelper
     {
         internal static readonly HttpClient Client = new();
 
-        internal static string modVersion = "2.6.2";
+        internal static string modVersion = "3.0.0";
 
         internal static ModEntry.ModLogger Logger;
         internal static ModEntry ModEntry;

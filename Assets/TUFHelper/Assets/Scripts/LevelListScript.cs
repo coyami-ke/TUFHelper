@@ -260,7 +260,7 @@ public class LevelListScript : MonoBehaviour
 
     public async Task UpdateLevelListAsync()
     {
-        DeselectAll();
+        //DeselectAll();
         requestCancelToken?.Cancel();
         requestCancelToken = new CancellationTokenSource();
         CancellationToken token = requestCancelToken.Token;

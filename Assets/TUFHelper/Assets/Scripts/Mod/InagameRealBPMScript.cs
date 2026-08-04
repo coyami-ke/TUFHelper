@@ -25,10 +25,6 @@ public class IngameRealBPMScript : IngameVariableScript
 
     protected override string DefaultVariableName => "TBPM";
 
-    /// <summary>
-    /// Returns the effective level speed factor, combining pitch settings and editor playback speed.
-    /// Safely falls back if scnEditor.instance is null during regular play mode.
-    /// </summary>
     private float CurrentLevelSpeed
     {
         get
