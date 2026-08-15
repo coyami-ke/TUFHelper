@@ -7,7 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using TUFHelper;
@@ -44,6 +47,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     private static readonly Color DeselectedColor = new(1f, 1f, 1f, 10f / 255f);
     private RectTransform _rectTransform;
     private ScrollRect _scrollRect;
+
+
+    private CancellationTokenSource _selectionCts;
     private bool _isSelected = false;
     public bool IsSelected
     {
@@ -53,6 +59,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             if (_isSelected == value) return;
             _isSelected = value;
 
+            _selectionCts?.Cancel();
+            _selectionCts?.Dispose();
+            _selectionCts = null;
+
             background.DOColor(value ? SelectedColor : DeselectedColor, 0.3f).SetEase(Ease.OutExpo);
 
             Vector2 targetPos = new(value ? -50 : 0, _rectTransform.anchoredPosition.y);
@@ -60,51 +70,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (value)
             {
-                try
-                {
-                    ScrollToSelf();
-                    LeaderboardScript.instance.LoadPasses(levelInfo);
-
-                    var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
-                    if (levelOffline != null)
-                    {
-                        string pathToFolder = LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID);
-
-                        string pathToBG = Path.Combine(pathToFolder, "bg.png");
-                        if (!File.Exists(pathToBG))
-                            pathToBG = Path.Combine(pathToFolder, "bg.jpg");
-
-                        if (File.Exists(pathToBG))
-                        {
-                            SpriteLoader.instance.gameObject.SetActive(true);
-                            SpriteLoader.instance.FromFile(pathToBG);
-                        }
-                        else
-                        {
-                            SpriteLoader.instance.gameObject.SetActive(false);
-                        }
-
-                        string oggFile = Directory.GetFiles(pathToFolder)
-                                                      .FirstOrDefault(f => f.EndsWith(".ogg"));
-                        string mp3File = Directory.GetFiles(pathToFolder)
-                                                  .FirstOrDefault(f => f.EndsWith(".mp3"));
-
-                        if (oggFile != null)
-                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(oggFile));
-                        else if (mp3File != null)
-                            StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(mp3File));
-                    }
-                    else
-                    {
-                        CustomMusicPlayer.instance.StopPlay();
-                        SpriteLoader.instance.gameObject.SetActive(false);
-
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Main.Logger.LogException(ex);
-                }
+                _selectionCts = new CancellationTokenSource();
+                _ = HandleSelectionAsync(_selectionCts.Token);
             }
 
             LevelInfo.instance.LoadLevelInfo(levelInfo);
@@ -150,6 +117,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public GameObject visualContainer;
 
     public LevelListInfoElementJson levelInfo;
+
+    private CancellationTokenSource cdn_RequestToken = new();
 
     public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
     {
@@ -247,6 +216,107 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             PlayButtonClick();
         }
     }
+    public async Task<CDNLevelJson> GetLevelFromCDN()
+    {
+        cdn_RequestToken?.Cancel();
+        cdn_RequestToken = new CancellationTokenSource();
+        CancellationToken token = cdn_RequestToken.Token;
+
+        string url = $"https://api.tuforums.com/v2/database/levels/{levelInfo.ID}/cdnData";
+        string answer = "";
+        try
+        {
+            HttpResponseMessage response = await Main.Client.GetAsync(url, token);
+
+            response.EnsureSuccessStatusCode();
+
+            answer = await response.Content.ReadAsStringAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            Debug.LogError($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
+            throw;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[TUFAPIRequest] Unexpected error: {ex.Message}");
+            throw;
+        }
+
+        CDNLevelJson json = JsonConvert.DeserializeObject<CDNLevelJson>(answer);
+        return json;
+    }
+
+
+    private async Task HandleSelectionAsync(CancellationToken token)
+    {
+        try
+        {
+            ScrollToSelf();
+
+            var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
+            if (levelOffline != null)
+            {
+                string pathToFolder = LevelDownloader.GetPathToLevelFolder(
+                    Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID);
+
+                string pathToBG = Path.Combine(pathToFolder, "bg.png");
+                if (!File.Exists(pathToBG))
+                    pathToBG = Path.Combine(pathToFolder, "bg.jpg");
+
+                bool hasBg = File.Exists(pathToBG);
+                SpriteLoader.instance.gameObject.SetActive(hasBg);
+                if (hasBg)
+                    SpriteLoader.instance.FromFile(pathToBG);
+
+                string oggFile = Directory.EnumerateFiles(pathToFolder, "*.ogg").FirstOrDefault();
+                string mp3File = Directory.EnumerateFiles(pathToFolder, "*.mp3").FirstOrDefault();
+
+                string audioPath = oggFile ?? mp3File;
+                if (audioPath != null)
+                    StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(audioPath));
+            }
+            else
+            {
+                CustomMusicPlayer.instance.StopPlay();
+                SpriteLoader.instance.gameObject.SetActive(false);
+
+                CDNLevelJson levelFromCDN = await GetLevelFromCDN();
+
+                if (token.IsCancellationRequested || !_isSelected) return;
+
+                if (levelFromCDN?.Metadata?.SongFiles?.Count > 0)
+                {
+                    var song = levelFromCDN.Metadata.SongFiles.Values.FirstOrDefault();
+                    if (song != null)
+                    {
+                        AudioType audioType = song.Type?.ToLower() switch
+                        {
+                            "ogg" => AudioType.OGGVORBIS,
+                            "wav" => AudioType.WAV,
+                            "mp3" => AudioType.MPEG,
+                            _ => AudioType.UNKNOWN
+                        };
+
+                        if (audioType != AudioType.UNKNOWN)
+                        {
+                            StartCoroutine(CustomMusicPlayer.instance.PlayAudioStream(song.Url, audioType, 15));
+                        }
+                    }
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.LogException(ex);
+        }
+    }
 
     private void ExceptionCatch(Exception ex)
     {
@@ -260,7 +330,11 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (!CanDownload || !CanPlay) return;
         if (DownloadPanel.instance.IsDownloading) return;
 
-        ErrorScript.instance.gameObject.SetActive(false);
+        try
+        {
+            ErrorScript.instance.gameObject.SetActive(false);
+        }
+        catch { } // need this for macos, otherwise it catches Null Reference
 
         try
         {

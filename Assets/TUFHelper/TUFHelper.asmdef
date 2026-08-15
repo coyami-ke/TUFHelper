@@ -17,7 +17,8 @@
         "DOTween.dll",
         "DOTweenPro.dll",
         "RDTools.dll",
-        "CommunityToolkit.Mvvm.dll"
+        "CommunityToolkit.Mvvm.dll",
+        "Microsoft.Bcl.Numerics.dll"
     ],
     "autoReferenced": true,
     "defineConstraints": [],

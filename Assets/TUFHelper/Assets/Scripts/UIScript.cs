@@ -24,68 +24,68 @@ public class UIScript : MonoBehaviour
         instance = this;
         SwipeFromBlack();
 
-        var buttons = FindObjectsOfType<Button>();
-        foreach (var b in buttons)
-        {
-            b.onClick.AddListener(() =>
-            {
-                scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
-            });
-        }
+        //var buttons = FindObjectsOfType<Button>();
+        //foreach (var b in buttons)
+        //{
+        //    b.onClick.AddListener(() =>
+        //    {
+        //        scrSfx.instance?.PlaySfx(SfxSound.MobileButton);
+        //    });
+        //}
 
-        AddByeolToCredits();
+        //AddByeolToCredits();
     }
 
-    private static void AddByeolToCredits()
-    {
-        foreach (TextMeshProUGUI text in FindObjectsOfType<TextMeshProUGUI>(true))
-        {
-            if (text == null || text.gameObject.name != "Programmers")
-            {
-                continue;
-            }
+    //private static void AddByeolToCredits()
+    //{
+    //    foreach (TextMeshProUGUI text in FindObjectsOfType<TextMeshProUGUI>(true))
+    //    {
+    //        if (text == null || text.gameObject.name != "Programmers")
+    //        {
+    //            continue;
+    //        }
 
-            if (string.IsNullOrEmpty(text.text) || text.text.Contains("Byeol"))
-            {
-                return;
-            }
+    //        if (string.IsNullOrEmpty(text.text) || text.text.Contains("Byeol"))
+    //        {
+    //            return;
+    //        }
 
-            if (text.text.Contains("Flower"))
-            {
-                text.text = text.text.Replace("Flower", "Flower\nByeol");
-                ExtendCreditsBox(text.rectTransform);
-                return;
-            }
-        }
-    }
+    //        if (text.text.Contains("Flower"))
+    //        {
+    //            text.text = text.text.Replace("Flower", "Flower\nByeol");
+    //            ExtendCreditsBox(text.rectTransform);
+    //            return;
+    //        }
+    //    }
+    //}
 
-    private static void ExtendCreditsBox(RectTransform programmersRect)
-    {
-        if (programmersRect == null)
-        {
-            return;
-        }
+    //private static void ExtendCreditsBox(RectTransform programmersRect)
+    //{
+    //    if (programmersRect == null)
+    //    {
+    //        return;
+    //    }
 
-        if (programmersRect.sizeDelta.y < 170f)
-        {
-            programmersRect.sizeDelta = new Vector2(programmersRect.sizeDelta.x, programmersRect.sizeDelta.y + 30f);
-        }
+    //    if (programmersRect.sizeDelta.y < 170f)
+    //    {
+    //        programmersRect.sizeDelta = new Vector2(programmersRect.sizeDelta.x, programmersRect.sizeDelta.y + 30f);
+    //    }
 
-        Transform parent = programmersRect.parent;
-        while (parent != null)
-        {
-            RectTransform rect = parent as RectTransform;
-            Image image = parent.GetComponent<Image>();
-            if (rect != null && image != null && parent.name == "Credits" && rect.sizeDelta.y < 690f)
-            {
-                rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 30f);
-                rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y - 15f);
-                return;
-            }
+    //    Transform parent = programmersRect.parent;
+    //    while (parent != null)
+    //    {
+    //        RectTransform rect = parent as RectTransform;
+    //        Image image = parent.GetComponent<Image>();
+    //        if (rect != null && image != null && parent.name == "Credits" && rect.sizeDelta.y < 690f)
+    //        {
+    //            rect.sizeDelta = new Vector2(rect.sizeDelta.x, rect.sizeDelta.y + 30f);
+    //            rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, rect.anchoredPosition.y - 15f);
+    //            return;
+    //        }
 
-            parent = parent.parent;
-        }
-    }
+    //        parent = parent.parent;
+    //    }
+    //}
 
     internal static void SwipeFromBlack(Action onComplete = null)
     {
@@ -99,21 +99,16 @@ public class UIScript : MonoBehaviour
         }
         instance.isDuringTransition = true;
 
-        JobDispatcher.AddJob(() =>
-        {
-            scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeIn);
+        if (scrSfx.instance != null)
+            scrSfx.instance.PlaySfx(SfxSound.ScreenWipeIn);
 
-            instance.panelRectTransform.gameObject.SetActive(true);
-            instance.panelRectTransform.DOAnchorMax(new Vector2(0, 1), 0.3f).onComplete += () =>
-            {
-                instance.isDuringTransition = false;
-                instance.panelRectTransform.gameObject.SetActive(false);
-                if (onComplete != null)
-                {
-                    onComplete.Invoke();
-                }
-            };
-        });
+        instance.panelRectTransform.gameObject.SetActive(true);
+        instance.panelRectTransform.DOAnchorMax(new Vector2(0, 1), 0.3f).onComplete += () =>
+        {
+            instance.isDuringTransition = false;
+            instance.panelRectTransform.gameObject.SetActive(false);
+            onComplete?.Invoke();
+        };
     }
 
     internal static void SwipeToBlack(Action onComplete = null)
@@ -127,19 +122,19 @@ public class UIScript : MonoBehaviour
             return;
         }
         instance.isDuringTransition = true;
-        JobDispatcher.AddJob(() =>
-        {
-            scrSfx.instance?.PlaySfx(SfxSound.ScreenWipeOut);
+        //JobDispatcher.AddJob(() =>
+        //{
+        //    
+        //});
 
-            instance.panelRectTransform.gameObject.SetActive(true);
-            instance.panelRectTransform.DOAnchorMax(new Vector2(1, 1), 0.3f).onComplete += () =>
-            {
-                instance.isDuringTransition = false;
-                if (onComplete != null)
-                {
-                    onComplete.Invoke();
-                }
-            };
-        });
+        if (scrSfx.instance != null)
+            scrSfx.instance.PlaySfx(SfxSound.ScreenWipeOut);
+
+        instance.panelRectTransform.gameObject.SetActive(true);
+        instance.panelRectTransform.DOAnchorMax(new Vector2(1, 1), 0.3f).onComplete += () =>
+        {
+            instance.isDuringTransition = false;
+            onComplete?.Invoke();
+        };
     }
 }

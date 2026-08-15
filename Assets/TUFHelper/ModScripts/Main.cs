@@ -38,20 +38,31 @@ namespace TUFHelper
             ModEntry = modEntry;
             Logger = modEntry.Logger;
 
-            foreach (var file in Directory.GetFiles(ModEntry.Path, "*.dll"))
-            {
-                if (file.EndsWith("TUFHelper.dll"))
-                    continue;
+            //foreach (var file in Directory.GetFiles(ModEntry.Path, "*.dll"))
+            //{
+            //    if (file.EndsWith("TUFHelper.dll"))
+            //        continue;
 
-                try
-                {
-                    Assembly.LoadFrom(file);
-                    Main.Logger.Log("Loaded assembly from " + file);
-                }
-                catch (Exception ex)
-                {
-                    Main.Logger.Error($"Failed to load supplementary dependency DLL ({Path.GetFileName(file)}): {ex.Message}");
-                }
+            //    try
+            //    {
+            //        Assembly.LoadFrom(file);
+            //        Main.Logger.Log("Loaded assembly from " + file);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Main.Logger.Error($"Failed to load supplementary dependency DLL ({Path.GetFileName(file)}): {ex.Message}");
+            //    }
+            //}
+
+            try
+            {
+                Assembly.LoadFrom(Path.Combine(modEntry.Path, "CommunityToolkit.Mvvm.dll"));
+                Assembly.LoadFrom(Path.Combine(modEntry.Path, "Microsoft.Bcl.Numerics.dll"));
+                Assembly.LoadFrom(Path.Combine(modEntry.Path, "NVorbis.dll"));
+            }
+            catch (Exception ex)
+            {
+                Main.Logger.Error($"Failed to load supplementary dependency DLL {ex.Message}");
             }
 
             string platformSuffix = Application.platform switch
