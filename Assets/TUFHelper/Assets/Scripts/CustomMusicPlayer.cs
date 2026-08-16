@@ -10,11 +10,10 @@ using System.Threading.Tasks;
 using TUFHelper;
 using UnityEngine;
 using UnityEngine.Networking;
-using Debug = UnityEngine.Debug;
 
 public class CustomMusicPlayer : MonoBehaviour
 {
-    private static WaitForSeconds _waitForSeconds0_15 = new WaitForSeconds(0.15f);
+    private static readonly WaitForSeconds _waitForSeconds0_15 = new(0.15f);
     public static CustomMusicPlayer instance;
     public AudioSource audioSource;
 
@@ -79,7 +78,7 @@ public class CustomMusicPlayer : MonoBehaviour
     {
         if (audioSource == null)
         {
-            Debug.LogError("AudioSource not assigned.");
+            Main.Logger.Error("AudioSource not assigned.");
             yield break;
         }
 
@@ -118,7 +117,7 @@ public class CustomMusicPlayer : MonoBehaviour
 
             if (uwr.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Error loading MP3: " + uwr.error);
+                Main.Logger.Error("Error loading MP3: " + uwr.error);
                 yield break;
             }
 
@@ -153,7 +152,7 @@ public class CustomMusicPlayer : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success && www.responseCode != 206)
             {
-                Debug.LogError($"Stream error: {www.error}");
+                Main.Logger.Error($"Stream error: {www.error}");
                 yield break;
             }
 
@@ -173,7 +172,7 @@ public class CustomMusicPlayer : MonoBehaviour
 
             if (decodeTask.IsFaulted)
             {
-                Debug.LogError($"NVorbis Stream Decode Error: {decodeTask.Exception?.InnerException?.Message}");
+                Main.Logger.Error($"NVorbis Stream Decode Error: {decodeTask.Exception?.InnerException?.Message}");
                 yield break;
             }
 
@@ -200,7 +199,7 @@ public class CustomMusicPlayer : MonoBehaviour
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError($"Stream error: {www.error}");
+                Main.Logger.Error($"Stream error: {www.error}");
                 yield break;
             }
 

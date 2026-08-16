@@ -70,12 +70,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (value)
             {
+                LevelInfo.instance.LoadLevelInfo(levelInfo);
+                LeaderboardScript.instance.LoadPasses(levelInfo);
+
                 _selectionCts = new CancellationTokenSource();
                 _ = HandleSelectionAsync(_selectionCts.Token);
             }
-
-            LevelInfo.instance.LoadLevelInfo(levelInfo);
-            LeaderboardScript.instance.LoadPasses(levelInfo);
         }
     }
 
