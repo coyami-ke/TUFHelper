@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -94,6 +95,48 @@ public class PackListScript : MonoBehaviour
         sortOrderDropdown.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
+    public async Task ShowPackView(string id)
+    {
+        ShowPackView();
+
+        string url = "https://api.tuforums.com/v2/database/levels/packs/" + id;
+        string answer = "";
+        try
+        {
+            HttpResponseMessage response = await Main.Client.GetAsync(url);
+            response.EnsureSuccessStatusCode();
+            answer = await response.Content.ReadAsStringAsync();
+        }
+        catch (HttpRequestException ex)
+        {
+            Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
+            answer = "";
+        }
+        catch (OperationCanceledException)
+        {
+            answer = "";
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
+            answer = "";
+        }
+
+        PackRootJson json = JsonConvert.DeserializeObject<PackRootJson>(answer);
+
+        packTreeController.BuildTree(json.Items, id);
+
+        //packInfo_pfpImage.sprite = pfp;
+        //packInfo_iconImage.sprite = icon;
+        packInfo_name.text = json.Name;
+        if (json.PackOwner.Nickname != null) packInfo_ownerName.text = json.PackOwner.Nickname;
+        else if (json.PackOwner.Username != null) packInfo_ownerName.text = json.PackOwner.Username;
+        else packInfo_ownerName.text = "";
+
+        packInfo_levelsNumber.text = json.LevelCount.ToString();
+        packInfo_itemsNumber.text = json.Items.Count.ToString();
+        packInfo_created.text = json.CreatedAt.ToShortDateString();
+    }
     public void HidePackView()
     {
         packView.SetActive(false);
@@ -127,7 +170,7 @@ public class PackListScript : MonoBehaviour
             if (packTreeController != null && packRoot?.Items != null)
             {
                 packInfo_itemsNumber.text = packRoot.Items.Count.ToString();
-                packTreeController.BuildTree(packRoot.Items);
+                packTreeController.BuildTree(packRoot.Items, info.ID);
             }
         }
         catch (Exception ex)

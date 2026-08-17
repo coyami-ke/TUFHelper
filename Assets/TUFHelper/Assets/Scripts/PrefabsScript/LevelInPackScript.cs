@@ -19,9 +19,11 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public Image diffIconImage, backgroundImage;
     public TextMeshProUGUI levelNameText, artistText, creatorText, idText, clearsText, likesText;
 
+    public string PackID { get; private set; }
+
     public LevelListInfoElementJson LevelInfo { get; private set; }
 
-    public void SetLevelInfo(PackItemNode node)
+    public void SetLevelInfo(PackItemNode node, string packId)
     {
         if (!node.IsLevel) return;
 
@@ -34,6 +36,8 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         idText.text = "#" + node.ReferencedLevel.ID;
         clearsText.text = "Clears: " + node.ReferencedLevel.Clears;
         likesText.text = node.ReferencedLevel.Likes.ToString();
+
+        PackID = packId;
     }
 
     public async void OnPointerClick(PointerEventData eventData)
@@ -54,19 +58,19 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             Error = (sender, args) =>
             {
                 Main.Logger.Log($"[JSON Error] {args.ErrorContext.Error.Message} at {args.ErrorContext.Path}");
-                args.ErrorContext.Handled = true; // Prevents crashing and populates as much of the object as possible
+                args.ErrorContext.Handled = true; 
             }
         };
 
         var deserializedLevel = JsonConvert.DeserializeObject<LevelListElementId>(json, settings);
         if (deserializedLevel == null) Main.Logger.Log("The Level ID is null");
-        var level = deserializedLevel.Level; // null reference exception
+        var level = deserializedLevel.Level;
 
         if (deserializedLevel.Level == null) Main.Logger.Log("The Level is null");
 
         lastLevel = level;
 
-        Main.Logger.Log($"LLL: Base Score : {level.BaseScore}, Diff Base Score : {level.Difficulty.BaseScore}"); // line 60
+        Main.Logger.Log($"LLL: Base Score : {level.BaseScore}, Diff Base Score : {level.Difficulty.BaseScore}");
         File.WriteAllText(Path.Combine(Main.ModEntry.Path, "level.json"), json);
 
         try
@@ -105,11 +109,11 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], lastLevel));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], lastLevel, PackID));
                 break;
             default:
                 LevelSelector.instance.LevelInfo = lastLevel;
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, lastLevel));
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, lastLevel, PackID));
                 break;
         }
 

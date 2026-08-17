@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Overlayer_ProximityBorders
+  m_Name: LevelList_ProximityBorders
   m_Shader: {fileID: 4800000, guid: db12bb679cf247e428f2f135fb8aa0d7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -61,7 +61,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BorderSoftness: 0.1
+    - _BorderSoftness: 0.0574
     - _BorderWidth: 0.1
     - _BumpScale: 1
     - _ColorMask: 15
@@ -71,9 +71,11 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HoverRadius: 2
+    - _HoverRadius: 1.5
+    - _MaxIntensity: 0.025
     - _MaxOpacity: 0.5
     - _Metallic: 0
+    - _MinIntensity: 0
     - _MinOpacity: 0.1
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -89,10 +91,12 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _BorderColor1: {r: 0, g: 1, b: 1, a: 1}
-    - _BorderColor2: {r: 0.7, g: 0, b: 1, a: 1}
+    - _BorderColor1: {r: 0.48867923, g: 0.87007654, b: 1, a: 1}
+    - _BorderColor2: {r: 0, g: 0.42885923, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MouseUV: {r: 0, g: 0, b: 0, a: 0}
+    - _GlowColor1: {r: 0.5641509, g: 0.8285662, b: 1, a: 1}
+    - _GlowColor2: {r: 0.39811313, g: 0.542094, b: 1, a: 1}
+    - _MouseUV: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

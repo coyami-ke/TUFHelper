@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class FrontPageScript : MonoBehaviour
 {
-    public GameObject frontPageObject, playCanvasObject;
+    public GameObject frontPageObject, playCanvasObject, packsCanvasObject;
 
     public GameObject ratingPageObject;
 
     public static bool isFirstRun = true;
 
     public bool IsRatingPageActive { get; private set; } = false;
+    public static bool IsPackListActive { get; set; } = false;
+    public static string LastOpenedPackId { get; set; } = string.Empty;
 
     public static FrontPageScript instance { get; private set; }
 
-    public void Awake()
+    public async void Awake()
     {
         instance = this;
 
@@ -28,10 +30,23 @@ public class FrontPageScript : MonoBehaviour
 
         if (Main.isInTUFHelper)
         {
-            frontPageObject.SetActive(false);
-            playCanvasObject.SetActive(true);
+            if (!IsPackListActive)
+            {
+                frontPageObject.SetActive(false);
+                playCanvasObject.SetActive(true);
+            }
+            else
+            {
+                frontPageObject.SetActive(false);
+                packsCanvasObject.SetActive(true);
+
+                await PackListScript.Instance.ShowPackView(LastOpenedPackId);
+            }
         }
 
+        Main.Logger.Log("IsInTUFHelper: " + Main.isInTUFHelper);
+        Main.Logger.Log("IsPackListActive: " + IsPackListActive);
+        Main.Logger.Log("LastOpenedPackId: " + LastOpenedPackId);
     }
     //public void Start()
     //{

@@ -32,6 +32,7 @@ namespace TUFHelper.Utils
             IsFromTUFHelper = isFromTUFHelper;
             RatingMode = ratingMode;
             CurrentRatingInfo = rating;
+
         }
     }
 
@@ -73,17 +74,17 @@ namespace TUFHelper.Utils
 
             EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
-            //try
-            //{
-            //    var account = AccountSaver.GetAccount();
-            //}
-            //catch
-            //{
-            //    EditorPlayPatch.RatingMode = false;
-            //    EditorPlayPatch.CurrentRating = null;
-            //}
-
             SceneManager.LoadScene("scnEditor");
+
+            FrontPageScript.IsPackListActive = false;
+        }
+        public static void OpenLevel(string pathToLevel, LevelListInfoElementJson levelInfo, string packID)
+        {
+            OpenLevel(pathToLevel, levelInfo);
+            FrontPageScript.IsPackListActive = true;
+            FrontPageScript.LastOpenedPackId = packID;
+
+            Main.Logger.Log("ADOFAIGameplayHandler IsPackListActive: " + FrontPageScript.IsPackListActive);
         }
 
         public static bool IsFromTUFHelper { get; set; }

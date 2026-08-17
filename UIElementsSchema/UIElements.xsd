@@ -8,9 +8,9 @@
   <xs:import schemaLocation="UnityEditor.Tilemaps.External.xsd" namespace="UnityEditor.Tilemaps.External" />
   <xs:import schemaLocation="UnityEditor.U2D.Sprites.SpriteEditorTool.xsd" namespace="UnityEditor.U2D.Sprites.SpriteEditorTool" />
   <xs:import schemaLocation="UnityEditor.U2D.Animation.xsd" namespace="UnityEditor.U2D.Animation" />
-  <xs:import schemaLocation="UnityEditor.U2D.Animation.Upgrading.xsd" namespace="UnityEditor.U2D.Animation.Upgrading" />
   <xs:import schemaLocation="UnityEditor.U2D.Layout.xsd" namespace="UnityEditor.U2D.Layout" />
   <xs:import schemaLocation="UnityEditor.U2D.Animation.SpriteLibraryEditor.xsd" namespace="UnityEditor.U2D.Animation.SpriteLibraryEditor" />
+  <xs:import schemaLocation="UnityEditor.U2D.Animation.Upgrading.xsd" namespace="UnityEditor.U2D.Animation.Upgrading" />
   <xs:import schemaLocation="Unity.UIToolkit.Editor.xsd" namespace="Unity.UIToolkit.Editor" />
   <xs:import schemaLocation="UnityEditor.UIElements.Debugger.xsd" namespace="UnityEditor.UIElements.Debugger" />
   <xs:import schemaLocation="Unity.UI.Builder.xsd" namespace="Unity.UI.Builder" />

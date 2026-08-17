@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 7106797378268723452}
   - component: {fileID: 5645069190405704958}
   - component: {fileID: 6355008598830357369}
+  - component: {fileID: 2894578527223510483}
   m_Layer: 5
   m_Name: SettingTab
   m_TagString: Untagged
@@ -382,3 +383,16 @@ MonoBehaviour:
   backgroundImage: {fileID: 5645069190405704958}
   rectTransformLine: {fileID: 8696284792706795618}
   settingsObject: {fileID: 0}
+--- !u!114 &2894578527223510483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6971238858013482693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}

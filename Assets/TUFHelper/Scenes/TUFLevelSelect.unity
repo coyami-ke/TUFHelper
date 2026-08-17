@@ -21209,6 +21209,7 @@ GameObject:
   - component: {fileID: 567739281}
   - component: {fileID: 567739283}
   - component: {fileID: 567739282}
+  - component: {fileID: 567739284}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -21248,15 +21249,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 09a92f9f35b413a42827a842a8e2bf8a, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.25490198}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.13725491}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -21273,6 +21274,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567739280}
   m_CullTransparentMesh: 1
+--- !u!114 &567739284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567739280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: 6295487781a8bce449960a90e0a93bc1, type: 2}
 --- !u!1 &572611644
 GameObject:
   m_ObjectHideFlags: 0
@@ -22970,6 +22984,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frontPageObject: {fileID: 2093298852}
   playCanvasObject: {fileID: 578662237}
+  packsCanvasObject: {fileID: 65991399}
   ratingPageObject: {fileID: 270827858}
 --- !u!1 &616571383
 GameObject:
@@ -24311,6 +24326,7 @@ GameObject:
   - component: {fileID: 654756215}
   - component: {fileID: 654756217}
   - component: {fileID: 654756216}
+  - component: {fileID: 654756218}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -24380,6 +24396,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654756214}
   m_CullTransparentMesh: 1
+--- !u!114 &654756218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 654756214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1 &663742060
 GameObject:
   m_ObjectHideFlags: 0
@@ -26217,6 +26246,7 @@ GameObject:
   - component: {fileID: 746635631}
   - component: {fileID: 746635633}
   - component: {fileID: 746635632}
+  - component: {fileID: 746635634}
   m_Layer: 5
   m_Name: Background
   m_TagString: Untagged
@@ -26256,15 +26286,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 09a92f9f35b413a42827a842a8e2bf8a, type: 2}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.25490198}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.13725491}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -26281,6 +26311,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746635630}
   m_CullTransparentMesh: 1
+--- !u!114 &746635634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 746635630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: 6295487781a8bce449960a90e0a93bc1, type: 2}
 --- !u!1 &753237875
 GameObject:
   m_ObjectHideFlags: 0
@@ -29259,6 +29302,7 @@ GameObject:
   - component: {fileID: 876029264}
   - component: {fileID: 876029266}
   - component: {fileID: 876029265}
+  - component: {fileID: 876029267}
   m_Layer: 5
   m_Name: OverlayerSettings
   m_TagString: Untagged
@@ -29307,8 +29351,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -29325,6 +29369,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 876029263}
   m_CullTransparentMesh: 1
+--- !u!114 &876029267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876029263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: 4ad73cdb622eb9b4cba0b620e904ca78, type: 2}
 --- !u!1 &876607252
 GameObject:
   m_ObjectHideFlags: 0
@@ -31224,6 +31281,7 @@ GameObject:
   - component: {fileID: 936921809}
   - component: {fileID: 936921808}
   - component: {fileID: 936921810}
+  - component: {fileID: 936921811}
   m_Layer: 5
   m_Name: AudioSettings
   m_TagString: Untagged
@@ -31272,8 +31330,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -31303,6 +31361,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   volumeSlider: {fileID: 2067515618}
+--- !u!114 &936921811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 936921806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1 &938586309
 GameObject:
   m_ObjectHideFlags: 0
@@ -33721,6 +33792,95 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -30}
   m_SizeDelta: {x: 0, y: -60}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1060047742
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1060047743}
+  - component: {fileID: 1060047746}
+  - component: {fileID: 1060047745}
+  - component: {fileID: 1060047744}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1060047743
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060047742}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2066061913}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1060047744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060047742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: 39e2674dd6cbe56468d624d0a052592a, type: 2}
+--- !u!114 &1060047745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060047742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.0627451}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1060047746
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1060047742}
+  m_CullTransparentMesh: 1
 --- !u!1 &1073542471
 GameObject:
   m_ObjectHideFlags: 0
@@ -33732,6 +33892,7 @@ GameObject:
   - component: {fileID: 1073542472}
   - component: {fileID: 1073542474}
   - component: {fileID: 1073542473}
+  - component: {fileID: 1073542475}
   m_Layer: 5
   m_Name: NihahaSettings
   m_TagString: Untagged
@@ -33779,8 +33940,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -33797,6 +33958,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1073542471}
   m_CullTransparentMesh: 1
+--- !u!114 &1073542475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073542471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1 &1073703839
 GameObject:
   m_ObjectHideFlags: 0
@@ -35842,7 +36016,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1317501725}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -36584,6 +36758,7 @@ GameObject:
   - component: {fileID: 1184410961}
   - component: {fileID: 1184410960}
   - component: {fileID: 1184410962}
+  - component: {fileID: 1184410963}
   m_Layer: 5
   m_Name: PackList
   m_TagString: Untagged
@@ -36624,8 +36799,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.078431375}
-  m_RaycastTarget: 1
+  m_Color: {r: 0, g: 0, b: 0, a: 0.13725491}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -36676,6 +36851,19 @@ MonoBehaviour:
   searchField: {fileID: 1869653152}
   sortByDropdown: {fileID: 1455705932}
   sortOrderDropdown: {fileID: 456032067}
+--- !u!114 &1184410963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184410958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: 6295487781a8bce449960a90e0a93bc1, type: 2}
 --- !u!1 &1184639227
 GameObject:
   m_ObjectHideFlags: 0
@@ -49053,7 +49241,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.00002670288, y: 102.616615}
+  m_AnchoredPosition: {x: 0.00002670288, y: 102.61662}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1460289219
@@ -55529,6 +55717,7 @@ GameObject:
   - component: {fileID: 1687670121}
   - component: {fileID: 1687670120}
   - component: {fileID: 1687670122}
+  - component: {fileID: 1687670123}
   m_Layer: 5
   m_Name: BootstrapSettings
   m_TagString: Untagged
@@ -55578,8 +55767,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -55610,6 +55799,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startWithGameToggle: {fileID: 65990716}
   levelSavePathField: {fileID: 1189054180}
+--- !u!114 &1687670123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687670118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1 &1691204076
 GameObject:
   m_ObjectHideFlags: 0
@@ -71630,6 +71832,7 @@ GameObject:
   - component: {fileID: 2066061914}
   - component: {fileID: 2066061915}
   - component: {fileID: 2066061916}
+  - component: {fileID: 2066061917}
   m_Layer: 5
   m_Name: ModSettings
   m_TagString: Untagged
@@ -71649,6 +71852,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1060047743}
   - {fileID: 521157447}
   - {fileID: 1460289220}
   m_Father: {fileID: 867534701}
@@ -71679,7 +71883,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.08615165, g: 0.09793197, b: 0.1509434, a: 0.60784316}
+  m_Color: {r: 0.057271276, g: 0.06599046, b: 0.103773594, a: 0.60784316}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -71716,6 +71920,19 @@ MonoBehaviour:
   - {fileID: 1585853310}
   - {fileID: 281496412}
   - {fileID: 1409734634}
+--- !u!114 &2066061917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2066061912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1 &2067515616
 GameObject:
   m_ObjectHideFlags: 0
@@ -73663,6 +73880,7 @@ GameObject:
   - component: {fileID: 2145124607}
   - component: {fileID: 2145124606}
   - component: {fileID: 2145124608}
+  - component: {fileID: 2145124609}
   m_Layer: 5
   m_Name: LanguageSettings
   m_TagString: Untagged
@@ -73711,8 +73929,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -73742,6 +73960,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TUFHelper::LanguageSettings
   dropdown: {fileID: 1894641645}
+--- !u!114 &2145124609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145124604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 780d90284d2b0734b9403c33ad749212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TUFHelper::UIProximityTracker
+  baseMaterial: {fileID: 2100000, guid: f85da9a2a19e18c489a4a10e88f76a69, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

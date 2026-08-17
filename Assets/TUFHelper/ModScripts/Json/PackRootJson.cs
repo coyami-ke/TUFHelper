@@ -17,10 +17,14 @@ namespace TUFHelper.ModScripts.Json
         [JsonProperty("iconUrl")]
         public string IconUrl { get; set; }
 
-        //[JsonProperty("packOwner")]
-        //public PackOwnerJson PackOwner { get; set; }
+        [JsonProperty("packOwner")]
+        public UserJson PackOwner { get; set; }
         [JsonProperty("items")]
         public List<PackItemNode> Items { get; set; } = new();
+        [JsonProperty("levelCount")]
+        public int LevelCount { get; set; }
+        [JsonProperty("createdAt")]
+        public DateTime CreatedAt { get; set; }
     }
     public class PackItemNode
     {

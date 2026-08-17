@@ -15,20 +15,20 @@ public class PackTreeUIController : MonoBehaviour
 
     private List<PackItemNode> _rootNodes = new();
 
-    public void BuildTree(List<PackItemNode> rootNodes)
+    public void BuildTree(List<PackItemNode> rootNodes, string packId)
     {
         ClearTree();
         _rootNodes = rootNodes;
 
         foreach (var node in _rootNodes)
         {
-            InstantiateNodeRecursive(node, 0);
+            InstantiateNodeRecursive(node, 0, packId);
         }
 
         UpdateLayout(animated: false);
     }
 
-    private void InstantiateNodeRecursive(PackItemNode node, int depth)
+    private void InstantiateNodeRecursive(PackItemNode node, int depth, string packId)
     {
         GameObject go;
 
@@ -44,7 +44,7 @@ public class PackTreeUIController : MonoBehaviour
         {
             go = Instantiate(levelPrefab, rootContainer, false);
             LevelInPackScript levelScript = go.GetComponent<LevelInPackScript>();
-            levelScript.SetLevelInfo(node);
+            levelScript.SetLevelInfo(node, packId);
             node.SpawnedUIScript = levelScript;
         }
 
@@ -63,7 +63,7 @@ public class PackTreeUIController : MonoBehaviour
         {
             foreach (var child in node.Children)
             {
-                InstantiateNodeRecursive(child, depth + 1);
+                InstantiateNodeRecursive(child, depth + 1, packId);
             }
         }
     }

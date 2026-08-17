@@ -38,7 +38,7 @@ public class LevelSelector : MonoBehaviour
         IsShow = false;
     }
 
-    public void LoadLevels(List<string> levels, LevelListInfoElementJson info)
+    public void LoadLevels(List<string> levels, LevelListInfoElementJson info, string packId)
     {
         IsShow = true;
         for (int i = 0; i < levelListParent.transform.childCount; i++)
@@ -51,7 +51,7 @@ public class LevelSelector : MonoBehaviour
         {
             GameObject obj = Instantiate(levelPrefab);
             BundleFontFixer.FixFontsIn(obj);
-            obj.GetComponent<SelectLevelPrefabScript>().SetLevel(level, info);
+            obj.GetComponent<SelectLevelPrefabScript>().SetLevel(level, info, packId);
 
             RectTransform rect = obj.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform);
@@ -65,12 +65,12 @@ public class LevelSelector : MonoBehaviour
         float totalHeight = count * 62.5f + 50;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
-    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo)
+    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo, string packId = "")
     {
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
         yield return new WaitForEndOfFrame();
 
-        LoadLevels(levels, levelInfo);
+        LoadLevels(levels, levelInfo, packId);
     }
 
     public void Hide()
