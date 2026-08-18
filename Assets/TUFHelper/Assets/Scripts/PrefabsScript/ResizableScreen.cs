@@ -1,4 +1,5 @@
 using DG.Tweening;
+using TUFHelper;
 using UnityEngine;
 
 [RequireComponent(typeof(RectTransform))]
@@ -42,8 +43,19 @@ public class ResizableScreen : MonoBehaviour
 
     public void UpdateResolution()
     {
-        rectTransform.sizeDelta = new((Screen.width / 2.5f), (Screen.height / 2.5f));
-        ApplyScale(); 
+        float referenceHeight = 1000f;
+
+        float aspectRatio = (float)Screen.width / Screen.height;
+
+        Vector2 simulatedAdofaiCanvasSize = new Vector2(referenceHeight * aspectRatio, referenceHeight);
+
+        rectTransform.pivot = new Vector2(0.5f, 0.5f);
+        rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+        rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+        rectTransform.sizeDelta = simulatedAdofaiCanvasSize / 2.125f;
+        rectTransform.anchoredPosition = Vector2.zero;
+
+        ApplyScale();
     }
 
     private void ApplyScale()

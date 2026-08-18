@@ -109,13 +109,20 @@ namespace TUFHelper
             if (_modCanvasTransform == null) return;
 
             RectTransform rect = _modCanvasTransform.GetComponent<RectTransform>();
+            Canvas parentCanvas = scrUIController.instance != null ? scrUIController.instance.canvas : null;
 
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.anchorMax = new Vector2(0.5f, 0.5f);
             rect.pivot = new Vector2(0.5f, 0.5f);
             rect.anchoredPosition = Vector2.zero;
 
-            rect.sizeDelta = new Vector2(Screen.width / 2.5f, Screen.height / 2.5f);
+            if (parentCanvas != null)
+            {
+                Vector2 canvasSize = parentCanvas.GetComponent<RectTransform>().rect.size;
+                rect.sizeDelta = canvasSize / 2.125f;
+
+                Main.Logger.Log("Canvas Size: " + rect.sizeDelta);
+            }
         }
 
         public T GetElement<T>(string id) where T : BasicIngameElement
