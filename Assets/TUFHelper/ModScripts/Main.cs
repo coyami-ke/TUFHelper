@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using DG.Tweening;
 using System.Net.Http;
-using UnityModManagerNet;
 
 namespace TUFHelper 
 {
@@ -58,7 +57,7 @@ namespace TUFHelper
             {
                 Assembly.LoadFrom(Path.Combine(modEntry.Path, "CommunityToolkit.Mvvm.dll"));
                 Assembly.LoadFrom(Path.Combine(modEntry.Path, "Microsoft.Bcl.Numerics.dll"));
-                Assembly.LoadFrom(Path.Combine(modEntry.Path, "NVorbis.dll"));
+                //Assembly.LoadFrom(Path.Combine(modEntry.Path, "NVorbis.dll"));
             }
             catch (Exception ex)
             {
@@ -147,6 +146,8 @@ namespace TUFHelper
             LanguageManager.Init();
 
             IngameUIManager.Instance.Initialize();
+
+            Main.Logger.Log("Screen: " + Screen.currentResolution.width + "x" + Screen.currentResolution.height);
 
             //var mod = UnityModManager.modEntries.FirstOrDefault(e => e.Info.Id == "XPerfect");
             //if (mod != null)

@@ -43,10 +43,6 @@ public class FrontPageScript : MonoBehaviour
                 await PackListScript.Instance.ShowPackView(LastOpenedPackId);
             }
         }
-
-        Main.Logger.Log("IsInTUFHelper: " + Main.isInTUFHelper);
-        Main.Logger.Log("IsPackListActive: " + IsPackListActive);
-        Main.Logger.Log("LastOpenedPackId: " + LastOpenedPackId);
     }
     //public void Start()
     //{
