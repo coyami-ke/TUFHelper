@@ -42,7 +42,6 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual Anchor DefaultAnchor => Anchor.Center;
     public abstract bool IsShownOnlyInTUFHelper { get; }
 
-    // Change Start to Awake for structural caching
     protected virtual void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -192,7 +191,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
     private void HandleHitMargin(object sender, HitMarginEventArgs e)
     {
-        if (gameObject.activeSelf) // 123 line in basicingameelement
+        if (gameObject.activeSelf)
         {
             OnHitMargin(e);
         }
