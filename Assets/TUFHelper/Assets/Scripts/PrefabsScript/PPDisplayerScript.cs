@@ -34,6 +34,7 @@ public class PPDisplayerScript : BasicIngameElement
     public override string ID => "PPDisplayer";
     public override string NameInSettings => "Score & Speed";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/ppdisplayer.png");
+    public override Vector2 DefaultPosition => new(5, 0);
     public override Anchor DefaultAnchor => Anchor.LeftMiddle;
 
     private ADOFAI.LevelData leveldata

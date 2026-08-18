@@ -75,6 +75,7 @@ namespace TUFHelper
             if (_modCanvasTransform != null)
             {
                 _modCanvasTransform.gameObject.SetActive(true);
+                UpdateModCanvasSize();
                 return _modCanvasTransform;
             }
 
@@ -83,28 +84,38 @@ namespace TUFHelper
             {
                 _modCanvasTransform = existing;
                 _modCanvasTransform.gameObject.SetActive(true);
+                UpdateModCanvasSize();
                 return _modCanvasTransform;
             }
 
             GameObject subCanvasObj = new GameObject("TUFHelper_CustomSubCanvas", typeof(RectTransform));
             subCanvasObj.transform.SetParent(mainCanvas, false);
 
-            RectTransform rect = subCanvasObj.GetComponent<RectTransform>();
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.sizeDelta = Vector2.zero;
-            rect.anchoredPosition = Vector2.zero;
-            rect.localScale = Vector3.one; 
-
             Canvas subCanvas = subCanvasObj.AddComponent<Canvas>();
-
             subCanvas.overrideSorting = true;
             subCanvas.sortingOrder = 100;
 
             subCanvasObj.AddComponent<GraphicRaycaster>();
 
             _modCanvasTransform = subCanvasObj.transform;
+
+            UpdateModCanvasSize();
+
             return _modCanvasTransform;
+        }
+
+        public void UpdateModCanvasSize()
+        {
+            if (_modCanvasTransform == null) return;
+
+            RectTransform rect = _modCanvasTransform.GetComponent<RectTransform>();
+
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = Vector2.zero;
+
+            rect.sizeDelta = new Vector2(Screen.width / 2.5f, Screen.height / 2.5f);
         }
 
         public T GetElement<T>(string id) where T : BasicIngameElement
