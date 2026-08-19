@@ -17,6 +17,7 @@ public class IngameCurrentBPMScript : IngameVariableScript
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/speed.png");
     public override Vector2 DefaultPosition => new(5, -12 - 5);
     public override Anchor DefaultAnchor => Anchor.LeftTop;
+    public override TextMeshProUGUI[] Texts => new TextMeshProUGUI[1] { text };
 
     protected override TextMeshProUGUI GetText => text;
 

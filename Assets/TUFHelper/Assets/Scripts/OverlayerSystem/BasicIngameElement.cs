@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using TMPro;
 using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
@@ -23,10 +24,13 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         set
         {
             if (value == isSelected) return;
-            foreach (var handle in settingsHandles)
+            if (settingsHandles != null)
             {
-                if (value) handle.GetComponent<Image>().color = Color.yellow;
-                else handle.GetComponent<Image>().color = Color.green;
+                foreach (var handle in settingsHandles)
+                {
+                    if (handle != null)
+                        handle.GetComponent<Image>().color = value ? Color.yellow : Color.green;
+                }
             }
             isSelected = value;
         }
@@ -40,19 +44,25 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual Sprite Icon => null;
     public virtual Vector2 DefaultPosition => Vector2.zero;
     public virtual Anchor DefaultAnchor => Anchor.Center;
+    public virtual TextMeshProUGUI[] Texts { get; }
     public abstract bool IsShownOnlyInTUFHelper { get; }
 
     protected virtual void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
+        RefreshCanvasReferences();
+    }
+
+    public void RefreshCanvasReferences()
+    {
+        if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
         parentRectTransform = transform.parent as RectTransform;
         canvas = GetComponentInParent<Canvas>();
     }
 
     protected virtual void Start()
     {
-        if (rectTransform == null) rectTransform = GetComponent<RectTransform>();
-        if (parentRectTransform == null) parentRectTransform = transform.parent as RectTransform;
+        RefreshCanvasReferences();
 
         if (Main.Setting.IngameElementsSettings.ContainsKey(ID))
         {
@@ -67,9 +77,11 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
         OnLoadCustomSettings(Model);
 
-        rectTransform.anchoredPosition = Model.Position.ToUnity();
         UpdateAnchorAndPivot(Model.Anchor);
-        rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f);
+        ApplyTextAlignment(Model.Anchor);
+
+        rectTransform.anchoredPosition = Model.Position.ToUnity();
+        rectTransform.localScale = new Vector3(Mathf.Max(0.01f, Model.Scale), Mathf.Max(0.01f, Model.Scale), 1f);
 
         Canvas.ForceUpdateCanvases();
 
@@ -103,6 +115,22 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         { Anchor.MiddleBottom, new Vector2(0.5f, 0.0f) },
         { Anchor.RightBottom,  new Vector2(1.0f, 0.0f) }
     };
+
+    public readonly Dictionary<Anchor, TextAlignmentOptions> TextAlignmentOptionsForAnchors = new()
+    {
+        { Anchor.LeftTop,      TextAlignmentOptions.TopLeft },
+        { Anchor.MiddleTop,    TextAlignmentOptions.Top },
+        { Anchor.RightTop,     TextAlignmentOptions.TopRight },
+
+        { Anchor.LeftMiddle,   TextAlignmentOptions.Left },
+        { Anchor.Center,       TextAlignmentOptions.Center },
+        { Anchor.RightMiddle,  TextAlignmentOptions.Right },
+
+        { Anchor.LeftBottom,   TextAlignmentOptions.BottomLeft },
+        { Anchor.MiddleBottom, TextAlignmentOptions.Bottom },
+        { Anchor.RightBottom,  TextAlignmentOptions.BottomRight }
+    };
+
     private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)
@@ -116,15 +144,32 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
                 break;
 
             case "Scale":
-                rectTransform.localScale = new Vector3(Model.Scale, Model.Scale, 1f);
+                rectTransform.localScale = new Vector3(Mathf.Max(0.01f, Model.Scale), Mathf.Max(0.01f, Model.Scale), 1f);
                 break;
 
             case "Anchor":
                 UpdateAnchorAndPivot(Model.Anchor);
+                ApplyTextAlignment(Model.Anchor);
                 break;
         }
 
         Main.Setting.Save(Main.ModEntry);
+    }
+
+    private void ApplyTextAlignment(Anchor anchor)
+    {
+        if (Texts == null || Texts.Length == 0) return;
+
+        if (TextAlignmentOptionsForAnchors.TryGetValue(anchor, out TextAlignmentOptions targetAlignment))
+        {
+            foreach (var text in Texts)
+            {
+                if (text != null)
+                {
+                    text.alignment = targetAlignment;
+                }
+            }
+        }
     }
 
     private void UpdateAnchorAndPivot(Anchor anchor)
@@ -139,6 +184,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             rectTransform.anchoredPosition = Model.Position.ToUnity();
         }
     }
+
     private void SetPivotKeepPosition(RectTransform rect, Vector2 newPivot)
     {
         Vector2 size = rect.rect.size;
@@ -158,9 +204,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         if (Model == null) return;
 
         bool globalOverlayerActive = Main.Setting.ShowTUFHelperOverlayer;
-
         bool shouldShowWithoutMod = !IsShownOnlyInTUFHelper || (ADOFAIGameplayHandler.IsFromTUFHelper || IsInSettings);
-
         bool shouldShow = globalOverlayerActive && Model.IsShowed && ShouldElementBeVisible() && shouldShowWithoutMod;
 
         if (gameObject.activeSelf != shouldShow)
@@ -208,25 +252,28 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     #region Virtual Lifecycle Hooks 
 
     protected virtual void OnPlay(PlayButtonEventArgs e) { }
-
     protected virtual void OnHit(HitMargin hit) { }
     protected virtual void OnHitMargin(HitMarginEventArgs e) { }
-
     protected virtual void OnReturnToEditor(ScnGameTransferToEditorEventArgs e) { }
     protected virtual void OnLoadCustomSettings(IngameElementModel model) { }
-
     public virtual void OnSettingsOpened() { }
 
     #endregion
+
     public void CreateSettingsHandles()
     {
+        if (settingsHandles != null)
+        {
+            foreach (var h in settingsHandles) if (h != null) Destroy(h);
+        }
+
         settingsHandles = new GameObject[8];
 
         Vector2[] cornerAnchors = {
-            new Vector2(0, 0), // Bottom-Left
-            new Vector2(1, 0), // Bottom-Right
-            new Vector2(0, 1), // Top-Left
-            new Vector2(1, 1)  // Top-Right
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(0, 1),
+            new Vector2(1, 1)
         };
         string[] cornerNames = { "BL_Handle", "BR_Handle", "TL_Handle", "TR_Handle" };
 
@@ -239,28 +286,28 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             handleRect.anchorMin = cornerAnchors[i];
             handleRect.anchorMax = cornerAnchors[i];
             handleRect.pivot = new Vector2(0.5f, 0.5f);
-            handleRect.sizeDelta = new Vector2(10f, 10f); // Size of the dot
+            handleRect.sizeDelta = new Vector2(10f, 10f);
             handleRect.anchoredPosition = Vector2.zero;
 
             Image img = handle.GetComponent<Image>();
-            img.color = Color.green;
+            img.color = IsSelected ? Color.yellow : Color.green;
             img.raycastTarget = false;
 
             settingsHandles[i] = handle;
         }
 
         Vector2[] lineAnchorMins = {
-            new Vector2(0, 0), // Bottom Line
-            new Vector2(0, 1), // Top Line
-            new Vector2(0, 0), // Left Line
-            new Vector2(1, 0)  // Right Line
+            new Vector2(0, 0),
+            new Vector2(0, 1),
+            new Vector2(0, 0),
+            new Vector2(1, 0)
         };
 
         Vector2[] lineAnchorMaxs = {
-            new Vector2(1, 0), // Bottom Line
-            new Vector2(1, 1), // Top Line
-            new Vector2(0, 1), // Left Line
-            new Vector2(1, 1)  // Right Line
+            new Vector2(1, 0),
+            new Vector2(1, 1),
+            new Vector2(0, 1),
+            new Vector2(1, 1)
         };
 
         string[] lineNames = { "Bottom_Line", "Top_Line", "Left_Line", "Right_Line" };
@@ -275,16 +322,16 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             lineRect.anchorMin = lineAnchorMins[i];
             lineRect.anchorMax = lineAnchorMaxs[i];
 
-            if (i == 0) lineRect.pivot = new Vector2(0.5f, 0f);      // Bottom pushes up
-            else if (i == 1) lineRect.pivot = new Vector2(0.5f, 1f); // Top pushes down
-            else if (i == 2) lineRect.pivot = new Vector2(0f, 0.5f); // Left pushes right
-            else if (i == 3) lineRect.pivot = new Vector2(1f, 0.5f); // Right pushes left
+            if (i == 0) lineRect.pivot = new Vector2(0.5f, 0f);
+            else if (i == 1) lineRect.pivot = new Vector2(0.5f, 1f);
+            else if (i == 2) lineRect.pivot = new Vector2(0f, 0.5f);
+            else if (i == 3) lineRect.pivot = new Vector2(1f, 0.5f);
 
-            if (i < 2) // Horizontal lines (Bottom, Top)
+            if (i < 2)
             {
                 lineRect.sizeDelta = new Vector2(0f, lineThickness);
             }
-            else // Vertical lines (Left, Right)
+            else
             {
                 lineRect.sizeDelta = new Vector2(lineThickness, 0f);
             }
@@ -292,7 +339,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             lineRect.anchoredPosition = Vector2.zero;
 
             Image img = line.GetComponent<Image>();
-            img.color = Color.green;
+            img.color = IsSelected ? Color.yellow : Color.green;
             img.raycastTarget = false;
 
             settingsHandles[4 + i] = line;
@@ -303,8 +350,11 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (canvas == null || Model == null) return;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, eventData.position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out Vector2 localMousePos))
+        RefreshCanvasReferences();
+        if (canvas == null || Model == null || parentRectTransform == null) return;
+
+        Camera cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, eventData.position, cam, out Vector2 localMousePos))
         {
             dragOffset = Model.Position.ToUnity() - localMousePos;
         }
@@ -312,14 +362,14 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
     public void OnDrag(PointerEventData eventData)
     {
+        RefreshCanvasReferences();
         if (canvas == null || Model == null || parentRectTransform == null) return;
 
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, eventData.position, canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera, out Vector2 localMousePos))
+        Camera cam = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(parentRectTransform, eventData.position, cam, out Vector2 localMousePos))
         {
             Vector2 targetLocalPos = localMousePos + dragOffset;
             rectTransform.anchoredPosition = targetLocalPos;
-
-            LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
 
             Vector3[] elementCorners = new Vector3[4];
             Vector3[] parentCorners = new Vector3[4];
@@ -340,6 +390,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
             Model.Position = rectTransform.anchoredPosition.ToSystem();
         }
     }
+
     #endregion
 
     protected virtual void OnDestroy()

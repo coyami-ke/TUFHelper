@@ -18,6 +18,8 @@ public class IngameComboScript : BasicIngameElement
     public override string ID => "Combo";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
     public override Anchor DefaultAnchor => Anchor.MiddleTop;
+    public override Vector2 DefaultPosition => new(0, -55);
+    public override TextMeshProUGUI[] Texts => new TextMeshProUGUI[2] { staticText, comboText };
 
     protected override void Awake()
     {
