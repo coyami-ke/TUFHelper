@@ -13,7 +13,7 @@ public class IngameJudgementsScript : BasicIngameElement
     private int tooEarlyCount = 0;
     private int veryEarlyCount = 0;
     private int earlyPerfectCount = 0;
-    private int perfectCount = 0; // Merged count for non-XPerfect mode
+    private int perfectCount = 0;
     private int plusPerfectCount = 0;
     private int xPerfectCount = 0;
     private int minusPerfectCount = 0;
