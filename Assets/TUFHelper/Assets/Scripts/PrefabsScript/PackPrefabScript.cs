@@ -1,17 +1,12 @@
-using System;
-using System.Net.Http;
-using System.Security.Policy;
-using System.Threading;
-using System.Threading.Tasks;
 using DG.Tweening;
-using Newtonsoft.Json;
+using System;
+using System.Threading;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
-using TUFHelper.ModScripts.Web;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
@@ -20,6 +15,8 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public TextMeshProUGUI nameText, levelsNumberText, favoritesText, nicknameText, hasMoreText;
 
     public PackPefab_ReferencedLevelScript level1, level2, level3;
+
+    private CancellationTokenSource imageCancelToken;
 
     public PackListElementJson PackInfo { get; private set; }
 
@@ -30,157 +27,77 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         nameText.text = info.Name;
         levelsNumberText.text = info.LevelCount + " level(s)";
         favoritesText.text = info.FavoritesCount.ToString();
-        if (info.PackOwner.Nickname != null) nicknameText.text = info.PackOwner.Nickname;
-        else nicknameText.text = info.PackOwner.Username;
+
+        if (info.PackOwner != null)
+        {
+            nicknameText.text = !string.IsNullOrEmpty(info.PackOwner.Nickname)
+                ? info.PackOwner.Nickname
+                : info.PackOwner.Username;
+        }
 
         int remindedLevels = Mathf.Max(0, info.LevelCount - 3);
+        hasMoreText.text = remindedLevels > 0 ? $"+{remindedLevels} more" : "";
 
-        if (remindedLevels > 0)
-        {
-            hasMoreText.text = $"+{remindedLevels} more";
-        }
-        else
-        {
-            hasMoreText.text = "";
-        }
-
-        if (info.PackItems.Length >= 1)
+        if (info.PackItems != null && info.PackItems.Length >= 1)
         {
             level1.gameObject.SetActive(true);
             level1.SetLevelInfo(info.PackItems[0]);
         }
         else level1.gameObject.SetActive(false);
-        if (info.PackItems.Length >= 2)
+
+        if (info.PackItems != null && info.PackItems.Length >= 2)
         {
-            level2.SetLevelInfo(info.PackItems[1]);
             level2.gameObject.SetActive(true);
+            level2.SetLevelInfo(info.PackItems[1]);
         }
         else level2.gameObject.SetActive(false);
-        if (info.PackItems.Length >= 3)
+
+        if (info.PackItems != null && info.PackItems.Length >= 3)
         {
-            level3.SetLevelInfo(info.PackItems[2]);
             level3.gameObject.SetActive(true);
+            level3.SetLevelInfo(info.PackItems[2]);
         }
         else level3.gameObject.SetActive(false);
 
-        if (info.PackOwner != null && !string.IsNullOrEmpty(info.PackOwner.AvatarURL)) LoadProfilePicture(info.PackOwner.AvatarURL);
-        if (!string.IsNullOrEmpty(info.IconURL)) LoadIconPicture(info.IconURL);
-    }
+        imageCancelToken?.Cancel();
+        imageCancelToken = new CancellationTokenSource();
 
-    public async void LoadProfilePicture(string url)
-    {
-        byte[] imageData = await GetImageFromURL(url);
-        if (imageData == null) return;
-
-        Sprite sprite = await CreateSpriteAsync(imageData);
-        if (sprite != null && pfpImage != null)
+        if (info.PackOwner != null && !string.IsNullOrEmpty(info.PackOwner.AvatarURL))
         {
-            pfpImage.sprite = sprite;
-        }
-    }
-
-    public async void LoadIconPicture(string url)
-    {
-        byte[] imageData = await GetImageFromURL(url);
-        if (imageData == null) return;
-
-        Sprite sprite = await CreateSpriteAsync(imageData);
-        if (sprite != null && iconImage != null)
-        {
-            iconImage.sprite = sprite;
-        }
-    }
-
-    private async Task<Sprite> CreateSpriteAsync(byte[] imageData)
-    {
-        Texture2D texture = new Texture2D(2, 2);
-
-        if (texture.LoadImage(imageData))
-        {
-            Rect rect = new Rect(0, 0, texture.width, texture.height);
-            Vector2 pivot = new Vector2(0.5f, 0.5f);
-
-            return Sprite.Create(texture, rect, pivot);
+            _ = ImageUtils.LoadImageToUIAsync(info.PackOwner.AvatarURL, pfpImage, imageCancelToken.Token);
         }
 
-        Main.Logger.Error("Failed to load PNG byte array into Texture2D.");
-        return null;
-    }
-
-    public async Task<byte[]> GetImageFromURL(string url, CancellationToken token = default)
-    {
-        try
+        if (!string.IsNullOrEmpty(info.IconURL))
         {
-            HttpResponseMessage response = await Main.Client.GetAsync(url, HttpCompletionOption.ResponseContentRead, token);
-
-            response.EnsureSuccessStatusCode();
-
-            return await response.Content.ReadAsByteArrayAsync();
-        }
-        catch (HttpRequestException ex)
-        {
-            Main.Logger.Error($"Failed to download profile picture: {ex.Message}");
-            return null;
-        }
-        catch (OperationCanceledException)
-        {
-            return null;
-        }
-        catch (Exception ex)
-        {
-            Main.Logger.Error($"Unexpected error downloading profile picture: {ex.Message}");
-            return null;
+            _ = ImageUtils.LoadImageToUIAsync(info.IconURL, iconImage, imageCancelToken.Token);
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        backgroundImage.DOColor(new Color(1, 1, 1, 22f / 255), 0.25f);
+        backgroundImage.DOColor(new Color(1, 1, 1, 22f / 255f), 0.25f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        backgroundImage.DOColor(new Color(1, 1, 1, 10f / 255), 0.25f);
+        backgroundImage.DOColor(new Color(1, 1, 1, 10f / 255f), 0.25f);
     }
 
-    public async void OnPointerClick(PointerEventData eventData)
+    public void OnPointerClick(PointerEventData eventData)
     {
-        try 
+        try
         {
             PackListScript.Instance.ShowPackView();
-
-            PackListScript.Instance.SetPackInfo(PackInfo, pfpImage.sprite, iconImage.sprite);
-        }
-        catch (HttpRequestException ex)
-        {
-            Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure: {ex.Message}");
-            throw;
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
+            PackListScript.Instance.SetPackInfo(PackInfo, pfpImage != null ? pfpImage.sprite : null, iconImage != null ? iconImage.sprite : null);
         }
         catch (Exception ex)
         {
-            Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
-            throw;
+            Main.Logger.Error($"[PackPrefabScript] Error opening pack view: {ex.Message}");
         }
     }
 
-    private void ProcessNode(PackItemNode node, int depth = 0)
+    private void OnDestroy()
     {
-        string indent = new string('-', depth * 2);
-
-        if (node.IsFolder)
-        {
-            foreach (var childNode in node.Children)
-            {
-                ProcessNode(childNode, depth + 1);
-            }
-        }
-        else if (node.IsLevel)
-        {
-            var track = node.ReferencedLevel;
-        }
+        imageCancelToken?.Cancel();
     }
 }

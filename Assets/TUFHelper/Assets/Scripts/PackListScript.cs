@@ -1,5 +1,4 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,6 +8,7 @@ using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +30,7 @@ public class PackListViewModel
         PackPrefabScripts.Clear();
         Cleared?.Invoke();
     }
+
     public void Add(PackListElementJson element)
     {
         PackPrefabScripts.Add(element);
@@ -40,7 +41,9 @@ public class PackListViewModel
 public class PackListScript : MonoBehaviour
 {
     private CancellationTokenSource requestCancelToken;
+    private CancellationTokenSource imageCancelToken;
     private bool isLoading = false;
+    private ScrollRect cachedScrollRect;
 
     public GameObject packPrefab, packsParent, verticalScroll, packView;
     public PackTreeUIController packTreeController;
@@ -54,7 +57,7 @@ public class PackListScript : MonoBehaviour
     public TUFAPIRequest_Packs WebRequest { get; private set; }
     public PackListViewModel ViewModel { get; private set; }
 
-    public static PackListScript Instance { get; private set;  }
+    public static PackListScript Instance { get; private set; }
 
     public void Awake()
     {
@@ -65,24 +68,23 @@ public class PackListScript : MonoBehaviour
 
         ViewModel.AddedRange += ViewModel_AddedRange;
         ViewModel.Cleared += ViewModel_Cleared;
+
+        if (verticalScroll != null)
+        {
+            cachedScrollRect = verticalScroll.GetComponent<ScrollRect>();
+        }
     }
 
     public async void Start()
     {
         if (searchField != null)
-        {
             searchField.onEndEdit.AddListener(OnSearchBarEnter);
-        }
 
         if (sortByDropdown != null)
-        {
             sortByDropdown.onValueChanged.AddListener(OnSortByChanged);
-        }
 
         if (sortOrderDropdown != null)
-        {
             sortOrderDropdown.onValueChanged.AddListener(OnSortOrderChanged);
-        }
 
         await UpdatePackListAsync();
     }
@@ -90,68 +92,86 @@ public class PackListScript : MonoBehaviour
     public void ShowPackView()
     {
         packView.SetActive(true);
-        searchField.gameObject.SetActive(false);
-        sortByDropdown.gameObject.SetActive(false);
-        sortOrderDropdown.gameObject.SetActive(false);
+        if (searchField != null) searchField.gameObject.SetActive(false);
+        if (sortByDropdown != null) sortByDropdown.gameObject.SetActive(false);
+        if (sortOrderDropdown != null) sortOrderDropdown.gameObject.SetActive(false);
         gameObject.SetActive(false);
     }
+
     public async Task ShowPackView(string id)
     {
         ShowPackView();
 
+        imageCancelToken?.Cancel();
+        imageCancelToken = new CancellationTokenSource();
+
         string url = "https://api.tuforums.com/v2/database/levels/packs/" + id;
         string answer = "";
+
         try
         {
-            HttpResponseMessage response = await Main.Client.GetAsync(url);
+            HttpResponseMessage response = await Main.Client.GetAsync(url, imageCancelToken.Token);
             response.EnsureSuccessStatusCode();
             answer = await response.Content.ReadAsStringAsync();
         }
         catch (HttpRequestException ex)
         {
             Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
-            answer = "";
+            return;
         }
         catch (OperationCanceledException)
         {
-            answer = "";
+            return;
         }
         catch (Exception ex)
         {
             Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
-            answer = "";
+            return;
         }
 
         PackRootJson json = JsonConvert.DeserializeObject<PackRootJson>(answer);
+        if (json == null) return;
 
         packTreeController.BuildTree(json.Items, id);
 
-        //packInfo_pfpImage.sprite = pfp;
-        //packInfo_iconImage.sprite = icon;
         packInfo_name.text = json.Name;
-        if (json.PackOwner.Nickname != null) packInfo_ownerName.text = json.PackOwner.Nickname;
-        else if (json.PackOwner.Username != null) packInfo_ownerName.text = json.PackOwner.Username;
+        if (json.PackOwner?.Nickname != null) packInfo_ownerName.text = json.PackOwner.Nickname;
+        else if (json.PackOwner?.Username != null) packInfo_ownerName.text = json.PackOwner.Username;
         else packInfo_ownerName.text = "";
 
         packInfo_levelsNumber.text = json.LevelCount.ToString();
-        packInfo_itemsNumber.text = json.Items.Count.ToString();
+        packInfo_itemsNumber.text = json.Items != null ? json.Items.Count.ToString() : "0";
         packInfo_created.text = json.CreatedAt.ToShortDateString();
+
+        // Load profile picture and icon asynchronously
+        if (json.PackOwner != null && !string.IsNullOrEmpty(json.PackOwner.AvatarURL))
+        {
+            _ = ImageUtils.LoadImageToUIAsync(json.PackOwner.AvatarURL, packInfo_pfpImage, imageCancelToken.Token);
+        }
+
+        if (!string.IsNullOrEmpty(json.IconUrl))
+        {
+            _ = ImageUtils.LoadImageToUIAsync(json.IconUrl, packInfo_iconImage, imageCancelToken.Token);
+        }
     }
+
     public void HidePackView()
     {
         packView.SetActive(false);
-        searchField.gameObject.SetActive(true);
-        sortByDropdown.gameObject.SetActive(true);
-        sortOrderDropdown.gameObject.SetActive(true);
+        if (searchField != null) searchField.gameObject.SetActive(true);
+        if (sortByDropdown != null) sortByDropdown.gameObject.SetActive(true);
+        if (sortOrderDropdown != null) sortOrderDropdown.gameObject.SetActive(true);
         gameObject.SetActive(true);
     }
+
     public async void SetPackInfo(PackListElementJson info, Sprite pfp, Sprite icon)
     {
         packInfo_pfpImage.sprite = pfp;
         packInfo_iconImage.sprite = icon;
         packInfo_name.text = info.Name;
-        if (info.PackOwner.Nickname != null) packInfo_ownerName.text = info.PackOwner.Nickname;
-        else if (info.PackOwner.Username != null) packInfo_ownerName.text = info.PackOwner.Username;
+
+        if (info.PackOwner?.Nickname != null) packInfo_ownerName.text = info.PackOwner.Nickname;
+        else if (info.PackOwner?.Username != null) packInfo_ownerName.text = info.PackOwner.Username;
         else packInfo_ownerName.text = "";
 
         packInfo_levelsNumber.text = info.TotalLevelCount.ToString();
@@ -179,16 +199,14 @@ public class PackListScript : MonoBehaviour
         }
     }
 
-    public async void Update()
+    public void Update()
     {
-        if (verticalScroll == null) return;
+        if (isLoading || cachedScrollRect == null) return;
 
-        ScrollRect scroll = verticalScroll.GetComponent<ScrollRect>();
-        if (!isLoading && scroll != null && scroll.verticalNormalizedPosition <= 0.01f)
+        if (cachedScrollRect.verticalNormalizedPosition <= 0.01f)
         {
-            isLoading = true;
             WebRequest.Offset = GetPackPrefabScripts().Length;
-            await UpdatePackListAsync();
+            _ = UpdatePackListAsync();
         }
     }
 
@@ -201,10 +219,9 @@ public class PackListScript : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        if (verticalScroll != null)
+        if (cachedScrollRect != null)
         {
-            ScrollRect scroll = verticalScroll.GetComponent<ScrollRect>();
-            if (scroll != null) scroll.verticalNormalizedPosition = 1f;
+            cachedScrollRect.verticalNormalizedPosition = 1f;
         }
     }
 
@@ -214,10 +231,8 @@ public class PackListScript : MonoBehaviour
 
         float widthPack = 332;
         float heightPack = 240;
-
         float spacingX = 20f;
         float spacingY = 40f;
-
         float startX = 50f;
         float startY = -20f;
 
@@ -253,7 +268,6 @@ public class PackListScript : MonoBehaviour
     public async void OnSearchBarEnter(string text)
     {
         WebRequest.Query = text;
-
         ClearPacks();
         await UpdatePackListAsync();
     }
@@ -262,18 +276,10 @@ public class PackListScript : MonoBehaviour
     {
         switch (index)
         {
-            case 0:
-                WebRequest.SortBy = "RECENT";
-                break;
-            case 1:
-                WebRequest.SortBy = "NAME";
-                break;
-            case 2:
-                WebRequest.SortBy = "LEVELS";
-                break;
-            case 3:
-                WebRequest.SortBy = "FAVORITES";
-                break;
+            case 0: WebRequest.SortBy = "RECENT"; break;
+            case 1: WebRequest.SortBy = "NAME"; break;
+            case 2: WebRequest.SortBy = "LEVELS"; break;
+            case 3: WebRequest.SortBy = "FAVORITES"; break;
         }
 
         ClearPacks();
@@ -284,12 +290,8 @@ public class PackListScript : MonoBehaviour
     {
         switch (index)
         {
-            case 0:
-                WebRequest.SortAsc = AscendingOrDescending.Ascending;
-                break;
-            case 1:
-                WebRequest.SortAsc = AscendingOrDescending.Descending;
-                break;
+            case 0: WebRequest.SortAsc = AscendingOrDescending.Ascending; break;
+            case 1: WebRequest.SortAsc = AscendingOrDescending.Descending; break;
         }
 
         ClearPacks();
@@ -321,10 +323,7 @@ public class PackListScript : MonoBehaviour
                 Main.Logger.Error("Empty answer");
             }
         }
-        catch (OperationCanceledException)
-        {
-            // Canceled cleanly
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             Main.Logger.Error($"Update operation failed: {ex.Message}");
@@ -353,5 +352,6 @@ public class PackListScript : MonoBehaviour
         if (sortOrderDropdown != null) sortOrderDropdown.onValueChanged.RemoveListener(OnSortOrderChanged);
 
         requestCancelToken?.Cancel();
+        imageCancelToken?.Cancel();
     }
 }
