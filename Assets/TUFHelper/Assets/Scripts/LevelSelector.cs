@@ -10,7 +10,7 @@ public class LevelSelector : MonoBehaviour
 {
     public static LevelSelector instance;
 
-    public GameObject levelPrefab, levelListParent, verticalScroll;
+    public GameObject levelPrefab, levelListParent;
 
     public LevelListInfoElementJson LevelInfo { get; set; }
 
@@ -56,13 +56,13 @@ public class LevelSelector : MonoBehaviour
             RectTransform rect = obj.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform);
 
-            rect.anchoredPosition = new Vector3(0, (count * - 62.5f) -50);
+            rect.anchoredPosition = new Vector3(0, (count * - 90));
 
             count++;
         }
 
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-        float totalHeight = count * 62.5f + 50;
+        float totalHeight = count * 90;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
     }
     public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo, string packId = "")
