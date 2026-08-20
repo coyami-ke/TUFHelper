@@ -45,7 +45,7 @@ public abstract class IngameVariableScript : BasicIngameElement
         UpdateText("");
     }
 
-    protected void UpdateText(float value, string format = "F0")
+    protected void UpdateText(float value, string format = "F0", string suffix = "")
     {
         if (GetText == null) return;
 
@@ -70,7 +70,7 @@ public abstract class IngameVariableScript : BasicIngameElement
         }
 
         string valueText = value.ToString(format);
-        string coloredValue = $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{valueText}</color>";
+        string coloredValue = $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{valueText}{suffix}</color>";
 
         string varName = VariableSettings?.VariableName ?? DefaultVariableName;
         GetText.text = $"{varName}: {coloredValue}";
