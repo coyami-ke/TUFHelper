@@ -69,7 +69,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _HoverRadius: 0.44
+    - _HoverRadius: 1
     - _MaxIntensity: 0.25
     - _Metallic: 0
     - _MinIntensity: 0

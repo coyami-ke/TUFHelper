@@ -11,7 +11,7 @@ Shader "UI/ProximityBackground"
 
         // Proximity Settings
         _MouseUV ("Mouse Position (UV)", Vector) = (0.5, 0.5, 0, 0)
-        _HoverRadius ("Hover Radius", Range(0.1, 2.0)) = 0.6
+        _HoverRadius ("Hover Radius", Range(0.01, 2.0)) = 0.6
         _MinIntensity ("Min Glow Opacity", Range(0.0, 1.0)) = 0.0
         _MaxIntensity ("Max Glow Opacity", Range(0.0, 1.0)) = 0.8
 
@@ -101,7 +101,14 @@ Shader "UI/ProximityBackground"
             {
                 fixed4 mainTex = tex2D(_MainTex, IN.uv) * IN.color;
 
-                float distToMouse = distance(IN.uv, _MouseUV);
+                // Derive aspect ratio dynamically from screen derivatives
+                float aspect = abs(ddy(IN.uv.y) / max(ddx(IN.uv.x), 0.0001));
+
+                // Scale X delta by aspect ratio to maintain circular distance
+                float2 delta = IN.uv - _MouseUV;
+                delta.x *= aspect;
+
+                float distToMouse = length(delta);
 
                 float proximity = smoothstep(0.0, 1.0, 1.0 - saturate(distToMouse / _HoverRadius));
 

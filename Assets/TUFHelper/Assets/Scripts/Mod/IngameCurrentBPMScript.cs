@@ -15,7 +15,7 @@ public class IngameCurrentBPMScript : IngameVariableScript
     public override string NameInSettings => "Current BPM";
     public override string ID => "CurrentBPM";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/speed.png");
-    public override Vector2 DefaultPosition => new(5, -12 - 5);
+    public override Vector2 DefaultPosition => new(2.5f, -12 - 2.5f);
     public override Anchor DefaultAnchor => Anchor.LeftTop;
     public override TextMeshProUGUI[] Texts => new TextMeshProUGUI[1] { text };
 

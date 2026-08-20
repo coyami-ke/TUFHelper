@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using DG.Tweening;
 using TMPro;
 using TUFHelper;
@@ -12,6 +14,8 @@ public class IngameComboScript : BasicIngameElement
     private int _currentCombo = 0;
     private RectTransform staticTextRect;
     private RectTransform comboTextRect;
+
+    private ComboSettingsCategory comboSettings;
 
     public override bool IsShownOnlyInTUFHelper => false;
     public override string NameInSettings => "Combo";
@@ -30,22 +34,57 @@ public class IngameComboScript : BasicIngameElement
 
     public override void OnSettingsOpened()
     {
+        _currentCombo = 0;
+        UpdateComboUI();
+        UpdateStaticText();
+    }
+
+    protected override void OnLoadCustomSettings(IngameElementModel model)
+    {
+        if (comboSettings != null)
+        {
+            comboSettings.PropertyChanged -= ComboSettings_PropertyChanged;
+        }
+
+        comboSettings = model.GetCategory("Combo", new ComboSettingsCategory());
+        comboSettings.PropertyChanged += ComboSettings_PropertyChanged;
+
+        UpdateStaticText();
+    }
+
+    private void ComboSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ComboSettingsCategory.UseXPerfectSystem))
+        {
+            UpdateStaticText();
+        }
+    }
+
+    private void UpdateStaticText()
+    {
+        if (staticText == null) return;
+
+        bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
+        staticText.text = useXPerfect ? "X-Perfect" : "Perfect";
     }
 
     protected override void OnPlay(PlayButtonEventArgs e)
     {
         _currentCombo = 0;
         UpdateComboUI();
+        UpdateStaticText();
     }
 
-    protected override void OnHit(HitMargin hit)
+    protected override void OnHitMargin(HitMarginEventArgs e)
     {
-        if (IsActiveHit(hit))
+        if (e.Hit == HitMargin.Auto) return;
+
+        if (IsActiveHit(e))
         {
             _currentCombo++;
             UpdateComboUI();
         }
-        else if (IsBreakingHit(hit))
+        else if (IsBreakingHit(e))
         {
             _currentCombo = 0;
             UpdateComboUI();
@@ -66,9 +105,16 @@ public class IngameComboScript : BasicIngameElement
         }
     }
 
-    private bool IsActiveHit(HitMargin hit)
+    private bool IsActiveHit(HitMarginEventArgs e)
     {
-        switch (hit)
+        bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
+
+        if (useXPerfect)
+        {
+            return e.Hit == HitMargin.Perfect && e.DetailedJudge == DetailedJudge.XPerfect;
+        }
+
+        switch (e.Hit)
         {
             case HitMargin.Perfect:
             case HitMargin.EarlyPerfect:
@@ -81,9 +127,16 @@ public class IngameComboScript : BasicIngameElement
         }
     }
 
-    private bool IsBreakingHit(HitMargin hit)
+    private bool IsBreakingHit(HitMarginEventArgs e)
     {
-        switch (hit)
+        bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
+
+        if (useXPerfect)
+        {
+            return !(e.Hit == HitMargin.Perfect && e.DetailedJudge == DetailedJudge.XPerfect);
+        }
+
+        switch (e.Hit)
         {
             case HitMargin.TooEarly:
             case HitMargin.TooLate:
@@ -104,4 +157,25 @@ public class IngameComboScript : BasicIngameElement
             comboText.text = _currentCombo.ToString();
         }
     }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        if (comboSettings != null)
+        {
+            comboSettings.PropertyChanged -= ComboSettings_PropertyChanged;
+        }
+    }
+}
+
+public partial class ComboSettingsCategory : IngameElementSettingsCategory
+{
+    [ObservableProperty]
+    [property: ShowInOverlayerSettings("Use XPerfect")]
+    private bool _useXPerfectSystem = true;
+
+    public override string DisplayName => "Combo";
+
+    public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
 }
