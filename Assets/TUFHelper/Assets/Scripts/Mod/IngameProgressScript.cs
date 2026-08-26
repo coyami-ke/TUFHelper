@@ -33,10 +33,14 @@ public class IngameProgressScript : IngameVariableScript
 
     protected override void OnPlay(PlayButtonEventArgs e)
     {
-        float current = scrController.instance.currFloor.seqID;
-        float total = scrLevelMaker.instance.listFloors.Last().seqID;
+        try
+        {
+            float current = scrController.instance.currFloor.seqID;
+            float total = scrLevelMaker.instance.listFloors.Last().seqID;
 
-        UpdateText((current / (total - 1)) * 100.0f, "F2", "%");
+            UpdateText((current / (total - 1)) * 100.0f, "F2", "%");
+        }
+        catch { }
     }
 
     protected override void OnHit(HitMargin hit)

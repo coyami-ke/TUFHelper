@@ -2,8 +2,10 @@ using HarmonyLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using TUFHelper.ModScripts.Json;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,8 +64,12 @@ namespace TUFHelper.Utils
         public static event EventHandler<ScnGameTransferToEditorEventArgs> Editor_ScnGameTransferToEditor;
         public static event EventHandler<HitMarginEventArgs> Editor_HitMargin;
 
+        public static string LastOpenedTUFLevel = "";
+
         public static void OpenLevel(string pathToLevel, LevelListInfoElementJson levelInfo)
         {
+            LastOpenedTUFLevel = pathToLevel;
+
             HideUIFixPatch.RecentDirectLevelOpend = true;
 
             GCS.sceneToLoad = "scnEditor";
@@ -106,9 +112,68 @@ namespace TUFHelper.Utils
             public static bool RatingMode { get; set; }
             public static void Prefix()
             {
+                OpenLevelPatch.Postfix();
                 Editor_PlayButtonPressed?.Invoke(scnGame.instance, new(CurrentLevelInfo, IsFromTUFHelper, RatingMode, CurrentRating));
             }
         }
+        [HarmonyPatch(typeof(scnEditor), "OpenLevelCo")]
+        public static class OpenLevelPatch
+        {
+            private static string _targetLevelPath;
+
+            public static void Prefix(string definedLevelPath)
+            {
+                // Store the intended level path right as the method is invoked
+                _targetLevelPath = definedLevelPath;
+            }
+
+            public static void Postfix()
+            {
+                string currentPath = !string.IsNullOrEmpty(_targetLevelPath) ? _targetLevelPath : ADOBase.levelPath;
+
+                Main.Logger.Log($"Evaluated levelPath: {currentPath}, LastOpenedTUFLevel: {LastOpenedTUFLevel}");
+
+                if (string.IsNullOrEmpty(currentPath) || string.IsNullOrEmpty(LastOpenedTUFLevel))
+                {
+                    ResetTUFFlags();
+                    return;
+                }
+
+                try
+                {
+                    string fullCurrent = Path.GetFullPath(currentPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    string fullLast = Path.GetFullPath(LastOpenedTUFLevel).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+                    bool isSamePath = string.Equals(fullCurrent, fullLast, StringComparison.OrdinalIgnoreCase);
+
+                    if (!isSamePath)
+                    {
+                        ResetTUFFlags();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Main.Logger.Error($"[OpenLevelPatch] Failed to resolve level paths: {ex.Message}");
+                    ResetTUFFlags();
+                }
+
+                Main.Logger.Log($"isInTUFHelper: {Main.isInTUFHelper}");
+            }
+
+            private static void ResetTUFFlags()
+            {
+                Main.isInTUFHelper = false;
+                ADOFAIGameplayHandler.IsFromTUFHelper = false;
+            }
+        }
+        //[HarmonyPatch(typeof(scnEditor), "OpenLevel")]
+        //public static class OpenLevelPatch
+        //{
+        //    public static void Prefix()
+        //    {
+        //        Main.isInTUFHelper = false;
+        //    }
+        //}
 
         [HarmonyPatch(typeof(scnEditor), "Update")]
         public static class ScnGameTransferToEditor

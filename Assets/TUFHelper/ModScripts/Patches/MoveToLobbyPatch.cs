@@ -149,20 +149,13 @@ namespace TUFHelper
                     Time.timeScale = 1;
                     ADOFAIGameplayHandler.IsFromTUFHelper = false;
 
-                    // 1. Clear sceneToLoad so ADOFAI's base game doesn't try to load its own main menu
                     GCS.sceneToLoad = "";
 
-                    // 2. Pass the scene load logic as a callback to WipeToBlack
                     scrUIController.instance.WipeToBlack(WipeDirection.StartsFromRight, () =>
                     {
-                        // This code runs AFTER the screen turns fully black:
                         string scenePath = Main.scenes.GetAllScenePaths().FirstOrDefault(p => p.EndsWith("TUFLevelSelect.unity"));
                         if (!string.IsNullOrEmpty(scenePath))
                         {
-                            //SceneManager.LoadScene(scenePath);
-                            // Depending on how your asset bundle scene is structured, 
-                            // you might need to set Main.isInTUFHelper = true; or false here.
-
                             ADOBase.loader.LoadScene(scenePath);
                         }
                         else
