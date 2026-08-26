@@ -42,7 +42,6 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public async void OnPointerClick(PointerEventData eventData)
     {
-        Main.Logger.Log("OnPointerClick");
 
         ErrorScript.instance.gameObject.SetActive(false);
 
@@ -70,7 +69,6 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         lastLevel = level;
 
-        Main.Logger.Log($"LLL: Base Score : {level.BaseScore}, Diff Base Score : {level.Difficulty.BaseScore}");
         File.WriteAllText(Path.Combine(Main.ModEntry.Path, "level.json"), json);
 
         try

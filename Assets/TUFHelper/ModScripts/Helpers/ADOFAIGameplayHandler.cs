@@ -89,8 +89,6 @@ namespace TUFHelper.Utils
             OpenLevel(pathToLevel, levelInfo);
             FrontPageScript.IsPackListActive = true;
             FrontPageScript.LastOpenedPackId = packID;
-
-            Main.Logger.Log("ADOFAIGameplayHandler IsPackListActive: " + FrontPageScript.IsPackListActive);
         }
 
         public static bool IsFromTUFHelper { get; set; }
@@ -123,15 +121,12 @@ namespace TUFHelper.Utils
 
             public static void Prefix(string definedLevelPath)
             {
-                // Store the intended level path right as the method is invoked
                 _targetLevelPath = definedLevelPath;
             }
 
             public static void Postfix()
             {
                 string currentPath = !string.IsNullOrEmpty(_targetLevelPath) ? _targetLevelPath : ADOBase.levelPath;
-
-                Main.Logger.Log($"Evaluated levelPath: {currentPath}, LastOpenedTUFLevel: {LastOpenedTUFLevel}");
 
                 if (string.IsNullOrEmpty(currentPath) || string.IsNullOrEmpty(LastOpenedTUFLevel))
                 {
@@ -156,8 +151,6 @@ namespace TUFHelper.Utils
                     Main.Logger.Error($"[OpenLevelPatch] Failed to resolve level paths: {ex.Message}");
                     ResetTUFFlags();
                 }
-
-                Main.Logger.Log($"isInTUFHelper: {Main.isInTUFHelper}");
             }
 
             private static void ResetTUFFlags()

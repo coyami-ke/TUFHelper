@@ -120,8 +120,6 @@ namespace TUFHelper
             {
                 Vector2 canvasSize = parentCanvas.GetComponent<RectTransform>().rect.size;
                 rect.sizeDelta = canvasSize / 2.125f;
-
-                Main.Logger.Log("Canvas Size: " + rect.sizeDelta);
             }
         }
 

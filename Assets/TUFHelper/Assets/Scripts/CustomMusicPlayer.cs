@@ -188,7 +188,6 @@ public class CustomMusicPlayer : MonoBehaviour
             }
 
             sw.Stop();
-            Main.Logger.Log($"Started playing stream preview in: {sw.Elapsed.TotalSeconds:F2}s");
         }
         else
         {

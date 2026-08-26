@@ -147,8 +147,6 @@ namespace TUFHelper
 
             IngameUIManager.Instance.Initialize();
 
-            Main.Logger.Log("Screen: " + Screen.currentResolution.width + "x" + Screen.currentResolution.height);
-
             //var mod = UnityModManager.modEntries.FirstOrDefault(e => e.Info.Id == "XPerfect");
             //if (mod != null)
             //{

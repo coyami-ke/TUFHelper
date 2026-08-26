@@ -21,7 +21,6 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Main.Logger.Log("SelectLevelPrefabScript Pack ID: " + packID);
         if (string.IsNullOrEmpty(packID)) UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(fullPath, levelInfo));
         else UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(fullPath, levelInfo, packID));
     }
