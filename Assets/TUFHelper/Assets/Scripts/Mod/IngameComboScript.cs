@@ -54,7 +54,8 @@ public class IngameComboScript : BasicIngameElement
 
     private void ComboSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ComboSettingsCategory.UseXPerfectSystem))
+        if (e.PropertyName == nameof(ComboSettingsCategory.UseXPerfectSystem) ||
+            e.PropertyName == nameof(ComboSettingsCategory.CustomText))
         {
             UpdateStaticText();
         }
@@ -63,6 +64,12 @@ public class IngameComboScript : BasicIngameElement
     private void UpdateStaticText()
     {
         if (staticText == null) return;
+
+        if (!string.IsNullOrEmpty(comboSettings?.CustomText))
+        {
+            staticText.text = comboSettings.CustomText;
+            return;
+        }
 
         bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
         staticText.text = useXPerfect ? "X-Perfect" : "Perfect";
@@ -174,6 +181,10 @@ public partial class ComboSettingsCategory : IngameElementSettingsCategory
     [ObservableProperty]
     [property: ShowInOverlayerSettings("Use XPerfect")]
     private bool _useXPerfectSystem = true;
+
+    [ObservableProperty]
+    [property: ShowInOverlayerSettings("Custom Text")]
+    private string _customText = "";
 
     public override string DisplayName => "Combo";
 
