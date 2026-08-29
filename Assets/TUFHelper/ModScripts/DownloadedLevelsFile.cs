@@ -41,6 +41,8 @@ namespace TUFHelper
             }
 
             Levels.Add(levelInfo);
+
+            Save();
         }
 
         public static DownloadedLevelsFile Load(string path)

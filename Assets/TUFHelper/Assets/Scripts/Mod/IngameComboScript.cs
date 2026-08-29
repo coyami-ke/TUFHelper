@@ -51,7 +51,6 @@ public class IngameComboScript : BasicIngameElement
 
         UpdateStaticText();
     }
-
     private void ComboSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ComboSettingsCategory.UseXPerfectSystem) ||
