@@ -1,15 +1,11 @@
 using DG.Tweening;
 using DirectLevel;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
@@ -17,40 +13,56 @@ using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using TUFHelper.ModScripts.Web;
 using TUFHelper.Utils;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    private void Awake()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-    }
-    public void Init(GameObject scrollViewObj)
-    {
-        scrollView = scrollViewObj;
-        _scrollRect = scrollView.GetComponent<ScrollRect>();
+    [Header("UI Components")]
+    public Image difficultyIcon;
+    public Image background;
+    public Image likeImage;
+    public Image curationIcon;
+    public Image favoriteImage;
 
-        if (_scrollRect != null)
-        {
-            _viewportTransform = _scrollRect.viewport;
+    [Header("Text Fields")]
+    public TextMeshProUGUI idText;
+    public TextMeshProUGUI artistText;
+    public TextMeshProUGUI levelNameText;
+    public TextMeshProUGUI creatorText;
+    public TextMeshProUGUI totalClearsT;
+    public TextMeshProUGUI totalClearsText;
+    public TextMeshProUGUI totalLikesText;
 
-            _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
-        }
-    }
+    [Header("Buttons & Containers")]
+    public GameObject scrollView;
+    public GameObject folderButton;
+    public GameObject favoriteButton;
+    public GameObject addToFolderButton;
+    public GameObject removeLevelButton;
+    public GameObject visualContainer;
 
-    private static readonly Color SelectedColor = new(1f, 1f, 1f, 50f / 255f);
-    private static readonly Color DeselectedColor = new(1f, 1f, 1f, 10f / 255f);
+    [Header("Sprites")]
+    public Sprite isFavoriteSprite;
+    public Sprite isNotFavoriteSprite;
+
+    [Header("Data")]
+    public LevelListInfoElementJson levelInfo;
+
     private RectTransform _rectTransform;
     private ScrollRect _scrollRect;
+    private RectTransform _viewportTransform;
 
-
+    private Color _diffColor = Color.white;
     private CancellationTokenSource _selectionCts;
-    private bool _isSelected = false;
+    private CancellationTokenSource _cdnRequestToken;
+
+    // Corner buffers pre-allocated to avoid GC allocs in visibility checks
+    private readonly Vector3[] _itemCorners = new Vector3[4];
+    private readonly Vector3[] _viewportCorners = new Vector3[4];
+
+    private bool _isSelected;
     public bool IsSelected
     {
         get => _isSelected;
@@ -59,19 +71,21 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             if (_isSelected == value) return;
             _isSelected = value;
 
-            _selectionCts?.Cancel();
-            _selectionCts?.Dispose();
-            _selectionCts = null;
+            CancelAndDisposeToken(ref _selectionCts);
 
-            background.DOColor(value ? SelectedColor : DeselectedColor, 0.3f).SetEase(Ease.OutExpo);
+            // Animate background color and selection offset safely
+            background.DOKill();
+            float targetAlpha = value ? 50f / 255f : 20f / 255f;
+            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, targetAlpha), 0.3f).SetEase(Ease.OutExpo);
 
-            Vector2 targetPos = new(value ? -50 : 0, _rectTransform.anchoredPosition.y);
+            _rectTransform.DOKill();
+            Vector2 targetPos = new Vector2(value ? -50f : 0f, _rectTransform.anchoredPosition.y);
             _rectTransform.DOAnchorPos(targetPos, 0.3f).SetEase(Ease.OutBack);
 
             if (value)
             {
-                LevelInfo.instance.LoadLevelInfo(levelInfo);
-                LeaderboardScript.instance.LoadPasses(levelInfo);
+                if (LevelInfo.instance != null) LevelInfo.instance.LoadLevelInfo(levelInfo);
+                if (LeaderboardScript.instance != null) LeaderboardScript.instance.LoadPasses(levelInfo);
 
                 _selectionCts = new CancellationTokenSource();
                 _ = HandleSelectionAsync(_selectionCts.Token);
@@ -79,68 +93,51 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
-    private bool _canPlay = true;
-    public bool CanPlay
+    public bool CanPlay { get; set; } = true;
+    public bool CanDownload { get; set; } = true;
+
+    private void Awake()
     {
-        get => _canPlay;
-        set
+        _rectTransform = GetComponent<RectTransform>();
+    }
+
+    private void Start()
+    {
+        UpdateVisibility();
+    }
+
+    public void Init(GameObject scrollViewObj)
+    {
+        scrollView = scrollViewObj;
+        if (scrollView == null) return;
+
+        _scrollRect = scrollView.GetComponent<ScrollRect>();
+        if (_scrollRect != null)
         {
-            _canPlay = value;
+            _viewportTransform = _scrollRect.viewport;
+            _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
         }
     }
 
-    private bool _canDownload = true;
-    public bool CanDownload
+    public void SetLevelInfo(LevelListInfoElementJson info, int totalClears)
     {
-        get => _canDownload;
-        set
-        {
-            _canDownload = value;
-        }
-    }
+        if (info == null) return;
 
-    private RectTransform _viewportTransform;
-
-    public Image difficultyIcon, background, likeImage, curationIcon;
-    public TextMeshProUGUI idText,
-        artistText,
-        levelNameText,
-        creatorText,
-        totalClearsT,
-        totalClearsText,
-        totalLikesText;
-    public GameObject scrollView;
-    public GameObject folderButton, favoriteButton, addToFolderButton, removeLevelButton;
-    public Image favoriteImage;
-    public Sprite isFavoriteSprite, isNotFavoriteSprite;
-
-    public GameObject visualContainer;
-
-    public LevelListInfoElementJson levelInfo;
-
-    private CancellationTokenSource cdn_RequestToken = new();
-
-    public void SetLevelInfo(LevelListInfoElementJson levelInfo, int totalClears)
-    {
         try
         {
-            var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
-            if (levelOffline == null)
-            {
-                folderButton.SetActive(false);
-                favoriteButton.SetActive(false);
-                addToFolderButton.SetActive(false);
-                removeLevelButton.SetActive(false);
-            }
+            levelInfo = info;
 
-            if (string.IsNullOrEmpty(levelInfo.DlLink))
-            {
-                CanDownload = false;
-            }
-            if (levelInfo.DlLink == null || !levelInfo.DlLink.Contains("api.tuforums.com/cdn/"))
-            {
-                CanPlay = false;
-            }
+            var levelOffline = Main.DownloadedLevels?.Levels?.FirstOrDefault(l => l.ID == levelInfo.ID);
+            bool isOffline = levelOffline != null;
+
+            if (folderButton != null) folderButton.SetActive(isOffline);
+            if (favoriteButton != null) favoriteButton.SetActive(isOffline);
+            if (addToFolderButton != null) addToFolderButton.SetActive(isOffline);
+            if (removeLevelButton != null) removeLevelButton.SetActive(isOffline);
+
+            CanDownload = !string.IsNullOrEmpty(levelInfo.DlLink);
+            CanPlay = CanDownload && levelInfo.DlLink.Contains("api.tuforums.com/cdn/");
+
             if (curationIcon != null)
             {
                 Sprite curationSprite = Main.GetSpriteFromAssets(CurationHelper.GetSpriteFromCuration(levelInfo.Curation));
@@ -148,53 +145,63 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 curationIcon.gameObject.SetActive(curationSprite != null);
             }
 
-            this.levelInfo = levelInfo;
+            if (idText != null) idText.text = $"#{levelInfo.ID}";
 
-            idText.text = "#" + levelInfo.ID;
-            artistText.text = levelInfo.Artist;
-            levelNameText.text = levelInfo.Song;
-            LanguageManager.ApplyChineseJapaneseFont(artistText);
-            LanguageManager.ApplyChineseJapaneseFont(levelNameText);
-
-            if (Main.Setting.FavoriteLevels.Contains(levelInfo.ID))
+            if (artistText != null)
             {
-                this.favoriteImage.sprite = isFavoriteSprite;
+                artistText.text = levelInfo.Artist;
+                LanguageManager.ApplyChineseJapaneseFont(artistText);
+            }
+
+            if (levelNameText != null)
+            {
+                levelNameText.text = levelInfo.Song;
+                LanguageManager.ApplyChineseJapaneseFont(levelNameText);
+            }
+
+            if (favoriteImage != null && Main.Setting?.FavoriteLevels != null)
+            {
+                favoriteImage.sprite = Main.Setting.FavoriteLevels.Contains(levelInfo.ID) ? isFavoriteSprite : isNotFavoriteSprite;
+            }
+
+            if (creatorText != null)
+            {
+                creatorText.text = !string.IsNullOrEmpty(levelInfo.Team) ? levelInfo.Team : levelInfo.Creator;
+                LanguageManager.ApplyChineseJapaneseFont(creatorText);
+            }
+
+            if (difficultyIcon != null)
+            {
+                difficultyIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
+            }
+
+            bool hasClears = totalClears > 0;
+            if (totalClearsT != null) totalClearsT.gameObject.SetActive(hasClears);
+            if (totalClearsText != null)
+            {
+                totalClearsText.gameObject.SetActive(hasClears);
+                if (hasClears) totalClearsText.text = totalClears.ToString();
+            }
+
+            if (totalLikesText != null) totalLikesText.text = levelInfo.Likes.ToString();
+
+            if (ColorUtility.TryParseHtmlString(levelInfo.Difficulty?.Color, out Color parsedColor))
+            {
+                _diffColor = parsedColor;
             }
             else
             {
-                this.favoriteImage.sprite = isNotFavoriteSprite;
+                _diffColor = Color.white;
             }
 
-            if (!string.IsNullOrEmpty(levelInfo.Team))
+            if (background != null)
             {
-                creatorText.text = levelInfo.Team;
+                background.color = new Color(_diffColor.r, _diffColor.g, _diffColor.b, 20f / 255f);
             }
-            else
-            {
-                creatorText.text = levelInfo.Creator;
-            }
-            LanguageManager.ApplyChineseJapaneseFont(creatorText);
-
-            difficultyIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(levelInfo.DiffId));
-
-            if (totalClears == 0)
-            {
-                totalClearsT.gameObject.SetActive(false);
-                totalClearsText.gameObject.SetActive(false);
-            }
-            else
-            {
-                totalClearsT.gameObject.SetActive(true);
-                totalClearsText.gameObject.SetActive(true);
-
-                totalClearsText.text = "" + totalClears;
-            }
-
-            totalLikesText.text = levelInfo.Likes.ToString();
         }
         catch (Exception ex)
         {
-            Main.Logger.LogException(ex);
+            Main.Logger?.LogException(ex);
         }
     }
 
@@ -202,54 +209,54 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (!IsSelected)
         {
-            foreach (var level in LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>())
+            if (LevelListScript.instance?.levelListParent != null)
             {
-                if (level != this)
-                    level.IsSelected = false;
+                var siblings = LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>();
+                foreach (var level in siblings)
+                {
+                    if (level != this) level.IsSelected = false;
+                }
             }
 
             IsSelected = true;
-            //sWindowsManager.instance.ShowPassList();
         }
         else
         {
             PlayButtonClick();
         }
     }
+
     public async Task<CDNLevelJson> GetLevelFromCDN()
     {
-        cdn_RequestToken?.Cancel();
-        cdn_RequestToken = new CancellationTokenSource();
-        CancellationToken token = cdn_RequestToken.Token;
+        CancelAndDisposeToken(ref _cdnRequestToken);
+        _cdnRequestToken = new CancellationTokenSource();
+        CancellationToken token = _cdnRequestToken.Token;
 
         string url = $"https://api.tuforums.com/v2/database/levels/{levelInfo.ID}/cdnData";
-        string answer = "";
+
         try
         {
-            HttpResponseMessage response = await Main.Client.GetAsync(url, token);
-
+            using HttpResponseMessage response = await Main.Client.GetAsync(url, token);
             response.EnsureSuccessStatusCode();
 
-            answer = await response.Content.ReadAsStringAsync();
+            string answer = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<CDNLevelJson>(answer);
+        }
+        catch (OperationCanceledException)
+        {
+            return null;
         }
         catch (HttpRequestException ex)
         {
             Debug.LogError($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
             throw;
         }
-        catch (OperationCanceledException)
-        {
-        }
         catch (Exception ex)
         {
             Debug.LogError($"[TUFAPIRequest] Unexpected error: {ex.Message}");
             throw;
         }
-
-        CDNLevelJson json = JsonConvert.DeserializeObject<CDNLevelJson>(answer);
-        return json;
     }
-
 
     private async Task HandleSelectionAsync(CancellationToken token)
     {
@@ -257,32 +264,35 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         {
             ScrollToSelf();
 
-            var levelOffline = Main.DownloadedLevels.Levels.FirstOrDefault(l => l.ID == levelInfo.ID);
+            var levelOffline = Main.DownloadedLevels?.Levels?.FirstOrDefault(l => l.ID == levelInfo.ID);
             if (levelOffline != null)
             {
                 string pathToFolder = LevelDownloader.GetPathToLevelFolder(
                     Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID);
 
                 string pathToBG = Path.Combine(pathToFolder, "bg.png");
-                if (!File.Exists(pathToBG))
-                    pathToBG = Path.Combine(pathToFolder, "bg.jpg");
+                if (!File.Exists(pathToBG)) pathToBG = Path.Combine(pathToFolder, "bg.jpg");
 
                 bool hasBg = File.Exists(pathToBG);
-                SpriteLoader.instance.gameObject.SetActive(hasBg);
-                if (hasBg)
-                    SpriteLoader.instance.FromFile(pathToBG);
+                if (SpriteLoader.instance != null)
+                {
+                    SpriteLoader.instance.gameObject.SetActive(hasBg);
+                    if (hasBg) SpriteLoader.instance.FromFile(pathToBG);
+                }
 
-                string oggFile = Directory.EnumerateFiles(pathToFolder, "*.ogg").FirstOrDefault();
-                string mp3File = Directory.EnumerateFiles(pathToFolder, "*.mp3").FirstOrDefault();
+                string audioPath = Directory.EnumerateFiles(pathToFolder, "*.ogg")
+                    .Concat(Directory.EnumerateFiles(pathToFolder, "*.mp3"))
+                    .FirstOrDefault();
 
-                string audioPath = oggFile ?? mp3File;
-                if (audioPath != null)
+                if (audioPath != null && CustomMusicPlayer.instance != null)
+                {
                     StartCoroutine(CustomMusicPlayer.instance.LoadAndPlayAudio(audioPath));
+                }
             }
             else
             {
-                CustomMusicPlayer.instance.StopPlay();
-                SpriteLoader.instance.gameObject.SetActive(false);
+                if (CustomMusicPlayer.instance != null) CustomMusicPlayer.instance.StopPlay();
+                if (SpriteLoader.instance != null) SpriteLoader.instance.gameObject.SetActive(false);
 
                 CDNLevelJson levelFromCDN = await GetLevelFromCDN();
 
@@ -301,7 +311,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                             _ => AudioType.UNKNOWN
                         };
 
-                        if (audioType != AudioType.UNKNOWN)
+                        if (audioType != AudioType.UNKNOWN && CustomMusicPlayer.instance != null)
                         {
                             StartCoroutine(CustomMusicPlayer.instance.PlayAudioStream(song.Url, audioType, 15));
                         }
@@ -309,48 +319,38 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 }
             }
         }
-        catch (OperationCanceledException)
-        {
-        }
+        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
-            Main.Logger.LogException(ex);
+            Main.Logger?.LogException(ex);
         }
-    }
-
-    private void ExceptionCatch(Exception ex)
-    {
-        ErrorScript.ShowError(ex.Message);
-        Main.Logger.Error(ex.StackTrace);
     }
 
     public void PlayButtonClick()
     {
-        if (CanDownload && !CanPlay) Application.OpenURL(levelInfo.DlLink);
-        if (!CanDownload || !CanPlay) return;
-        if (DownloadPanel.instance.IsDownloading) return;
-
-        try
+        if (CanDownload && !CanPlay)
         {
-            ErrorScript.instance.gameObject.SetActive(false);
+            Application.OpenURL(levelInfo.DlLink);
+            return;
         }
-        catch { } // need this for macos, otherwise it catches Null Reference
+
+        if (!CanDownload || !CanPlay) return;
+        if (DownloadPanel.instance != null && DownloadPanel.instance.IsDownloading) return;
+
+        if (ErrorScript.instance != null)
+        {
+            try { ErrorScript.instance.gameObject.SetActive(false); } catch { }
+        }
 
         try
         {
-
-            LevelDownloader levelDownloder = new(levelInfo)
+            LevelDownloader downloader = new LevelDownloader(levelInfo)
             {
-                ErrorHandler = (ex) =>
-                {
-                    DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex));
-                }
+                ErrorHandler = (ex) => DirectLevel.Utils.RunAtMainThread(() => ExceptionCatch(ex))
             };
 
-            DownloadPanel.instance.DownloadLevel(levelDownloder);
-
-            levelDownloder.DownloadComplete += OnCompleteDownload;
-
+            downloader.DownloadComplete += OnCompleteDownload;
+            DownloadPanel.instance.DownloadLevel(downloader);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -358,57 +358,82 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             ExceptionCatch(ex);
         }
     }
+
     private void OnCompleteDownload(object sender, DownloadCompleteEventArgs args)
     {
-        switch (args.Levels.Count)
+        if (args.Levels == null || args.Levels.Count == 0)
         {
-            case 0:
-                throw new Exception("adofai file was not found");
-            case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], levelInfo));
-                break;
-            default:
-                LevelSelector.instance.LevelInfo = levelInfo;
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, levelInfo));
-                break;
+            ExceptionCatch(new Exception("No valid .adofai files found in the level package."));
+            return;
+        }
+
+        if (args.Levels.Count == 1)
+        {
+            UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], levelInfo));
+        }
+        else if (LevelSelector.instance != null)
+        {
+            LevelSelector.instance.LevelInfo = levelInfo;
+            StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, levelInfo));
         }
 
         ADOFAIGameplayHandler.IsFromTUFHelper = true;
         ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo = levelInfo;
     }
+
     public void OnFavoriteButtonClicked()
     {
+        if (Main.Setting?.FavoriteLevels == null) return;
+
         if (Main.Setting.FavoriteLevels.Contains(levelInfo.ID))
         {
-            favoriteImage.sprite = isNotFavoriteSprite;
+            if (favoriteImage != null) favoriteImage.sprite = isNotFavoriteSprite;
             Main.Setting.FavoriteLevels.Remove(levelInfo.ID);
         }
         else
         {
-            favoriteImage.sprite = isFavoriteSprite;
+            if (favoriteImage != null) favoriteImage.sprite = isFavoriteSprite;
             Main.Setting.FavoriteLevels.Add(levelInfo.ID);
         }
+
         Main.Setting.Save(Main.ModEntry);
     }
+
     public void OnAddOrRemoveFolderButtonClicked()
     {
-        AddLevelToFolder.instance.SetInfo(levelInfo.ID);
-    }
-    public async void RemoveLevel()
-    {
-        var info = Main.DownloadedLevels.Levels.FirstOrDefault(e => e.ID == this.levelInfo.ID);
-        if (info != null)
+        if (AddLevelToFolder.instance != null)
         {
-            Main.Setting.FavoriteLevels.Remove(this.levelInfo.ID);
-            Main.DownloadedLevels.Levels.Remove(info);
-            Directory.Delete(LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID), true);
-            LevelListScript.instance.ClearLevels();
-            await LevelListScript.instance.UpdateLevelListAsync();
+            AddLevelToFolder.instance.SetInfo(levelInfo.ID);
         }
     }
-    public void TryLikeLevel()
-    {
 
+    public async Task RemoveLevelAsync()
+    {
+        var info = Main.DownloadedLevels?.Levels?.FirstOrDefault(e => e.ID == levelInfo.ID);
+        if (info != null)
+        {
+            Main.Setting.FavoriteLevels.Remove(levelInfo.ID);
+            Main.DownloadedLevels.Levels.Remove(info);
+
+            string path = LevelDownloader.GetPathToLevelFolder(
+                Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID);
+
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+
+            if (LevelListScript.instance != null)
+            {
+                LevelListScript.instance.ClearLevels();
+                await LevelListScript.instance.UpdateLevelListAsync();
+            }
+        }
+    }
+
+    public void RemoveLevel()
+    {
+        _ = RemoveLevelAsync();
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -418,12 +443,20 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!IsSelected) background.DOColor(new Color(1f, 1f, 1f, 20 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        if (!IsSelected && background != null)
+        {
+            background.DOKill();
+            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, 30f / 255f), 0.3f).SetEase(Ease.OutExpo);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!IsSelected) background.DOColor(new Color(1f, 1f, 1f, 10 / 255f), 0.5f).SetEase(Ease.OutExpo);
+        if (!IsSelected && background != null)
+        {
+            background.DOKill();
+            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, 20f / 255f), 0.3f).SetEase(Ease.OutExpo);
+        }
     }
 
     private void ScrollToSelf()
@@ -435,28 +468,38 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         RectTransform content = _scrollRect.content;
         RectTransform viewport = _scrollRect.viewport;
 
-        Vector2 itemLocalPos = _rectTransform.localPosition;
+        float itemY = -_rectTransform.localPosition.y;
         float contentHeight = content.rect.height;
         float viewportHeight = viewport.rect.height;
 
-        float itemY = -itemLocalPos.y;
+        if (Mathf.Approximately(contentHeight, viewportHeight)) return;
 
-        float targetNormalizedPos = Mathf.Clamp01((itemY - (viewportHeight / 2)) / (contentHeight - viewportHeight));
+        float targetNormalizedPos = Mathf.Clamp01((itemY - (viewportHeight / 2f)) / (contentHeight - viewportHeight));
+        float finalPos = 1f - targetNormalizedPos;
 
-        float finalPos = 1 - targetNormalizedPos;
-
-        _scrollRect.DOVerticalNormalizedPos(finalPos, 0.5f).SetEase(Ease.OutCubic);
+        _scrollRect.DOKill();
+        _scrollRect.DOVerticalNormalizedPos(finalPos, 0.4f).SetEase(Ease.OutCubic);
     }
+
     public void OpenFolder()
     {
-        FolderOpener.OpenFolder(LevelDownloader.GetPathToLevelFolder(Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID));
+        FolderOpener.OpenFolder(LevelDownloader.GetPathToLevelFolder(
+            Main.Setting.LevelSaveFolder, levelInfo.Song, levelInfo.Artist, levelInfo.ID));
     }
 
-    private void OnDestroy()
+    private void Update()
     {
-        if (_scrollRect != null)
+        // Hotkey selection play handling
+        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
         {
-            _scrollRect.onValueChanged.RemoveListener(OnScrollValueChanged);
+            var selected = EventSystem.current.currentSelectedGameObject;
+            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
+            bool isTyping = inputField != null && inputField.isFocused;
+
+            if (!isTyping && IsSelected)
+            {
+                PlayButtonClick();
+            }
         }
     }
 
@@ -470,15 +513,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (_scrollRect == null || _viewportTransform == null || _rectTransform == null)
             return true;
 
-        Vector3[] itemCorners = new Vector3[4];
-        _rectTransform.GetWorldCorners(itemCorners);
+        _rectTransform.GetWorldCorners(_itemCorners);
+        _viewportTransform.GetWorldCorners(_viewportCorners);
 
-        Vector3[] viewportCorners = new Vector3[4];
-        _viewportTransform.GetWorldCorners(viewportCorners);
-
-        bool verticalOverlap = itemCorners[1].y >= viewportCorners[0].y && itemCorners[0].y <= viewportCorners[1].y;
-
-        return verticalOverlap;
+        return _itemCorners[1].y >= _viewportCorners[0].y && _itemCorners[0].y <= _viewportCorners[1].y;
     }
 
     public void UpdateVisibility()
@@ -501,20 +539,34 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         }
     }
 
-    public void Update()
+    private void ExceptionCatch(Exception ex)
     {
-        UpdateVisibility();
+        ErrorScript.ShowError(ex.Message);
+        Main.Logger?.Error(ex.StackTrace);
+    }
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return))
+    private void CancelAndDisposeToken(ref CancellationTokenSource cts)
+    {
+        if (cts != null)
         {
-            var selected = EventSystem.current.currentSelectedGameObject;
-            var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-            bool isTyping = inputField != null && inputField.isFocused;
-
-            if (!isTyping)
-            {
-                if (IsSelected) PlayButtonClick();
-            }
+            cts.Cancel();
+            cts.Dispose();
+            cts = null;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (_scrollRect != null)
+        {
+            _scrollRect.onValueChanged.RemoveListener(OnScrollValueChanged);
+        }
+
+        CancelAndDisposeToken(ref _selectionCts);
+        CancelAndDisposeToken(ref _cdnRequestToken);
+
+        _rectTransform.DOKill();
+        if (background != null) background.DOKill();
+        if (_scrollRect != null) _scrollRect.DOKill();
     }
 }
