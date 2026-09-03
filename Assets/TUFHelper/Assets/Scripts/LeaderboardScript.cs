@@ -101,14 +101,14 @@ public class LeaderboardScript : MonoBehaviour
             rps.SetPassInfo(pass, level, rank);
 
 
-            rect.localScale = Vector3.one;
-            rect.sizeDelta = new Vector2(0, 60);
-            rect.anchoredPosition = new Vector2(0, (rank - 1) * -75 - 30);
+            //rect.localScale = Vector3.one;
+            //rect.sizeDelta = new Vector2(0, 60);
+            rect.anchoredPosition = new Vector2(0, (rank - 1) * -65 - 30);
             rank++;
         }
 
         RectTransform contentRect = passListParent.GetComponent<RectTransform>();
-        float totalHeight = (rank - 1) * 75 + 30;
+        float totalHeight = (rank - 1) * 65 + 30;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
         LastLoadedPasses = passes;

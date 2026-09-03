@@ -19,17 +19,22 @@ using UnityEngine.UI;
 
 public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Constants")]
+    public float leftRect_minWidth;
+    public float leftRect_maxWidth;
     [Header("UI Components")]
     public Image difficultyIcon;
     public Image background;
     public Image likeImage;
     public Image curationIcon;
     public Image favoriteImage;
+    public Image leftRectangleImage;
 
     [Header("Text Fields")]
-    public TextMeshProUGUI idText;
-    public TextMeshProUGUI artistText;
-    public TextMeshProUGUI levelNameText;
+    //public TextMeshProUGUI idText;
+    //public TextMeshProUGUI artistText;
+    //public TextMeshProUGUI levelNameText;
+    public TextMeshProUGUI artistAndSongText;
     public TextMeshProUGUI creatorText;
     public TextMeshProUGUI totalClearsT;
     public TextMeshProUGUI totalClearsText;
@@ -73,14 +78,28 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             CancelAndDisposeToken(ref _selectionCts);
 
-            // Animate background color and selection offset safely
             background.DOKill();
-            float targetAlpha = value ? 50f / 255f : 20f / 255f;
-            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, targetAlpha), 0.3f).SetEase(Ease.OutExpo);
+            float targetAlpha = value ? 75f / 255f : 20f / 255f;
+            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, targetAlpha), 0.35f).SetEase(Ease.OutExpo);
 
             _rectTransform.DOKill();
             Vector2 targetPos = new Vector2(value ? -50f : 0f, _rectTransform.anchoredPosition.y);
-            _rectTransform.DOAnchorPos(targetPos, 0.3f).SetEase(Ease.OutBack);
+            _rectTransform.DOAnchorPos(targetPos, 0.3f).SetEase(Ease.OutCubic);
+
+            //if (value)
+            //{
+            //    leftRectangleImage.rectTransform.DOSizeDelta(new(leftRect_maxWidth, leftRectangleImage.rectTransform.sizeDelta.y), 0.25f).SetEase(Ease.OutQuad);
+            //    difficultyIcon.rectTransform.DOAnchorPosX(difficultyIcon.rectTransform.anchoredPosition.x + 64, 0.25f).SetEase(Ease.OutQuad).SetDelay(0.05f);
+            //    artistAndSongText.rectTransform.DOAnchorPosX(artistAndSongText.rectTransform.anchoredPosition.x + 64, 0.25f).SetEase(Ease.OutQuad).SetDelay(0.075f);
+            //    creatorText.rectTransform.DOAnchorPosX(creatorText.rectTransform.anchoredPosition.x + 64, 0.25f).SetEase(Ease.OutQuad).SetDelay(0.1f);
+            //}
+            //else
+            //{
+            //    leftRectangleImage.rectTransform.DOSizeDelta(new(leftRect_minWidth, leftRectangleImage.rectTransform.sizeDelta.y), 0.25f).SetEase(Ease.OutQuad);
+            //    difficultyIcon.rectTransform.DOAnchorPosX(difficultyIcon.rectTransform.anchoredPosition.x - 64, 0.25f, true).SetEase(Ease.OutQuad).SetDelay(0.05f);
+            //    artistAndSongText.rectTransform.DOAnchorPosX(artistAndSongText.rectTransform.anchoredPosition.x - 64, 0.25f).SetEase(Ease.OutQuad).SetDelay(0.075f);
+            //    creatorText.rectTransform.DOAnchorPosX(creatorText.rectTransform.anchoredPosition.x - 64, 0.25f).SetEase(Ease.OutQuad).SetDelay(0.1f);
+            //}
 
             if (value)
             {
@@ -145,18 +164,23 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 curationIcon.gameObject.SetActive(curationSprite != null);
             }
 
-            if (idText != null) idText.text = $"#{levelInfo.ID}";
+            //if (idText != null) idText.text = $"#{levelInfo.ID}";
 
-            if (artistText != null)
-            {
-                artistText.text = levelInfo.Artist;
-                LanguageManager.ApplyChineseJapaneseFont(artistText);
-            }
+            //if (artistText != null)
+            //{
+            //    artistText.text = levelInfo.Artist;
+            //    LanguageManager.ApplyChineseJapaneseFont(artistText);
+            //}
 
-            if (levelNameText != null)
+            //if (levelNameText != null)
+            //{
+            //    levelNameText.text = levelInfo.Song;
+            //    LanguageManager.ApplyChineseJapaneseFont(levelNameText);
+            //}
+
+            if (artistAndSongText != null)
             {
-                levelNameText.text = levelInfo.Song;
-                LanguageManager.ApplyChineseJapaneseFont(levelNameText);
+                artistAndSongText.text = levelInfo.Artist + " - " + levelInfo.Song;
             }
 
             if (favoriteImage != null && Main.Setting?.FavoriteLevels != null)
@@ -176,12 +200,12 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             }
 
             bool hasClears = totalClears > 0;
-            if (totalClearsT != null) totalClearsT.gameObject.SetActive(hasClears);
             if (totalClearsText != null)
             {
-                totalClearsText.gameObject.SetActive(hasClears);
-                if (hasClears) totalClearsText.text = totalClears.ToString();
+                //totalClearsText.gameObject.SetActive(hasClears);
+                totalClearsText.text = totalClears.ToString();
             }
+            
 
             if (totalLikesText != null) totalLikesText.text = levelInfo.Likes.ToString();
 
@@ -197,6 +221,11 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             if (background != null)
             {
                 background.color = new Color(_diffColor.r, _diffColor.g, _diffColor.b, 20f / 255f);
+            }
+
+            if (leftRectangleImage != null)
+            {
+                leftRectangleImage.color = new Color(_diffColor.r, _diffColor.g, _diffColor.b, 128f / 255f);
             }
         }
         catch (Exception ex)
@@ -446,7 +475,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         if (!IsSelected && background != null)
         {
             background.DOKill();
-            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, 30f / 255f), 0.3f).SetEase(Ease.OutExpo);
+            background.DOColor(new Color(_diffColor.r, _diffColor.g, _diffColor.b, 50f / 255f), 0.3f).SetEase(Ease.OutExpo);
         }
     }
 

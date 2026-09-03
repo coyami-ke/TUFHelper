@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -62,10 +63,10 @@ namespace TUFHelper.ModScripts.Json
         public bool IsDuplicate { get; set; }
 
         [JsonProperty("createdAt")]
-        public string CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         [JsonProperty("updatedAt")]
-        public string UpdatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
         [JsonProperty("player")]
         public PassesListInfoElementPlayerJson Player { get; set; }
         // [JsonProperty("level")]
