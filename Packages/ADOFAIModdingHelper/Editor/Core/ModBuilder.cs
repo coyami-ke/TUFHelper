@@ -1,4 +1,5 @@
 ﻿//Original Code from https://github.com/ADOFAI-gg/ADOFAI-Modding-Toolkit
+using ADOFAIModdingHelper.Hierarchy;
 using ADOFAIModdingHelper.ScriptableObjects;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
@@ -50,6 +51,7 @@ namespace ADOFAIModdingHelper.Core
             try
             {
                 IsBuilding = true;
+                HierarchyStateKeeper.SaveState();
                 _defines = new List<string>();
                 AssetDatabase.SaveAssets();
                 var now = DateTime.Now - DateTime.UnixEpoch;
@@ -157,6 +159,7 @@ namespace ADOFAIModdingHelper.Core
             finally
             {
                 IsBuilding = false;
+                EditorApplication.delayCall += () => HierarchyStateKeeper.RestoreState();
             }
         }
 

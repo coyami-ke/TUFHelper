@@ -15,14 +15,14 @@ MonoBehaviour:
   BuildDirectory: 
   openModInfoFoldout: 0
   skipAssetBundleBuild: 0
-  createZip: 1
+  createZip: 0
   developmentBuild: 0
   generateDebugSymbols: 1
-  splitBuild: 1
-  buildEveryPlatform: 1
+  splitBuild: 0
+  buildEveryPlatform: 0
   serializedBuildPlatforms: 13000000
-  copyToDirectory: 1
-  runApplication: 1
+  copyToDirectory: 0
+  runApplication: 0
   runApplicationThroughSteam: 0
   deleteBuildsExceptLastN: 0
   automaticallyDeleteBuilds: 0
