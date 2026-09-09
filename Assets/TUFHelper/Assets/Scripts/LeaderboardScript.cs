@@ -34,7 +34,7 @@ public class LeaderboardScript : MonoBehaviour
     }
     private void Start()
     {
-        YourScore.gameObject.SetActive(false);
+        //YourScore.gameObject.SetActive(false);
     }
 
     public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
@@ -113,32 +113,32 @@ public class LeaderboardScript : MonoBehaviour
 
         LastLoadedPasses = passes;
 
-        PassesListInfoElementJson yourBestScore = null;
+        //PassesListInfoElementJson yourBestScore = null;
 
         //if (AccountScript.instance.AccountInfo != null) yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
 
-        if (yourBestScore != null)
-        {
-            int yourRank = 0;
-            for (int i = 0; i < passes.Count; i++)
-            {
-                if (passes[i].PlayerID == AccountScript.instance.AccountInfo.User.PlayerID)
-                {
-                    yourRank = i + 1;
-                    break;
-                }
-            }
+        //if (yourBestScore != null)
+        //{
+        //    int yourRank = 0;
+        //    for (int i = 0; i < passes.Count; i++)
+        //    {
+        //        if (passes[i].PlayerID == AccountScript.instance.AccountInfo.User.PlayerID)
+        //        {
+        //            yourRank = i + 1;
+        //            break;
+        //        }
+        //    }
 
-            YourScore.SetPassInfo(yourBestScore, level, yourRank);
-            YourScore.gameObject.SetActive(true);
-            rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithYourScore);
-            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithYourScore);
-        }
-        else
-        {
-            YourScore.gameObject.SetActive(false);
-            rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithoutYourScore);
-            rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithoutYourScore);
-        }
+        //    YourScore.SetPassInfo(yourBestScore, level, yourRank);
+        //    YourScore.gameObject.SetActive(true);
+        //    rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithYourScore);
+        //    rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithYourScore);
+        //}
+        //else
+        //{
+        //    YourScore.gameObject.SetActive(false);
+        //    rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithoutYourScore);
+        //    rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithoutYourScore);
+        //}
     }
 }

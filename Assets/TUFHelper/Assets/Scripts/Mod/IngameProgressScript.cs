@@ -16,7 +16,7 @@ public class IngameProgressScript : IngameVariableScript
     public override string NameInSettings => "Progress";
     public override string ID => "Progress";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/number.png");
-    public override Vector2 DefaultPosition => new(2.5f, -2.5f - 48f);
+    public override Vector2 DefaultPosition => new(2.5f, -48f);
     public override Anchor DefaultAnchor => Anchor.LeftTop;
     public override TextMeshProUGUI[] Texts => new TextMeshProUGUI[1] { text };
 

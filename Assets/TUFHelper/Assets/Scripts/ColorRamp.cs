@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,10 +15,10 @@ public class ColorRamp
     public class RampPoint
     {
         public float position;
+
         [JsonIgnore]
         public Color color = Color.white;
 
-        // Custom property that serializes the RGBA floats cleanly without looping
         [JsonProperty("color")]
         public float[] ColorRgba
         {
@@ -28,23 +29,33 @@ public class ColorRamp
                     color = new Color(value[0], value[1], value[2], value[3]);
             }
         }
+
         public InterpolationType interpolation = InterpolationType.Linear;
+    }
+
+    public List<RampPoint> points = new List<RampPoint>();
+
+    [JsonConstructor]
+    public ColorRamp()
+    {
     }
 
     public ColorRamp(RampPoint[] _points)
     {
-        points = new(_points);
-    }
-    public ColorRamp()
-    {
-        points = new()
-        {
-            new() { position = 0.0f, color = Color.black },
-            new() { position = 1.0f, color = Color.white }
-        };
+        points = new List<RampPoint>(_points);
     }
 
-    public List<RampPoint> points;
+    public static ColorRamp CreateDefault()
+    {
+        return new ColorRamp
+        {
+            points = new List<RampPoint>
+            {
+                new RampPoint { position = 0.0f, color = Color.black },
+                new RampPoint { position = 1.0f, color = Color.white }
+            }
+        };
+    }
 
     public Color Evaluate(float t)
     {

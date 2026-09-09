@@ -1,26 +1,20 @@
 ﻿using System.Collections.Generic;
-using HarmonyLib;
 using System.IO;
-using System.Reflection;
-using System.Threading;
-using TUFHelper.ModScripts.Helpers;
-using TUFHelper.Utils;
-using UnityEngine;
-using static UnityModManagerNet.UnityModManager;
-using System;
 using System.Linq;
-using DG.Tweening;
-using System.Net.Http;
-using TUFHelper.ModScripts.Json;
 using Newtonsoft.Json;
+using TUFHelper.ModScripts.Json;
 
 namespace TUFHelper
 {
     public class DownloadedLevelsFile
     {
         public List<LevelListInfoElementJson> Levels { get; set; } = new();
+
         [JsonIgnore]
-        private string PathToSaveFile { get; }
+        public string PathToSaveFile { get; set; }
+
+        // Default constructor required for Newtonsoft.Json deserialization
+        public DownloadedLevelsFile() { }
 
         public DownloadedLevelsFile(string path)
         {
@@ -29,10 +23,19 @@ namespace TUFHelper
 
         public void Save()
         {
-            File.WriteAllText(PathToSaveFile, JsonConvert.SerializeObject(this));
+            if (string.IsNullOrEmpty(PathToSaveFile))
+            {
+                Main.Logger?.Log("[DownloadedLevelsFile] Save skipped: PathToSaveFile is null or empty.");
+                return;
+            }
+
+            File.WriteAllText(PathToSaveFile, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
+
         public void SaveLevel(LevelListInfoElementJson levelInfo)
         {
+            if (levelInfo == null) return;
+
             var levelWithSameID = Levels.FirstOrDefault(e => e.ID == levelInfo.ID);
 
             if (levelWithSameID != null)
@@ -49,11 +52,31 @@ namespace TUFHelper
         {
             if (File.Exists(path))
             {
-                return JsonConvert.DeserializeObject<DownloadedLevelsFile>(File.ReadAllText(path));
+                try
+                {
+                    string json = File.ReadAllText(path);
+                    var file = JsonConvert.DeserializeObject<DownloadedLevelsFile>(json);
+
+                    if (file == null)
+                    {
+                        file = new DownloadedLevelsFile(path);
+                    }
+                    else
+                    {
+                        file.PathToSaveFile = path;
+                    }
+
+                    return file;
+                }
+                catch (System.Exception ex)
+                {
+                    Main.Logger?.Log($"[DownloadedLevelsFile] Error loading file at {path}: {ex.Message}");
+                    return new DownloadedLevelsFile(path);
+                }
             }
             else
             {
-                return new(path);
+                return new DownloadedLevelsFile(path);
             }
         }
     }
