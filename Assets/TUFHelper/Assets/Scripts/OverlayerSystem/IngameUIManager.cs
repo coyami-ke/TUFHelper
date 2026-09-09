@@ -15,9 +15,6 @@ namespace TUFHelper
         private readonly Dictionary<string, BasicIngameElement> _activeElements = new();
         private readonly Dictionary<string, string> _prefabRegistry = new();
 
-        // Reference to our dedicated container
-        private Transform _modCanvasTransform;
-
         public void Initialize()
         {
             ADOFAIGameplayHandler.Editor_PlayButtonPressed += OnPlay;
@@ -46,81 +43,31 @@ namespace TUFHelper
 
         private void OnPlay(object sender, PlayButtonEventArgs e)
         {
-            Transform mainCanvas = GameObject.Find("Canvas")?.transform;
+            Transform mainCanvas = GetMainCanvasTransform();
             if (mainCanvas == null) return;
-
-            Transform targetContainer = GetOrCreateModCanvas(mainCanvas);
-            if (targetContainer == null) return;
 
             foreach (string elementId in _prefabRegistry.Keys)
             {
-                GetOrCreateElement(elementId, targetContainer);
+                GetOrCreateElement(elementId, mainCanvas);
             }
         }
 
         private void OnReturnToEditor(object sender, ScnGameTransferToEditorEventArgs e)
         {
-            if (_modCanvasTransform != null)
-            {
-                _modCanvasTransform.gameObject.SetActive(false);
-            }
-
             foreach (var element in _activeElements.Values)
             {
                 if (element != null) element.gameObject.SetActive(false);
             }
         }
-        private Transform GetOrCreateModCanvas(Transform mainCanvas)
+
+        private Transform GetMainCanvasTransform()
         {
-            if (_modCanvasTransform != null)
+            if (scrUIController.instance != null && scrUIController.instance.canvas != null)
             {
-                _modCanvasTransform.gameObject.SetActive(true);
-                UpdateModCanvasSize();
-                return _modCanvasTransform;
+                return scrUIController.instance.canvas.transform;
             }
 
-            Transform existing = mainCanvas.Find("TUFHelper_CustomSubCanvas");
-            if (existing != null)
-            {
-                _modCanvasTransform = existing;
-                _modCanvasTransform.gameObject.SetActive(true);
-                UpdateModCanvasSize();
-                return _modCanvasTransform;
-            }
-
-            GameObject subCanvasObj = new GameObject("TUFHelper_CustomSubCanvas", typeof(RectTransform));
-            subCanvasObj.transform.SetParent(mainCanvas, false);
-
-            Canvas subCanvas = subCanvasObj.AddComponent<Canvas>();
-            subCanvas.overrideSorting = true;
-            subCanvas.sortingOrder = 100;
-
-            subCanvasObj.AddComponent<GraphicRaycaster>();
-
-            _modCanvasTransform = subCanvasObj.transform;
-
-            UpdateModCanvasSize();
-
-            return _modCanvasTransform;
-        }
-
-        public void UpdateModCanvasSize()
-        {
-            if (_modCanvasTransform == null) return;
-
-            RectTransform rect = _modCanvasTransform.GetComponent<RectTransform>();
-            Canvas parentCanvas = scrUIController.instance != null ? scrUIController.instance.canvas : null;
-
-            rect.anchorMin = new Vector2(0.5f, 0.5f);
-            rect.anchorMax = new Vector2(0.5f, 0.5f);
-            rect.pivot = new Vector2(0.5f, 0.5f);
-            rect.anchoredPosition = Vector2.zero;
-
-            if (parentCanvas != null)
-            {
-                Vector2 canvasSize = parentCanvas.GetComponent<RectTransform>().rect.size;
-                rect.sizeDelta = canvasSize / 2.125f;
-            }
+            return GameObject.Find("Canvas")?.transform;
         }
 
         public T GetElement<T>(string id) where T : BasicIngameElement
@@ -136,6 +83,9 @@ namespace TUFHelper
         {
             if (_activeElements.TryGetValue(id, out var existing) && existing != null)
             {
+                existing.ScaleModifier = 2.125f;
+                existing.ApplyScale();
+                existing.gameObject.SetActive(true);
                 existing.UpdateVisibility();
                 return existing;
             }
@@ -154,6 +104,9 @@ namespace TUFHelper
                 GameObject.Destroy(instance);
                 return null;
             }
+
+            script.ScaleModifier = 2.125f;
+            script.ApplyScale();
 
             _activeElements[id] = script;
             return script;

@@ -47,6 +47,8 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
     public virtual TextMeshProUGUI[] Texts { get; }
     public abstract bool IsShownOnlyInTUFHelper { get; }
 
+    public float ScaleModifier { get; set; } = 1f;
+
     protected virtual void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -81,7 +83,8 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ApplyTextAlignment(Model.Anchor);
 
         rectTransform.anchoredPosition = Model.Position.ToUnity();
-        rectTransform.localScale = new Vector3(Mathf.Max(0.01f, Model.Scale), Mathf.Max(0.01f, Model.Scale), 1f);
+
+        ApplyScale();
 
         Canvas.ForceUpdateCanvases();
 
@@ -144,7 +147,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
                 break;
 
             case "Scale":
-                rectTransform.localScale = new Vector3(Mathf.Max(0.01f, Model.Scale), Mathf.Max(0.01f, Model.Scale), 1f);
+                ApplyScale();
                 break;
 
             case "Anchor":
@@ -154,6 +157,14 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
 
         Main.Setting.Save(Main.ModEntry);
+    }
+
+    public void ApplyScale()
+    {
+        if (rectTransform == null || Model == null) return;
+
+        float targetScale = Mathf.Max(0.01f, Model.Scale) * ScaleModifier;
+        rectTransform.localScale = new Vector3(targetScale, targetScale, 1f);
     }
 
     private void ApplyTextAlignment(Anchor anchor)

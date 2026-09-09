@@ -180,7 +180,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
             if (artistAndSongText != null)
             {
-                artistAndSongText.text = levelInfo.Artist + " - " + levelInfo.Song;
+                artistAndSongText.text = $"<b>{levelInfo.Artist}</b> - {levelInfo.Song}";
             }
 
             if (favoriteImage != null && Main.Setting?.FavoriteLevels != null)
@@ -467,6 +467,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        SFXControllerScript.Instance.PlaySound(SFXControllerScript.SoundType.ButtonClick2);
         InfoButtonClick();
     }
 

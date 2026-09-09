@@ -17,8 +17,8 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
     private const float selectedRotation = -90;
     private const float unselectedRotation = 90;
 
-    private readonly Color selectedColor = new(1f, 1f, 1f, 20f / 255f);
-    private readonly Color unselectedColor = new(1f, 1f, 1f, 10f / 255f);
+    private readonly Color selectedColor = new(165f / 255, 183f / 255, 255f / 255, 30f / 255f);
+    private readonly Color unselectedColor = new(165f / 255, 183f / 255, 255f / 255, 20f / 255f);
 
     private bool isSelected = false;
     public bool IsSelected

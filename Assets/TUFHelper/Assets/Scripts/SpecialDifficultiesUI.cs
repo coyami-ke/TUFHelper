@@ -17,8 +17,8 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
 
     public Toggle unrankedToggle, minus2Toggle, minus21Toggle, p0Toggle;
 
-    private readonly Color selectedColor = new(1f, 1f, 1f, 20f / 255f);
-    private readonly Color unselectedColor = new(1f, 1f, 1f, 10f / 255f);
+    private readonly Color selectedColor = new(165f / 255, 183f / 255, 255f / 255, 30f / 255f);
+    private readonly Color unselectedColor = new(165f / 255, 183f / 255, 255f / 255, 20f / 255f);
 
     private const float menu_MaxPositionY = -110;
     private const float menu_MinPositionY = -35;

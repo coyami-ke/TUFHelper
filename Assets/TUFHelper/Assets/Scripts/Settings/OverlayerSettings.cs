@@ -34,7 +34,9 @@ public class OverlayerSettings : MonoBehaviour
             var element = instance.GetComponentInChildren<BasicIngameElement>();
             if (element != null)
             {
+                element.ScaleModifier = 2.125f; 
                 element.IsInSettings = true;
+                element.ApplyScale();
                 element.UpdateVisibility();
                 element.OnSettingsOpened();
                 element.CreateSettingsHandles();

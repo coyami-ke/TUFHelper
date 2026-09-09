@@ -52,7 +52,7 @@ public class ResizableScreen : MonoBehaviour
         rectTransform.pivot = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
         rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-        rectTransform.sizeDelta = simulatedAdofaiCanvasSize / 2.125f;
+        rectTransform.sizeDelta = simulatedAdofaiCanvasSize;
         rectTransform.anchoredPosition = Vector2.zero;
 
         ApplyScale();
