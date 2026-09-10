@@ -220,14 +220,14 @@ public class CustomMusicPlayer : MonoBehaviour
         audioSource.Stop();
         if (!isPlayingBackground)
         {
-            MusicControlScript.instance.audioSource.Play();
+            MusicControlScript.instance.audioSource.UnPause();
             isPlayingBackground = true;
         }
     }
 
     private void PlayClipWithAutoStop(AudioClip clip)
     {
-        MusicControlScript.instance.audioSource.Stop();
+        MusicControlScript.instance.audioSource.Pause();
         audioSource.Stop();
 
         audioSource.loop = true;
