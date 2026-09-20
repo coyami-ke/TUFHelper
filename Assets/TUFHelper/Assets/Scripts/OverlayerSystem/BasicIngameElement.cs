@@ -95,7 +95,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ADOFAIGameplayHandler.Editor_PlayButtonPressed += HandlePlay;
         ADOFAIGameplayHandler.Editor_Hit += HandleHit;
         ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor += HandleReturnToEditor;
-        ADOFAIGameplayHandler.Editor_HitMargin += HandleHitMargin;
+        //ADOFAIGameplayHandler.Editor_HitMargin += HandleHitMargin;
 
         if (gameObject.activeSelf && ADOFAIGameplayHandler.EditorPlayPatch.CurrentLevelInfo != null)
         {
@@ -244,13 +244,13 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         }
     }
 
-    private void HandleHitMargin(object sender, HitMarginEventArgs e)
-    {
-        if (gameObject.activeSelf)
-        {
-            OnHitMargin(e);
-        }
-    }
+    //private void HandleHitMargin(object sender, HitMarginEventArgs e)
+    //{
+    //    if (gameObject.activeSelf)
+    //    {
+    //        OnHitMargin(e);
+    //    }
+    //}
 
     private void HandleReturnToEditor(object sender, ScnGameTransferToEditorEventArgs e)
     {
@@ -264,7 +264,7 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
 
     protected virtual void OnPlay(PlayButtonEventArgs e) { }
     protected virtual void OnHit(HitMargin hit) { }
-    protected virtual void OnHitMargin(HitMarginEventArgs e) { }
+    //protected virtual void OnHitMargin(HitMarginEventArgs e) { }
     protected virtual void OnReturnToEditor(ScnGameTransferToEditorEventArgs e) { }
     protected virtual void OnLoadCustomSettings(IngameElementModel model) { }
     public virtual void OnSettingsOpened() { }
@@ -411,6 +411,6 @@ public abstract class BasicIngameElement : MonoBehaviour, IBeginDragHandler, IDr
         ADOFAIGameplayHandler.Editor_PlayButtonPressed -= HandlePlay;
         ADOFAIGameplayHandler.Editor_Hit -= HandleHit;
         ADOFAIGameplayHandler.Editor_ScnGameTransferToEditor -= HandleReturnToEditor;
-        ADOFAIGameplayHandler.Editor_HitMargin -= HandleHitMargin;
+        //ADOFAIGameplayHandler.Editor_HitMargin -= HandleHitMargin;
     }
 }

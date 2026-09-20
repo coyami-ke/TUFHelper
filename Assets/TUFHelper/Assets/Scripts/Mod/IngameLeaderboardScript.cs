@@ -225,7 +225,9 @@ public class IngameLeaderboardScript : BasicIngameElement
             case HitMargin.TooEarly: judgements.EarlyDouble++; break;
             case HitMargin.VeryEarly: judgements.EarlySingle++; break;
             case HitMargin.EarlyPerfect: judgements.EPerfect++; break;
-            case HitMargin.Perfect: judgements.Perfect++; break;
+            case HitMargin.XPerfect: judgements.Perfect++; break;
+            case HitMargin.PerfectMinus: judgements.Perfect++; break;
+            case HitMargin.PerfectPlus: judgements.Perfect++; break;
             case HitMargin.LatePerfect: judgements.LPerfect++; break;
             case HitMargin.VeryLate: judgements.LateSingle++; break;
             case HitMargin.TooLate: judgements.LateDouble++; break;

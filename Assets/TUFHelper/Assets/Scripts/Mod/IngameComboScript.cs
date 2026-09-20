@@ -31,9 +31,22 @@ public class IngameComboScript : BasicIngameElement
         if (staticText != null) staticTextRect = staticText.GetComponent<RectTransform>();
         if (comboText != null) comboTextRect = comboText.GetComponent<RectTransform>();
     }
+    protected override void Start()
+    {
+        _currentCombo = 0;
+        base.Start();
+        UpdateComboUI();
+    }
 
     public override void OnSettingsOpened()
     {
+        _currentCombo = 0;
+        UpdateComboUI();
+        UpdateStaticText();
+    }
+    protected override void OnPlay(PlayButtonEventArgs e)
+    {
+        base.OnPlay(e);
         _currentCombo = 0;
         UpdateComboUI();
         UpdateStaticText();
@@ -74,28 +87,8 @@ public class IngameComboScript : BasicIngameElement
         staticText.text = useXPerfect ? "X-Perfect" : "Perfect";
     }
 
-    protected override void OnPlay(PlayButtonEventArgs e)
+    private void AnimateText()
     {
-        _currentCombo = 0;
-        UpdateComboUI();
-        UpdateStaticText();
-    }
-
-    protected override void OnHitMargin(HitMarginEventArgs e)
-    {
-        if (e.Hit == HitMargin.Auto) return;
-
-        if (IsActiveHit(e))
-        {
-            _currentCombo++;
-            UpdateComboUI();
-        }
-        else if (IsBreakingHit(e))
-        {
-            _currentCombo = 0;
-            UpdateComboUI();
-        }
-
         if (staticTextRect != null)
         {
             staticTextRect.DOKill();
@@ -111,18 +104,50 @@ public class IngameComboScript : BasicIngameElement
         }
     }
 
-    private bool IsActiveHit(HitMarginEventArgs e)
+    private void UpdateComboUI()
     {
+        comboText.text = _currentCombo.ToString();
+    }
+
+    protected override void OnHit(HitMargin hit)
+    {
+        if (hit == HitMargin.Auto || hit == HitMargin.Midspin) return;
+
         bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
 
         if (useXPerfect)
         {
-            return e.Hit == HitMargin.Perfect && e.DetailedJudge == DetailedJudge.XPerfect;
+            if (hit == HitMargin.XPerfect)
+            {
+                _currentCombo++;
+            }
+            else
+            {
+                _currentCombo = 0;
+            }
+        }
+        else
+        {
+            if (IsStandardPerfectHit(hit))
+            {
+                _currentCombo++;
+            }
+            else if (IsComboBreakHit(hit))
+            {
+                _currentCombo = 0;
+            }
         }
 
-        switch (e.Hit)
+        UpdateComboUI();
+        AnimateText();
+    }
+    private bool IsStandardPerfectHit(HitMargin hit)
+    {
+        switch (hit)
         {
-            case HitMargin.Perfect:
+            case HitMargin.XPerfect:
+            case HitMargin.PerfectPlus:
+            case HitMargin.PerfectMinus:
             case HitMargin.EarlyPerfect:
             case HitMargin.LatePerfect:
             case HitMargin.VeryEarly:
@@ -132,35 +157,19 @@ public class IngameComboScript : BasicIngameElement
                 return false;
         }
     }
-
-    private bool IsBreakingHit(HitMarginEventArgs e)
+    private bool IsComboBreakHit(HitMargin hit)
     {
-        bool useXPerfect = comboSettings?.UseXPerfectSystem ?? true;
-
-        if (useXPerfect)
-        {
-            return !(e.Hit == HitMargin.Perfect && e.DetailedJudge == DetailedJudge.XPerfect);
-        }
-
-        switch (e.Hit)
+        switch (hit)
         {
             case HitMargin.TooEarly:
             case HitMargin.TooLate:
-            case HitMargin.Multipress:
             case HitMargin.FailMiss:
             case HitMargin.FailOverload:
+            case HitMargin.Multipress:
             case HitMargin.OverPress:
                 return true;
             default:
                 return false;
-        }
-    }
-
-    private void UpdateComboUI()
-    {
-        if (comboText != null)
-        {
-            comboText.text = _currentCombo.ToString();
         }
     }
 

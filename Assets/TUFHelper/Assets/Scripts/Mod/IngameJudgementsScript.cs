@@ -13,7 +13,6 @@ public class IngameJudgementsScript : BasicIngameElement
     private int tooEarlyCount = 0;
     private int veryEarlyCount = 0;
     private int earlyPerfectCount = 0;
-    private int perfectCount = 0;
     private int plusPerfectCount = 0;
     private int xPerfectCount = 0;
     private int minusPerfectCount = 0;
@@ -56,7 +55,6 @@ public class IngameJudgementsScript : BasicIngameElement
         tooEarlyCount = 0;
         veryEarlyCount = 0;
         earlyPerfectCount = 0;
-        perfectCount = 0;
         plusPerfectCount = 0;
         xPerfectCount = 0;
         minusPerfectCount = 0;
@@ -79,36 +77,23 @@ public class IngameJudgementsScript : BasicIngameElement
         UpdateTextDisplay();
     }
 
-    protected override void OnHitMargin(HitMarginEventArgs e)
+    protected override void OnHit(HitMargin hit)
     {
-        if (e.Hit == HitMargin.Auto) return;
+        if (hit == HitMargin.Auto) return;
 
         bool useXPerfect = judgementsSettings?.UseXPerfectSystem ?? true;
 
-        switch (e.Hit)
+        switch (hit)
         {
-            case HitMargin.Perfect:
-                if (useXPerfect)
-                {
-                    if (e.DetailedJudge == DetailedJudge.XPerfect)
-                    {
-                        xPerfectCount++;
-                    }
-                    else if (e.DetailedJudge == DetailedJudge.PlusPerfect)
-                    {
-                        plusPerfectCount++;
-                    }
-                    else if (e.DetailedJudge == DetailedJudge.MinusPerfect)
-                    {
-                        minusPerfectCount++;
-                    }
-                }
-                else
-                {
-                    perfectCount++;
-                }
+            case HitMargin.XPerfect:
+                xPerfectCount++;
                 break;
-
+            case HitMargin.PerfectPlus:
+                plusPerfectCount++;
+                break;
+            case HitMargin.PerfectMinus:
+                minusPerfectCount++;
+                break;
             case HitMargin.EarlyPerfect:
                 earlyPerfectCount++;
                 break;
@@ -160,7 +145,7 @@ public class IngameJudgementsScript : BasicIngameElement
                         $"<color=orange>{veryEarlyCount}</color> " +
                         $"<color=yellow>{earlyPerfectCount}</color> " +
                         $"<color=green>{plusPerfectCount}</color> " +
-                        $"<color=#69afff>{xPerfectCount}</color> " +
+                        $"<color=#E6E8FA>{xPerfectCount}</color> " +
                         $"<color=green>{minusPerfectCount}</color> " +
                         $"<color=yellow>{latePerfectCount}</color> " +
                         $"<color=orange>{veryLateCount}</color> " +
@@ -173,7 +158,7 @@ public class IngameJudgementsScript : BasicIngameElement
                         $"<color=red>{tooEarlyCount}</color> " +
                         $"<color=orange>{veryEarlyCount}</color> " +
                         $"<color=yellow>{earlyPerfectCount}</color> " +
-                        $"<color=green>{perfectCount}</color> " +
+                        $"<color=green>{xPerfectCount + minusPerfectCount + plusPerfectCount}</color> " +
                         $"<color=yellow>{latePerfectCount}</color> " +
                         $"<color=orange>{veryLateCount}</color> " +
                         $"<color=red>{tooLateCount}</color> " +

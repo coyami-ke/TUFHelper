@@ -38,31 +38,31 @@ namespace TUFHelper.Utils
         }
     }
 
-    public class HitMarginEventArgs : EventArgs
-    {
-        public DetailedJudge DetailedJudge { get; }
-        public HitMargin Hit { get; }
-        public HitMarginEventArgs(DetailedJudge detailedJudge, HitMargin hit)
-        {
-            DetailedJudge = detailedJudge;
-            Hit = hit;
-        }
-    }
+    //public class HitMarginEventArgs : EventArgs
+    //{
+    //    public DetailedJudge DetailedJudge { get; }
+    //    public HitMargin Hit { get; }
+    //    public HitMarginEventArgs(DetailedJudge detailedJudge, HitMargin hit)
+    //    {
+    //        DetailedJudge = detailedJudge;
+    //        Hit = hit;
+    //    }
+    //}
 
-    public enum DetailedJudge
-    {
-        None,
-        XPerfect,
-        PlusPerfect,
-        MinusPerfect,
-    }
+    //public enum DetailedJudge
+    //{
+    //    None,
+    //    XPerfect,
+    //    PlusPerfect,
+    //    MinusPerfect,
+    //}
 
     public static class ADOFAIGameplayHandler
     {
         public static event EventHandler<PlayButtonEventArgs> Editor_PlayButtonPressed;
         public static event EventHandler<HitMargin> Editor_Hit;
         public static event EventHandler<ScnGameTransferToEditorEventArgs> Editor_ScnGameTransferToEditor;
-        public static event EventHandler<HitMarginEventArgs> Editor_HitMargin;
+        //public static event EventHandler<HitMarginEventArgs> Editor_HitMargin;
 
         public static string LastOpenedTUFLevel = "";
 
@@ -180,60 +180,60 @@ namespace TUFHelper.Utils
             }
         }
 
-        [HarmonyPatch(typeof(scrMisc), "GetHitMargin")]
-        public static class HitMarginPatch
-        {
-            private const double RadToDegMultiplier = 57.295780181884766;
-            private const float RadToDegFloatMultiplier = 57.29578f;
+        //[HarmonyPatch(typeof(scrMisc), "GetHitMargin")]
+        //public static class HitMarginPatch
+        //{
+        //    private const double RadToDegMultiplier = 57.295780181884766;
+        //    private const float RadToDegFloatMultiplier = 57.29578f;
 
-            public static void Postfix(ref HitMargin __result, float hitangle, float refangle, bool isCW, float bpmTimesSpeed, float conductorPitch)
-            {
-                try
-                {
-                    if (RDC.auto)
-                    {
-                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.XPerfect, HitMargin.Perfect));
-                        return;
-                    }
+        //    public static void Postfix(ref HitMargin __result, float hitangle, float refangle, bool isCW, float bpmTimesSpeed, float conductorPitch)
+        //    {
+        //        try
+        //        {
+        //            if (RDC.auto)
+        //            {
+        //                ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.XPerfect, HitMargin.Perfect));
+        //                return;
+        //            }
 
-                    if (__result != HitMargin.Perfect)
-                    {
-                        ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
-                        return;
-                    }
+        //            if (__result != HitMargin.Perfect)
+        //            {
+        //                ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
+        //                return;
+        //            }
 
                     
 
-                    float rawDelta = (hitangle - refangle) * RadToDegFloatMultiplier;
-                    float signedDeltaDeg = isCW ? rawDelta : -rawDelta;
-                    float absoluteDeltaDeg = Mathf.Abs(signedDeltaDeg);
+        //            float rawDelta = (hitangle - refangle) * RadToDegFloatMultiplier;
+        //            float signedDeltaDeg = isCW ? rawDelta : -rawDelta;
+        //            float absoluteDeltaDeg = Mathf.Abs(signedDeltaDeg);
 
-                    double radBoundary = scrMisc.TimeToAngleInRad(0.01667, (double)bpmTimesSpeed, (double)conductorPitch, false);
-                    double val = radBoundary * RadToDegMultiplier;
-                    double actualXPerfectBoundaryDeg = Math.Max(15.0, val);
+        //            double radBoundary = scrMisc.TimeToAngleInRad(0.01667, (double)bpmTimesSpeed, (double)conductorPitch, false);
+        //            double val = radBoundary * RadToDegMultiplier;
+        //            double actualXPerfectBoundaryDeg = Math.Max(15.0, val);
 
-                    DetailedJudge judge;
-                    if ((double)absoluteDeltaDeg <= actualXPerfectBoundaryDeg)
-                    {
-                        judge = DetailedJudge.XPerfect;
-                    }
-                    else if (signedDeltaDeg < 0f)
-                    {
-                        judge = DetailedJudge.PlusPerfect;
-                    }
-                    else
-                    {
-                        judge = DetailedJudge.MinusPerfect;
-                    }
+        //            DetailedJudge judge;
+        //            if ((double)absoluteDeltaDeg <= actualXPerfectBoundaryDeg)
+        //            {
+        //                judge = DetailedJudge.XPerfect;
+        //            }
+        //            else if (signedDeltaDeg < 0f)
+        //            {
+        //                judge = DetailedJudge.PlusPerfect;
+        //            }
+        //            else
+        //            {
+        //                judge = DetailedJudge.MinusPerfect;
+        //            }
 
-                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(judge, __result));
-                }
-                catch (Exception arg)
-                {
-                    Main.Logger.Log($"Error during self-contained XPerfect calculation: {arg}");
-                    ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
-                }
-            }
-        }
+        //            ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(judge, __result));
+        //        }
+        //        catch (Exception arg)
+        //        {
+        //            Main.Logger.Log($"Error during self-contained XPerfect calculation: {arg}");
+        //            ADOFAIGameplayHandler.Editor_HitMargin?.Invoke(null, new(DetailedJudge.None, __result));
+        //        }
+        //    }
+        //}
     }
 }
