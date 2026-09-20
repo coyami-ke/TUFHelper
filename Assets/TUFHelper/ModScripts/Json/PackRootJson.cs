@@ -39,6 +39,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("name")]
         public string Name { get; set; }
+        [JsonProperty("description")]
+        public string? Description { get; set; }
 
         [JsonProperty("sortOrder")]
         public int SortOrder { get; set; }
@@ -58,6 +60,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonIgnore]
         public bool IsLevel => Type == "level";
+        [JsonIgnore]
+        public bool IsTextBlock => Type == "note";
 
         [JsonIgnore]
         public bool IsExpanded = false;

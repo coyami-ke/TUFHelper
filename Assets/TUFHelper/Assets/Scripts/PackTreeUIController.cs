@@ -7,13 +7,30 @@ public class PackTreeUIController : MonoBehaviour
 {
     public GameObject folderPrefab;
     public GameObject levelPrefab;
+    public GameObject textBlockPrefab;
     public RectTransform rootContainer;
 
     private const float ItemHeight = 50f;
+    private const float TextBlockHeight = 100f;
+    private const float TextBlockBlankHeight = 50f;
     private const float IndentWidth = 24f;
     private const float AnimationDuration = 0.25f;
 
     private List<PackItemNode> _rootNodes = new();
+
+    private float GetNodeHeight(PackItemNode node)
+    {
+        if (node == null) return ItemHeight;
+
+        if (node.IsFolder || node.IsLevel)
+        {
+            return ItemHeight;
+        }
+
+        bool isBlank = string.IsNullOrWhiteSpace(node.Description);
+
+        return isBlank ? TextBlockBlankHeight : TextBlockHeight;
+    }
 
     public void BuildTree(List<PackItemNode> rootNodes, string packId)
     {
@@ -40,19 +57,28 @@ public class PackTreeUIController : MonoBehaviour
             folderScript.InitTreeController(this, node);
             node.SpawnedUIScript = folderScript;
         }
-        else
+        else if (node.IsLevel)
         {
             go = Instantiate(levelPrefab, rootContainer, false);
             LevelInPackScript levelScript = go.GetComponent<LevelInPackScript>();
             levelScript.SetLevelInfo(node, packId);
             node.SpawnedUIScript = levelScript;
         }
+        else
+        {
+            go = Instantiate(textBlockPrefab, rootContainer, false);
+            TextBlockInPackScript textBlockScript = go.GetComponent<TextBlockInPackScript>();
+            textBlockScript.SetTextBlockInfo(node);
+            node.SpawnedUIScript = textBlockScript;
+        }
 
         RectTransform rect = go.GetComponent<RectTransform>();
 
+        float height = GetNodeHeight(node);
+
         rect.offsetMin = new Vector2(depth * IndentWidth, rect.offsetMin.y);
         rect.offsetMax = new Vector2(0f, rect.offsetMax.y);
-        rect.sizeDelta = new Vector2(rect.sizeDelta.x, ItemHeight);
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, height);
 
         if (!go.TryGetComponent<CanvasGroup>(out _))
         {
@@ -91,6 +117,7 @@ public class PackTreeUIController : MonoBehaviour
     private void PositionNodeRecursive(PackItemNode node, ref float currentY, bool isParentVisible, float parentTargetY, bool animated)
     {
         float thisNodeY = currentY;
+        float nodeHeight = GetNodeHeight(node);
 
         if (node.SpawnedUIScript != null)
         {
@@ -121,7 +148,7 @@ public class PackTreeUIController : MonoBehaviour
                     canvasGroup.alpha = 1f;
                 }
 
-                currentY -= ItemHeight;
+                currentY -= nodeHeight;
             }
             else
             {
