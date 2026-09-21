@@ -9,6 +9,7 @@ public class PackTreeUIController : MonoBehaviour
     public GameObject levelPrefab;
     public GameObject textBlockPrefab;
     public RectTransform rootContainer;
+    public RectTransform treeViewport; // Assign your ScrollRect Viewport in the Unity Inspector
 
     private const float ItemHeight = 50f;
     private const float TextBlockHeight = 100f;
@@ -23,30 +24,35 @@ public class PackTreeUIController : MonoBehaviour
         if (node == null) return ItemHeight;
 
         if (node.IsFolder || node.IsLevel)
-        {
             return ItemHeight;
-        }
 
         bool isBlank = string.IsNullOrWhiteSpace(node.Description);
-
         return isBlank ? TextBlockBlankHeight : TextBlockHeight;
     }
 
-    public void BuildTree(List<PackItemNode> rootNodes, string packId)
+    public void BuildTree(List<PackItemNode> rootNodes, string packId, int? autoSelectLevelId = null)
     {
         ClearTree();
         _rootNodes = rootNodes;
 
         foreach (var node in _rootNodes)
         {
-            InstantiateNodeRecursive(node, 0, packId);
+            InstantiateNodeRecursive(node, depth: 0, packId: packId, parent: null);
         }
 
-        UpdateLayout(animated: false);
+        if (autoSelectLevelId != null)
+        {
+            ExpandAndScrollToNode(autoSelectLevelId.Value);
+        }
+        else
+        {
+            UpdateLayout(animated: false);
+        }
     }
 
-    private void InstantiateNodeRecursive(PackItemNode node, int depth, string packId)
+    private void InstantiateNodeRecursive(PackItemNode node, int depth, string packId, PackItemNode parent)
     {
+        node.Parent = parent;
         GameObject go;
 
         if (node.IsFolder)
@@ -73,7 +79,6 @@ public class PackTreeUIController : MonoBehaviour
         }
 
         RectTransform rect = go.GetComponent<RectTransform>();
-
         float height = GetNodeHeight(node);
 
         rect.offsetMin = new Vector2(depth * IndentWidth, rect.offsetMin.y);
@@ -89,9 +94,61 @@ public class PackTreeUIController : MonoBehaviour
         {
             foreach (var child in node.Children)
             {
-                InstantiateNodeRecursive(child, depth + 1, packId);
+                InstantiateNodeRecursive(child, depth + 1, packId, node);
             }
         }
+    }
+
+    public void ExpandAndScrollToNode(int targetId)
+    {
+        PackItemNode targetNode = FindNodeById(_rootNodes, targetId);
+        if (targetNode == null)
+        {
+            UpdateLayout(animated: false);
+            return;
+        }
+
+        // Expand all ancestor folders
+        PackItemNode currentParent = targetNode.Parent;
+        while (currentParent != null)
+        {
+            currentParent.IsExpanded = true;
+            currentParent = currentParent.Parent;
+        }
+
+        UpdateLayout(animated: false);
+
+        // Scroll to position target node in the viewport
+        if (targetNode.SpawnedUIScript != null && treeViewport != null)
+        {
+            RectTransform targetRect = targetNode.SpawnedUIScript.GetComponent<RectTransform>();
+
+            // Calculate absolute Y coordinate relative to rootContainer
+            float targetY = Mathf.Abs(targetRect.anchoredPosition.y);
+            float viewportHeight = treeViewport.rect.height;
+
+            // Center target node in viewport
+            float scrollPosY = Mathf.Max(0, targetY - (viewportHeight / 2f) + (GetNodeHeight(targetNode) / 2f));
+            rootContainer.DOAnchorPosY(scrollPosY, AnimationDuration).SetEase(Ease.OutCubic);
+        }
+    }
+
+    private PackItemNode FindNodeById(List<PackItemNode> nodes, int targetId)
+    {
+        if (nodes == null) return null;
+
+        foreach (var node in nodes)
+        {
+            if (node.Id == targetId) return node;
+
+            if (node.IsFolder && node.Children != null)
+            {
+                var found = FindNodeById(node.Children, targetId);
+                if (found != null) return found;
+            }
+        }
+
+        return null;
     }
 
     public void UpdateLayout(bool animated = true)

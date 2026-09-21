@@ -1,13 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using TUFHelper;
 using TUFHelper.Utils;
 using UnityEngine;
 
 public class FrontPageScript : MonoBehaviour
 {
-    public GameObject frontPageObject, playCanvasObject, packsCanvasObject;
-
+    public GameObject frontPageObject;
+    public GameObject playCanvasObject;
+    public GameObject packsCanvasObject;
     public GameObject ratingPageObject;
 
     public static bool isFirstRun = true;
@@ -15,6 +14,7 @@ public class FrontPageScript : MonoBehaviour
     public bool IsRatingPageActive { get; private set; } = false;
     public static bool IsPackListActive { get; set; } = false;
     public static string LastOpenedPackId { get; set; } = string.Empty;
+    public static int LastOpenedPackLevelId { get; set; } = -1;
 
     public static FrontPageScript instance { get; private set; }
 
@@ -30,27 +30,25 @@ public class FrontPageScript : MonoBehaviour
 
         if (Main.isInTUFHelper)
         {
+            frontPageObject.SetActive(false);
+
             if (!IsPackListActive)
             {
-                frontPageObject.SetActive(false);
                 playCanvasObject.SetActive(true);
             }
             else
             {
-                frontPageObject.SetActive(false);
                 packsCanvasObject.SetActive(true);
-
-                await PackListScript.Instance.ShowPackView(LastOpenedPackId);
+                await PackListScript.Instance.ShowPackView(LastOpenedPackId, LastOpenedPackLevelId);
             }
         }
     }
-    //public void Start()
-    //{
-        
-    //}
 
-    public void OnDestroy()
+    private void OnDestroy()
     {
-        IsRatingPageActive = ratingPageObject.activeSelf;
+        if (ratingPageObject != null)
+        {
+            IsRatingPageActive = ratingPageObject.activeSelf;
+        }
     }
 }

@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelSelector : MonoBehaviour
 {
     public static LevelSelector instance;
 
-    public GameObject levelPrefab, levelListParent;
+    public GameObject levelPrefab;
+    public GameObject levelListParent;
 
     public LevelListInfoElementJson LevelInfo { get; set; }
 
@@ -21,56 +20,51 @@ public class LevelSelector : MonoBehaviour
         set
         {
             _isShow = value;
-            if (value)
-            {
-                this.gameObject.SetActive(true);
-            }
-            else
-            {
-                this.gameObject.SetActive(false);
-            }
+            gameObject.SetActive(value);
         }
     }
 
-    public void Awake()
+    private void Awake()
     {
         instance = this;
         IsShow = false;
     }
 
-    public void LoadLevels(List<string> levels, LevelListInfoElementJson info, string packId)
+    public void LoadLevels(List<string> levels, LevelListInfoElementJson info, string packId = null, int packLevelID = -1)
     {
         IsShow = true;
-        for (int i = 0; i < levelListParent.transform.childCount; i++)
+
+        for (int i = levelListParent.transform.childCount - 1; i >= 0; i--)
         {
             Destroy(levelListParent.transform.GetChild(i).gameObject);
         }
 
         int count = 0;
-        foreach (var level in levels)
+        foreach (var levelPath in levels)
         {
             GameObject obj = Instantiate(levelPrefab);
             BundleFontFixer.FixFontsIn(obj);
-            obj.GetComponent<SelectLevelPrefabScript>().SetLevel(level, info, packId);
+
+            SelectLevelPrefabScript prefabScript = obj.GetComponent<SelectLevelPrefabScript>();
+            prefabScript.SetLevel(levelPath, info, packId, packLevelID);
 
             RectTransform rect = obj.GetComponent<RectTransform>();
-            rect.SetParent(levelListParent.transform);
-
-            rect.anchoredPosition = new Vector3(0, (count * - 90));
+            rect.SetParent(levelListParent.transform, false);
+            rect.anchoredPosition = new Vector2(0, count * -90f);
 
             count++;
         }
 
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-        float totalHeight = count * 90;
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, count * 90f);
     }
-    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo, string packId = "")
+
+    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo, string packId = null, int packLevelID = -1)
     {
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
         yield return new WaitForEndOfFrame();
 
-        LoadLevels(levels, levelInfo, packId);
+        LoadLevels(levels, levelInfo, packId, packLevelID);
     }
 
     public void Hide()

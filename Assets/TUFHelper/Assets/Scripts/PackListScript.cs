@@ -98,7 +98,7 @@ public class PackListScript : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public async Task ShowPackView(string id)
+    public async Task ShowPackView(string id, int? selectLevelId = null)
     {
         ShowPackView();
 
@@ -132,7 +132,8 @@ public class PackListScript : MonoBehaviour
         PackRootJson json = JsonConvert.DeserializeObject<PackRootJson>(answer);
         if (json == null) return;
 
-        packTreeController.BuildTree(json.Items, id);
+        // Build tree and automatically expand/scroll to the targeted level ID
+        packTreeController.BuildTree(json.Items, id, autoSelectLevelId: selectLevelId);
 
         packInfo_name.text = json.Name;
         if (json.PackOwner?.Nickname != null) packInfo_ownerName.text = json.PackOwner.Nickname;
@@ -143,7 +144,6 @@ public class PackListScript : MonoBehaviour
         packInfo_itemsNumber.text = json.Items != null ? json.Items.Count.ToString() : "0";
         packInfo_created.text = json.CreatedAt.ToShortDateString();
 
-        // Load profile picture and icon asynchronously
         if (json.PackOwner != null && !string.IsNullOrEmpty(json.PackOwner.AvatarURL))
         {
             _ = ImageUtils.LoadImageToUIAsync(json.PackOwner.AvatarURL, packInfo_pfpImage, imageCancelToken.Token);

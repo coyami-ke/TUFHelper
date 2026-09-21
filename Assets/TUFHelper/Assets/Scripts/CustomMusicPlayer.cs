@@ -49,6 +49,8 @@ public class CustomMusicPlayer : MonoBehaviour
         yield return _waitForSeconds0_15;
         if (ct.IsCancellationRequested) yield break;
 
+        Stopwatch swDownload = Stopwatch.StartNew();
+
         using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(songUrl, AudioType.OGGVORBIS);
         ((DownloadHandlerAudioClip)www.downloadHandler).streamAudio = true;
 
@@ -63,6 +65,9 @@ public class CustomMusicPlayer : MonoBehaviour
             }
             yield return null;
         }
+
+        swDownload.Stop();
+        Main.Logger.Log($"[StreamPreviewNative] Native WebRequest completed in {swDownload.ElapsedMilliseconds} ms ({www.downloadedBytes} bytes)");
 
         AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
         if (clip != null)
@@ -86,6 +91,8 @@ public class CustomMusicPlayer : MonoBehaviour
 
         if (path.EndsWith(".ogg", StringComparison.OrdinalIgnoreCase))
         {
+            Stopwatch swDecode = Stopwatch.StartNew();
+
             Task<(float[] samples, int channels, int sampleRate)> decodeTask = Task.Run(() =>
             {
                 using var reader = new VorbisReader(path);
@@ -95,6 +102,8 @@ public class CustomMusicPlayer : MonoBehaviour
             while (!decodeTask.IsCompleted)
                 yield return null;
 
+            swDecode.Stop();
+
             if (!decodeTask.IsFaulted)
             {
                 var (samples, channels, sampleRate) = decodeTask.Result;
@@ -103,6 +112,8 @@ public class CustomMusicPlayer : MonoBehaviour
                     int totalSamples = samples.Length / channels;
                     clip = AudioClip.Create(Path.GetFileNameWithoutExtension(path), totalSamples, channels, sampleRate, false);
                     clip.SetData(samples, 0);
+
+                    Main.Logger.Log($"[LoadAndPlayAudio] Local OGG decoded in {swDecode.ElapsedMilliseconds} ms ({totalSamples} samples)");
                 }
             }
         }
@@ -143,12 +154,15 @@ public class CustomMusicPlayer : MonoBehaviour
     {
         if (type == AudioType.OGGVORBIS)
         {
-            Stopwatch sw = Stopwatch.StartNew();
+            Stopwatch swTotal = Stopwatch.StartNew();
+            Stopwatch swNetwork = Stopwatch.StartNew();
 
             using UnityWebRequest www = UnityWebRequest.Get(songUrl);
             www.SetRequestHeader("Range", $"bytes=0-{PREVIEW_BYTE_RANGE - 1}");
 
             yield return www.SendWebRequest();
+
+            swNetwork.Stop();
 
             if (www.result != UnityWebRequest.Result.Success && www.responseCode != 206)
             {
@@ -159,12 +173,21 @@ public class CustomMusicPlayer : MonoBehaviour
             byte[] rawBytes = www.downloadHandler.data;
             if (rawBytes == null || rawBytes.Length == 0) yield break;
 
-            Task<(float[] samples, int channels, int sampleRate)> decodeTask = Task.Run(() =>
+            long networkMs = swNetwork.ElapsedMilliseconds;
+
+            Task<(float[] samples, int channels, int sampleRate, long repairMs, long decodeMs)> decodeTask = Task.Run(() =>
             {
+                Stopwatch swRepair = Stopwatch.StartNew();
                 byte[] repairedOgg = ChopOggPrefixToEos(rawBytes);
+                swRepair.Stop();
+
+                Stopwatch swDecode = Stopwatch.StartNew();
                 using var ms = new MemoryStream(repairedOgg);
                 using var reader = new VorbisReader(ms, true);
-                return DecodeVorbisToSamples(reader, startTimeSeconds, maxDurationSeconds: 15f);
+                var (samples, channels, sampleRate) = DecodeVorbisToSamples(reader, startTimeSeconds, maxDurationSeconds: 15f);
+                swDecode.Stop();
+
+                return (samples, channels, sampleRate, swRepair.ElapsedMilliseconds, swDecode.ElapsedMilliseconds);
             });
 
             while (!decodeTask.IsCompleted)
@@ -176,7 +199,7 @@ public class CustomMusicPlayer : MonoBehaviour
                 yield break;
             }
 
-            var (samples, channels, sampleRate) = decodeTask.Result;
+            var (samples, channels, sampleRate, repairMs, decodeMs) = decodeTask.Result;
 
             if (samples != null && samples.Length > 0)
             {
@@ -187,14 +210,24 @@ public class CustomMusicPlayer : MonoBehaviour
                 PlayClipWithAutoStop(clip);
             }
 
-            sw.Stop();
+            swTotal.Stop();
+
+            //Main.Logger.Log($"[PlayAudioStream benchmark]\n" +
+            //                $"  Network Range Download : {networkMs} ms ({rawBytes.Length} bytes)\n" +
+            //                $"  Chop & CRC Repair      : {repairMs} ms\n" +
+            //                $"  NVorbis Decode         : {decodeMs} ms\n" +
+            //                $"  Total Execution Time   : {swTotal.ElapsedMilliseconds} ms");
         }
         else
         {
+            Stopwatch swStream = Stopwatch.StartNew();
+
             using UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(songUrl, type);
             ((DownloadHandlerAudioClip)www.downloadHandler).streamAudio = false;
 
             yield return www.SendWebRequest();
+
+            swStream.Stop();
 
             if (www.result != UnityWebRequest.Result.Success)
             {
@@ -211,6 +244,8 @@ public class CustomMusicPlayer : MonoBehaviour
                     audioSource.time = startTimeSeconds;
                 audioSource.Play();
                 isPlayingBackground = false;
+
+                Main.Logger.Log($"[PlayAudioStream] Generic audio stream loaded in {swStream.ElapsedMilliseconds} ms");
             }
         }
     }
@@ -268,7 +303,6 @@ public class CustomMusicPlayer : MonoBehaviour
         return (samples, channels, sampleRate);
     }
 
-
     private byte[] ChopOggPrefixToEos(byte[] raw)
     {
         if (raw.Length < 4 || Encoding.ASCII.GetString(raw, 0, 4) != "OggS")
@@ -285,7 +319,7 @@ public class CustomMusicPlayer : MonoBehaviour
             if (i == pages.Count - 1)
             {
                 page[5] |= 0x04;
-                Array.Clear(page, 22, 4); 
+                Array.Clear(page, 22, 4);
 
                 uint crc = CalculateOggCrc(page);
                 byte[] crcBytes = BitConverter.GetBytes(crc);

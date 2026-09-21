@@ -67,5 +67,7 @@ namespace TUFHelper.ModScripts.Json
         public bool IsExpanded = false;
         [JsonIgnore]
         public MonoBehaviour SpawnedUIScript;
+        [JsonIgnore]
+        public PackItemNode Parent { get; set; }
     }
 }

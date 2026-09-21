@@ -22,6 +22,7 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public string PackID { get; private set; }
 
     public LevelListInfoElementJson LevelInfo { get; private set; }
+    public int NodeId { get; private set;  }
 
     public void SetLevelInfo(PackItemNode node, string packId)
     {
@@ -38,6 +39,8 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         likesText.text = node.ReferencedLevel.Likes.ToString();
 
         PackID = packId;
+
+        NodeId = node.Id;
     }
 
     public async void OnPointerClick(PointerEventData eventData)
@@ -107,11 +110,11 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], lastLevel, PackID));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0], lastLevel, PackID));
                 break;
             default:
                 LevelSelector.instance.LevelInfo = lastLevel;
-                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, lastLevel, PackID));
+                StartCoroutine(LevelSelector.instance.LoadLevelsCo(args.Levels, lastLevel, PackID, NodeId));
                 break;
         }
 

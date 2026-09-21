@@ -301,7 +301,7 @@ public class MiscScript : MonoBehaviour
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.OpenLevel(args.Levels[0], lastLevel));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0], lastLevel));
                 break;
             default:
                 LevelSelector.instance.LevelInfo = lastLevel;
