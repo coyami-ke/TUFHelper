@@ -245,7 +245,7 @@ public class CustomMusicPlayer : MonoBehaviour
                 audioSource.Play();
                 isPlayingBackground = false;
 
-                Main.Logger.Log($"[PlayAudioStream] Generic audio stream loaded in {swStream.ElapsedMilliseconds} ms");
+                //Main.Logger.Log($"[PlayAudioStream] Generic audio stream loaded in {swStream.ElapsedMilliseconds} ms");
             }
         }
     }
