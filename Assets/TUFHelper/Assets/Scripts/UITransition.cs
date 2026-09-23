@@ -11,15 +11,18 @@ public static class UITransition
     {
         if (target == null) return;
 
-        target.SetActive(true);
         CanvasGroup canvasGroup = GetCanvasGroup(target);
         RectTransform rect = target.transform as RectTransform;
         Transform targetTransform = target.transform;
-        Vector3 targetScale = targetTransform.localScale;
 
         canvasGroup.DOKill();
         targetTransform.DOKill();
         if (rect != null) rect.DOKill();
+
+        Vector3 targetScale = targetTransform.localScale;
+        Vector2 targetPosition = rect != null ? rect.anchoredPosition : Vector2.zero;
+
+        target.SetActive(true);
 
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
@@ -39,15 +42,24 @@ public static class UITransition
 
         targetTransform.DOScale(targetScale, duration + 0.02f)
             .SetDelay(delay)
-            .SetEase(Ease.OutCubic);
+            .SetEase(Ease.OutCubic)
+            .OnKill(() =>
+        {
+            if (targetTransform != null)
+                targetTransform.localScale = targetScale;
+        });
 
         if (rect != null)
         {
-            Vector2 targetPosition = rect.anchoredPosition;
             rect.anchoredPosition = targetPosition + new Vector2(-16f, DefaultOffsetY * 0.5f);
             rect.DOAnchorPos(targetPosition, duration + 0.04f)
                 .SetDelay(delay)
-                .SetEase(Ease.OutCubic);
+                .SetEase(Ease.OutCubic)
+                .OnKill(() =>
+            {
+                if (rect != null)
+                    rect.anchoredPosition = targetPosition;
+            });
         }
     }
 
@@ -57,10 +69,13 @@ public static class UITransition
 
         CanvasGroup canvasGroup = GetCanvasGroup(target);
         RectTransform rect = target.transform as RectTransform;
-        Vector2 targetPosition = rect != null ? rect.anchoredPosition : Vector2.zero;
+        Transform targetTransform = target.transform;
 
         canvasGroup.DOKill();
+        targetTransform.DOKill();
         if (rect != null) rect.DOKill();
+
+        Vector2 targetPosition = rect != null ? rect.anchoredPosition : Vector2.zero;
 
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -83,7 +98,12 @@ public static class UITransition
         {
             rect.DOAnchorPos(targetPosition + new Vector2(0f, DefaultOffsetY), duration)
                 .SetDelay(delay)
-                .SetEase(Ease.InCubic);
+                .SetEase(Ease.InCubic)
+                .OnKill(() =>
+            {
+                if (rect != null)
+                    rect.anchoredPosition = targetPosition;
+            });
         }
     }
 
