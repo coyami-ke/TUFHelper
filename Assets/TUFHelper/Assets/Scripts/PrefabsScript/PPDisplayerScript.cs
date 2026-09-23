@@ -80,16 +80,19 @@ public class PPDisplayerScript : BasicIngameElement
     {
         base.Start();
 
-        if (PP != null && Main.Setting != null)
-            PP.gameObject.SetActive(displayerSettings.IsShowScore);
+        if (displayerSettings != null)
+        {
+            if (PP != null)
+                PP.gameObject.SetActive(displayerSettings.IsShowScore);
 
-        if (Speed != null && Main.Setting != null)
-            Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+            if (Speed != null)
+                Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+        }
     }
 
     protected override bool ShouldElementBeVisible()
     {
-        if (Main.Setting == null) return true;
+        if (Main.Setting == null || displayerSettings == null) return true;
         return displayerSettings.IsShowScore || displayerSettings.IsShowSpeed;
     }
 
@@ -109,8 +112,11 @@ public class PPDisplayerScript : BasicIngameElement
             _cachedLevelData = new LevelData(levelInfo);
         }
 
-        Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
-        PP.gameObject.SetActive(displayerSettings.IsShowScore);
+        if (displayerSettings != null)
+        {
+            if (Speed != null) Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+            if (PP != null) PP.gameObject.SetActive(displayerSettings.IsShowScore);
+        }
     }
 
     protected override void OnHit(HitMargin hit)
@@ -143,16 +149,27 @@ public class PPDisplayerScript : BasicIngameElement
             ApplyPP(computedScore);
         }
     }
+
     protected override void OnLoadCustomSettings(IngameElementModel model)
     {
+        if (displayerSettings != null)
+        {
+            displayerSettings.PropertyChanged -= DisplayerSettings_PropertyChanged;
+        }
+
         displayerSettings = model.GetCategory("PPDisplayer", new PPDisplayerSettingsCategory());
         displayerSettings.PropertyChanged += DisplayerSettings_PropertyChanged;
     }
 
     private void DisplayerSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
-        PP.gameObject.SetActive(displayerSettings.IsShowScore);
+        if (displayerSettings == null) return;
+
+        if (Speed != null)
+            Speed.gameObject.SetActive(displayerSettings.IsShowSpeed);
+
+        if (PP != null)
+            PP.gameObject.SetActive(displayerSettings.IsShowScore);
 
         UpdateVisibility();
     }
@@ -214,6 +231,11 @@ public class PPDisplayerScript : BasicIngameElement
     protected override void OnDestroy()
     {
         base.OnDestroy();
+
+        if (displayerSettings != null)
+        {
+            displayerSettings.PropertyChanged -= DisplayerSettings_PropertyChanged;
+        }
 
         if (_scoreTween != null && _scoreTween.IsActive())
         {

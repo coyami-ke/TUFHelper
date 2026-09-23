@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4185429210115954618}
   - component: {fileID: 8919544443992896430}
   - component: {fileID: 5883571505532960067}
-  - component: {fileID: 5176673626370832035}
   m_Layer: 5
   m_Name: IngameLeaderboardPrefab
   m_TagString: Untagged
@@ -91,16 +90,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parentList: {fileID: 2657405769457343265}
   prefab: {fileID: 2657405769457343265, guid: 0e79cee078fe39d45bfa55a7177bc184, type: 3}
---- !u!114 &5176673626370832035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2657405769457343265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
