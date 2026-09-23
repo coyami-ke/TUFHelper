@@ -28,6 +28,8 @@ public class PassInfo : MonoBehaviour
     public float maxHeight = 200;
     public float minPosX = 10;
     public Image levelIcon;
+    private string passVideoUrl;
+    private GameObject videoButton;
     public void Awake()
     {
         if (instance == null) instance = this;
@@ -47,9 +49,93 @@ public class PassInfo : MonoBehaviour
     {
         WindowsManager.instance.MoveToLevelList();
     }
+    public void OpenPassVideoLink()
+    {
+        if (string.IsNullOrWhiteSpace(passVideoUrl)) return;
+        Application.OpenURL(passVideoUrl);
+    }
+
+    private void SetVideoButton(string videoUrl)
+    {
+        bool valid = System.Uri.TryCreate(videoUrl, System.UriKind.Absolute, out System.Uri videoUri) &&
+                     (videoUri.Scheme == System.Uri.UriSchemeHttps || videoUri.Scheme == System.Uri.UriSchemeHttp);
+
+        passVideoUrl = valid ? videoUrl : null;
+
+        if (videoButton == null && valid)
+            CreateVideoButton();
+
+        if (videoButton != null)
+            videoButton.SetActive(valid);
+    }
+
+    private void CreateVideoButton()
+    {
+        Transform player = transform.Find("Player");
+        if (player == null) return;
+
+        Transform existing = player.Find("VideoButton");
+        if (existing != null)
+        {
+            videoButton = existing.gameObject;
+        }
+        else
+        {
+            videoButton = new GameObject("VideoButton", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+            videoButton.transform.SetParent(player, false);
+
+            RectTransform rect = videoButton.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(1f, 0f);
+            rect.anchorMax = new Vector2(1f, 0f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = new Vector2(-42f, 42f);
+            rect.sizeDelta = new Vector2(46f, 46f);
+
+            Image background = videoButton.GetComponent<Image>();
+            Image playerBackground = player.GetComponent<Image>();
+            if (playerBackground != null)
+            {
+                background.sprite = playerBackground.sprite;
+                background.type = playerBackground.type;
+            }
+
+            Button button = videoButton.GetComponent<Button>();
+            button.targetGraphic = background;
+            ColorBlock colors = button.colors;
+            colors.normalColor = new Color(1f, 1f, 1f, 0.08f);
+            colors.highlightedColor = new Color(1f, 1f, 1f, 0.16f);
+            colors.pressedColor = new Color(1f, 1f, 1f, 0.22f);
+            colors.selectedColor = colors.highlightedColor;
+            colors.disabledColor = new Color(1f, 1f, 1f, 0.06f);
+            colors.fadeDuration = 0.08f;
+            button.colors = colors;
+
+            GameObject logoObject = new GameObject("YouTubeLogo", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+            logoObject.transform.SetParent(videoButton.transform, false);
+
+            RectTransform logoRect = logoObject.GetComponent<RectTransform>();
+            logoRect.anchorMin = new Vector2(0.5f, 0.5f);
+            logoRect.anchorMax = new Vector2(0.5f, 0.5f);
+            logoRect.pivot = new Vector2(0.5f, 0.5f);
+            logoRect.anchoredPosition = Vector2.zero;
+            logoRect.sizeDelta = new Vector2(26f, 26f);
+
+            Image logo = logoObject.GetComponent<Image>();
+            logo.raycastTarget = false;
+            logo.preserveAspect = true;
+            logo.color = new Color(1f, 1f, 1f, 0.94f);
+            logo.sprite = Main.GetSpriteFromAssets("Assets/TUFHelper/Assets/Sprites/youtube_logo.png");
+        }
+
+        Button videoLinkButton = videoButton.GetComponent<Button>();
+        videoLinkButton.onClick.RemoveListener(OpenPassVideoLink);
+        videoLinkButton.onClick.AddListener(OpenPassVideoLink);
+    }
     public async void SetPassInfo(PassesListInfoElementJson pass, LevelListInfoElementJson level)
     {
+        SetVideoButton(null);
         var info = await LoadPass(pass.ID);
+        if (info == null) return;
         levelIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(level.DiffId));
         levelNameText.text = level.Song;
         compositorText.text = level.Artist;
@@ -98,6 +184,8 @@ public class PassInfo : MonoBehaviour
         // Misses
         missesText.text = pass.Judgements.EarlyDouble.ToString();
         SetHeight(missesRect, maxHeight * (pass.Judgements.EarlyDouble / countHits));
+        SetVideoButton(info.VideoLink);
+        UITransition.AnimateDetailLoaded(this);
     }
 
     public string GetDefaultUrl(int passID) => $"https://api.tuforums.com/v2/database/passes/{passID}";

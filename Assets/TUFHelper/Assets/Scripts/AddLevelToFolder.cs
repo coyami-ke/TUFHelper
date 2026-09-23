@@ -17,7 +17,7 @@ public class AddLevelToFolder : MonoBehaviour
         set
         {
             isShow = value;
-            gameObject.SetActive(value);
+            UITransition.SetVisible(gameObject, value);
         }
     }
 

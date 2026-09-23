@@ -19,7 +19,7 @@ public class ErrorScript : MonoBehaviour
 
     public void CloseButtonClick()
     {
-        gameObject.SetActive(false);
+        UITransition.Hide(gameObject, 0.16f);
     }
 
     public static void ShowError(string message)
@@ -27,6 +27,6 @@ public class ErrorScript : MonoBehaviour
         if (message.StartsWith("The request was")) return;
         //DownloadPopupScript.Close();
         instance.errorContentText.text = message;
-        instance.gameObject.SetActive(true);
+        UITransition.Show(instance.gameObject, 0.2f);
     }
 }

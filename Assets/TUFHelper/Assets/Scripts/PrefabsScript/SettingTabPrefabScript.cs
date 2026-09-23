@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
@@ -27,7 +27,7 @@ public class SettingTabPrefabScript : MonoBehaviour, IPointerClickHandler, IPoin
                 if (tab != this)
                 {
                     tab.IsSelected = false;
-                    tab.settingsObject.SetActive(false);
+                    UITransition.Hide(tab.settingsObject, 0.14f);
                 }
             }
 

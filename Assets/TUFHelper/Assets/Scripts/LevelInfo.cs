@@ -28,7 +28,7 @@ public class LevelInfo : MonoBehaviour
         set
         {
             isShow = value;
-            gameObject.SetActive(value);
+            UITransition.SetVisible(gameObject, value);
         }
     }
 

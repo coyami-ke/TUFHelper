@@ -27,9 +27,18 @@ public class ShowDownloadedToggle : MonoBehaviour
         LevelListScript.instance.ShowOnlyDownloaded = value;
         Main.Setting.ShowOnlyDownloaded = value;
 
-        favoriteToggle.SetActive(value);
-        updateLevelsButton.SetActive(value);
-        groupByFoldersToggle.SetActive(value);
+        if (value)
+        {
+            UITransition.Show(favoriteToggle, 0.2f, 0f);
+            UITransition.Show(updateLevelsButton, 0.2f, 0.035f);
+            UITransition.Show(groupByFoldersToggle, 0.2f, 0.07f);
+        }
+        else
+        {
+            UITransition.Hide(groupByFoldersToggle, 0.16f, 0f);
+            UITransition.Hide(updateLevelsButton, 0.16f, 0.02f);
+            UITransition.Hide(favoriteToggle, 0.16f, 0.04f);
+        }
 
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();

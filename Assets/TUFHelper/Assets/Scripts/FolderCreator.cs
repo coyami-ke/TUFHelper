@@ -17,7 +17,7 @@ public class FolderCreator : MonoBehaviour
         {
             if (value == _isMenuActive) return;
             _isMenuActive = value;
-            menuObject.SetActive(value);
+            UITransition.SetVisible(menuObject, value);
         }
     }
     public void Start()

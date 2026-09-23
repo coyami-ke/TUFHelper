@@ -89,6 +89,7 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         {
             PackListScript.Instance.ShowPackView();
             PackListScript.Instance.SetPackInfo(PackInfo, pfpImage != null ? pfpImage.sprite : null, iconImage != null ? iconImage.sprite : null);
+            UITransition.AnimatePackSelection(PackListScript.Instance.packView, this);
         }
         catch (Exception ex)
         {

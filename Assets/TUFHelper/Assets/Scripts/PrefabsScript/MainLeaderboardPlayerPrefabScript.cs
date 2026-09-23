@@ -18,6 +18,7 @@ public class MainLeaderboardPlayerPrefabScript : MonoBehaviour
         rankedScore.text = info.RankedScore.ToString("F2");
         xacc.text = (info.AverageXAccuracy * 100).ToString("F2") + "%";
         rank.text = "#" + rankNumber;
+        UITransition.AnimateLeaderboardItem(this);
 
         string pfpUrl = info.Player?.PFP;
         if (string.IsNullOrWhiteSpace(pfpUrl))

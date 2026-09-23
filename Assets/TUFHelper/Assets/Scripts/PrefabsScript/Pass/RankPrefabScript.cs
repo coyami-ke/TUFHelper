@@ -45,6 +45,7 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
             background.DOKill();
             float targetAlpha = value ? 20f / 255f : 10f / 255f;
             background.DOColor(new Color(1f, 1f, 1f, targetAlpha), 0.5f).SetEase(Ease.OutExpo);
+            UITransition.AnimateRankSelection(transform, value);
 
             if (value)
             {
@@ -124,6 +125,8 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
             leftRectangle.color = new Color(baseColor.r, baseColor.g, baseColor.b, leftRectangle.color.a);
         }
+
+        UITransition.AnimateLeaderboardItem(this);
     }
 
     private static GradesScore GetGradeFromAccuracy(float accuracy)

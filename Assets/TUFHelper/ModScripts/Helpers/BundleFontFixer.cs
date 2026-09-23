@@ -96,7 +96,7 @@ namespace TUFHelper
                 return runtimeFontAsset;
             }
 
-            runtimeFontAsset = FindBundledTmpFont() ?? CreateFontAssetFromFont();
+            runtimeFontAsset = CreateFontAssetFromFont() ?? FindBundledTmpFont();
             if (runtimeFontAsset != null)
             {
                 SanitizeFontAsset(runtimeFontAsset);
@@ -114,7 +114,7 @@ namespace TUFHelper
                 ? Main.assets.LoadAllAssets<TMP_FontAsset>()
                 : Enumerable.Empty<TMP_FontAsset>();
 
-            return fonts.FirstOrDefault(IsGMarketFont)
+            return fonts.FirstOrDefault(IsPreferredFont)
                 ?? fonts.FirstOrDefault(font => font != null && font.material != null);
         }
 
@@ -129,7 +129,7 @@ namespace TUFHelper
             TMP_FontAsset fontAsset = TMP_FontAsset.CreateFontAsset(sourceFont);
             if (fontAsset != null)
             {
-                fontAsset.name = "TUFHelper_Runtime_GMarket";
+                fontAsset.name = "TUFHelper_Runtime_Chiron";
             }
 
             return fontAsset;
@@ -141,15 +141,15 @@ namespace TUFHelper
                 ? Main.assets.LoadAllAssets<Font>()
                 : Enumerable.Empty<Font>();
 
-            return bundledFonts.FirstOrDefault(IsGMarketFont)
-                ?? Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault(IsGMarketFont)
+            return bundledFonts.FirstOrDefault(IsPreferredFont)
+                ?? Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault(IsPreferredFont)
                 ?? bundledFonts.FirstOrDefault()
                 ?? Resources.FindObjectsOfTypeAll<Font>().FirstOrDefault();
         }
 
-        private static bool IsGMarketFont(UnityEngine.Object obj)
+        private static bool IsPreferredFont(UnityEngine.Object obj)
         {
-            return obj != null && obj.name.IndexOf("Gmarket", StringComparison.OrdinalIgnoreCase) >= 0;
+            return obj != null && obj.name.IndexOf("Chiron", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         private static void SanitizeFontAsset(TMP_FontAsset fontAsset)

@@ -19,7 +19,7 @@ public class ModSettings : MonoBehaviour
         {
             _currentTab = value;
             titleTab.text = _currentTab.nameTab;
-            _currentTab.settingsObject.SetActive(true);
+            UITransition.Show(_currentTab.settingsObject, 0.2f);
         }
     }
 
@@ -47,7 +47,7 @@ public class ModSettings : MonoBehaviour
         set
         {
             _isShow = value;
-            window.SetActive(value);
+            UITransition.SetVisible(window, value);
         }
     }
 

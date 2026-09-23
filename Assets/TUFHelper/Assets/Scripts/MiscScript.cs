@@ -70,13 +70,16 @@ public class MiscScript : MonoBehaviour
             var frontPageButtons = frontMenuCanvas.GetComponentsInChildren<FrontPageButton>(includeInactive: true);
             foreach (var button in frontPageButtons)
             {
-                if (button.showableCanvas != null)
-                    button.showableCanvas.SetActive(false);
+                if (button.showableCanvas != null && button.showableCanvas.activeSelf)
+                    UITransition.Hide(button.showableCanvas, 0.16f);
             }
         }
 
         if (FrontPageScript.instance != null)
-            FrontPageScript.instance.frontPageObject.SetActive(true);
+        {
+            UITransition.Show(FrontPageScript.instance.frontPageObject, 0.24f, 0.05f);
+            UITransition.AnimateLobbyIn(FrontPageScript.instance.frontPageObject);
+        }
 
         if (CustomMusicPlayer.instance != null)
             CustomMusicPlayer.instance.StopPlay();
@@ -161,10 +164,10 @@ public class MiscScript : MonoBehaviour
     public async void ImFuckingLucky()
     {
         if (FrontPageScript.instance != null && FrontPageScript.instance.frontPageObject.activeSelf)
-            FrontPageScript.instance.frontPageObject.SetActive(false);
+            UITransition.Hide(FrontPageScript.instance.frontPageObject, 0.16f);
 
         if (playCanvas != null)
-            playCanvas.SetActive(true);
+            UITransition.Show(playCanvas, 0.24f, 0.04f);
 
         CancellationToken token = CancelAndCreateNewToken();
         LevelListInfoElementJson selectedLevel = null;
@@ -233,7 +236,7 @@ public class MiscScript : MonoBehaviour
             }
 
             if (ErrorScript.instance != null)
-                ErrorScript.instance.gameObject.SetActive(false);
+                UITransition.Hide(ErrorScript.instance.gameObject, 0.12f);
 
             if (selectedLevel == null)
             {

@@ -147,6 +147,7 @@ public class LevelListScript : MonoBehaviour
     public void OnLevelsAdded(LevelListInfoElementJson[] levels)
     {
         int startingIndex = levelListParent.transform.childCount;
+        int animationIndex = 0;
 
         foreach (var level in levels)
         {
@@ -164,8 +165,10 @@ public class LevelListScript : MonoBehaviour
             LevelPrefabScript lps = gameObject.GetComponent<LevelPrefabScript>();
             lps.Init(verticalScroll);
             lps.SetLevelInfo(level, level.Clears);
+            UITransition.AnimateLevelListItem(gameObject, animationIndex, 30f);
 
             startingIndex++;
+            animationIndex++;
         }
 
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();

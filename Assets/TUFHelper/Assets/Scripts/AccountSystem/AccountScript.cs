@@ -131,8 +131,8 @@ public class AccountScript : MonoBehaviour
 
     public void HideWindow()
     {
-        background.SetActive(false);
-        window.SetActive(false);
+        UITransition.Hide(window, 0.16f);
+        UITransition.Hide(background, 0.18f, 0.02f);
     }
 
     private async Task GetToken()
@@ -174,7 +174,7 @@ public class AccountScript : MonoBehaviour
         password.text = "";
         errorMessage.text = "";
 
-        background.SetActive(true);
-        window.SetActive(true);
+        UITransition.Show(background, 0.18f);
+        UITransition.Show(window, 0.22f, 0.04f);
     }
 }

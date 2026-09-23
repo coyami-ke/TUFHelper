@@ -94,7 +94,7 @@ public class FrontPageButton : MonoBehaviour, IPointerClickHandler, IPointerEnte
             icon.rectTransform.DOPunchScale(Vector3.one * 0.1f, 0.2f, 10, 1f);
         }
 
-        if (showableCanvas != null) showableCanvas.SetActive(true);
+        if (showableCanvas != null) UITransition.ShowFront(showableCanvas);
         if (FrontPageScript.instance != null && FrontPageScript.instance.frontPageObject != null)
         {
             FrontPageScript.instance.frontPageObject.SetActive(false);
