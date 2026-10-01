@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class ShowDownloadedToggle : MonoBehaviour
 {
     public Toggle toggle;
-    public GameObject favoriteToggle, updateLevelsButton, groupByFoldersToggle;
+    public GameObject favoriteToggle, updateLevelsButton;
     public void Start()
     {
-        // toggle.isOn = Main.Setting.ShowOnlyDownloaded;
+        toggle.isOn = Main.Setting.ShowOnlyDownloaded;
     }
     public void Update()
     {
@@ -31,11 +31,9 @@ public class ShowDownloadedToggle : MonoBehaviour
         {
             UITransition.Show(favoriteToggle, 0.2f, 0f);
             UITransition.Show(updateLevelsButton, 0.2f, 0.035f);
-            UITransition.Show(groupByFoldersToggle, 0.2f, 0.07f);
         }
         else
         {
-            UITransition.Hide(groupByFoldersToggle, 0.16f, 0f);
             UITransition.Hide(updateLevelsButton, 0.16f, 0.02f);
             UITransition.Hide(favoriteToggle, 0.16f, 0.04f);
         }

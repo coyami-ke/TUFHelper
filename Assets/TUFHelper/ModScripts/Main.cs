@@ -79,7 +79,6 @@ namespace TUFHelper
 
             Main.Logger.Log("TUFHelper assets and scenes loaded successfully.");
             DOTween.SetTweensCapacity(10000, 500);
-            BundleFontFixer.Init();
 
             modEntry.Info.Version = modVersion;
             modEntry.Info.DisplayName = "TUFHelper";

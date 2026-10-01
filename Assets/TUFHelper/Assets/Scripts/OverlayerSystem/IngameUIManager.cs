@@ -96,7 +96,6 @@ namespace TUFHelper
             if (prefab == null) return null;
 
             GameObject instance = GameObject.Instantiate(prefab, parentCanvas, false);
-            BundleFontFixer.FixFontsIn(instance);
 
             BasicIngameElement script = instance.GetComponentInChildren<BasicIngameElement>();
             if (script == null)

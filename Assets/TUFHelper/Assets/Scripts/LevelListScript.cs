@@ -152,7 +152,7 @@ public class LevelListScript : MonoBehaviour
         foreach (var level in levels)
         {
             GameObject gameObject = Instantiate(levelPrefab);
-            BundleFontFixer.FixFontsIn(gameObject);
+            //BundleFontFixer.FixFontsIn(gameObject);
             RectTransform rect = gameObject.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform, false);
             rect.localScale = Vector3.one;

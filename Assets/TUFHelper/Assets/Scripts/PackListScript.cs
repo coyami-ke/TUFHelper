@@ -239,7 +239,6 @@ public class PackListScript : MonoBehaviour
         foreach (var pack in scripts)
         {
             GameObject gameObject = Instantiate(packPrefab);
-            BundleFontFixer.FixFontsIn(gameObject);
 
             RectTransform rect = gameObject.GetComponent<RectTransform>();
             rect.SetParent(packsParent.transform, false);

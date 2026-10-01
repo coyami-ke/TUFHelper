@@ -27,9 +27,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     public Image difficultyIcon;
     public Image background;
     public Image likeImage;
-    public Image curationIcon;
     public Image favoriteImage;
     public Image leftRectangleImage;
+    public Image[] curationIcons;
 
     [Header("Text Fields")]
     //public TextMeshProUGUI idText;
@@ -158,27 +158,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             CanDownload = !string.IsNullOrEmpty(levelInfo.DlLink);
             CanPlay = CanDownload && levelInfo.DlLink.Contains("api.tuforums.com/cdn/");
 
-            if (curationIcon != null)
-            {
-                Sprite curationSprite = Main.GetSpriteFromAssets(CurationHelper.GetSpriteFromCuration(levelInfo.Curation));
-                curationIcon.sprite = curationSprite;
-                curationIcon.gameObject.SetActive(curationSprite != null);
-            }
-
-            //if (idText != null) idText.text = $"#{levelInfo.ID}";
-
-            //if (artistText != null)
-            //{
-            //    artistText.text = levelInfo.Artist;
-            //    LanguageManager.ApplyChineseJapaneseFont(artistText);
-            //}
-
-            //if (levelNameText != null)
-            //{
-            //    levelNameText.text = levelInfo.Song;
-            //    LanguageManager.ApplyChineseJapaneseFont(levelNameText);
-            //}
-
             if (artistAndSongText != null)
             {
                 artistAndSongText.text = $"<b>{levelInfo.Artist}</b> - {levelInfo.Song}";
@@ -203,7 +182,6 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             bool hasClears = totalClears > 0;
             if (totalClearsText != null)
             {
-                //totalClearsText.gameObject.SetActive(hasClears);
                 totalClearsText.text = totalClears.ToString();
             }
             
@@ -227,6 +205,31 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             if (leftRectangleImage != null)
             {
                 leftRectangleImage.color = new Color(_diffColor.r, _diffColor.g, _diffColor.b, 128f / 255f);
+            }
+
+            
+
+            foreach (var icon in curationIcons)
+            {
+                icon.gameObject.SetActive(false);
+            }
+
+            if (levelInfo.Curation != null)
+            {
+                int curationCount = levelInfo.Curation.TypeIds?.Count > 0
+                    ? levelInfo.Curation.TypeIds.Count
+                    : levelInfo.Curation.Types?.Count ?? 0;
+
+                int activeCount = Math.Clamp(curationCount, 0, curationIcons.Length);
+
+                for (int i = 0; i < activeCount; i++)
+                {
+                    if (curationIcons[i] != null)
+                    {
+                        curationIcons[i].gameObject.SetActive(true);
+                        curationIcons[i].sprite = CurationHelper.GetSpriteFromId(levelInfo.Curation.TypeIds[i]);
+                    }
+                }
             }
         }
         catch (Exception ex)

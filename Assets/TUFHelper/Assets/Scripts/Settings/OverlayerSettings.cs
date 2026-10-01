@@ -29,7 +29,6 @@ public class OverlayerSettings : MonoBehaviour
             if (prefab == null) continue;
 
             GameObject instance = GameObject.Instantiate(prefab, canvasTransform, false);
-            BundleFontFixer.FixFontsIn(instance);
 
             var element = instance.GetComponentInChildren<BasicIngameElement>();
             if (element != null)

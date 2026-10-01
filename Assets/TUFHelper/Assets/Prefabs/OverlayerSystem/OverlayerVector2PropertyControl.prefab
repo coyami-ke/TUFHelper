@@ -816,8 +816,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Setting
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
-  m_sharedMaterial: {fileID: -3909153119467349838, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
+  m_sharedMaterial: {fileID: 2193103338806594681, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -953,8 +953,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "0\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
-  m_sharedMaterial: {fileID: -3909153119467349838, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
+  m_sharedMaterial: {fileID: 2193103338806594681, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1090,8 +1090,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "0\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
-  m_sharedMaterial: {fileID: -3909153119467349838, guid: 093024b19a3611c4fb125847c1587edf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
+  m_sharedMaterial: {fileID: 2193103338806594681, guid: f31f63aef6a74854da9947e549d2892e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1289,6 +1289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TUFHelper::OverlayerVector2PropertyControl
   propertyLabelText: {fileID: 7793569927332731482}
+  label: {fileID: 0}
   xField: {fileID: 5011840926944695712}
   yField: {fileID: 5120830583859299023}
 --- !u!1 &8973733844069585015

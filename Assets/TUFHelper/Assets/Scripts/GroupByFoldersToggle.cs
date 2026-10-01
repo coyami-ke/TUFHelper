@@ -18,7 +18,6 @@ public class GroupByFoldersToggle : MonoBehaviour
     {
         if (value)
         {
-            WindowsManager.instance.MoveToFolderList();
             FolderList.instance.UpdateFolderList();
             LevelListScript.instance.GroupByFolder = true;
             await LevelListScript.instance.UpdateLevelListAsync();

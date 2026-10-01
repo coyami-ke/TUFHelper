@@ -196,7 +196,6 @@ public class IngameLeaderboardScript : BasicIngameElement
             if (pass == null || pass.Player == null) continue;
 
             GameObject obj = Instantiate(prefab, parentList.transform);
-            BundleFontFixer.FixFontsIn(obj);
             var script = obj.GetComponent<IngamerankPrefabScript>();
 
             obj.SetActive(false);

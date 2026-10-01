@@ -34,7 +34,6 @@ public class AddLevelToFolder : MonoBehaviour
         foreach (var folder in Main.Setting.LevelFolders)
         {
             GameObject obj = Instantiate(folderPrefab);
-            BundleFontFixer.FixFontsIn(obj);
             obj.GetComponent<SelectFolderPrefabScript>().SetFolderInfo(folder, levelID);
 
             RectTransform rect = obj.GetComponent<RectTransform>();

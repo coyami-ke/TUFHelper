@@ -160,33 +160,54 @@ public static class UITransition
 
     public static void AnimateLeaderboardItem(Component target)
     {
-        if (target == null) return;
+        if (target == null || target.gameObject == null) return;
+
         Transform root = target.transform;
+
+        root.DOKill(true);
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            child.DOKill(true);
+        }
+
         int order = Mathf.Abs(root.GetSiblingIndex()) % 50;
         float delay = Mathf.Min(order * 0.028f, 0.34f);
-        Vector3 finalScale = root.localScale;
-        root.DOKill();
-        root.localScale = finalScale * 0.992f;
-        root.DOScale(finalScale, 0.24f).SetDelay(delay).SetEase(Ease.OutCubic);
+
+        Vector3 baseScale = Vector3.one;
+        root.localScale = baseScale * 0.992f;
+        root.DOScale(baseScale, 0.24f)
+            .SetDelay(delay)
+            .SetEase(Ease.OutCubic)
+            .SetTarget(root);
 
         for (int i = 0; i < root.childCount; i++)
         {
             RectTransform rect = root.GetChild(i) as RectTransform;
             if (rect == null) continue;
-            Vector2 finalPosition = rect.anchoredPosition;
-            rect.DOKill();
-            rect.anchoredPosition = finalPosition + new Vector2(30f, 0f);
-            rect.DOAnchorPos(finalPosition, 0.26f).SetDelay(delay).SetEase(Ease.OutCubic);
+
+            Vector2 basePosition = rect.anchoredPosition;
+            rect.anchoredPosition = basePosition + new Vector2(30f, 0f);
+            rect.DOAnchorPos(basePosition, 0.26f)
+                .SetDelay(delay)
+                .SetEase(Ease.OutCubic)
+                .SetTarget(rect);
         }
 
-        foreach (Graphic graphic in target.gameObject.GetComponentsInChildren<Graphic>(true))
+        Graphic[] graphics = target.gameObject.GetComponentsInChildren<Graphic>(true);
+        foreach (Graphic graphic in graphics)
         {
-            graphic.DOKill();
-            float alpha = graphic.color.a;
-            Color color = graphic.color;
-            color.a = 0f;
-            graphic.color = color;
-            graphic.DOFade(alpha, 0.20f).SetDelay(delay).SetEase(Ease.OutCubic);
+            if (graphic == null) continue;
+
+            float targetAlpha = graphic.color.a > 0.01f ? graphic.color.a : 1.0f;
+
+            Color initialColor = graphic.color;
+            initialColor.a = 0f;
+            graphic.color = initialColor;
+
+            graphic.DOFade(targetAlpha, 0.20f)
+                .SetDelay(delay)
+                .SetEase(Ease.OutCubic)
+                .SetTarget(graphic);
         }
     }
 

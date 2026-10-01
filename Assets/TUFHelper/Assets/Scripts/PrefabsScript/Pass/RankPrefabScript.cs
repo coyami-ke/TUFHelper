@@ -99,7 +99,6 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (playerText != null)
         {
             playerText.text = pass.Player?.Name ?? string.Empty;
-            LanguageManager.ApplyChineseJapaneseFont(playerText);
         }
 
         if (accuracyText != null) accuracyText.text = $"{pass.Accuracy * 100f:F2}%";

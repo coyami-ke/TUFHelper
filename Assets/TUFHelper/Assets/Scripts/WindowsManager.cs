@@ -11,7 +11,6 @@ public class WindowsManager : MonoBehaviour
     public GameObject LevelList;
     public GameObject PassesList;
     public GameObject PassInfo;
-    public GameObject FolderList;
     public GameObject RatingPanel;
 
     public List<GameObject> levelSearchElements;
@@ -33,7 +32,6 @@ public class WindowsManager : MonoBehaviour
             { LevelList, LevelList.GetComponent<RectTransform>() },
             { PassesList, PassesList.GetComponent<RectTransform>() },
             { PassInfo, PassInfo.GetComponent<RectTransform>() },
-            { FolderList, FolderList.GetComponent<RectTransform>() }
         };
 
         initialPositions = new Dictionary<GameObject, Vector2>();
@@ -58,7 +56,6 @@ public class WindowsManager : MonoBehaviour
         AnimatePanelPos(PassInfo, 1175f, 1f, Ease.OutExpo, 0.4f);
 
         FolderListActive = false;
-        global::FolderList.instance.IsShow = false;
     }
 
     public void MoveToLevelList()
@@ -66,35 +63,13 @@ public class WindowsManager : MonoBehaviour
         AnimatePanelPos(PassInfo, 0f, 1f, Ease.OutExpo, 0f);
         AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo, 0.2f);
         AnimatePanelPos(LevelList, 0f, 1f, Ease.OutExpo, 0.4f, () => PassInfo.SetActive(false));
-        AnimatePanelPos(FolderList, 0f, 1f, Ease.OutExpo, 0.4f, () => FolderList.SetActive(false));
 
         FolderListActive = false;
-        global::FolderList.instance.IsShow = false;
         RatingPanel.SetActive(false);
         PassesList.SetActive(true);
     }
 
     private bool isTransitioning = false;
-
-    public void MoveToFolderList()
-    {
-        if (isTransitioning) return;
-        isTransitioning = true;
-
-        if (!FolderList.activeSelf)
-            FolderList.SetActive(true);
-
-        AnimatePanelPos(PassInfo, 0f, 1f, Ease.OutExpo);
-        AnimatePanelPos(PassesList, 0f, 1f, Ease.OutExpo);
-        AnimatePanelPos(LevelList, 1185f, 1f, Ease.OutExpo);
-        AnimatePanelPos(FolderList, -1185f, 1f, Ease.OutExpo, 0f, () =>
-        {
-            isTransitioning = false;
-        });
-
-        FolderListActive = true;
-        global::FolderList.instance.IsShow = true;
-    }
 
     private void AnimatePanelPos(GameObject panel, float deltaX, float duration, Ease ease, float delay = 0f, TweenCallback onComplete = null)
     {

@@ -43,7 +43,6 @@ public class LevelSelector : MonoBehaviour
         foreach (var levelPath in levels)
         {
             GameObject obj = Instantiate(levelPrefab);
-            BundleFontFixer.FixFontsIn(obj);
 
             SelectLevelPrefabScript prefabScript = obj.GetComponent<SelectLevelPrefabScript>();
             prefabScript.SetLevel(levelPath, info, packId, packLevelID);

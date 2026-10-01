@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using UnityEngine;
 
 namespace TUFHelper.ModScripts.Json
 {
@@ -33,8 +31,10 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("ppBaseScore")]
         public float? PPBaseScore { get; set; }
+
         [JsonProperty("baseScore")]
         public float? BaseScore { get; set; }
+
         [JsonProperty("isCleared")]
         public bool IsCleared { get; set; }
 
@@ -88,90 +88,139 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("teamId")]
         public int? TeamId { get; set; }
+
         [JsonProperty("likes")]
         public int Likes { get; set; }
+
         [JsonProperty("passes")]
         public List<PassesListInfoElementJson> Passes { get; set; }
         [JsonProperty("curation")]
         public LevelListInfoElementCurationJson Curation { get; set; }
+
         [JsonProperty("tags")]
         public List<LevelListInfoElementTagJson> Tags { get; set; } = new();
+
         [JsonProperty("difficulty")]
         public LevelListInfoElementDifficultyJson Difficulty { get; set; } = new();
+
         [JsonProperty("bpm")]
         public float? BPM { get; set; }
+
         [JsonProperty("tilecount")]
         public int? TileCount { get; set; }
+
         [JsonProperty("levelLengthInMs")]
         public float? LevelLengthInMs { get; set; }
     }
-    public class LevelListInfoElementDifficultyJson
-    {
-        [JsonProperty("id")]
-        public int ID { get; set; }
-        [JsonProperty("name")]
-        public string Name { get; set; }
-        [JsonProperty("type")]
-        public string Type { get; set; }
-        [JsonProperty("icon")]
-        public string Icon { get; set; }
-        [JsonProperty("emoji")]
-        public string Emoji { get; set; }
-        [JsonProperty("color")]
-        public string Color { get; set; }
-        [JsonProperty("createdAt")]
-        public string CreatedAt { get; set; }
-        [JsonProperty("updatedAt")]
-        public string UpdatedAt { get; set; }
-        [JsonProperty("baseScore")]
-        public double BaseScore { get; set; }
-        [JsonProperty("sortOrder")]
-        public int SortOrder { get; set; }
-        [JsonProperty("legacy")]
-        public string Legacy { get; set; }
-        [JsonProperty("legacyIcon")]
-        public string LegacyIcon { get; set; }
-        [JsonProperty("legacyEmoji")]
-        public string LegacyEmoji { get; set; }
-    }
-    public class ListListInfoElementPassJson 
-    {
-        [JsonProperty("id")]
-        public int ID { get; set; }
-    }
+
     public class LevelListInfoElementCurationJson
     {
         [JsonProperty("id")]
         public int ID { get; set; }
+
         [JsonProperty("levelId")]
         public int LevelID { get; set; }
-        [JsonProperty("typeId")]
-        public int? TypeID { get; set; }
+
+        [JsonProperty("customColor")]
+        public string CustomColor { get; set; }
+
+        [JsonProperty("typeIds")]
+        public List<int> TypeIds { get; set; } = new();
+
         [JsonProperty("type")]
         public LevelListInfoElementCurationTypeJson Type { get; set; }
+
+        [JsonProperty("types")]
+        public List<LevelListInfoElementCurationTypeJson> Types { get; set; } = new();
     }
+
     public class LevelListInfoElementCurationTypeJson
     {
         [JsonProperty("id")]
         public int ID { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
+
         [JsonProperty("icon")]
         public string Icon { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        [JsonProperty("group")]
+        public string Group { get; set; }
     }
+
+    public class LevelListInfoElementDifficultyJson
+    {
+        [JsonProperty("id")]
+        public int ID { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+
+        [JsonProperty("emoji")]
+        public string Emoji { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
+
+        [JsonProperty("createdAt")]
+        public string CreatedAt { get; set; }
+
+        [JsonProperty("updatedAt")]
+        public string UpdatedAt { get; set; }
+
+        [JsonProperty("baseScore")]
+        public double BaseScore { get; set; }
+
+        [JsonProperty("sortOrder")]
+        public int SortOrder { get; set; }
+
+        [JsonProperty("legacy")]
+        public string Legacy { get; set; }
+
+        [JsonProperty("legacyIcon")]
+        public string LegacyIcon { get; set; }
+
+        [JsonProperty("legacyEmoji")]
+        public string LegacyEmoji { get; set; }
+    }
+
+    public class ListListInfoElementPassJson
+    {
+        [JsonProperty("id")]
+        public int ID { get; set; }
+    }
+
     public class LevelListInfoElementTagJson
     {
         [JsonProperty("id")]
         public int ID { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
+
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+
+        [JsonProperty("color")]
+        public string Color { get; set; }
     }
+
     public class LevelListInfoElementDiffJson
     {
         [JsonProperty("id")]
         public int ID { get; set; }
+
         [JsonProperty("baseScore")]
         public float BaseScore { get; set; } = 0;
     }
 }
- 

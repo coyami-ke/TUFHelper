@@ -29,7 +29,6 @@ public class TagContraierScript : MonoBehaviour
             if (words[1] == groupName)
             {
                 GameObject obj = Instantiate(tagPrefab, gameObject.transform);
-                BundleFontFixer.FixFontsIn(obj);
                 RectTransform rect = obj.GetComponent<RectTransform>();
 
                 var script = obj.GetComponent<TagPrefabScript>();

@@ -1,16 +1,14 @@
+using DG.Tweening;
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Together.Utils;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class LeaderboardScript : MonoBehaviour
 {
@@ -18,7 +16,6 @@ public class LeaderboardScript : MonoBehaviour
     public List<PassesListInfoElementJson> LastLoadedPasses { get; private set; }
 
     public RankPrefabScript YourScore;
-
     public RectTransform rectTransform;
 
     public static LeaderboardScript instance;
@@ -26,119 +23,138 @@ public class LeaderboardScript : MonoBehaviour
     public float heightWithYourScore, heightWithoutYourScore;
     public float posYWithYourScore, posYWithoutYourScore;
 
+    [Header("Batch Spawning Settings")]
+    [SerializeField] private int itemsPerFrame = 1;
+    [SerializeField] private float itemSpacing = 65f;
+    [SerializeField] private float topPadding = 30f;
+
     private CancellationTokenSource currentRequestToken;
+    private Coroutine spawnCoroutine;
 
     private void Awake()
     {
         instance = this;
-    }
-    private void Start()
-    {
-        //YourScore.gameObject.SetActive(false);
     }
 
     public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
-        // Cancel any ongoing request
         currentRequestToken?.Cancel();
         currentRequestToken = new CancellationTokenSource();
         CancellationToken token = currentRequestToken.Token;
 
+        if (spawnCoroutine != null)
+        {
+            StopCoroutine(spawnCoroutine);
+            spawnCoroutine = null;
+        }
+
         string url = GetDefaultUrl(level.ID);
         string answer = "";
+
         try
         {
             HttpResponseMessage response = await Main.Client.GetAsync(url, token);
-
             response.EnsureSuccessStatusCode();
 
+            token.ThrowIfCancellationRequested();
             answer = await response.Content.ReadAsStringAsync();
-        }
-        catch (HttpRequestException ex)
-        {
-            Debug.LogError($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
-            throw;
         }
         catch (OperationCanceledException)
         {
+            return;
         }
         catch (Exception ex)
         {
-            Debug.LogError($"[TUFAPIRequest] Unexpected error: {ex.Message}");
-            throw;
-        }
-
-
-        PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
-        if (levelDes == null) return;
-        List<PassesListInfoElementJson> passes = levelDes.ToList();
-        if (passes == null)
-        {
-            LastLoadedPasses = new List<PassesListInfoElementJson>();
+            Debug.LogError($"[TUFAPIRequest] Network or HTTP failure at {url}: {ex.Message}");
             return;
         }
-        passes = passes.OrderByDescending(p => p.ScoreV2).ToList();
 
-        while (passListParent == null)
+        token.ThrowIfCancellationRequested();
+
+        List<PassesListInfoElementJson> passes = await Task.Run(() =>
         {
-            await Task.Yield();
-        }
+            var levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
+            if (levelDes == null) return new List<PassesListInfoElementJson>();
 
+            return levelDes.OrderByDescending(p => p.ScoreV2).ToList();
+        }, token);
 
-        foreach (Transform child in passListParent.transform)
-            Destroy(child.gameObject);
-
-        int rank = 1;
-        foreach (var pass in passes)
-        {
-            GameObject obj = Instantiate(prefab, passListParent.transform);
-            BundleFontFixer.FixFontsIn(obj);
-            RectTransform rect = obj.GetComponent<RectTransform>();
-
-            var rps = obj.GetComponent<RankPrefabScript>();
-            rps.SetPassInfo(pass, level, rank);
-
-
-            //rect.localScale = Vector3.one;
-            //rect.sizeDelta = new Vector2(0, 60);
-            rect.anchoredPosition = new Vector2(0, (rank - 1) * -65 - 30);
-            rank++;
-        }
-
-        RectTransform contentRect = passListParent.GetComponent<RectTransform>();
-        float totalHeight = (rank - 1) * 65 + 30;
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+        if (token.IsCancellationRequested) return;
 
         LastLoadedPasses = passes;
 
-        //PassesListInfoElementJson yourBestScore = null;
+        ClearPassList();
 
-        //if (AccountScript.instance.AccountInfo != null) yourBestScore = passes.FirstOrDefault(e => e.PlayerID == AccountScript.instance.AccountInfo.User.PlayerID);
+        if (passes.Count == 0) return;
 
-        //if (yourBestScore != null)
-        //{
-        //    int yourRank = 0;
-        //    for (int i = 0; i < passes.Count; i++)
-        //    {
-        //        if (passes[i].PlayerID == AccountScript.instance.AccountInfo.User.PlayerID)
-        //        {
-        //            yourRank = i + 1;
-        //            break;
-        //        }
-        //    }
+        if (passListParent != null)
+        {
+            RectTransform contentRect = passListParent.GetComponent<RectTransform>();
+            if (contentRect != null)
+            {
+                float totalHeight = (passes.Count * itemSpacing) + topPadding;
+                contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+            }
+        }
 
-        //    YourScore.SetPassInfo(yourBestScore, level, yourRank);
-        //    YourScore.gameObject.SetActive(true);
-        //    rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithYourScore);
-        //    rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithYourScore);
-        //}
-        //else
-        //{
-        //    YourScore.gameObject.SetActive(false);
-        //    rectTransform.sizeDelta = new(rectTransform.sizeDelta.x, heightWithoutYourScore);
-        //    rectTransform.anchoredPosition = new(rectTransform.anchoredPosition.x, posYWithoutYourScore);
-        //}
+        spawnCoroutine = StartCoroutine(BatchSpawnPassesRoutine(passes, level, token));
+    }
+
+    private System.Collections.IEnumerator BatchSpawnPassesRoutine(List<PassesListInfoElementJson> passes, LevelListInfoElementJson level, CancellationToken token)
+    {
+        int total = passes.Count;
+        int spawned = 0;
+
+        while (spawned < total)
+        {
+            if (token.IsCancellationRequested) yield break;
+
+            int batchEnd = Mathf.Min(spawned + itemsPerFrame, total);
+
+            for (int i = spawned; i < batchEnd; i++)
+            {
+                if (passListParent == null) yield break;
+
+                GameObject obj = Instantiate(prefab, passListParent.transform);
+                RectTransform rect = obj.GetComponent<RectTransform>();
+
+                int rank = i + 1;
+                var rps = obj.GetComponent<RankPrefabScript>();
+                rps.SetPassInfo(passes[i], level, rank);
+
+                rect.anchoredPosition = new Vector2(0, (i * -itemSpacing) - topPadding);
+            }
+
+            spawned = batchEnd;
+
+            yield return null;
+        }
+
+        spawnCoroutine = null;
+    }
+
+    private void ClearPassList()
+    {
+        if (passListParent == null) return;
+
+        foreach (Transform child in passListParent.transform)
+        {
+            child.DOKill(true);
+            Destroy(child.gameObject);
+        }
+    }
+
+    private void OnDisable()
+    {
+        currentRequestToken?.Cancel();
+        if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
+    }
+
+    private void OnDestroy()
+    {
+        currentRequestToken?.Cancel();
+        if (spawnCoroutine != null) StopCoroutine(spawnCoroutine);
     }
 }
