@@ -14,6 +14,8 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
 
     public Image backgroundImage;
 
+    public float maxHeight;
+
     private const float selectedRotation = -90;
     private const float unselectedRotation = 90;
 
@@ -30,7 +32,10 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
             AnimateDropdown(value);
         }
     }
-
+    public void Start()
+    {
+        menuTransform.sizeDelta = new(menuTransform.sizeDelta.x, 0);
+    }
     public void OnPointerClick(PointerEventData eventData)
     {
         IsSelected = !IsSelected;
@@ -40,6 +45,7 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
     {
         backgroundImage.DOColor(show ? selectedColor : unselectedColor, 0.4f).SetEase(Ease.OutExpo);
         arrowTransfrom.DORotate(new Vector3(0f, 0f, show ? selectedRotation : unselectedRotation), 0.4f).SetEase(Ease.OutExpo);
-        menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
+        //menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
+        menuTransform.DOSizeDelta(new(menuTransform.sizeDelta.x, show ? maxHeight : 0), 0.4f).SetEase(Ease.OutExpo);
     }
 }

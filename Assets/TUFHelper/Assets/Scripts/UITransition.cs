@@ -211,6 +211,71 @@ public static class UITransition
         }
     }
 
+    public static void AnimateLeaderboardItemOut(Component target, System.Action onComplete = null)
+    {
+        if (target == null || target.gameObject == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        Transform root = target.transform;
+
+        root.DOKill(true);
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            child.DOKill(true);
+        }
+
+        int order = Mathf.Abs(root.GetSiblingIndex()) % 50;
+        float delay = Mathf.Min(order * 0.015f, 0.18f);
+        float duration = 0.16f;
+
+        root.DOScale(root.localScale * 0.95f, duration)
+            .SetDelay(delay)
+            .SetEase(Ease.InCubic)
+            .SetTarget(root);
+
+        for (int i = 0; i < root.childCount; i++)
+        {
+            RectTransform rect = root.GetChild(i) as RectTransform;
+            if (rect == null) continue;
+
+            rect.DOAnchorPos(rect.anchoredPosition + new Vector2(-30f, 0f), duration)
+                .SetDelay(delay)
+                .SetEase(Ease.InCubic)
+                .SetTarget(rect);
+        }
+
+        Graphic[] graphics = target.gameObject.GetComponentsInChildren<Graphic>(true);
+
+        if (graphics.Length == 0)
+        {
+            DOVirtual.DelayedCall(delay + duration, () => onComplete?.Invoke())
+                .SetTarget(root);
+            return;
+        }
+
+        int activeTweens = graphics.Length;
+        foreach (Graphic graphic in graphics)
+        {
+            if (graphic == null) continue;
+
+            graphic.DOFade(0f, duration)
+                .SetDelay(delay)
+                .SetEase(Ease.InCubic)
+                .SetTarget(graphic)
+                .OnComplete(() =>
+                {
+                    activeTweens--;
+                    if (activeTweens <= 0)
+                    {
+                        onComplete?.Invoke();
+                    }
+                });
+        }
+    }
+
     public static void AnimateRankSelection(Transform row, bool selected)
     {
         if (row == null) return;

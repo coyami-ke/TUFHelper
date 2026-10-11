@@ -17,11 +17,10 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
 
     public Toggle unrankedToggle, minus2Toggle, minus21Toggle, p0Toggle;
 
+    public float maxHeight;
+
     private readonly Color selectedColor = new(165f / 255, 183f / 255, 255f / 255, 30f / 255f);
     private readonly Color unselectedColor = new(165f / 255, 183f / 255, 255f / 255, 20f / 255f);
-
-    private const float menu_MaxPositionY = -110;
-    private const float menu_MinPositionY = -35;
     private const float selectedRotation = -90;
     private const float unselectedRotation = 90;
 
@@ -45,6 +44,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
 
     private async void Start()
     {
+        menuTransform.sizeDelta = new(menuTransform.sizeDelta.x, 0);
         toggleMap = new Dictionary<string, Toggle>
         {
             { "Unranked", unrankedToggle },
@@ -75,8 +75,8 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     {
         backgroundImage.DOColor(show ? selectedColor : unselectedColor, 0.4f).SetEase(Ease.OutExpo);
         arrowImage.rectTransform.DORotate(new Vector3(0f, 0f, show ? selectedRotation : unselectedRotation), 0.4f).SetEase(Ease.OutExpo);
-        menuTransform.DOAnchorPos3DY(show ? menu_MaxPositionY : menu_MinPositionY, 0.4f).SetEase(Ease.OutExpo);
-        menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
+        //menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
+        menuTransform.DOSizeDelta(new(menuTransform.sizeDelta.x, show ? maxHeight : 0), 0.4f).SetEase(Ease.OutExpo);
     }
 
     public async Task UpdateLevelList()

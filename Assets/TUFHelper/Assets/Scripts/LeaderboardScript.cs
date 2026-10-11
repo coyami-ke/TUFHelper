@@ -40,6 +40,7 @@ public class LeaderboardScript : MonoBehaviour
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
+        ClearPassList();
         currentRequestToken?.Cancel();
         currentRequestToken = new CancellationTokenSource();
         CancellationToken token = currentRequestToken.Token;
@@ -84,8 +85,6 @@ public class LeaderboardScript : MonoBehaviour
         if (token.IsCancellationRequested) return;
 
         LastLoadedPasses = passes;
-
-        ClearPassList();
 
         if (passes.Count == 0) return;
 
@@ -139,10 +138,28 @@ public class LeaderboardScript : MonoBehaviour
     {
         if (passListParent == null) return;
 
-        foreach (Transform child in passListParent.transform)
+        Transform[] children = new Transform[passListParent.transform.childCount];
+        for (int i = 0; i < passListParent.transform.childCount; i++)
         {
-            child.DOKill(true);
-            Destroy(child.gameObject);
+            children[i] = passListParent.transform.GetChild(i);
+        }
+
+        foreach (Transform child in children)
+        {
+            if (child == null) continue;
+
+            var canvasGroup = child.GetComponent<CanvasGroup>();
+            if (canvasGroup == null) canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
+            canvasGroup.blocksRaycasts = false;
+
+            UITransition.AnimateLeaderboardItemOut(child, () =>
+            {
+                if (child != null && child.gameObject != null)
+                {
+                    child.DOKill(true);
+                    Destroy(child.gameObject);
+                }
+            });
         }
     }
 

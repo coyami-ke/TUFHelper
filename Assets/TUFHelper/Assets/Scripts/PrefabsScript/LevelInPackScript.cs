@@ -3,6 +3,7 @@ using DirectLevel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using TUFHelper;
@@ -16,7 +17,7 @@ using UnityEngine.UI;
 public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public Image diffIconImage, backgroundImage;
-    public TextMeshProUGUI levelNameText, artistText, creatorText, idText, clearsText, likesText;
+    public TextMeshProUGUI artistAndSongText, creatorText, clearsText, likesText;
 
     public string PackID { get; private set; }
 
@@ -29,12 +30,20 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         LevelInfo = node.ReferencedLevel;
 
-        levelNameText.text = node.ReferencedLevel.Song;
-        artistText.text = node.ReferencedLevel.Artist;
-        creatorText.text = node.ReferencedLevel.Creator;
+        //levelNameText.text = node.ReferencedLevel.Song;
+        //artistText.text = node.ReferencedLevel.Artist;
+        artistAndSongText.text = $"<b>{node.ReferencedLevel.Artist}</b> - {node.ReferencedLevel.Song}";
+
+        List<string> credits = new();
+        foreach (var creator in node.ReferencedLevel.Credits)
+        {
+            credits.Add(creator.Creator.Name);
+        }
+
+        creatorText.text = string.Join(" & ", credits);
         diffIconImage.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(node.ReferencedLevel.DiffId));
-        idText.text = "#" + node.ReferencedLevel.ID;
-        clearsText.text = "Clears: " + node.ReferencedLevel.Clears;
+        //idText.text = "#" + node.ReferencedLevel.ID;
+        clearsText.text = node.ReferencedLevel.Clears.ToString();
         likesText.text = node.ReferencedLevel.Likes.ToString();
 
         PackID = packId;

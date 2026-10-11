@@ -111,6 +111,8 @@ namespace TUFHelper.ModScripts.Json
 
         [JsonProperty("levelLengthInMs")]
         public float? LevelLengthInMs { get; set; }
+        [JsonProperty("levelCredits")]
+        public List<LevelCreditJson> Credits { get; set; }
     }
 
     public class LevelListInfoElementCurationJson
