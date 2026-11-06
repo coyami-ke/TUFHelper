@@ -25,7 +25,7 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         PackInfo = info;
 
         nameText.text = info.Name;
-        levelsNumberText.text = info.LevelCount + " level(s)";
+        levelsNumberText.text = LanguageManager.IsSpanish ? info.LevelCount + (info.LevelCount == 1 ? " nivel" : " niveles") : info.LevelCount + " level(s)";
         favoritesText.text = info.FavoritesCount.ToString();
 
         if (info.PackOwner != null)
@@ -36,7 +36,7 @@ public class PackPrefabScript : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
 
         int remindedLevels = Mathf.Max(0, info.LevelCount - 3);
-        hasMoreText.text = remindedLevels > 0 ? $"+{remindedLevels} more" : "";
+        hasMoreText.text = remindedLevels > 0 ? (LanguageManager.IsSpanish ? $"+{remindedLevels} mas" : $"+{remindedLevels} more") : "";
 
         if (info.PackItems != null && info.PackItems.Length >= 1)
         {
