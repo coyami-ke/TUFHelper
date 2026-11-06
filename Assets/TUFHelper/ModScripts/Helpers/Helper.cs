@@ -29,6 +29,7 @@ namespace TUFHelper.Utils
 
             TimeSpan timeSpan = DateTime.UtcNow - utcTime;
             double delta = timeSpan.TotalSeconds;
+            bool spanish = LanguageManager.IsSpanish;
 
             // Future dates or clock desync edge cases
             if (delta < 0)
@@ -38,47 +39,47 @@ namespace TUFHelper.Utils
 
             if (delta < 1 * MINUTE)
             {
-                return timeSpan.Seconds <= 5 ? "just now" : $"{timeSpan.Seconds} seconds ago";
+                return timeSpan.Seconds <= 5 ? (spanish ? "ahora mismo" : "just now") : (spanish ? $"hace {timeSpan.Seconds} segundos" : $"{timeSpan.Seconds} seconds ago");
             }
 
             if (delta < 2 * MINUTE)
             {
-                return "1 minute ago";
+                return spanish ? "hace 1 minuto" : "1 minute ago";
             }
 
             if (delta < 45 * MINUTE)
             {
-                return $"{timeSpan.Minutes} minutes ago";
+                return spanish ? $"hace {timeSpan.Minutes} minutos" : $"{timeSpan.Minutes} minutes ago";
             }
 
             if (delta < 90 * MINUTE)
             {
-                return "1 hour ago";
+                return spanish ? "hace 1 hora" : "1 hour ago";
             }
 
             if (delta < 24 * HOUR)
             {
-                return $"{timeSpan.Hours} hours ago";
+                return spanish ? $"hace {timeSpan.Hours} horas" : $"{timeSpan.Hours} hours ago";
             }
 
             if (delta < 48 * HOUR)
             {
-                return "yesterday";
+                return spanish ? "ayer" : "yesterday";
             }
 
             if (delta < 30 * DAY)
             {
-                return $"{timeSpan.Days} days ago";
+                return spanish ? $"hace {timeSpan.Days} dias" : $"{timeSpan.Days} days ago";
             }
 
             if (delta < 12 * MONTH)
             {
                 int months = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 30));
-                return months <= 1 ? "1 month ago" : $"{months} months ago";
+                return spanish ? (months <= 1 ? "hace 1 mes" : $"hace {months} meses") : (months <= 1 ? "1 month ago" : $"{months} months ago");
             }
 
             int years = Convert.ToInt32(Math.Floor((double)timeSpan.Days / 365));
-            return years <= 1 ? "1 year ago" : $"{years} years ago";
+            return spanish ? (years <= 1 ? "hace 1 ano" : $"hace {years} anos") : (years <= 1 ? "1 year ago" : $"{years} years ago");
         }
 
         /// <summary>
