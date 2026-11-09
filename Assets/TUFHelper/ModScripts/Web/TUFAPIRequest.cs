@@ -79,27 +79,11 @@ namespace TUFHelper.ModScripts.Web
             }
 
             string answer = "";
-            try
-            {
-                HttpResponseMessage response = await Main.Client.GetAsync(url, token);
+            HttpResponseMessage response = await Main.Client.GetAsync(url, token);
 
-                response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
-                answer = await response.Content.ReadAsStringAsync();
-            }
-            catch (HttpRequestException ex)
-            {
-                Main.Logger.Error($"[TUFAPIRequest] Network HTTP failure at {url}: {ex.Message}");
-                throw;
-            }
-            catch (OperationCanceledException)
-            {
-            }
-            catch (Exception ex)
-            {
-                Main.Logger.Error($"[TUFAPIRequest] Unexpected error: {ex.Message}");
-                throw;
-            }
+            answer = await response.Content.ReadAsStringAsync();
 
             Answer = answer;
         }
