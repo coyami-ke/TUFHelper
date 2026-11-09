@@ -148,6 +148,11 @@ public class IngameLeaderboardScript : BasicIngameElement
                 rankItem.SetPosition(i - startIndex);
                 rankItem.UpdateVisual();
             }
+
+            if (rankItem.nicknameText.text == "YOU" && rankItem.Rank == ranks.Count)
+            {
+                rankItem.rankText.text = "#~";
+            }
         }
     }
 
@@ -267,7 +272,7 @@ public class IngameLeaderboardScript : BasicIngameElement
 
         PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
         if (levelDes == null) return Array.Empty<PassesListInfoElementJson>();
-        return levelDes.OrderByDescending(p => p.ScoreV2).ToArray();
+        return levelDes.OrderByDescending(p => p.ScoreV2).ToList().GetRange(0, Math.Min(levelDes.Length, 150)).ToArray();
     }
 
     #endregion

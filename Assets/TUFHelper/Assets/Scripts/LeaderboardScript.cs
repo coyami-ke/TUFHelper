@@ -85,6 +85,7 @@ public class LeaderboardScript : MonoBehaviour
 
             return levelDes.OrderByDescending(p => p.ScoreV2).ToList();
         }, token);
+        passes = passes.GetRange(0, Math.Min(passes.Count, 150));
 
         if (token.IsCancellationRequested) return;
 

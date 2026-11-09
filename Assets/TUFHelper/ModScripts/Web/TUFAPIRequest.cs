@@ -83,6 +83,8 @@ namespace TUFHelper.ModScripts.Web
 
             response.EnsureSuccessStatusCode();
 
+            //throw new HttpRequestException("test");
+
             answer = await response.Content.ReadAsStringAsync();
 
             Answer = answer;

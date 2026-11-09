@@ -53,7 +53,7 @@ public class LevelListScript : MonoBehaviour
 
     public LevelListViewModel ViewModel { get; private set; } = new();
 
-    public GameObject levelPrefab, levelListParent, verticalScroll;
+    public GameObject levelPrefab, levelListParent, verticalScroll, errorMessage;
 
     public ScrollRect VerticalScrollComponent { get; private set; }
     public bool HasMore { get; private set; }
@@ -130,6 +130,10 @@ public class LevelListScript : MonoBehaviour
 
         ViewModel.Cleared += OnLevelsCleared;
         ViewModel.AddedRange += OnLevelsAdded;
+    }
+    public void Start()
+    {
+        errorMessage.SetActive(false);
     }
     public void OnLevelsCleared()
     {
@@ -392,23 +396,35 @@ public class LevelListScript : MonoBehaviour
                     ViewModel.Clear();
                     ViewModel.Add(level);
                     HasMore = false;
+
+                    errorMessage.SetActive(false);
                 }
                 catch (OperationCanceledException)
                 {
                     // Task was canceled via CancellationToken
                 }
-                catch (HttpRequestException ex)
-                {
-                    Main.Logger.Error($"[TUFHelper] Network error fetching level {id}: {ex.Message}");
-                }
                 catch (Exception ex)
                 {
-                    Main.Logger.Error($"[TUFHelper] Error parsing level {id}: {ex.Message}");
+                    Main.Logger.LogException(ex);
+                    errorMessage.SetActive(true);
                 }
             }
             else
             {
-                await DefaultRequest.GetAnswerAsync(token);
+                try
+                {
+                    await DefaultRequest.GetAnswerAsync(token);
+                    errorMessage.SetActive(false);
+                }
+                catch (OperationCanceledException)
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    Main.Logger.LogException(ex);
+                    errorMessage.SetActive(true);
+                }
 
                 if (!string.IsNullOrEmpty(DefaultRequest.Answer))
                 {
