@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class LeaderboardScript : MonoBehaviour
 {
-    public GameObject scrollableParent, prefab, passListParent;
+    public GameObject scrollableParent, prefab, passListParent, notFoundClearsText;
     public List<PassesListInfoElementJson> LastLoadedPasses { get; private set; }
 
     public RankPrefabScript YourScore;
@@ -34,6 +34,10 @@ public class LeaderboardScript : MonoBehaviour
     private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
+        notFoundClearsText.SetActive(false);
     }
 
     public static string GetDefaultUrl(int levelID) => $"https://api.tuforums.com/v2/database/passes/level/{levelID}";
@@ -86,16 +90,18 @@ public class LeaderboardScript : MonoBehaviour
 
         LastLoadedPasses = passes;
 
-        if (passes.Count == 0) return;
+        notFoundClearsText.SetActive(passes.Count == 0);
 
-        if (passListParent != null)
+        if (passes.Count == 0)
+        { 
+            return;
+        }
+
+        RectTransform contentRect = passListParent.GetComponent<RectTransform>();
+        if (contentRect != null)
         {
-            RectTransform contentRect = passListParent.GetComponent<RectTransform>();
-            if (contentRect != null)
-            {
-                float totalHeight = (passes.Count * itemSpacing) + topPadding;
-                contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
-            }
+            float totalHeight = (passes.Count * itemSpacing) + topPadding;
+            contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
         }
 
         spawnCoroutine = StartCoroutine(BatchSpawnPassesRoutine(passes, level, token));
