@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using TMPro;
+using TUFHelper;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +40,7 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
     public void SetModelTarget(string displayName, object modelTarget, Transform propertiesParent)
     {
         categoryPropertiesTransform = propertiesParent;
-        text.text = displayName;
+        LanguageManager.RememberOriginal(text, displayName);
         //if (iconImage != null) iconImage.gameObject.SetActive(false); 
 
         TargetObject = modelTarget;
@@ -48,7 +49,7 @@ public class IngameElementPropertiesCategoryScript : MonoBehaviour
     public void SetCategory(IngameElementSettingsCategory category, Transform propertiesParent)
     {
         categoryPropertiesTransform = propertiesParent;
-        text.text = category.DisplayName;
+        LanguageManager.RememberOriginal(text, category.DisplayName);
         if (iconImage != null)
         {
             iconImage.gameObject.SetActive(category.Icon != null);
