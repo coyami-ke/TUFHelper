@@ -221,11 +221,11 @@ public static class UITransition
 
         Transform root = target.transform;
 
-        root.DOKill(true);
-        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
-        {
-            child.DOKill(true);
-        }
+        //root.DOKill(true);
+        //foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        //{
+        //    child.DOKill(true);
+        //}
 
         int order = Mathf.Abs(root.GetSiblingIndex()) % 50;
         float delay = Mathf.Min(order * 0.015f, 0.18f);

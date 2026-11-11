@@ -45,7 +45,7 @@ public class PackListScript : MonoBehaviour
     private bool isLoading = false;
     private ScrollRect cachedScrollRect;
 
-    public GameObject packPrefab, packsParent, verticalScroll, packView;
+    public GameObject packPrefab, packsParent, verticalScroll, packView, loadingIcon;
     public PackTreeUIController packTreeController;
 
     public TextMeshProUGUI packInfo_levelsNumber, packInfo_itemsNumber, packInfo_created, packInfo_name, packInfo_ownerName;
@@ -102,6 +102,8 @@ public class PackListScript : MonoBehaviour
     {
         ShowPackView();
 
+        UITransition.Show(loadingIcon);
+
         imageCancelToken?.Cancel();
         imageCancelToken = new CancellationTokenSource();
 
@@ -144,6 +146,8 @@ public class PackListScript : MonoBehaviour
         packInfo_itemsNumber.text = json.Items != null ? json.Items.Count.ToString() : "0";
         packInfo_created.text = json.CreatedAt.ToShortDateString();
 
+        UITransition.Hide(loadingIcon);
+
         if (json.PackOwner != null && !string.IsNullOrEmpty(json.PackOwner.AvatarURL))
         {
             _ = ImageUtils.LoadImageToUIAsync(json.PackOwner.AvatarURL, packInfo_pfpImage, imageCancelToken.Token);
@@ -157,6 +161,7 @@ public class PackListScript : MonoBehaviour
 
     public void HidePackView()
     {
+        packTreeController.ClearTree();
         packView.SetActive(false);
         if (searchField != null) searchField.gameObject.SetActive(true);
         if (sortByDropdown != null) sortByDropdown.gameObject.SetActive(true);
@@ -166,6 +171,8 @@ public class PackListScript : MonoBehaviour
 
     public async void SetPackInfo(PackListElementJson info, Sprite pfp, Sprite icon)
     {
+        UITransition.Show(loadingIcon);
+
         packInfo_pfpImage.sprite = pfp;
         packInfo_iconImage.sprite = icon;
         packInfo_name.text = info.Name;
@@ -197,6 +204,8 @@ public class PackListScript : MonoBehaviour
         {
             Main.Logger.Error($"Failed to load pack tree structure for pack {info.ID}: {ex.Message}");
         }
+
+        UITransition.Hide(loadingIcon);
     }
 
     public void Update()

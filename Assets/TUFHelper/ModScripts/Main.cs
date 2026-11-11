@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using DG.Tweening;
 using System.Net.Http;
+using System.Drawing;
 
 namespace TUFHelper 
 {
@@ -32,7 +33,7 @@ namespace TUFHelper
         
         internal static SynchronizationContext mainThread;
 
-        public static void Initialize(ModEntry modEntry)
+        public static async void Initialize(ModEntry modEntry)
         {
             ModEntry = modEntry;
             Logger = modEntry.Logger;
@@ -159,7 +160,7 @@ namespace TUFHelper
             GUILayout.EndHorizontal();
             return value;
         }
-        internal static void OnGUI(ModEntry modEntry)
+        internal static async void OnGUI(ModEntry modEntry)
         {
             //GUILayout.BeginHorizontal();
 

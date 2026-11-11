@@ -20,7 +20,15 @@ public class LevelSelector : MonoBehaviour
         set
         {
             _isShow = value;
-            gameObject.SetActive(value);
+            //gameObject.SetActive(value);
+            if (value)
+            {
+                UITransition.Show(this.gameObject);
+            }
+            else
+            {
+                UITransition.Hide(this.gameObject);
+            }
         }
     }
 

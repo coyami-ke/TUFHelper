@@ -37,11 +37,6 @@ namespace TUFHelper.Utils
 
         public static string LastOpenedTUFLevel = "";
         public static bool IsFromTUFHelper { get; set; }
-
-        /// <summary>
-        /// Centralized level launch entry point.
-        /// Handles UI state transitions, parameter tracking, and scene loading.
-        /// </summary>
         public static void LaunchLevel(string pathToLevel, LevelListInfoElementJson levelInfo, string packId = null, int? packLevelId = null)
         {
             if (string.IsNullOrEmpty(pathToLevel))
@@ -54,7 +49,6 @@ namespace TUFHelper.Utils
             IsFromTUFHelper = true;
             HideUIFixPatch.RecentDirectLevelOpend = true;
 
-            // Update global UI state tracking
             if (!string.IsNullOrEmpty(packId))
             {
                 FrontPageScript.IsPackListActive = true;
@@ -68,14 +62,13 @@ namespace TUFHelper.Utils
                 FrontPageScript.LastOpenedPackLevelId = -1;
             }
 
-            // Configure editor load targets
             GCS.sceneToLoad = "scnEditor";
             GCS.worldEntrance = null;
             scnEditor.levelToOpenOnLoad = pathToLevel;
             EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
-            // Execute scene transition with visual fade
-            UIScript.SwipeToBlack(() => SceneManager.LoadScene("scnEditor"));
+            //UIScript.SwipeToBlack(() => SceneManager.LoadScene("scnEditor"));
+            SceneManager.LoadScene("scnEditor");
         }
 
         [HarmonyPatch(typeof(scrMarginTracker), nameof(scrMarginTracker.AddHit))]

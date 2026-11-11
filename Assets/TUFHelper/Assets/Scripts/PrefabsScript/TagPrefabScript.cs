@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using DG.Tweening;
 using TMPro;
 using TUFHelper;
+using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -12,12 +13,18 @@ public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
 {
     public Image iconTag;
     public TextMeshProUGUI tagText;
-    public string tagTUF;
+    public TUFTag tagTUF;
 
     public Image backgroundImage;
 
-    private Color selectedColor = new(1, 1, 1, 40 / 255f);
-    private Color unselectedColor = new(1, 1, 1, 20 / 255f);
+    public float Width
+    {
+        get 
+        {
+            var rect = transform as RectTransform;
+            return rect.sizeDelta.x;
+        }
+    }
 
     private bool isSelected = false;
     public bool IsSelected
@@ -26,11 +33,16 @@ public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
         private set
         {
             isSelected = value;
-            backgroundImage.color = value ? selectedColor : unselectedColor;
+            if (value)
+            {
+                backgroundImage.DOFade(0.4f, 0.22f).SetEase(Ease.OutCubic);
+            }
+            else
+            {
+                backgroundImage.DOFade(0.2f, 0.22f).SetEase(Ease.OutCubic);
+            }
         }
     }
-
-
     public async void OnPointerClick(PointerEventData eventData)
     {
         bool newValue = !IsSelected;
@@ -46,42 +58,41 @@ public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
 
         if (value)
         {
-            Main.Setting.SelectedQDiifs.Add(tagTUF);
-            LevelListScript.DefaultRequest.TagsFilter.Add(tagTUF);
+            Main.Setting.SelectedTags.Add(tagTUF.Name);
+            LevelListScript.DefaultRequest.TagsFilter.Add(tagTUF.Name);
         }
         else
         {
-            Main.Setting.SelectedQDiifs.Remove(tagTUF);
-            LevelListScript.DefaultRequest.TagsFilter.Remove(tagTUF);
+            Main.Setting.SelectedTags.Remove(tagTUF.Name);
+            LevelListScript.DefaultRequest.TagsFilter.Remove(tagTUF.Name);
         }
 
         Main.Setting.Save(Main.ModEntry);
     }
 
-
-
-
-    private bool isUpdating = false;
-
     private async Task UpdateLevelList()
     {
-        if (isUpdating) return;
-        isUpdating = true;
 
         LevelListScript.instance.ClearLevels();
         await LevelListScript.instance.UpdateLevelListAsync();
-
-        isUpdating = false;
     }
 
 
-    public void SetTagInfo(bool selected, string tag, Sprite icon)
+    public void SetTagInfo(TUFTag tag)
     {
-        tagText.text = tag;
-        iconTag.sprite = icon;
+        tagText.text = tag.Name;
+        iconTag.sprite = TagSpriteHelper.GetSpriteFromTag(tag.Name.Replace('/', ' '));
         tagTUF = tag;
 
-        isSelected = selected;
-        backgroundImage.color = selected ? selectedColor : unselectedColor;
+        Color color;
+        ColorUtility.TryParseHtmlString(tag.Color, out color);
+
+        backgroundImage.color = color;
+
+        IsSelected = Main.Setting.SelectedTags.Contains(tag.Name);
+        var rect = GetComponent<RectTransform>();
+
+        Vector2 newSize = new(tagText.preferredWidth + 30, rect.sizeDelta.y);
+        rect.sizeDelta = newSize;
     }
 }

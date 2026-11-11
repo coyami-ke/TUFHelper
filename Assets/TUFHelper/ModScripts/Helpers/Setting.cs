@@ -19,9 +19,11 @@ namespace TUFHelper.Utils
         public int MaxQDiff { get; set; } = 11;
         public float TUFHelperMusicVolume { get; set; } = 0.5f; // Converted to property for consistent serialization
         public AscendingOrDescending SortOrder { get; set; } = AscendingOrDescending.Descending;
-        public int SortBy { get; set; } = 0;
+        public int SortBy { get; set; } = 2;
         public List<string> SelectedSpecialDiffs { get; set; } = new();
+        public List<string> SelectedCurationTypes { get; set; } = new(); 
         public List<string> SelectedQDiifs { get; set; } = new();
+        public List<string> SelectedTags { get; set; } = new();
         public bool ShowOnlyDownloaded { get; set; } = false;
         public bool ShowOnlyFavorites { get; set; } = false;
         public bool StartWithGame { get; set; } = true;

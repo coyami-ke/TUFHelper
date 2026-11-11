@@ -31,6 +31,7 @@ public class IngameLeaderboardScript : BasicIngameElement
     private const float LeaderboardUpdateInterval = 0.12f;
     private float lastLeaderboardUpdateTime = -999f;
     private CancellationTokenSource currentRequestToken;
+    private const int MAX_RANKS = 150;
 
     #region Self-Contained Gameplay Event Hooks
 
@@ -149,7 +150,7 @@ public class IngameLeaderboardScript : BasicIngameElement
                 rankItem.UpdateVisual();
             }
 
-            if (rankItem.nicknameText.text == "YOU" && rankItem.Rank == ranks.Count)
+            if (rankItem.nicknameText.text == "YOU" && rankItem.Rank == ranks.Count && ranks.Count > MAX_RANKS)
             {
                 rankItem.rankText.text = "#~";
             }
@@ -272,7 +273,7 @@ public class IngameLeaderboardScript : BasicIngameElement
 
         PassesListInfoElementJson[] levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
         if (levelDes == null) return Array.Empty<PassesListInfoElementJson>();
-        return levelDes.OrderByDescending(p => p.ScoreV2).ToList().GetRange(0, Math.Min(levelDes.Length, 150)).ToArray();
+        return levelDes.OrderByDescending(p => p.ScoreV2).ToList().GetRange(0, Math.Min(levelDes.Length, MAX_RANKS)).ToArray();
     }
 
     #endregion

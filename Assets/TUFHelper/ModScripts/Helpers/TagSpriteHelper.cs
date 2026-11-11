@@ -1,91 +1,77 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace TUFHelper.Utils
 {
+    public class TUFTag
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
+        [JsonProperty("color")]
+        public string Color { get; set; }
+        [JsonProperty("group")]
+        public string Group { get; set; }
+    }
     public static class TagSpriteHelper
     {
+        public const string PATH_TO_JSON = "Assets/TUFHelper/Assets/Data/tags.json";
         public const string PATH_TO_TAG_SPRITES = "Assets/TUFHelper/Assets/Sprites/TagIcons/";
-        public static readonly Dictionary<string, string> SpriteRegister = new()
+
+        private static Dictionary<int, string> _spriteRegister;
+        public static Dictionary<int, string> SpriteRegister
         {
-            // ===== Play Style =====
-            { "Pseudo", "Icon_Playstyle_Pseudo" },
-            { "Rolling", "Icon_Playstyle_Roll" },
-            { "Indexing", "Icon_Playstyle_Index" },
-            { "Tech", "Icon_Playstyle_Tech" },
-            { "Key Count", "Icon_Playstyle_KeyCount" },
-            { "Key Count+", "Icon_Playstyle_KeyCountPlus" },
-            { "Feetdex", "Icon_Playstyle_Feetdex" },
-            { "Feet Switch", "Icon_Playstyle_FeetSwitch" },
+            get
+            {
+                if (_spriteRegister == null)
+                {
+                    Dictionary<int, string> dictionary = new();
+                    var tags = JsonConvert.DeserializeObject<List<TUFTag>>(File.ReadAllText(PATH_TO_JSON));
+                    foreach (var tag in tags)
+                    {
+                        dictionary.Add(tag.Id, tag.Name);
+                    }
 
-            // ===== Key Limit =====
-            { "1 Key Limit", "Icon_Limit_1" },
-            { "2 Key Limit", "Icon_Limit_2" },
-            { "4 Key Limit", "Icon_Limit_4" },
-            { "8 Key Limit", "Icon_Limit_8" },
-            { "10 Key Limit", "Icon_Limit_10" },
-            { "12 Key Limit", "Icon_Limit_12" },
-            { "16 Key Limit", "Icon_Limit_16" },
-            { "Overlay Allowed", "Icon_Limit_Overlay" },
-            { "2-Hand Pseudos", "Icon_Limit_2Hand" },
-            { "Onhand/Offhand Limit", "Icon_Limit_Side" },
-            { "Variable Key Limit", "Icon_Limit_Change" },
+                    _spriteRegister = dictionary;
+                    return dictionary;
+                }
+                else
+                {
+                    return _spriteRegister;
+                }
+            }
+        }
 
-            // ===== Judgement =====
-            { "Judgement Limit", "Icon_Judgment_Limit" },
-            { "HP Bar", "Icon_Judgment_HP" },
-            { "Detailed Judgement", "Icon_Judgment_Detail" },
+        private static Dictionary<string, int> _reversedSpriteRegister;
+        public static Dictionary<string, int> ReversedSpriteRegister
+        {
+            get
+            {
+                if (_spriteRegister == null)
+                {
+                    Dictionary<string, int> dictionary = new();
+                    var tags = JsonConvert.DeserializeObject<List<TUFTag>>(File.ReadAllText(PATH_TO_JSON));
+                    foreach (var tag in tags)
+                    {
+                        dictionary.Add(tag.Name, tag.Id);
+                    }
 
-            // ===== Gimmick =====
-            { "Free Roam", "Icon_Gimmick_Freeroam" },
-            { "Multi Track", "Icon_Gimmick_Multi" },
-            { "Math", "Icon_Gimmick_Math" },
-            { "RPG", "Icon_Gimmick_RPG" },
-            { "Memorization", "Icon_Gimmick_Memory" },
-            { "Unorthodox Reading", "Icon_Gimmick_Reading" },
-            { "Arrow Key", "Icon_Gimmick_Arrow" },
-
-            // ===== VFX =====
-            { "Full VFX", "Icon_VFX_Full" },
-            { "Camera", "Icon_VFX_Camera" },
-            { "Filters", "Icon_VFX_Filter" },
-            { "Non-VFX", "Icon_VFX_None" },
-            { "Decorations", "Icon_VFX_Deco" },
-            { "Low VFX", "Icon_VFX_Low" },
-
-            // ===== Length =====
-            { "Tiny", "Icon_Time_Tiny" },
-            { "30+ Seconds", "Icon_Time_30s" },
-            { "1+ Minute", "Icon_Time_1m" },
-            { "2+ Minutes", "Icon_Time_2m" },
-            { "3+ Minutes", "Icon_Time_3m" },
-            { "5+ Minutes", "Icon_Time_5m" },
-            { "7+ Minutes", "Icon_Time_7m" },
-            { "10+ Minutes", "Icon_Time_10m" },
-            { "15+ Minutes", "Icon_Time_15m" },
-            { "20+ Minutes", "Icon_Time_20m" },
-            { "30+ Minutes", "Icon_Time_30m" },
-            { "45+ Minutes", "Icon_Time_45m" },
-            { "1+ Hours", "Icon_Time_1h" },
-            { "1.5+ Hours", "Icon_Time_15h" },
-            { "2+ Hours", "Icon_Time_2h" },
-            { "Timeless", "Icon_Time_Infinity" },
-
-            // ===== Required Mods =====
-            { "Youtube Stream", "Icon_Mod_YSMod" },
-            { "Key Limiter", "Icon_Mod_Keylimit" },
-
-            // ===== DLC =====
-            { "DLC", "Icon_DLC_DLC" },
-            { "Hold", "Icon_DLC_Hold" },
-            { "Multi Planet", "Icon_DLC_MultiPlanet" },
-
-            // ===== Misc =====
-            { "Pure Perfect Basescore Increase", "Icon_Misc_PurePerfect" },
-            { "Auto Tile", "Icon_Misc_Auto" },
-            { "Basescore Edit", "Icon_Misc_Basescore" },
-        };
+                    _reversedSpriteRegister = dictionary;
+                    return dictionary;
+                }
+                else
+                {
+                    return _reversedSpriteRegister;
+                }
+            }
+        }
 
         public static Sprite GetSpriteFromTag(string fileName)
         {
@@ -101,6 +87,36 @@ namespace TUFHelper.Utils
 
             Main.Logger.Log($"❌ Tag icon not found in AssetBundle: {fileName}");
             return null;
+        }
+
+        public static async Task<TUFTag[]> GetTagsFromAPI()
+        {
+            var response = await Main.Client.GetAsync("https://api.tuforums.com/v2/database/difficulties/tags");
+            string json = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TUFTag[]>(json);
+        }
+
+        public static async Task UpdateTags()
+        {
+            Main.Logger.Log("tags");
+            var tags = await TagSpriteHelper.GetTagsFromAPI();
+            List<string> gotTags = new();
+            string dir = Path.Combine(Main.ModEntry.Path, "tags");
+            foreach (var tag in tags)
+            {
+                if (string.IsNullOrEmpty(tag.Icon)) continue;
+
+                string name = tag.Name.Replace('/', ' ');
+                var bytes = await Main.Client.GetByteArrayAsync(tag.Icon);
+                if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
+                await File.WriteAllBytesAsync(Path.Combine(dir, name + ".png"), bytes);
+
+                Main.Logger.Log(tag.Name);
+
+                gotTags.Add(name);
+            }
+
+            await File.WriteAllTextAsync(Path.Combine(dir, "tags.json"), JsonConvert.SerializeObject(gotTags));
         }
     }
 }

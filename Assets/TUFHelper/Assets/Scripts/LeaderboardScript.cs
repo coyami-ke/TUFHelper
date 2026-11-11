@@ -12,7 +12,7 @@ using UnityEngine;
 
 public class LeaderboardScript : MonoBehaviour
 {
-    public GameObject scrollableParent, prefab, passListParent, notFoundClearsText;
+    public GameObject scrollableParent, prefab, passListParent, notFoundClearsText, loadingIcon;
     public List<PassesListInfoElementJson> LastLoadedPasses { get; private set; }
 
     public RankPrefabScript YourScore;
@@ -44,6 +44,9 @@ public class LeaderboardScript : MonoBehaviour
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
+        notFoundClearsText.SetActive(false);
+        UITransition.Show(loadingIcon);
+
         ClearPassList();
         currentRequestToken?.Cancel();
         currentRequestToken = new CancellationTokenSource();
@@ -68,10 +71,12 @@ public class LeaderboardScript : MonoBehaviour
         }
         catch (OperationCanceledException)
         {
+            UITransition.Hide(loadingIcon);
             return;
         }
         catch (Exception ex)
         {
+            UITransition.Hide(loadingIcon);
             Debug.LogError($"[TUFAPIRequest] Network or HTTP failure at {url}: {ex.Message}");
             return;
         }
@@ -94,7 +99,8 @@ public class LeaderboardScript : MonoBehaviour
         notFoundClearsText.SetActive(passes.Count == 0);
 
         if (passes.Count == 0)
-        { 
+        {
+            UITransition.Hide(loadingIcon);
             return;
         }
 
@@ -104,6 +110,8 @@ public class LeaderboardScript : MonoBehaviour
             float totalHeight = (passes.Count * itemSpacing) + topPadding;
             contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
         }
+
+        UITransition.Hide(loadingIcon);
 
         spawnCoroutine = StartCoroutine(BatchSpawnPassesRoutine(passes, level, token));
     }
@@ -155,9 +163,9 @@ public class LeaderboardScript : MonoBehaviour
         {
             if (child == null) continue;
 
-            var canvasGroup = child.GetComponent<CanvasGroup>();
-            if (canvasGroup == null) canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
-            canvasGroup.blocksRaycasts = false;
+            //var canvasGroup = child.GetComponent<CanvasGroup>();
+            //if (canvasGroup == null) canvasGroup = child.gameObject.AddComponent<CanvasGroup>();
+            //canvasGroup.blocksRaycasts = false;
 
             UITransition.AnimateLeaderboardItemOut(child, () =>
             {

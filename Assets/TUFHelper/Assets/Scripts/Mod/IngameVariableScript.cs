@@ -73,7 +73,9 @@ public abstract class IngameVariableScript : BasicIngameElement
         string coloredValue = $"<color=#{ColorUtility.ToHtmlStringRGBA(color)}>{valueText}{suffix}</color>";
 
         string varName = VariableSettings?.VariableName ?? DefaultVariableName;
-        GetText.text = $"{varName}: {coloredValue}";
+        if (VariableSettings == null) GetText.text = $"<b>{varName}:</b> {coloredValue}";
+        else if (VariableSettings.IsBoldName) GetText.text = $"<b>{varName}:</b> {coloredValue}";
+        else GetText.text = $"{varName}: {coloredValue}";
     }
 
     protected void UpdateText(string value)
@@ -88,7 +90,8 @@ public abstract class IngameVariableScript : BasicIngameElement
             return;
         }
 
-        GetText.text = $"{varName}: {value}";
+        if (VariableSettings == null || VariableSettings.IsBoldName) GetText.text = $"<b>{varName}:</b> {value}";
+        else GetText.text = $"{varName}: {value}";
     }
 
     protected override void OnDestroy()
@@ -110,6 +113,10 @@ public partial class IngameVariableSettingsCategory : IngameElementSettingsCateg
     [ObservableProperty]
     [property: ShowInOverlayerSettings("Adjust Color By Value")]
     private ColorRamp adjustColorByValueGradient = new();
+
+    [ObservableProperty]
+    [property: ShowInOverlayerSettings("Bold Name")]
+    private bool isBoldName = true;
 
     public override string DisplayName => "Variable";
     public override Sprite Icon => Main.assets.LoadAsset<Sprite>("assets/tufhelper/assets/sprites/variable.png");

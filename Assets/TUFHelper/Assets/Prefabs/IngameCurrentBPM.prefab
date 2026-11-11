@@ -155,7 +155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'CBPM: 4052'
+  m_text: '<b>CBPM: </b>4052'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ee9fb1180c3b33d4ca9f799e9a400dd2, type: 2}
   m_sharedMaterial: {fileID: -3909153119467349838, guid: ee9fb1180c3b33d4ca9f799e9a400dd2, type: 2}

@@ -26,7 +26,16 @@ namespace TUFHelper.Utils
             { 2, "H1" },
             { 7, "Epic" },
         };
+        public static Dictionary<string, int> GetReversedIDRegister()
+        {
+            List<KeyValuePair<string, int>> list = new();
+            foreach (var kvp in IDRegister)
+            {
+                list.Add(new(kvp.Value, kvp.Key));
+            }
 
+            return new(list);
+        }
         public static Sprite GetSprite(LevelListInfoElementCurationTypeJson curation)
         {
             if (curation == null || string.IsNullOrEmpty(curation.Name)) return null;

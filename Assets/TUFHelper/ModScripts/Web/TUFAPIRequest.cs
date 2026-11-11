@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,32 @@ namespace TUFHelper.ModScripts.Web
         Ascending,
         Descending
     }
+    public class FacetFilter
+    {
+        [JsonProperty("v")]
+        public int Version { get; set; } = 1;
+
+        [JsonProperty("combine")]
+        public string Combine { get; set; } = "and";
+
+        [JsonProperty("tags")]
+        public FacetGroup Tags { get; set; }
+
+        [JsonProperty("curationTypes")]
+        public FacetGroup CurationTypes { get; set; }
+    }
+
+    public class FacetGroup
+    {
+        [JsonProperty("mode")]
+        public string Mode { get; set; } = "simple";
+
+        [JsonProperty("op")]
+        public string Op { get; set; } = "or";
+
+        [JsonProperty("ids")]
+        public List<int> Ids { get; set; }
+    }
     public class TUFAPIRequest_Levels
     {
         public const string DEFAULT_URL = "https://api.tuforums.com/v2/database/levels";
@@ -28,6 +55,7 @@ namespace TUFHelper.ModScripts.Web
         public int MinDiffPGU { get; set; } = 1;
         public int MaxDiffPGU { get; set; } = 60;
         public List<string> SpecialDifficulties { get; set; } = new();
+        public List<string> CurationTypes { get; set; } = new();
         public List<string> QDifficulties { get; set; } = new();
         public List<string> TagsFilter { get; set; } = new();
         public string SortBy = "RECENT";
