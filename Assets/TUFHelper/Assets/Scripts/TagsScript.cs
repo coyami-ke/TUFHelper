@@ -86,7 +86,7 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
                 var current = list.Value[i];
                 var rect = current.transform as RectTransform;
 
-                if (currentPosX + current.Width > MenuWidth && currentPosX > 0)
+                if (currentPosX + current.Width > MenuWidth - 10 && currentPosX > 0)
                 {
                     currentPosX = 10;
                     currentRow++;
