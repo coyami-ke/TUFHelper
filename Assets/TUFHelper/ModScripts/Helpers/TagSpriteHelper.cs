@@ -77,7 +77,6 @@ namespace TUFHelper.Utils
         {
             if (Main.assets == null)
             {
-                Main.Logger.Log("❌ AssetBundle not loaded.");
                 return null;
             }
 
@@ -85,7 +84,6 @@ namespace TUFHelper.Utils
             if (sprite != null)
                 return sprite;
 
-            Main.Logger.Log($"❌ Tag icon not found in AssetBundle: {fileName}");
             return null;
         }
 

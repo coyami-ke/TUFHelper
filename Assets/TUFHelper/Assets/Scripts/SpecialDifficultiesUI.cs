@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,16 @@ using UnityEngine.UI;
 
 public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
 {
-    public static SpecialDifficultiesUI instance;
+    public class SpecialDifficultiesArgs : EventArgs
+    {
+        public string[] Selected { get; }
+        public SpecialDifficultiesArgs(string[] selected)
+        {
+            Selected = selected;
+        }
+    }
+
+    public event EventHandler<SpecialDifficultiesArgs> Changed;
 
     public Image arrowImage, backgroundImage;
     public RectTransform menuTransform;
@@ -37,11 +47,6 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private void Awake()
-    {
-        instance = this;
-    }
-
     private async void Start()
     {
         menuTransform.sizeDelta = new(menuTransform.sizeDelta.x, 0);
@@ -50,6 +55,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             { "Unranked", unrankedToggle },
             { "Censored", minus2Toggle },
             { "Impossible", minus21Toggle },
+            { "P0", p0Toggle },
         };
 
         foreach (var kvp in toggleMap)
@@ -58,12 +64,16 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             Toggle toggle = kvp.Value;
 
             toggle.isOn = Main.Setting.SelectedSpecialDiffs.Contains(key);
-            toggle.onValueChanged.AddListener(async _ => await UpdateLevelList());
+            toggle.onValueChanged.AddListener(_ =>  UpdateLevelList());
         }
 
-        IsSelected = false;
+        IsSelected = false; 
 
-        await UpdateLevelList();
+        //foreach (var toggle in toggleMap.ToArray())
+        //{
+        //    if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
+        //    else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
+        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -75,22 +85,24 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
     {
         backgroundImage.DOColor(show ? selectedColor : unselectedColor, 0.4f).SetEase(Ease.OutExpo);
         arrowImage.rectTransform.DORotate(new Vector3(0f, 0f, show ? selectedRotation : unselectedRotation), 0.4f).SetEase(Ease.OutExpo);
-        //menuTransform.DOScaleY(show ? 1f : 0f, 0.4f).SetEase(Ease.OutExpo);
         menuTransform.DOSizeDelta(new(menuTransform.sizeDelta.x, show ? maxHeight : 0), 0.4f).SetEase(Ease.OutExpo);
     }
 
-    public async Task UpdateLevelList()
+    public void UpdateLevelList()
     {
         var selectedDiffs = toggleMap
             .Where(kvp => kvp.Value.isOn)
             .Select(kvp => kvp.Key)
             .ToList();
 
-        Main.Setting.SelectedSpecialDiffs = selectedDiffs;
-        Main.Setting.Save(Main.ModEntry);
+        //foreach (var toggle in toggleMap.ToArray())
+        //{
+        //    if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
+        //    else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
+        //}
 
-        LevelListScript.DefaultRequest.SpecialDifficulties = selectedDiffs;
-        LevelListScript.instance.ClearLevels();
-        await LevelListScript.instance.UpdateLevelListAsync();
+        Changed?.Invoke(this, new(selectedDiffs.ToArray()));
+
+        Main.Logger.Log(selectedDiffs.ToString());
     }
 }

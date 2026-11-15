@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,6 +12,17 @@ using UnityEngine.UI;
 
 public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
 {
+    public class TagPrefabScriptArgs : EventArgs
+    {
+        public TUFTag Tag { get; }
+        public bool IsSelected { get; }
+        public TagPrefabScriptArgs(TUFTag tag, bool isSelected)
+        {
+            Tag = tag;
+            IsSelected = isSelected;
+        }
+    }
+    public event EventHandler<TagPrefabScriptArgs> TagSelectionChanged;
     public Image iconTag;
     public TextMeshProUGUI tagText;
     public TUFTag tagTUF;
@@ -49,33 +61,37 @@ public class TagPrefabScript : MonoBehaviour, IPointerClickHandler
 
         ApplySelection(newValue);
 
-        await UpdateLevelList();
+        //await UpdateLevelList();
     }
 
     private void ApplySelection(bool value)
     {
         IsSelected = value;
 
-        if (value)
-        {
-            Main.Setting.SelectedTags.Add(tagTUF.Name);
-            LevelListScript.DefaultRequest.TagsFilter.Add(tagTUF.Name);
-        }
-        else
-        {
-            Main.Setting.SelectedTags.Remove(tagTUF.Name);
-            LevelListScript.DefaultRequest.TagsFilter.Remove(tagTUF.Name);
-        }
+        TagSelectionChanged?.Invoke(this, new(tagTUF, value));
 
-        Main.Setting.Save(Main.ModEntry);
+        //if (value)
+        //{
+        //    Main.Setting.SelectedTags.Add(tagTUF.Name);
+        //    LevelListScript.DefaultRequest.TagsFilter.Add(tagTUF.Name);
+        //}
+        //else
+        //{
+        //    Main.Setting.SelectedTags.Remove(tagTUF.Name);
+        //    LevelListScript.DefaultRequest.TagsFilter.Remove(tagTUF.Name);
+        //}
+
+        //Main.Setting.Save(Main.ModEntry);
+
+
     }
 
-    private async Task UpdateLevelList()
-    {
+    //private async Task UpdateLevelList()
+    //{
 
-        LevelListScript.instance.ClearLevels();
-        await LevelListScript.instance.UpdateLevelListAsync();
-    }
+    //    LevelListScript.instance.ClearLevels();
+    //    await LevelListScript.instance.UpdateLevelListAsync();
+    //}
 
 
     public void SetTagInfo(TUFTag tag)

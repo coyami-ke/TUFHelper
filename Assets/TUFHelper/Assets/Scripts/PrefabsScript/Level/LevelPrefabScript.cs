@@ -59,6 +59,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     private RectTransform _rectTransform;
     private ScrollRect _scrollRect;
     private RectTransform _viewportTransform;
+    private Transform _contentTransform;
 
     private Color _diffColor = Color.white;
     private CancellationTokenSource _selectionCts;
@@ -126,9 +127,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         UpdateVisibility();
     }
 
-    public void Init(GameObject scrollViewObj)
+    public void Init(GameObject scrollViewObj, Transform contentTransform)
     {
         scrollView = scrollViewObj;
+        _contentTransform = contentTransform;
         if (scrollView == null) return;
 
         _scrollRect = scrollView.GetComponent<ScrollRect>();
@@ -214,13 +216,13 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 icon.gameObject.SetActive(false);
             }
 
-            if (levelInfo.Curation != null)
+            if (levelInfo.Curation != null && levelInfo.Curation.TypeIds.Count != 0)
             {
                 int curationCount = levelInfo.Curation.TypeIds?.Count > 0
                     ? levelInfo.Curation.TypeIds.Count
                     : levelInfo.Curation.Types?.Count ?? 0;
 
-                int activeCount = Math.Clamp(curationCount, 0, curationIcons.Length);
+                int activeCount = Math.Min(Math.Clamp(curationCount, 0, curationIcons.Length), 3);
 
                 for (int i = 0; i < activeCount; i++)
                 {
@@ -242,9 +244,9 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
     {
         if (!IsSelected)
         {
-            if (LevelListScript.instance?.levelListParent != null)
+            if (_contentTransform != null)
             {
-                var siblings = LevelListScript.instance.levelListParent.GetComponentsInChildren<LevelPrefabScript>();
+                var siblings = _contentTransform.GetComponentsInChildren<LevelPrefabScript>();
                 foreach (var level in siblings)
                 {
                     if (level != this) level.IsSelected = false;
@@ -434,10 +436,10 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
     public void OnAddOrRemoveFolderButtonClicked()
     {
-        if (AddLevelToFolder.instance != null)
-        {
-            AddLevelToFolder.instance.SetInfo(levelInfo.ID);
-        }
+        //if (AddLevelToFolder.instance != null)
+        //{
+        //    AddLevelToFolder.instance.SetInfo(levelInfo.ID);
+        //}
     }
 
     public async Task RemoveLevelAsync()
@@ -456,10 +458,15 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
                 Directory.Delete(path, true);
             }
 
-            if (LevelListScript.instance != null)
+            if (_contentTransform)
             {
-                LevelListScript.instance.ClearLevels();
-                await LevelListScript.instance.UpdateLevelListAsync();
+                LevelListScript levelList;
+                if (_contentTransform.TryGetComponent<LevelListScript>(out levelList))
+                {
+                    levelList.ClearLevels();
+                }
+                //LevelListScript.instance.ClearLevels();
+                //await LevelListScript.instance.UpdateLevelListAsync();
             }
         }
     }

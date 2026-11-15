@@ -33,47 +33,44 @@ public class MainLeaderboardScript : MonoBehaviour
     CancellationToken token = new();
 
     private bool isLoading = false;
-    public async void Update()
-    {
-        // Handle Scroll-Based Pagination
-        if (!isLoading && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f)
-        {
-            isLoading = true;
-            request.Offset = GetPlayerPrefabScripts().Length;
-            await UpdateList();
-        }
-    }
+    //public async void Update()
+    //{
+    //    // Handle Scroll-Based Pagination
+    //    if (!isLoading && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f)
+    //    {
+    //        isLoading = true;
+    //        request.Offset = GetPlayerPrefabScripts().Length;
+    //        await UpdateList();
+    //    }
+    //}
 
-    public async Task UpdateList()
-    {
-        token = new();
-        await request.GetAnswerAsync(token);
+    //public async Task UpdateList()
+    //{
+    //    token = new();
+    //    await request.GetAnswerAsync(token);
 
-        MainLeaderboardJson json = JsonConvert.DeserializeObject<MainLeaderboardJson>(request.Answer);
+    //    MainLeaderboardJson json = JsonConvert.DeserializeObject<MainLeaderboardJson>(request.Answer);
 
-        //foreach (Transform child in playerListParent.transform)
-        //    Destroy(child.gameObject);
+    //    int rank = 1 + GetPlayerPrefabScripts().Length;
+    //    foreach (var playerJson in json.Results)
+    //    {
+    //        GameObject obj = Instantiate(prefab, playerListParent.transform);
+    //        RectTransform rect = obj.GetComponent<RectTransform>();
 
-        int rank = 1 + GetPlayerPrefabScripts().Length;
-        foreach (var playerJson in json.Results)
-        {
-            GameObject obj = Instantiate(prefab, playerListParent.transform);
-            RectTransform rect = obj.GetComponent<RectTransform>();
+    //        var script = obj.GetComponent<MainLeaderboardPlayerPrefabScript>();
+    //        script.SetPlayerInfo(playerJson, rank);
 
-            var script = obj.GetComponent<MainLeaderboardPlayerPrefabScript>();
-            script.SetPlayerInfo(playerJson, rank);
+    //        rect.localScale = Vector3.one;
+    //        rect.anchoredPosition = new Vector2(0, (rank - 1) * -105 - 30);
+    //        rank++;
+    //    }
 
-            rect.localScale = Vector3.one;
-            rect.anchoredPosition = new Vector2(0, (rank - 1) * -105 - 30);
-            rank++;
-        }
+    //    RectTransform contentRect = playerListParent.GetComponent<RectTransform>();
+    //    float totalHeight = (rank - 1) * 105 + 30;
+    //    contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
 
-        RectTransform contentRect = playerListParent.GetComponent<RectTransform>();
-        float totalHeight = (rank - 1) * 105 + 30;
-        contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
-
-        isLoading = false;
-    }
+    //    isLoading = false;
+    //}
 
     public MainLeaderboardPlayerPrefabScript[] GetPlayerPrefabScripts() =>
         instance.playerListParent

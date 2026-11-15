@@ -241,5 +241,16 @@ namespace TUFHelper.Utils
             string diffStr = DiffIDRegister[diff];
             return IsQuantumDiff(diffStr);
         }
+
+        public static string[] GetQuantumDiffs()
+        {
+            List<string> diffs = new();
+            foreach (var pkv in DiffIDRegister)
+            {
+                if (IsQuantumDiff(pkv.Value)) diffs.Add(pkv.Value);
+            }
+
+            return diffs.ToArray();
+        }
     }
 }

@@ -20,6 +20,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class LevelListViewModel
 {
@@ -49,91 +50,186 @@ public class LevelListViewModel
 public class LevelListScript : MonoBehaviour
 {
     public const int REQUEST_LIMIT = 50;
-    public static LevelListScript instance;
+    //public static LevelListScript instance;
 
     public LevelListViewModel ViewModel { get; private set; } = new();
 
-    public GameObject levelPrefab, levelListParent, verticalScroll, errorMessage;
+    public GameObject levelPrefab, levelListParent, verticalScroll, errorMessage, loadingIcon;
+    public Toggle showOnlyDownloadedToggle, showOnlyFavoritesToggle, enableQRangeToggle;
+    public DiffSliderPGU diffSliderPGU;
+    public DiffSliderQuantum diffSliderQ;
+    public CurationTypesScript curationTypes;
+    public SpecialDifficultiesUI specialDifficulties;
+    public TagsScript tags;
+    public TMP_InputField searchField;
+    public TMP_Dropdown sortByDropdown, sortOrderDropdown;
 
     public ScrollRect VerticalScrollComponent { get; private set; }
     public bool HasMore { get; private set; }
     private bool isLoading = false;
     private CancellationTokenSource requestCancelToken;
 
-    public static readonly TUFAPIRequest_Levels DefaultRequest = new(REQUEST_LIMIT);
-
-    private bool showOnlyDownloaded = false;
-    public bool ShowOnlyDownloaded
-    {
-        get => showOnlyDownloaded;
-        set
-        {
-            LevelInfo.instance.IsShow = value;
-            if (showOnlyDownloaded == value)
-                return;
-
-            showOnlyDownloaded = value;
-
-            requestCancelToken?.Cancel();
-
-            isLoading = false;
-            HasMore = !value;
-
-            try
-            {
-                ViewModel.Clear();
-            }
-            catch (Exception ex)
-            {
-                Main.Logger.LogException(ex);
-            }
-            DefaultRequest.Offset = 0;
-
-        }
-    }
-    private bool showOnlyFavorites;
-    public bool ShowOnlyFavorites
-    {
-        get => showOnlyFavorites;
-        set
-        {
-            showOnlyFavorites = value;
-
-            requestCancelToken?.Cancel();
-
-            ViewModel.Clear();
-        }
-    }
-
-    private bool groupByFolder;
-    public bool GroupByFolder
-    {
-        get => groupByFolder;
-        set
-        {
-            groupByFolder = value;
-
-            ViewModel.Clear();
-        }
-    }
-
-    public LevelFolder LevelFolder { get; set; }
-
-    private int randomIDLevel = -1;
-
+    public TUFAPIRequest_Levels DefaultRequest;
 
     public void Awake()
     {
-        instance = this;
+        var settings = Main.Setting;
+        string sortBy = settings.SortBy switch
+        {
+            0 => "RECENT",
+            1 => "DIFF",
+            2 => "CLEARS",
+            3 => "LIKES",
+            _ => "UNKNOWN",
+        };
+        DefaultRequest = new(REQUEST_LIMIT)
+        {
+            MinDiffPGU = settings.MinDiff,
+            MaxDiffPGU = settings.MaxDiff,
+            QDifficulties = settings.SelectedQDiifs,
+            SortAsc = settings.SortOrder,
+            SortBy = sortBy,
+            CurationTypes = settings.SelectedCurationTypes,
+            SpecialDifficulties = settings.SelectedSpecialDiffs,
+            TagsFilter = settings.SelectedTags,
+        };
 
         VerticalScrollComponent = verticalScroll.GetComponent<ScrollRect>();
 
         ViewModel.Cleared += OnLevelsCleared;
         ViewModel.AddedRange += OnLevelsAdded;
     }
-    public void Start()
+    public async void Start()
     {
+        sortByDropdown.value = Main.Setting.SortBy;
+        int sortOrder;
+        if (Main.Setting.SortOrder == AscendingOrDescending.Ascending)
+        {
+            sortOrder = 0;
+        }
+        else
+        {
+            sortOrder = 1;
+        }
+        sortOrderDropdown.value = sortOrder;
+        enableQRangeToggle.isOn = Main.Setting.EnableQRange;
+        showOnlyDownloadedToggle.isOn = Main.Setting.ShowOnlyDownloaded;
+        showOnlyFavoritesToggle.isOn = Main.Setting.ShowOnlyFavorites;
+
+        diffSliderPGU.DiffSliderPGUChanged += OnDiffSliderPGUChanged;
+        diffSliderQ.DiffSliderQuantumChanged += DiffSliderQuantumChanged;
+        searchField.onEndEdit.AddListener(OnSearchFieldChanged);
+        sortByDropdown.onValueChanged.AddListener(OnSortByChanged);
+        sortOrderDropdown.onValueChanged.AddListener(OnSortOrderChanged);
+        enableQRangeToggle.onValueChanged.AddListener(OnEnableQRangeChanged);
+        showOnlyDownloadedToggle.onValueChanged.AddListener(OnShowOnlyDownloadedChanged);
+        showOnlyFavoritesToggle.onValueChanged.AddListener(OnShowOnlyFavoritesChanged);
+
+        curationTypes.CurationTypesChanged += CurationTypesChanged;
+        specialDifficulties.Changed += SpecialDifficultiesChanged;
+        tags.Changed += TagsChanged;
+
         errorMessage.SetActive(false);
+
+        await UpdateLevelListAsync();
+    }
+
+    private async void TagsChanged(object sender, TagsScript.TagsScriptArgs e)
+    {
+        DefaultRequest.TagsFilter = e.Tags.ToList();
+
+        Main.Setting.SelectedTags = e.Tags.ToList();
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+
+    private async void SpecialDifficultiesChanged(object sender, SpecialDifficultiesUI.SpecialDifficultiesArgs e)
+    {
+        DefaultRequest.SpecialDifficulties = e.Selected.ToList();
+
+        Main.Setting.SelectedSpecialDiffs = e.Selected.ToList();
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+
+    private async void CurationTypesChanged(object sender, CurationTypesScript.CurationTypesArgs e)
+    {
+        DefaultRequest.CurationTypes = e.Selected.ToList();
+
+        Main.Setting.SelectedCurationTypes = e.Selected.ToList();
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+
+    private async void DiffSliderQuantumChanged(object sender, DiffSliderQuantum.DiffSliderQuantumArgs e)
+    {
+        DefaultRequest.QDifficulties = DiffSliderQuantum.GetSelectedQDiffs(e.MinDiff, e.MaxDiff).ToList();
+
+        Main.Setting.MinQDiff = e.MinDiff;
+        Main.Setting.MaxQDiff = e.MaxDiff;
+        Main.Setting.Save(Main.ModEntry);
+
+        ClearLevels();
+
+        Main.Logger.Log("changed");
+
+        await UpdateLevelListAsync();
+    }
+
+    public async void OnDiffSliderPGUChanged(object sender, DiffSliderPGU.DiffSliderPGUArgs e)
+    {
+        DefaultRequest.MinDiffPGU = e.MinDiff;
+        DefaultRequest.MaxDiffPGU = e.MaxDiff;
+
+        Main.Setting.MinDiff = e.MinDiff;
+        Main.Setting.MaxDiff = e.MaxDiff;
+        Main.Setting.Save(Main.ModEntry);
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+
+    public async void OnShowOnlyDownloadedChanged(bool value)
+    {
+        requestCancelToken?.Cancel();
+
+        isLoading = false;
+        HasMore = !value;
+
+        try
+        {
+            ViewModel.Clear();
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.LogException(ex);
+        }
+        DefaultRequest.Offset = 0;
+
+        Main.Setting.ShowOnlyDownloaded = value;
+        Main.Setting.Save(Main.ModEntry);
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+    public async void OnShowOnlyFavoritesChanged(bool value)
+    {
+        Main.Setting.ShowOnlyFavorites = value;
+        Main.Setting.Save(Main.ModEntry);
+
+        ViewModel.Clear();
+        await UpdateLevelListAsync();
+    }
+
+    public async void OnSearchFieldChanged(string value)
+    {
+        DefaultRequest.Query = value;
+        DefaultRequest.Offset = 0;
+        ClearLevels();
+        await UpdateLevelListAsync();
     }
     public void OnLevelsCleared()
     {
@@ -147,6 +243,51 @@ public class LevelListScript : MonoBehaviour
 
         verticalScroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
     }
+    public async void OnSortByChanged(int value)
+    {
+        switch (value)
+        {
+            case 0:
+                DefaultRequest.SortBy = "RECENT";
+                break;
+            case 1:
+                DefaultRequest.SortBy = "DIFF";
+                break;
+            case 2:
+                DefaultRequest.SortBy = "CLEARS";
+                break;
+            case 3:
+                DefaultRequest.SortBy = "LIKES";
+                break;
+        }
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+    public async void OnSortOrderChanged(int value)
+    {
+        switch (value)
+        {
+            case 0:
+                DefaultRequest.SortAsc = AscendingOrDescending.Ascending;
+                break;
+            case 1:
+                DefaultRequest.SortAsc = AscendingOrDescending.Descending;
+                break;
+        }
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
+    public async void OnEnableQRangeChanged(bool value)
+    {
+        DefaultRequest.EnableQRange = value;
+        Main.Setting.EnableQRange = value;
+        Main.Setting.Save(Main.ModEntry);
+
+        ClearLevels();
+        await UpdateLevelListAsync();
+    }
 
     public void OnLevelsAdded(LevelListInfoElementJson[] levels)
     {
@@ -156,7 +297,6 @@ public class LevelListScript : MonoBehaviour
         foreach (var level in levels)
         {
             GameObject gameObject = Instantiate(levelPrefab);
-            //BundleFontFixer.FixFontsIn(gameObject);
             RectTransform rect = gameObject.GetComponent<RectTransform>();
             rect.SetParent(levelListParent.transform, false);
             rect.localScale = Vector3.one;
@@ -167,7 +307,7 @@ public class LevelListScript : MonoBehaviour
             rect.anchoredPosition = new Vector3(0, (startingIndex * -125) - 90);
 
             LevelPrefabScript lps = gameObject.GetComponent<LevelPrefabScript>();
-            lps.Init(verticalScroll);
+            lps.Init(verticalScroll, levelListParent.transform);
             lps.SetLevelInfo(level, level.Clears);
             UITransition.AnimateLevelListItem(gameObject, animationIndex, 30f);
 
@@ -227,7 +367,7 @@ public class LevelListScript : MonoBehaviour
 
 
         // Handle Scroll-Based Pagination
-        if (!isLoading && !ShowOnlyDownloaded && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f && HasMore)
+        if (!isLoading && !showOnlyDownloadedToggle.isOn && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f && HasMore)
         {
             isLoading = true;
             DefaultRequest.Offset = GetLevelPrefabScripts().Length;
@@ -272,7 +412,7 @@ public class LevelListScript : MonoBehaviour
         requestCancelToken = new CancellationTokenSource();
         CancellationToken token = requestCancelToken.Token;
 
-        if (ShowOnlyDownloaded)
+        if (showOnlyDownloadedToggle.isOn)
         {
             isLoading = false;
             DefaultRequest.Offset = 0;
@@ -282,10 +422,10 @@ public class LevelListScript : MonoBehaviour
 
             var sortedLevels = SortLevels(levels);
 
-            string query = SearchScript.NormalizeSearchText(DefaultRequest.Query).ToLowerInvariant();
+            string query = searchField.text;
             bool searchId = query.StartsWith("#");
             int queryId = 0;
-            if (searchId && int.TryParse(query.Substring(1), out int id))
+            if (searchId && int.TryParse(searchField.text[1..], out int id))
                 queryId = id;
 
             var filteredLevels = sortedLevels.Where(level =>
@@ -327,12 +467,6 @@ public class LevelListScript : MonoBehaviour
                     if (!(creator.Contains(query) || artist.Contains(query) || song.Contains(query)))
                         return false;
                 }
-                // Filter by group
-                if (GroupByFolder)
-                {
-                    if (LevelFolder != null && !LevelFolder.Levels.Contains(level.ID))
-                        return false;
-                }
                 // Filter by tags
                 if (DefaultRequest.TagsFilter != null && DefaultRequest.TagsFilter.Count > 0)
                 {
@@ -357,7 +491,7 @@ public class LevelListScript : MonoBehaviour
                 return true;
             }).ToList();
 
-            if (ShowOnlyDownloaded && ShowOnlyFavorites)
+            if (showOnlyDownloadedToggle.isOn && showOnlyFavoritesToggle.isOn)
             {
                 foreach (var level in filteredLevels.ToArray())
                 {
@@ -482,6 +616,6 @@ public class LevelListScript : MonoBehaviour
     }
 
     public LevelPrefabScript[] GetLevelPrefabScripts() =>
-    instance.levelListParent
+    levelListParent
         .GetComponentsInChildren<LevelPrefabScript>(includeInactive: false);
 }

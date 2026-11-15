@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,18 @@ using UnityEngine.UI;
 
 public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
 {
+    public class CurationTypesArgs : EventArgs
+    {
+        public string[] Selected { get; }
+
+        public CurationTypesArgs(string[] selected)
+        {
+            Selected = selected;
+        }
+    }
+
+    public event EventHandler<CurationTypesArgs> CurationTypesChanged;
+
     public Image arrowImage, backgroundImage;
     public RectTransform menuTransform;
 
@@ -65,8 +78,6 @@ public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
         }
 
         IsSelected = false;
-
-        await UpdateLevelList();
     }
 
     private void AnimateDropdown(bool show)
@@ -83,16 +94,29 @@ public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
 
     public async Task UpdateLevelList()
     {
-        var selectedDiffs = toggleMap
+        var selectedCurations = toggleMap
             .Where(kvp => kvp.Value.isOn)
             .Select(kvp => kvp.Key)
             .ToList();
 
-        Main.Setting.SelectedCurationTypes = selectedDiffs;
-        Main.Setting.Save(Main.ModEntry);
+        //Main.Setting.SelectedCurationTypes = selectedCurations;
+        //Main.Setting.Save(Main.ModEntry);
 
-        LevelListScript.DefaultRequest.CurationTypes = selectedDiffs;
-        LevelListScript.instance.ClearLevels();
-        await LevelListScript.instance.UpdateLevelListAsync();
+        //LevelListScript.DefaultRequest.CurationTypes = selectedCurations;
+        //LevelListScript.instance.ClearLevels();
+        foreach (var toggle in toggleMap.ToArray())
+        {
+            if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
+            else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
+        }
+
+        CurationTypesChanged?.Invoke(this, new(selectedCurations.ToArray()));
+
+        //await LevelListScript.instance.UpdateLevelListAsync();
+    }
+
+    public async void OnToggleValueChanged()
+    {
+        await UpdateLevelList();
     }
 }

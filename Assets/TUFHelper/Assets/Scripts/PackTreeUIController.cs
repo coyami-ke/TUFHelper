@@ -9,9 +9,9 @@ public class PackTreeUIController : MonoBehaviour
     public GameObject levelPrefab;
     public GameObject textBlockPrefab;
     public RectTransform rootContainer;
-    public RectTransform treeViewport; // Assign your ScrollRect Viewport in the Unity Inspector
+    public RectTransform treeViewport; 
 
-    private const float ItemHeight = 50f;
+    private const float ItemHeight = 75f;
     private const float TextBlockHeight = 100f;
     private const float TextBlockBlankHeight = 50f;
     private const float IndentWidth = 24f;

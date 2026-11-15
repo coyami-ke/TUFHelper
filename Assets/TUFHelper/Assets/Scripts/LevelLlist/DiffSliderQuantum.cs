@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,18 @@ using UnityEngine.EventSystems;
 
 public class DiffSliderQuantum : DiffSlider
 {
-    public static DiffSliderQuantum instance;
+    public class DiffSliderQuantumArgs : EventArgs
+    {
+        public int MinDiff { get; }
+        public int MaxDiff { get; }
+        public DiffSliderQuantumArgs(int minDiff, int maxDiff)
+        {
+            MinDiff = minDiff;
+            MaxDiff = maxDiff;
+        }
+    }
+
+    public event EventHandler<DiffSliderQuantumArgs> DiffSliderQuantumChanged;
 
     public Sprite emptySprite;
 
@@ -21,23 +33,20 @@ public class DiffSliderQuantum : DiffSlider
     }
     public override async void OnMouseUp()
     {
-        LevelListScript.instance.ClearLevels();
+        //LevelListScript.instance.ClearLevels();
 
         //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
         //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
-        Main.Setting.MaxQDiff = SelectedMaxDiff + 1;
-        Main.Setting.MinQDiff = SelectedMinDiff + 1;
-        Main.Setting.Save(Main.ModEntry);
+        //Main.Setting.MaxQDiff = SelectedMaxDiff + 1;
+        //Main.Setting.MinQDiff = SelectedMinDiff + 1;
+        //Main.Setting.Save(Main.ModEntry);
 
-        LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
+        //LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
 
-        await LevelListScript.instance.UpdateLevelListAsync();
-    }
+        //await LevelListScript.instance.UpdateLevelListAsync();
 
-    public void Awake()
-    {
-        instance = this;
+        DiffSliderQuantumChanged?.Invoke(this, new(SelectedMinDiff + 1, SelectedMaxDiff + 1));
     }
     public async void Start()
     {
@@ -65,7 +74,7 @@ public class DiffSliderQuantum : DiffSlider
         //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
         //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
-        LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
+        //LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
 
         //LevelListScript.DefaultRequest.QDifficulties = SelectedMinDiff; // QDifficulties is actually the list of strings
         //LevelListScript.DefaultRequest.QDifficulties = SelectedMaxDiff;
@@ -87,20 +96,23 @@ public class DiffSliderQuantum : DiffSlider
 
         return diffs.ToArray();
     }
-    public string[] GetSelectedQDiffs(int min, int max)
+
+    /// <summary>
+    /// Returns quantum difficulties as an array of strings. The lowest minimum must be 0
+    /// </summary>
+    /// <param name="min"></param>
+    /// <param name="max"></param>
+    /// <returns></returns>
+    public static string[] GetSelectedQDiffs(int min, int max)
     {
-        // Clamp values to prevent out-of-range errors
-        min = Mathf.Clamp(min, 0, diffPairs.Count - 1);
-        max = Mathf.Clamp(max, 0, diffPairs.Count - 1);
+        string[] existingDiffs = DiffSpriteHelper.GetQuantumDiffs();
 
-        List<string> selected = new List<string>();
-
+        List<string> selected = new();
         for (int i = min; i <= max; i++)
         {
-            selected.Add(diffPairs[i].Name);
+            selected.Add(existingDiffs[i]);
         }
 
         return selected.ToArray();
     }
-
 }

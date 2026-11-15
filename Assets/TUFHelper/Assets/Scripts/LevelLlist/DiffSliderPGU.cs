@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,18 @@ using UnityEngine.EventSystems;
 
 public class DiffSliderPGU : DiffSlider
 {
-    public static DiffSliderPGU instance;
+    public class DiffSliderPGUArgs : EventArgs
+    {
+        public int MinDiff { get; }
+        public int MaxDiff { get; }
+        public DiffSliderPGUArgs(int minDiff, int maxDiff)
+        {
+            MinDiff = minDiff;
+            MaxDiff = maxDiff;
+        }
+    }
+
+    public event EventHandler<DiffSliderPGUArgs> DiffSliderPGUChanged;
 
     public Sprite emptySprite;
 
@@ -20,21 +32,18 @@ public class DiffSliderPGU : DiffSlider
     }
     public override async void OnMouseUp()
     {
-        LevelListScript.instance.ClearLevels();
+        DiffSliderPGUChanged?.Invoke(this, new(SelectedMinDiff + 1, SelectedMaxDiff + 1));
 
-        LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
-        LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
+        //LevelListScript.instance.ClearLevels();
 
-        Main.Setting.MaxDiff = LevelListScript.DefaultRequest.MaxDiffPGU;
-        Main.Setting.MinDiff = LevelListScript.DefaultRequest.MinDiffPGU;
-        Main.Setting.Save(Main.ModEntry);
+        //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
+        //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
 
-        await LevelListScript.instance.UpdateLevelListAsync();
-    }
+        //Main.Setting.MaxDiff = SelectedMaxDiff + 1;
+        //Main.Setting.MinDiff = SelectedMinDiff + 1;
+        //Main.Setting.Save(Main.ModEntry);
 
-    public void Awake()
-    {
-        instance = this;
+        //await LevelListScript.instance.UpdateLevelListAsync();
     }
     public async void Start()
     {
@@ -58,10 +67,5 @@ public class DiffSliderPGU : DiffSlider
 
         SelectedMinDiff = Main.Setting.MinDiff - 1;
         SelectedMaxDiff = Main.Setting.MaxDiff - 1;
-
-        LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
-        LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
-
-        //await LevelListScript.instance.UpdateLevelListAsync();
     }
 }

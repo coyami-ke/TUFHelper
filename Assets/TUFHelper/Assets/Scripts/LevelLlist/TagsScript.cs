@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
@@ -13,6 +14,15 @@ using UnityEngine.UI;
 
 public class TagsScript : MonoBehaviour, IPointerClickHandler
 {
+    public class TagsScriptArgs : EventArgs
+    {
+        public string[] Tags { get; }
+        public TagsScriptArgs(string[] tags)
+        {
+            Tags = tags;
+        }
+    }
+    public event EventHandler<TagsScriptArgs> Changed;
     public string pathToJSON;
     public RectTransform menuTransform;
     public RectTransform arrowTransfrom;
@@ -20,6 +30,8 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
     public GameObject tagPrefab, groupPrefab;
 
     public Image backgroundImage;
+
+    public TagPrefabScript[] Tags { get; private set; }
 
     private float maxHeight;
 
@@ -73,6 +85,8 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
         float spacingX = 2.5f;
         float spacingY = 2.5f;
 
+        List<TagPrefabScript> prefabs = new();
+
         int j = 0;
         foreach (var list in scripts)
         {
@@ -95,6 +109,10 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
                 rect.anchoredPosition = new Vector2(currentPosX, -(currentRow * (prefabHeight + spacingY)) - ((j + 1) * 60));
 
                 currentPosX += current.Width + spacingX;
+
+                current.TagSelectionChanged += TagSelectionChanged;
+
+                prefabs.Add(current);
             }
             currentPosX = 10;
             j++;
@@ -102,7 +120,21 @@ public class TagsScript : MonoBehaviour, IPointerClickHandler
         float totalHeight = (currentRow + 1) * (prefabHeight + spacingY) + (j + 0.5f) * 60;
         menuTransform.sizeDelta = new(menuTransform.sizeDelta.x, 0);
         maxHeight = totalHeight;
+
+        Tags = prefabs.ToArray();
     }
+
+    private void TagSelectionChanged(object sender, TagPrefabScript.TagPrefabScriptArgs e)
+    {
+        List<string> tags = new();
+        foreach (var tag in Tags)
+        {
+            if (tag.IsSelected) tags.Add(tag.tagTUF.Name);
+        }
+
+        Changed?.Invoke(this, new(tags.ToArray()));
+    }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         IsSelected = !IsSelected;

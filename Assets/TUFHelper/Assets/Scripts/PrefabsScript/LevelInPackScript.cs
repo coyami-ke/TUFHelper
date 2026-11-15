@@ -16,7 +16,7 @@ using UnityEngine.UI;
 
 public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public Image diffIconImage, backgroundImage;
+    public Image diffIconImage, backgroundImage, leftRectangle;
     public TextMeshProUGUI artistAndSongText, creatorText, clearsText, likesText;
 
     public string PackID { get; private set; }
@@ -45,6 +45,10 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
         //idText.text = "#" + node.ReferencedLevel.ID;
         clearsText.text = node.ReferencedLevel.Clears.ToString();
         likesText.text = node.ReferencedLevel.Likes.ToString();
+
+        ColorUtility.TryParseHtmlString(node.ReferencedLevel.Difficulty.Color, out Color parsedColor);
+        backgroundImage.color = new(parsedColor.r, parsedColor.g, parsedColor.b, 10f / 255);
+        leftRectangle.color = new(parsedColor.r, parsedColor.g, parsedColor.b, 200f / 255);
 
         PackID = packId;
 

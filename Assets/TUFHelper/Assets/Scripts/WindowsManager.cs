@@ -115,7 +115,7 @@ public class WindowsManager : MonoBehaviour
         MoveToLevelList();
         PassesList.SetActive(false);
         PassInfo.SetActive(false);
-        global::FolderList.instance.IsShow = false;
+        //global::FolderList.instance.IsShow = false;
 
         LevelList.SetActive(false);
 
@@ -144,7 +144,7 @@ public class WindowsManager : MonoBehaviour
         }
 
         MoveToLevelList();
-        AddLevelToFolder.instance.IsShow = false;
+        //AddLevelToFolder.instance.IsShow = false;
         // PassesList.SetActive(false);
         // PassInfo.SetActive(false);
         // FolderList.SetActive(false);

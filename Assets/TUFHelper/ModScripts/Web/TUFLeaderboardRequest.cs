@@ -19,47 +19,47 @@ namespace TUFHelper.ModScripts.Web
 
         public string DEFAULT_URL = "https://api.tuforums.com/v2/database/leaderboard";
 
-        public async Task GetAnswerAsync(CancellationToken token)
-        {
-            string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
-            string url = $"{DEFAULT_URL}?query={encodedQuery}&sortBy=rankedScore&order=desc&offset={Offset}&limit={Limit}&showBanned=hide";
+        //public async Task GetAnswerAsync(CancellationToken token)
+        //{
+        //    string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
+        //    string url = $"{DEFAULT_URL}?query={encodedQuery}&sortBy=rankedScore&order=desc&offset={Offset}&limit={Limit}&showBanned=hide";
 
-            using var request = UnityWebRequest.Get(url);
-            request.certificateHandler = new CertificateWhore();
-            request.disposeCertificateHandlerOnDispose = true;
+        //    using var request = UnityWebRequest.Get(url);
+        //    request.certificateHandler = new CertificateWhore();
+        //    request.disposeCertificateHandlerOnDispose = true;
 
-            try
-            {
-                var operation = request.SendWebRequest();
+        //    try
+        //    {
+        //        var operation = request.SendWebRequest();
 
-                while (!operation.isDone)
-                {
-                    if (token.IsCancellationRequested)
-                    {
-                        request.Abort(); // explicitly abort
-                        token.ThrowIfCancellationRequested();
-                    }
-                    await Task.Yield();
-                }
+        //        while (!operation.isDone)
+        //        {
+        //            if (token.IsCancellationRequested)
+        //            {
+        //                request.Abort();
+        //                token.ThrowIfCancellationRequested();
+        //            }
+        //            await Task.Yield();
+        //        }
 
-                if (request.result == UnityWebRequest.Result.Success)
-                {
-                    Answer = request.downloadHandler.text;
-                }
-                else
-                {
-                    throw new Exception($"Request error: {request.error}");
-                }
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Main.Logger.Error($"[TUFAPIRequest] Request failed: {ex.Message}");
-                throw;
-            }
-        }
+        //        if (request.result == UnityWebRequest.Result.Success)
+        //        {
+        //            Answer = request.downloadHandler.text;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception($"Request error: {request.error}");
+        //        }
+        //    }
+        //    catch (OperationCanceledException)
+        //    {
+        //        throw;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Main.Logger.Error($"[TUFAPIRequest] Request failed: {ex.Message}");
+        //        throw;
+        //    }
+        //}
     }
 }

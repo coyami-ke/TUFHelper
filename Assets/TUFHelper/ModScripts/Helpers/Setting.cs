@@ -30,7 +30,6 @@ namespace TUFHelper.Utils
         public bool GroupByFolders { get; set; } = false;
         public bool EnableQRange { get; set; } = true; 
         public HashSet<int> FavoriteLevels { get; set; } = new();
-        public List<LevelFolder> LevelFolders { get; set; } = new();
         public Dictionary<string, IngameElementModel> IngameElementsSettings { get; set; } = new();
         public bool ShowTUFHelperOverlayer { get; set; } = true;
         public bool IsShowedKeyviewerError { get; set; } = false;

@@ -24,6 +24,8 @@ public class MiscScript : MonoBehaviour
     public GameObject frontMenuCanvas;
     public GameObject playCanvas;
 
+    public LevelListScript levelList;
+
     private CancellationTokenSource _requestCancelToken;
     private LevelListInfoElementJson _lastLevel;
 
@@ -90,12 +92,6 @@ public class MiscScript : MonoBehaviour
         if (string.IsNullOrEmpty(url)) return;
         Application.OpenURL(url);
     }
-
-    public void ShowInfoAboutHotkeys()
-    {
-        // Reserved for hotkey info UI implementation
-    }
-
     public async void UpdateOfflineLevels(TextMeshProUGUI textInfo)
     {
         CancellationToken token = CancelAndCreateNewToken();
@@ -149,11 +145,8 @@ public class MiscScript : MonoBehaviour
 
         Main.Setting.Save(Main.ModEntry);
 
-        if (LevelListScript.instance != null)
-        {
-            LevelListScript.instance.ClearLevels();
-            await LevelListScript.instance.UpdateLevelListAsync();
-        }
+        levelList.ClearLevels();
+        await levelList.UpdateLevelListAsync();
 
         if (textInfo != null)
         {
@@ -189,13 +182,13 @@ public class MiscScript : MonoBehaviour
 
                     if (DiffSpriteHelper.IsSpecialDiff(level.DiffId) || DiffSpriteHelper.IsQuantumDiff(level.DiffId))
                     {
-                        if (!LevelListScript.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) ||
-                            LevelListScript.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
+                        if (!levelList.DefaultRequest.SpecialDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]) ||
+                            levelList.DefaultRequest.QDifficulties.Contains(DiffSpriteHelper.DiffIDRegister[level.DiffId]))
                             return false;
                     }
                     else
                     {
-                        if (level.DiffId < LevelListScript.DefaultRequest.MinDiffPGU || level.DiffId > LevelListScript.DefaultRequest.MaxDiffPGU)
+                        if (level.DiffId < levelList.DefaultRequest.MinDiffPGU || level.DiffId > levelList.DefaultRequest.MaxDiffPGU)
                             return false;
                     }
 
@@ -214,13 +207,13 @@ public class MiscScript : MonoBehaviour
             {
                 TUFAPIRequest_Levels request = new(1)
                 {
-                    MinDiffPGU = LevelListScript.DefaultRequest.MinDiffPGU,
-                    MaxDiffPGU = LevelListScript.DefaultRequest.MaxDiffPGU,
+                    MinDiffPGU = levelList.DefaultRequest.MinDiffPGU,
+                    MaxDiffPGU = levelList.DefaultRequest.MaxDiffPGU,
                     Query = "",
                     Offset = 0,
                     SortBy = "RANDOM",
-                    SpecialDifficulties = new List<string>(LevelListScript.DefaultRequest.SpecialDifficulties),
-                    QDifficulties = new List<string>(LevelListScript.DefaultRequest.QDifficulties)
+                    SpecialDifficulties = new List<string>(levelList.DefaultRequest.SpecialDifficulties),
+                    QDifficulties = new List<string>(levelList.DefaultRequest.QDifficulties)
                 };
 
                 await request.GetAnswerAsync(token);

@@ -76,7 +76,7 @@ namespace TUFHelper.ModScripts.Web
             string order = SortAsc == AscendingOrDescending.Ascending ? "ASC" : "DESC";
             string sort = $"{SortBy}_{order}";
 
-            string encodedQuery = Uri.EscapeDataString(global::SearchScript.NormalizeSearchText(Query));
+            string encodedQuery = Uri.EscapeDataString(Query);
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={encodedQuery}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
             {
