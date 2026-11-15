@@ -33,7 +33,8 @@ namespace TUFHelper.Utils
                 if (_spriteRegister == null)
                 {
                     Dictionary<int, string> dictionary = new();
-                    var tags = JsonConvert.DeserializeObject<List<TUFTag>>(File.ReadAllText(PATH_TO_JSON));
+                    string json = (Main.assets.LoadAsset(PATH_TO_JSON) as TextAsset).text;
+                    List<TUFTag> tags = JsonConvert.DeserializeObject<List<TUFTag>>(json);
                     foreach (var tag in tags)
                     {
                         dictionary.Add(tag.Id, tag.Name);
@@ -57,7 +58,8 @@ namespace TUFHelper.Utils
                 if (_spriteRegister == null)
                 {
                     Dictionary<string, int> dictionary = new();
-                    var tags = JsonConvert.DeserializeObject<List<TUFTag>>(File.ReadAllText(PATH_TO_JSON));
+                    string json = (Main.assets.LoadAsset(PATH_TO_JSON) as TextAsset).text;
+                    List<TUFTag> tags = JsonConvert.DeserializeObject<List<TUFTag>>(json);
                     foreach (var tag in tags)
                     {
                         dictionary.Add(tag.Name, tag.Id);

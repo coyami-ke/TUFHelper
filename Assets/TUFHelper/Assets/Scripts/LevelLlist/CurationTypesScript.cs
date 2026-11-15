@@ -53,9 +53,9 @@ public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
         toggleMap = new Dictionary<string, Toggle>
         {
             { "C3", c3 },
-            { "C2", c3 },
-            { "C1", c3 },
-            { "C0", c3 },
+            { "C2", c2 },
+            { "C1", c1 },
+            { "C0", c0 },
             { "O3", o3 },
             { "O2", o2 },
             { "O1", o1 },
@@ -99,24 +99,6 @@ public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
             .Select(kvp => kvp.Key)
             .ToList();
 
-        //Main.Setting.SelectedCurationTypes = selectedCurations;
-        //Main.Setting.Save(Main.ModEntry);
-
-        //LevelListScript.DefaultRequest.CurationTypes = selectedCurations;
-        //LevelListScript.instance.ClearLevels();
-        foreach (var toggle in toggleMap.ToArray())
-        {
-            if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
-            else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
-        }
-
         CurationTypesChanged?.Invoke(this, new(selectedCurations.ToArray()));
-
-        //await LevelListScript.instance.UpdateLevelListAsync();
-    }
-
-    public async void OnToggleValueChanged()
-    {
-        await UpdateLevelList();
     }
 }

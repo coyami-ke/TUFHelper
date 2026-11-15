@@ -28,10 +28,10 @@ namespace TUFHelper.ModScripts.Web
         public string Combine { get; set; } = "and";
 
         [JsonProperty("tags")]
-        public FacetGroup Tags { get; set; }
+        public FacetGroup Tags { get; set; } = new();
 
         [JsonProperty("curationTypes")]
-        public FacetGroup CurationTypes { get; set; }
+        public FacetGroup CurationTypes { get; set; } = new();
     }
 
     public class FacetGroup
@@ -43,7 +43,7 @@ namespace TUFHelper.ModScripts.Web
         public string Op { get; set; } = "or";
 
         [JsonProperty("ids")]
-        public List<int> Ids { get; set; }
+        public List<int> Ids { get; set; } = new();
     }
     public class TUFAPIRequest_Levels
     {
@@ -80,11 +80,6 @@ namespace TUFHelper.ModScripts.Web
             string url = $"{DEFAULT_URL}?limit={Limit}&offset={Offset}&query={encodedQuery}&pguRange={minDiff},{maxDiff}&sort={sort}&deletedFilter=hide";
             if (SpecialDifficulties.Count > 0 || QDifficulties.Count > 0)
             {
-                //var cleaned = SpecialDifficulties
-                //    .Concat(QDifficulties)
-                //    .Where(x => !string.IsNullOrWhiteSpace(x))
-                //    .ToList();
-
                 var cleaned = SpecialDifficulties;
                 if (EnableQRange) cleaned = cleaned.Concat(QDifficulties).ToList();
 
@@ -94,24 +89,33 @@ namespace TUFHelper.ModScripts.Web
                     url += "&specialDifficulties=" + UnityWebRequest.EscapeURL(joined);
                 }
             }
-            var cleanedTags = TagsFilter
-                .Where(t => !string.IsNullOrWhiteSpace(t))
-                .Distinct()
-                .ToList();
 
-            if (cleanedTags.Count > 0)
+            FacetFilter facetQuery = new();
+            foreach (var tag in TagsFilter)
             {
-                string joined = string.Join(",", cleanedTags);
-                string encoded = Uri.EscapeDataString(joined); // fully percent-encodes spaces as %20
-                url += "&tagsFilter=" + encoded;
+                if (TagSpriteHelper.ReversedSpriteRegister.TryGetValue(tag, out var value))
+                {
+                    facetQuery.Tags.Ids.Add(value);
+                }
+                else continue;
             }
 
+            var registry = CurationHelper.GetReversedIDRegister();
+            foreach (var curation in CurationTypes)
+            {
+                if (registry.TryGetValue(curation, out var value))
+                {
+                    facetQuery.CurationTypes.Ids.Add(value);
+                }
+            }
+
+            url += "&facetQuery=" + JsonConvert.SerializeObject(facetQuery);
+            
             string answer = "";
+
             HttpResponseMessage response = await Main.Client.GetAsync(url, token);
 
             response.EnsureSuccessStatusCode();
-
-            //throw new HttpRequestException("test");
 
             answer = await response.Content.ReadAsStringAsync();
 

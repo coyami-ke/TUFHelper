@@ -1,4 +1,5 @@
 using DG.Tweening;
+using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -149,6 +150,7 @@ public class LevelListScript : MonoBehaviour
         DefaultRequest.SpecialDifficulties = e.Selected.ToList();
 
         Main.Setting.SelectedSpecialDiffs = e.Selected.ToList();
+        Main.Setting.Save(Main.ModEntry);
 
         ClearLevels();
         await UpdateLevelListAsync();
@@ -159,6 +161,7 @@ public class LevelListScript : MonoBehaviour
         DefaultRequest.CurationTypes = e.Selected.ToList();
 
         Main.Setting.SelectedCurationTypes = e.Selected.ToList();
+        Main.Setting.Save(Main.ModEntry);
 
         ClearLevels();
         await UpdateLevelListAsync();
@@ -508,11 +511,18 @@ public class LevelListScript : MonoBehaviour
 
         try
         {
+            UITransition.Show(loadingIcon);
             isLoading = true;
 
             if (DefaultRequest.Query.StartsWith("#"))
             {
                 string id = DefaultRequest.Query.Substring(1);
+
+                if (!int.TryParse(id, out _))
+                {
+                    return;
+                }
+
                 string url = $"https://api.tuforums.com/v2/database/levels/{id}";
 
                 try
@@ -582,6 +592,7 @@ public class LevelListScript : MonoBehaviour
         }
         finally
         {
+            UITransition.Hide(loadingIcon);
             isLoading = false;
         }
     }

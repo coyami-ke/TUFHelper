@@ -44,7 +44,8 @@ public class LeaderboardScript : MonoBehaviour
 
     public async void LoadPasses(LevelListInfoElementJson level)
     {
-        notFoundClearsText.SetActive(false);
+        //notFoundClearsText.SetActive(false);
+        UITransition.Hide(notFoundClearsText);
         UITransition.Show(loadingIcon);
 
         ClearPassList();
@@ -96,7 +97,8 @@ public class LeaderboardScript : MonoBehaviour
 
         LastLoadedPasses = passes;
 
-        notFoundClearsText.SetActive(passes.Count == 0);
+        if (passes.Count == 0) UITransition.Show(notFoundClearsText);
+        else UITransition.Hide(notFoundClearsText);
 
         if (passes.Count == 0)
         {

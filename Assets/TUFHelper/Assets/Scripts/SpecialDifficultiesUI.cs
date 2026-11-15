@@ -63,17 +63,11 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             string key = kvp.Key;
             Toggle toggle = kvp.Value;
 
-            toggle.isOn = Main.Setting.SelectedSpecialDiffs.Contains(key);
+            toggle.isOn = Main.Setting.SelectedTags.Contains(key);
             toggle.onValueChanged.AddListener(_ =>  UpdateLevelList());
         }
 
         IsSelected = false; 
-
-        //foreach (var toggle in toggleMap.ToArray())
-        //{
-        //    if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
-        //    else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
-        //}
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -95,14 +89,6 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             .Select(kvp => kvp.Key)
             .ToList();
 
-        //foreach (var toggle in toggleMap.ToArray())
-        //{
-        //    if (toggle.Value.isOn) toggle.Value.image.DOFade(0.2f, 0.22f).SetEase(Ease.OutExpo);
-        //    else toggle.Value.image.DOFade(0.125f, 0.22f).SetEase(Ease.OutExpo);
-        //}
-
         Changed?.Invoke(this, new(selectedDiffs.ToArray()));
-
-        Main.Logger.Log(selectedDiffs.ToString());
     }
 }
