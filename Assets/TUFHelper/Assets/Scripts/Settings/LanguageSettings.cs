@@ -7,14 +7,19 @@ public class LanguageSettings : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
 
-    private static readonly string[] LanguageModes = { "Auto", "English", "Korean", "Chinese" };
+    private static readonly string[] LanguageModes = { "Auto", "English", "Korean", "Chinese", "SpanishLatinAmerica" };
 
     public void Start()
     {
+        if (dropdown.options.Count < LanguageModes.Length)
+        {
+            dropdown.options.Add(new TMP_Dropdown.OptionData("Spanish (Latin America)"));
+        }
+
         string currentLanguage = Main.Setting?.Language ?? "Auto";
 
         int targetIndex = Array.IndexOf(LanguageModes, currentLanguage);
-        dropdown.value = targetIndex >= 0 ? targetIndex : 0;
+        dropdown.SetValueWithoutNotify(targetIndex >= 0 ? targetIndex : 0);
         dropdown.RefreshShownValue();
 
         dropdown.onValueChanged.RemoveListener(OnLanguageChanged);
@@ -27,10 +32,6 @@ public class LanguageSettings : MonoBehaviour
 
         string selectedMode = LanguageModes[index];
 
-        Main.Setting.Language = selectedMode;
-
         LanguageManager.SetLanguageMode(selectedMode);
-
-        LanguageManager.ApplyTo(ModSettings.instance.gameObject);
     }
 }

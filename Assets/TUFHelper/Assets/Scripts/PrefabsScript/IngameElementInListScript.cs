@@ -41,7 +41,7 @@ public class IngameElementInListScript : MonoBehaviour, IPointerClickHandler
 
     public void SetElementInfo(BasicIngameElement element)
     {
-        text.text = element.NameInSettings;
+        LanguageManager.RememberOriginal(text, element.NameInSettings);
         icon.sprite = element.Icon;
         Element = element;
     }

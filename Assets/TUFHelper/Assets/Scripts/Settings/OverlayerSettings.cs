@@ -91,10 +91,9 @@ public class OverlayerSettings : MonoBehaviour
             basicElement.IsSelected = false;
         }
 
-        BasicIngameElement element = Elements.FirstOrDefault(b => b.NameInSettings == script.text.text);
-        if (element != null)
+        if (script.Element != null)
         {
-            element.IsSelected = true;
+            script.Element.IsSelected = true;
         }
     }
     private void AddCategories(IngameElementModel model)

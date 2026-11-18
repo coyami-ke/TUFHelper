@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +12,8 @@ namespace TUFHelper
     {
         English,
         Korean,
-        Chinese
+        Chinese,
+        SpanishLatinAmerica
     }
 
     public static class LanguageManager
@@ -48,6 +51,7 @@ namespace TUFHelper
             { "English", new[] { "English", "English" } },
             { "Korean", new[] { "한국어", "한국어" } },
             { "Chinese", new[] { "简体中文", "简体中文" } },
+            { "Spanish (Latin America)", new[] { "스페인어 (라틴 아메리카)", "西班牙语（拉丁美洲）" } },
             { "Follow the game's language setting.", new[] { "게임 언어 설정을 따라갑니다.", "跟随游戏的语言设置。" } },
             { "Select Language", new[] { "언어 선택", "选择语言" } },
             { "GROUP BY FOLDERS", new[] { "폴더별로 묶기", "按文件夹分组" } },
@@ -123,12 +127,140 @@ namespace TUFHelper
             { "Length:", new[] { "길이:", "长度：" } }
         };
 
+        private static readonly Dictionary<string, string> SpanishLocalizationRegistry = new(StringComparer.Ordinal)
+        {
+            { "Back to Settings", "Volver a ajustes" },
+            { "BACK TO PACKS", "VOLVER A PAQUETES" },
+            { "Elements", "Elementos" },
+            { "Preview", "Vista previa" },
+            { "Properties", "Propiedades" },
+            { "Combo", "Combo" },
+            { "Current BPM", "BPM actual" },
+            { "Level Info", "Informacion del nivel" },
+            { "Judgements", "Resultados" },
+            { "Real BPM", "BPM real" },
+            { "Progress", "Progreso" },
+            { "Score & Speed", "Puntaje y velocidad" },
+            { "I'm Feeling Lucky", "Me siento con suerte" },
+            { "I'M FEELING LUCKY", "ME SIENTO CON SUERTE" },
+            { "Add Folder", "Anadir carpeta" },
+            { "Update Information", "Actualizar informacion" },
+            { "ENABLE Q RANGE", "ACTIVAR RANGO Q" },
+            { "Search Packs...", "Buscar paquetes..." },
+            { "PACKS", "PAQUETES" },
+            { "LEVELS", "NIVELES" },
+            { "ITEMS", "ELEMENTOS" },
+            { "CREATED", "CREADO" },
+            { "Recent", "Reciente" },
+            { "Name", "Nombre" },
+            { "Level Count", "Cantidad de niveles" },
+            { "Favorites", "Favoritos" },
+            { "Impossible", "Imposible" },
+            { "Censored", "Censurado" },
+            { "Or", "O" },
+            { "SETTINGS", "AJUSTES" },
+            { "Settings", "Ajustes" },
+            { "Mod Settings", "Ajustes del mod" },
+            { "Bootstrap", "Inicio" },
+            { "Overlayer", "Capa superpuesta" },
+            { "Audio", "Audio" },
+            { "Language", "Idioma" },
+            { "TUFHELPER MUSIC VOLUME", "VOLUMEN DE MÚSICA DE TUFHELPER" },
+            { "LEVEL SAVE PATH", "RUTA DE GUARDADO DE NIVELES" },
+            { "START WITH GAME", "INICIAR CON EL JUEGO" },
+            { "SHOW & HANDLE OVERLAYER", "MOSTRAR Y AJUSTAR LA CAPA SUPERPUESTA" },
+            { "Show PP Displayer", "Mostrar indicador de PP" },
+            { "Show Speed", "Mostrar velocidad" },
+            { "Show Leaderboard", "Mostrar tabla de posiciones" },
+            { "Show Level Info", "Mostrar información del nivel" },
+            { "Scale", "Escala" },
+            { "Auto (Game Language)", "Automático (idioma del juego)" },
+            { "English", "English" },
+            { "Korean", "Coreano" },
+            { "Chinese", "Chino" },
+            { "Spanish (Latin America)", "Español (Latinoamérica)" },
+            { "Follow the game's language setting.", "Seguir la configuración de idioma del juego." },
+            { "Select Language", "Seleccionar idioma" },
+            { "GROUP BY FOLDERS", "AGRUPAR POR CARPETAS" },
+            { "SHOW ONLY FAVORITES", "MOSTRAR SOLO FAVORITOS" },
+            { "SHOW ONLY DOWNLOADED", "MOSTRAR SOLO DESCARGADOS" },
+            { "SORT BY:", "ORDENAR POR:" },
+            { "Ascending", "Ascendente" },
+            { "Descending", "Descendente" },
+            { "ID", "ID" },
+            { "Difficulty", "Dificultad" },
+            { "Clears", "Completados" },
+            { "Likes", "Me gusta" },
+            { "Tags", "Etiquetas" },
+            { "Play Style", "Estilo de juego" },
+            { "Key Limit", "Límite de teclas" },
+            { "Judgement", "Precisión" },
+            { "Gimmick", "Mecánica" },
+            { "VFX", "Efectos visuales" },
+            { "Length", "Duración" },
+            { "Required Mods", "Mods necesarios" },
+            { "DLC", "DLC" },
+            { "Misc", "Varios" },
+            { "Special Difficulties", "Dificultades especiales" },
+            { "Unranked", "Sin clasificación" },
+            { "HIDE RATED", "OCULTAR CALIFICADOS" },
+            { "4+ RATED", "CALIFICACIÓN DE 4+" },
+            { "Hide", "Ocultar" },
+            { "Show", "Mostrar" },
+            { "Only", "Solo" },
+            { "PLAY", "JUGAR" },
+            { "BACK", "ATRÁS" },
+            { "Close", "Cerrar" },
+            { "CANCEL", "CANCELAR" },
+            { "ADD", "AÑADIR" },
+            { "ADD FOLDER", "AÑADIR CARPETA" },
+            { "Create a new folder", "Crear una carpeta nueva" },
+            { "Type a name folder", "Escribe un nombre para la carpeta" },
+            { "Select Folder", "Seleccionar carpeta" },
+            { "Select Level", "Seleccionar nivel" },
+            { "Select the folder you want to add the level to.", "Selecciona la carpeta a la que quieres añadir el nivel." },
+            { "The folder contains several levels. Which level will you open?", "La carpeta contiene varios niveles. ¿Cuál abrirás?" },
+            { "Search by level name, artist...", "Buscar por nombre del nivel, artista..." },
+            { "Type to search (Song, Artist, Creator, #ID)...", "Escribe para buscar (canción, artista, creador, #ID)..." },
+            { "Downloading", "Descargando" },
+            { "LOADING...", "CARGANDO..." },
+            { "An error has occured!", "¡Ocurrió un error!" },
+            { "Login", "Iniciar sesión" },
+            { "SIGN IN", "INICIAR SESIÓN" },
+            { "Register", "Registrarse" },
+            { "LOG OUT", "CERRAR SESIÓN" },
+            { "Email or Username", "Correo o nombre de usuario" },
+            { "Password", "Contraseña" },
+            { "LEADERBOARD", "TABLA DE POSICIONES" },
+            { "Leaderboard", "Tabla de posiciones" },
+            { "Credits", "Créditos" },
+            { "CREDITS", "CRÉDITOS" },
+            { "PROGRAMMING", "PROGRAMACIÓN" },
+            { "LEAD DEVELOPER", "DESARROLLADOR PRINCIPAL" },
+            { "WEB BACKEND DEVELOPER", "DESARROLLADOR BACKEND WEB" },
+            { "SUPPORT", "SOPORTE" },
+            { "FORUM", "FORO" },
+            { "Downloader", "Descargador" },
+            { "MUSIC", "MÚSICA" },
+            { "UPDATE INFO", "ACTUALIZAR INFORMACIÓN" },
+            { "EXIT", "SALIR" },
+            { "HIDDEN", "OCULTO" },
+            { "State:", "Estado:" },
+            { "Progress:", "Progreso:" },
+            { "ACCURACY:", "PRECISIÓN:" },
+            { "SPEED:", "VELOCIDAD:" },
+            { "BPM:", "BPM:" },
+            { "Tiles:", "Casillas:" },
+            { "Length:", "Duración:" }
+        };
+
         public static void Init()
         {
             if (initialized) return;
 
             initialized = true;
-            SceneManager.sceneLoaded += (_, _) => Apply();
+            SceneManager.sceneLoaded += (_, _) => RequestRefresh();
+            RequestRefresh();
         }
 
         public static TUFHelperLanguage CurrentLanguage
@@ -138,11 +270,14 @@ namespace TUFHelper
                 string mode = Main.Setting?.Language ?? "Auto";
                 if (mode.Equals("Korean", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.Korean;
                 if (mode.Equals("Chinese", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.Chinese;
+                if (mode.Equals("SpanishLatinAmerica", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.SpanishLatinAmerica;
                 if (mode.Equals("English", StringComparison.OrdinalIgnoreCase)) return TUFHelperLanguage.English;
 
                 return GetAutoLanguage();
             }
         }
+
+        public static bool IsSpanish => CurrentLanguage == TUFHelperLanguage.SpanishLatinAmerica;
 
         public static void SetLanguageMode(string mode)
         {
@@ -151,10 +286,16 @@ namespace TUFHelper
             Main.Setting.Language = mode;
             Main.Setting.Save(Main.ModEntry);
             Apply();
+            RequestRefresh();
         }
 
         public static string Translate(string english)
         {
+            if (activeLanguage == TUFHelperLanguage.SpanishLatinAmerica && SpanishLocalizationRegistry.TryGetValue(english, out string spanish))
+            {
+                return ToAscii(spanish);
+            }
+
             if (string.IsNullOrEmpty(english) || !LocalizationRegistry.TryGetValue(english, out string[] translations))
             {
                 return english;
@@ -170,7 +311,7 @@ namespace TUFHelper
         public static void Apply()
         {
             RefreshActiveLanguage();
-            foreach (TextMeshProUGUI text in UnityEngine.Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None))
+            foreach (TextMeshProUGUI text in UnityEngine.Object.FindObjectsByType<TextMeshProUGUI>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
                 ApplyToText(text);
             }
@@ -185,6 +326,12 @@ namespace TUFHelper
             {
                 ApplyToText(text);
             }
+        }
+
+        public static void RequestRefresh()
+        {
+            LocalizationRefreshRunner.EnsureCreated();
+            LocalizationRefreshRunner.Schedule();
         }
 
         public static void RememberCurrentFonts(GameObject root)
@@ -387,11 +534,13 @@ namespace TUFHelper
         private static string GetEnglishSource(string current)
         {
             if (string.IsNullOrEmpty(current)) return null;
+            if (SpanishLocalizationRegistry.ContainsKey(current)) return current;
             if (LocalizationRegistry.ContainsKey(current)) return current;
 
             foreach (KeyValuePair<string, string[]> pair in LocalizationRegistry)
             {
-                if (pair.Value[0] == current || pair.Value[1] == current)
+                if (pair.Value[0] == current || pair.Value[1] == current ||
+                    (SpanishLocalizationRegistry.TryGetValue(pair.Key, out string spanish) && spanish == current))
                 {
                     return pair.Key;
                 }
@@ -399,11 +548,32 @@ namespace TUFHelper
             return null;
         }
 
+        private static string ToAscii(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+
+            StringBuilder result = new();
+            foreach (char character in value.Normalize(NormalizationForm.FormD))
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(character) == UnicodeCategory.NonSpacingMark) continue;
+                result.Append(character switch
+                {
+                    'ñ' => 'n',
+                    'Ñ' => 'N',
+                    '¿' => ' ',
+                    '¡' => ' ',
+                    _ => character
+                });
+            }
+            return result.ToString();
+        }
+
         private static TUFHelperLanguage DetectGameLanguage()
         {
             string reflected = TryReadPlayerPrefsLanguage();
             if (LooksKorean(reflected)) return TUFHelperLanguage.Korean;
             if (LooksChineseLanguage(reflected)) return TUFHelperLanguage.Chinese;
+            if (LooksSpanish(reflected)) return TUFHelperLanguage.SpanishLatinAmerica;
             if (LooksEnglish(reflected)) return TUFHelperLanguage.English;
 
             return Application.systemLanguage switch
@@ -412,6 +582,7 @@ namespace TUFHelper
                 SystemLanguage.Chinese => TUFHelperLanguage.Chinese,
                 SystemLanguage.ChineseSimplified => TUFHelperLanguage.Chinese,
                 SystemLanguage.ChineseTraditional => TUFHelperLanguage.Chinese,
+                SystemLanguage.Spanish => TUFHelperLanguage.SpanishLatinAmerica,
                 _ => TUFHelperLanguage.English
             };
         }
@@ -449,6 +620,13 @@ namespace TUFHelper
             return value.Contains("english") || value == "en";
         }
 
+        private static bool LooksSpanish(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return false;
+            value = value.ToLowerInvariant();
+            return value.Contains("spanish") || value.Contains("español") || value == "es" || value.StartsWith("es-");
+        }
+
         private static bool LooksChineseLanguage(string value)
         {
             if (string.IsNullOrWhiteSpace(value)) return false;
@@ -456,6 +634,42 @@ namespace TUFHelper
             return value.Contains("chinese") || value.Contains("simplified") || value.Contains("traditional") ||
                    value.Contains("schinese") || value.Contains("tchinese") || value.Contains("zh") ||
                    value.Contains("cn") || value.Contains("中文") || value.Contains("简体");
+        }
+    }
+
+    internal sealed class LocalizationRefreshRunner : MonoBehaviour
+    {
+        private static LocalizationRefreshRunner instance;
+        private int remainingPasses;
+        private int nextRefreshFrame;
+
+        internal static void EnsureCreated()
+        {
+            if (instance != null) return;
+
+            instance = UnityEngine.Object.FindFirstObjectByType<LocalizationRefreshRunner>();
+            if (instance != null) return;
+
+            GameObject runner = new("TUFHelper Localization Refresh");
+            UnityEngine.Object.DontDestroyOnLoad(runner);
+            instance = runner.AddComponent<LocalizationRefreshRunner>();
+        }
+
+        internal static void Schedule()
+        {
+            if (instance == null) return;
+
+            instance.remainingPasses = 3;
+            instance.nextRefreshFrame = Time.frameCount;
+        }
+
+        private void Update()
+        {
+            if (remainingPasses == 0 || Time.frameCount < nextRefreshFrame) return;
+
+            remainingPasses--;
+            nextRefreshFrame = Time.frameCount + 2;
+            LanguageManager.Apply();
         }
     }
 
