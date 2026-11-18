@@ -33,17 +33,6 @@ public class DiffSliderPGU : DiffSlider
     public override async void OnMouseUp()
     {
         DiffSliderPGUChanged?.Invoke(this, new(SelectedMinDiff + 1, SelectedMaxDiff + 1));
-
-        //LevelListScript.instance.ClearLevels();
-
-        //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
-        //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
-
-        //Main.Setting.MaxDiff = SelectedMaxDiff + 1;
-        //Main.Setting.MinDiff = SelectedMinDiff + 1;
-        //Main.Setting.Save(Main.ModEntry);
-
-        //await LevelListScript.instance.UpdateLevelListAsync();
     }
     public async void Start()
     {

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using DG.Tweening;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -489,7 +488,22 @@ public class LevelListScript : MonoBehaviour
                     if (!requiredTags.All(tag => levelTags.Contains(tag)))
                         return false;
                 }
+                // Filter by curations
+                if (DefaultRequest.CurationTypes != null && DefaultRequest.CurationTypes.Count > 0)
+                {
+                    if (level.Curation == null || level.Curation.TypeIds.Count == 0)
+                        return false;
+                    List<string> curations = new();
+                    foreach (var id in level.Curation.TypeIds)
+                    {
+                        curations.Add(CurationHelper.IDRegister[id]);
+                    }
 
+                    var requiredCurations = DefaultRequest.CurationTypes;
+
+                    if (!requiredCurations.All(curation => curations.Contains(curation)))
+                        return false;
+                }
 
                 return true;
             }).ToList();

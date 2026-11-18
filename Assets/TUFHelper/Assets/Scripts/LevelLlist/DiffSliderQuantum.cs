@@ -33,19 +33,6 @@ public class DiffSliderQuantum : DiffSlider
     }
     public override async void OnMouseUp()
     {
-        //LevelListScript.instance.ClearLevels();
-
-        //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
-        //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
-
-        //Main.Setting.MaxQDiff = SelectedMaxDiff + 1;
-        //Main.Setting.MinQDiff = SelectedMinDiff + 1;
-        //Main.Setting.Save(Main.ModEntry);
-
-        //LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
-
-        //await LevelListScript.instance.UpdateLevelListAsync();
-
         DiffSliderQuantumChanged?.Invoke(this, new(SelectedMinDiff + 1, SelectedMaxDiff + 1));
     }
     public async void Start()
@@ -70,16 +57,6 @@ public class DiffSliderQuantum : DiffSlider
 
         SelectedMinDiff = Main.Setting.MinQDiff - 1;
         SelectedMaxDiff = Main.Setting.MaxQDiff - 1;
-
-        //LevelListScript.DefaultRequest.MinDiffPGU = SelectedMinDiff + 1;
-        //LevelListScript.DefaultRequest.MaxDiffPGU = SelectedMaxDiff + 1;
-
-        //LevelListScript.DefaultRequest.QDifficulties = GetSelectedQDiffs(SelectedMinDiff, SelectedMaxDiff).ToList();
-
-        //LevelListScript.DefaultRequest.QDifficulties = SelectedMinDiff; // QDifficulties is actually the list of strings
-        //LevelListScript.DefaultRequest.QDifficulties = SelectedMaxDiff;
-
-        //await LevelListScript.instance.UpdateLevelListAsync();
     }
 
     public string[] GetQDiffs()
