@@ -20,7 +20,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using static System.Net.Mime.MediaTypeNames;
 
 public class LevelListViewModel
 {

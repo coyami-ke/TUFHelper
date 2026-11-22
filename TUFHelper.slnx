@@ -1,4 +1,6 @@
 ﻿<Solution>
   <Project Path="TUFHelper.csproj" />
+  <Project Path="Assembly-CSharp-Editor-firstpass.csproj" />
   <Project Path="ADOFAIModdingHelper.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
 </Solution>

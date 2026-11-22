@@ -20,7 +20,7 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        ADOFAIGameplayHandler.LaunchLevel(_fullPath, _levelInfo, _packID, _packLevelID);
+        UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(_fullPath, _levelInfo, _packID, _packLevelID));
     }
 
     public void OnPointerEnter(PointerEventData eventData)

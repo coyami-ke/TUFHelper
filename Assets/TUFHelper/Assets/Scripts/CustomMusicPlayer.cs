@@ -11,11 +11,14 @@ using TUFHelper;
 using UnityEngine;
 using UnityEngine.Networking;
 
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioReverbFilter))]
 public class CustomMusicPlayer : MonoBehaviour
 {
     private static readonly WaitForSeconds _waitForSeconds0_15 = new(0.15f);
     public static CustomMusicPlayer instance;
     public AudioSource audioSource;
+    private AudioReverbFilter reverbFilter;
 
     private readonly Dictionary<string, AudioClip> _previewCache = new(StringComparer.OrdinalIgnoreCase);
     private CancellationTokenSource _cts;
@@ -27,9 +30,21 @@ public class CustomMusicPlayer : MonoBehaviour
     {
         instance = this;
         audioSource = GetComponent<AudioSource>();
+        reverbFilter = GetComponent<AudioReverbFilter>();
         audioSource.volume = 0.3f * Persistence.globalVolume * Persistence.musicVolume;
     }
-
+    public void Start()
+    {
+        DisableReverb();
+    }
+    public void EnableReverb()
+    {
+        reverbFilter.enabled = true;
+    }
+    public void DisableReverb()
+    {
+        reverbFilter.enabled = false;
+    }
     public void PlayLevelPreview(string songUrl)
     {
         _cts?.Cancel();
