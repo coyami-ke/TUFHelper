@@ -1,10 +1,11 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
-using DG.Tweening;
 using TMPro;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using static IngameLeaderboardScript;
 
 public class IngamerankPrefabScript : MonoBehaviour
 {
@@ -13,51 +14,39 @@ public class IngamerankPrefabScript : MonoBehaviour
     public Image gradeImage;
     public Sprite PP, SS, S, A, B, C, D;
 
-    public PassesListInfoElementJson PassInfo { get; private set; }
+    public IngameLeaderboardRank PassInfo { get; set; }
 
-    private int rank;
-    public int Rank
-    {
-        get => rank;
-        set
-        {
-            if (value == rank) return;
-            rank = value;
-            rankText.text = $"#{rank}";
-        }
-    }
-
-    public void LoadPass(PassesListInfoElementJson info, int rank)
+    public void LoadPass(IngameLeaderboardRank info, int rank)
     {
         PassInfo = info;
-        Rank = rank;
+        rankText.text = $"#{rank + 1}";
         UpdateVisual();
     }
 
-    private float lastAcc = -1f;
-    private float lastScore = -1f;
+    private float lastAcc = float.NaN;
+    private float lastScore = float.NaN;
+    private string lastNickname = null;
 
     public void UpdateVisual()
     {
-        if (PassInfo == null) return;
-
-        if (Mathf.Abs(PassInfo.Accuracy - lastAcc) > 0.00001f)
+        if (!Mathf.Approximately(PassInfo.accuracy, lastAcc))
         {
-            lastAcc = PassInfo.Accuracy;
+            lastAcc = PassInfo.accuracy;
             accuracyText.text = $"{lastAcc * 100f:F2}%";
             gradeImage.sprite = GetGradeSprite(lastAcc);
         }
 
-        if (Mathf.Abs(PassInfo.ScoreV2 - lastScore) > 0.1f)
+        if (!Mathf.Approximately(PassInfo.scoreV2, lastScore))
         {
-            lastScore = PassInfo.ScoreV2;
+            lastScore = PassInfo.scoreV2;
             scoreText.text = lastScore.ToString("F2");
         }
 
-        if (string.IsNullOrEmpty(nicknameText.text) || nicknameText.text == "nickname")
+        if (lastNickname == null)
         {
-            nicknameText.text = PassInfo.Player?.Name ?? "Unknown";
-            nicknameText.color = (nicknameText.text == "YOU") ? Color.yellow : Color.white;
+            lastNickname = PassInfo.player.name.IsEmpty ? "Unknown" : new string(PassInfo.player.name.Span);
+            nicknameText.text = lastNickname;
+            nicknameText.color = lastNickname == "YOU" ? Color.yellow : Color.white;
         }
     }
 
@@ -85,5 +74,10 @@ public class IngamerankPrefabScript : MonoBehaviour
 
         rectTransform.DOKill();
         rectTransform.DOAnchorPosY(targetY, 0.5f).SetEase(Ease.OutExpo);
+    }
+
+    public void SetRank(int rank)
+    {
+        rankText.text = '#' + rank.ToString();
     }
 }

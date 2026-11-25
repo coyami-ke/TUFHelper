@@ -1,14 +1,16 @@
-﻿using System;
+﻿using DG.Tweening;
+using HarmonyLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DG.Tweening;
-using HarmonyLib;
 using TUFHelper.ModScripts.Helpers;
 using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utf8Json;
+using Utf8Json.Resolvers;
 
 namespace TUFHelper
 
@@ -34,6 +36,17 @@ namespace TUFHelper
                         Main.Logger.Error("Scene 'TUFLevelSelect' not found in AssetBundle. :sob:");
                     }
                 });
+
+                CompositeResolver.RegisterAndSetAsDefault(
+                    new IJsonFormatter[]
+                    {
+                        new ReadOnlyMemoryCharFormatter(),
+                        new IngameLeaderboardRankFormatter()
+                    },
+                    new IJsonFormatterResolver[]
+                    {
+                        StandardResolver.Default
+                    });
             }
             catch (Exception ex)
             {

@@ -1,5 +1,6 @@
 using HarmonyLib;
 using System;
+using System.Collections;
 using System.IO;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
@@ -67,7 +68,6 @@ namespace TUFHelper.Utils
             scnEditor.levelToOpenOnLoad = pathToLevel;
             EditorPlayPatch.CurrentLevelInfo = levelInfo;
 
-            //UIScript.SwipeToBlack(() => SceneManager.LoadScene("scnEditor"));
             SceneManager.LoadScene("scnEditor");
         }
 
