@@ -371,14 +371,14 @@ public class PPDisplayerScript : BasicIngameElement
         {
             return CalcAcc(new Judgements
             {
-                Perfect = input.Perfect,
-                EPerfect = input.EPerfect,
-                EarlySingle = input.EarlySingle,
-                LateSingle = input.LateSingle,
-                EarlyDouble = input.EarlyDouble,
-                LateDouble = input.LateDouble,
-                LPerfect = input.LPerfect,
-                Deaths = input.Deaths
+                Perfect = input.perfect,
+                EPerfect = input.ePerfect,
+                EarlySingle = input.earlySingle,
+                LateSingle = input.lateSingle,
+                EarlyDouble = input.earlyDouble,
+                LateDouble = input.lateDouble,
+                LPerfect = input.lPerfect,
+                Deaths = input.deaths
             });
         }
     }

@@ -139,6 +139,8 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             _viewportTransform = _scrollRect.viewport;
             _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
         }
+
+        UpdateVisibility();
     }
 
     public void SetLevelInfo(LevelListInfoElementJson info, int totalClears)

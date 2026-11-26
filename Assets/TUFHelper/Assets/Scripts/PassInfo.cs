@@ -134,7 +134,7 @@ public class PassInfo : MonoBehaviour
     public async void SetPassInfo(PassesListInfoElementJson pass, LevelListInfoElementJson level)
     {
         SetVideoButton(null);
-        var info = await LoadPass(pass.ID);
+        var info = await LoadPass(pass.id);
         if (info == null) return;
         levelIcon.sprite = Main.GetSpriteFromAssets(DiffSpriteHelper.GetSpriteFromId(level.DiffId));
         levelNameText.text = level.Song;
@@ -145,46 +145,46 @@ public class PassInfo : MonoBehaviour
         LanguageManager.ApplyChineseJapaneseFont(authorText);
         chartText.text = $"Chart by: {level.Charter}";
         vfxText.text = $"VFX by: {level.Vfxer}";
-        newPlayerScoreText.text = info.ScoreInfo.CurrentRankedScore.ToString("F1");
-        oldPlayerScoreText.text = info.ScoreInfo.PreviousRankedScore.ToString("F1");
-        addPlayerScoreText.text = "+" + info.ScoreInfo.Impact.ToString("F1");
-        rankText.text = "#" + info.Ranks.RankedScoreRank.ToString();
-        playerText.text = info.Player.Name;
-        scorePPText.text = info.ScoreV2.ToString("F1") + "PP";
+        newPlayerScoreText.text = info.scoreInfo.currentRankedScore.ToString("F1");
+        oldPlayerScoreText.text = info.scoreInfo.previousRankedScore.ToString("F1");
+        addPlayerScoreText.text = "+" + info.scoreInfo.impact.ToString("F1");
+        rankText.text = "#" + info.ranks.rankedScoreRank.ToString();
+        playerText.text = info.player.name;
+        scorePPText.text = info.scoreV2.ToString("F1") + "PP";
 
-        accuracyText.text = (info.Accuracy * 100).ToString("F2") + "%";
-        speedText.text = info.Speed.ToString("F2") + "x";
-        feelingRating.text = info.FeelingRating;
+        accuracyText.text = (info.accuracy * 100).ToString("F2") + "%";
+        speedText.text = info.speed.ToString("F2") + "x";
+        feelingRating.text = info.feelingRating;
 
-        float countHits = pass.Judgements.Perfect + pass.Judgements.EPerfect + pass.Judgements.LPerfect +
-                        pass.Judgements.EarlySingle + pass.Judgements.LateSingle + pass.Judgements.EarlyDouble;
+        float countHits = pass.judgements.perfect + pass.judgements.ePerfect + pass.judgements.lPerfect +
+                        pass.judgements.earlySingle + pass.judgements.lateSingle + pass.judgements.earlyDouble;
 
         if (countHits <= 0) countHits = 1;
 
         // Perfect
-        perfectsText.text = pass.Judgements.Perfect.ToString();
-        SetHeight(perfectsRect, maxHeight * (pass.Judgements.Perfect / countHits));
+        perfectsText.text = pass.judgements.perfect.ToString();
+        SetHeight(perfectsRect, maxHeight * (pass.judgements.perfect / countHits));
 
         // Late Perfect
-        lPerfectsText.text = pass.Judgements.LPerfect.ToString();
-        SetHeight(lPerfectsRect, maxHeight * (pass.Judgements.LPerfect / countHits));
+        lPerfectsText.text = pass.judgements.lPerfect.ToString();
+        SetHeight(lPerfectsRect, maxHeight * (pass.judgements.lPerfect / countHits));
 
         // Early Perfect
-        ePerfectsText.text = pass.Judgements.EPerfect.ToString();
-        SetHeight(ePerfectsRect, maxHeight * (pass.Judgements.EPerfect / countHits));
+        ePerfectsText.text = pass.judgements.ePerfect.ToString();
+        SetHeight(ePerfectsRect, maxHeight * (pass.judgements.ePerfect / countHits));
 
         // Late
-        latesText.text = pass.Judgements.LateSingle.ToString();
-        SetHeight(latesRect, maxHeight * (pass.Judgements.LateSingle / countHits));
+        latesText.text = pass.judgements.lateSingle.ToString();
+        SetHeight(latesRect, maxHeight * (pass.judgements.lateSingle / countHits));
 
         // Early
-        earliesText.text = pass.Judgements.EarlySingle.ToString();
-        SetHeight(earliesRect, maxHeight * (pass.Judgements.EarlySingle / countHits));
+        earliesText.text = pass.judgements.earlySingle.ToString();
+        SetHeight(earliesRect, maxHeight * (pass.judgements.earlySingle / countHits));
 
         // Misses
-        missesText.text = pass.Judgements.EarlyDouble.ToString();
-        SetHeight(missesRect, maxHeight * (pass.Judgements.EarlyDouble / countHits));
-        SetVideoButton(info.VideoLink);
+        missesText.text = pass.judgements.earlyDouble.ToString();
+        SetHeight(missesRect, maxHeight * (pass.judgements.earlyDouble / countHits));
+        SetVideoButton(info.videoLink);
         UITransition.AnimateDetailLoaded(this);
     }
 

@@ -49,12 +49,14 @@ public class LevelListViewModel
 public class LevelListScript : MonoBehaviour
 {
     public const int REQUEST_LIMIT = 50;
+    public const float HEIGHT_PREFAB = 125;
     //public static LevelListScript instance;
 
     public LevelListViewModel ViewModel { get; private set; } = new();
 
     public GameObject levelPrefab, levelListParent, verticalScroll, errorMessage, loadingIcon;
     public Toggle showOnlyDownloadedToggle, showOnlyFavoritesToggle, enableQRangeToggle;
+    public ScrollRect scrollRect;
     public DiffSliderPGU diffSliderPGU;
     public DiffSliderQuantum diffSliderQ;
     public CurationTypesScript curationTypes;
@@ -67,6 +69,7 @@ public class LevelListScript : MonoBehaviour
     public bool HasMore { get; private set; }
     private bool isLoading = false;
     private CancellationTokenSource requestCancelToken;
+    private readonly List<LevelPrefabScript> cachedPrefabs = new();
 
     public TUFAPIRequest_Levels DefaultRequest;
 
@@ -130,9 +133,46 @@ public class LevelListScript : MonoBehaviour
 
         errorMessage.SetActive(false);
 
-        await UpdateLevelListAsync();
-    }
+        scrollRect.onValueChanged.AddListener(OnScrollRectChanged);
 
+        await UpdateLevelListAsync();
+
+        OnScrollRectChanged(new());
+    }
+    private void OnScrollRectChanged(Vector2 vec)
+    {
+        if (cachedPrefabs.Count == 0 || scrollRect.content == null || scrollRect.viewport == null)
+            return;
+
+        float contentHeight = scrollRect.content.rect.height;
+        float viewportHeight = scrollRect.viewport.rect.height;
+
+        float scrollableHeight = Mathf.Max(0f, contentHeight - viewportHeight);
+        float scrollTop = (1f - vec.y) * scrollableHeight;
+
+        float buffer = HEIGHT_PREFAB * 2f;
+        float minY = scrollTop - buffer;
+        float maxY = scrollTop + viewportHeight + buffer;
+
+        int count = 0;
+
+        for (int i = 0; i < cachedPrefabs.Count; i++)
+        {
+            var prefab = cachedPrefabs[i];
+            var prefabRect = (RectTransform)prefab.transform;
+
+            float itemTop = -prefabRect.anchoredPosition.y;
+            float itemBottom = itemTop + HEIGHT_PREFAB;
+
+            bool isVisible = itemBottom >= minY && itemTop <= maxY;
+
+            if (prefab.gameObject.activeSelf != isVisible)
+                prefab.gameObject.SetActive(isVisible);
+
+            if (isVisible)
+                count++;
+        }
+    }
     private async void TagsChanged(object sender, TagsScript.TagsScriptArgs e)
     {
         DefaultRequest.TagsFilter = e.Tags.ToList();
@@ -174,8 +214,6 @@ public class LevelListScript : MonoBehaviour
         Main.Setting.Save(Main.ModEntry);
 
         ClearLevels();
-
-        Main.Logger.Log("changed");
 
         await UpdateLevelListAsync();
     }
@@ -290,9 +328,16 @@ public class LevelListScript : MonoBehaviour
         await UpdateLevelListAsync();
     }
 
+    private const float ITEM_HEIGHT = 120f;
+    private const float ITEM_SPACING = 5f;
+    private const float ITEM_STEP = ITEM_HEIGHT + ITEM_SPACING; // 125f
+
     public void OnLevelsAdded(LevelListInfoElementJson[] levels)
     {
-        int startingIndex = levelListParent.transform.childCount;
+        if (levels == null || levels.Length == 0)
+            return;
+
+        int startingIndex = cachedPrefabs.Count;
         int animationIndex = 0;
 
         foreach (var level in levels)
@@ -303,22 +348,27 @@ public class LevelListScript : MonoBehaviour
             rect.localScale = Vector3.one;
             rect.offsetMin = Vector2.zero;
             rect.offsetMax = Vector2.zero;
-            rect.sizeDelta = new Vector2(0, 120);
+            rect.sizeDelta = new Vector2(0f, ITEM_HEIGHT);
 
-            rect.anchoredPosition = new Vector3(0, (startingIndex * -125) - 90);
+            float yPos = -((startingIndex * ITEM_STEP) + (ITEM_HEIGHT * 0.5f));
+            rect.anchoredPosition = new Vector2(0f, yPos);
 
             LevelPrefabScript lps = gameObject.GetComponent<LevelPrefabScript>();
             lps.Init(verticalScroll, levelListParent.transform);
             lps.SetLevelInfo(level, level.Clears);
             UITransition.AnimateLevelListItem(gameObject, animationIndex, 30f);
 
+            cachedPrefabs.Add(lps);
+
             startingIndex++;
             animationIndex++;
         }
 
         RectTransform contentRect = levelListParent.GetComponent<RectTransform>();
-        float totalHeight = ViewModel.LevelPrefabScripts.Count * 125 + 90;
+        float totalHeight = (cachedPrefabs.Count + 1) * ITEM_STEP;
         contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, totalHeight);
+
+        OnScrollRectChanged(verticalScroll.GetComponent<ScrollRect>().normalizedPosition);
     }
 
     public async void Update()
@@ -613,6 +663,7 @@ public class LevelListScript : MonoBehaviour
 
     public void ClearLevels()
     {
+        cachedPrefabs.Clear();
         ViewModel.Clear();
         DefaultRequest.Offset = 0;
     }

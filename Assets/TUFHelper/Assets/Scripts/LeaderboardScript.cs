@@ -2,6 +2,8 @@ using DG.Tweening;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -60,7 +62,7 @@ public class LeaderboardScript : MonoBehaviour
         }
 
         string url = GetDefaultUrl(level.ID);
-        string answer = "";
+        Stream stream;
 
         try
         {
@@ -68,7 +70,7 @@ public class LeaderboardScript : MonoBehaviour
             response.EnsureSuccessStatusCode();
 
             token.ThrowIfCancellationRequested();
-            answer = await response.Content.ReadAsStringAsync();
+            stream = await response.Content.ReadAsStreamAsync(); //answer = await response.Content.ReadAsStringAsync();
         }
         catch (OperationCanceledException)
         {
@@ -78,20 +80,34 @@ public class LeaderboardScript : MonoBehaviour
         catch (Exception ex)
         {
             UITransition.Hide(loadingIcon);
-            Debug.LogError($"[TUFAPIRequest] Network or HTTP failure at {url}: {ex.Message}");
+            Main.Logger.Error($"[TUFAPIRequest] Network or HTTP failure at {url}: {ex.Message}");
             return;
         }
 
         token.ThrowIfCancellationRequested();
 
-        List<PassesListInfoElementJson> passes = await Task.Run(() =>
-        {
-            var levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
-            if (levelDes == null) return new List<PassesListInfoElementJson>();
+        Stopwatch stopwatch1 = Stopwatch.StartNew();
+        //List<PassesListInfoElementJson> passes = await Task.Run(() =>
+        //{
+        //    var levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
+        //    if (levelDes == null) return new List<PassesListInfoElementJson>();
 
-            return levelDes.OrderByDescending(p => p.ScoreV2).ToList();
-        }, token);
-        passes = passes.GetRange(0, Math.Min(passes.Count, 150));
+        //    return levelDes.ToList().OrderByDescending(p => p.ScoreV2).ToList();
+        //}, token);
+        List<PassesListInfoElementJson> passes = new();
+        try
+        {
+            passes = (await Utf8Json.JsonSerializer.DeserializeAsync<List<PassesListInfoElementJson>>(stream)).OrderByDescending(p => p.scoreV2).ToList();
+        }
+        catch (Exception ex)
+        {
+            Main.Logger.LogException(ex);
+        }
+        stopwatch1.Stop();
+
+        Main.Logger.Log(stopwatch1.ElapsedMilliseconds.ToString());
+
+        passes = passes.GetRange(0, Math.Min(passes.Count, 100));
 
         if (token.IsCancellationRequested) return;
 
@@ -138,6 +154,7 @@ public class LeaderboardScript : MonoBehaviour
 
                 int rank = i + 1;
                 var rps = obj.GetComponent<RankPrefabScript>();
+                rps.Init(scrollableParent, rectTransform);
                 rps.SetPassInfo(passes[i], level, rank);
 
                 rect.anchoredPosition = new Vector2(0, (i * -itemSpacing) - topPadding);

@@ -1,6 +1,6 @@
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
-using DG.Tweening;
 using TMPro;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
@@ -8,6 +8,8 @@ using TUFHelper.Utils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Image = UnityEngine.UI.Image;
 
 public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
@@ -59,12 +61,6 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public LevelListInfoElementJson LevelInfo { get; private set; }
 
     [Header("Text Fields")]
-    //public TextMeshProUGUI perfectText;
-    //public TextMeshProUGUI lPerfectText;
-    //public TextMeshProUGUI ePerfectText;
-    //public TextMeshProUGUI lateText;
-    //public TextMeshProUGUI earlyText;
-    //public TextMeshProUGUI tooEarlyText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI dateText;
     public TextMeshProUGUI scoreText;
@@ -78,6 +74,44 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public Image background;
     public Image leftRectangle;
 
+    private RectTransform _rectTransform;
+    private ScrollRect _scrollRect;
+    private RectTransform _viewportTransform;
+    private Transform _contentTransform;
+    private GameObject _scrollView;
+
+    private readonly Vector3[] _itemCorners = new Vector3[4];
+    private readonly Vector3[] _viewportCorners = new Vector3[4];
+    public GameObject visualContainer;
+
+    public void Init(GameObject scrollViewObj, Transform contentTransform)
+    {
+        _rectTransform = GetComponent<RectTransform>();
+        _scrollView = scrollViewObj;
+        _contentTransform = contentTransform;
+
+        _scrollRect = _scrollView.GetComponent<ScrollRect>();
+        _viewportTransform = _scrollRect.viewport;
+        _scrollRect.onValueChanged.AddListener(OnScrollValueChanged);
+
+        OnScrollValueChanged(new());
+    }
+
+    private void OnScrollValueChanged(Vector2 pos)
+    {
+        bool isVisible = IsVisibleInScrollView();
+
+        visualContainer.SetActive(isVisible);
+    }
+
+    public bool IsVisibleInScrollView()
+    {
+        _rectTransform.GetWorldCorners(_itemCorners);
+        _viewportTransform.GetWorldCorners(_viewportCorners);
+
+        return _itemCorners[1].y >= _viewportCorners[0].y && _itemCorners[0].y <= _viewportCorners[1].y;
+    }
+
     public void SetPassInfo(PassesListInfoElementJson pass, LevelListInfoElementJson level, int rank)
     {
         if (pass == null) return;
@@ -85,45 +119,25 @@ public class RankPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnt
         PassInfo = pass;
         LevelInfo = level;
 
-        //if (perfectText != null) perfectText.text = pass.Judgements.Perfect.ToString();
-        //if (ePerfectText != null) ePerfectText.text = pass.Judgements.EPerfect.ToString();
-        //if (lPerfectText != null) lPerfectText.text = pass.Judgements.LPerfect.ToString();
-        //if (lateText != null) lateText.text = pass.Judgements.LateSingle.ToString();
-        //if (earlyText != null) earlyText.text = pass.Judgements.EarlySingle.ToString();
-        //if (tooEarlyText != null) tooEarlyText.text = pass.Judgements.EarlyDouble.ToString();
+        speedText.text = $"{pass.speed:F2}x";
+        dateText.text = RelativeTimeFormatter.ToRelativeTime(pass.createdAt);
+        scoreText.text = $"{pass.scoreV2:F1}";
+        playerText.text = pass.player?.name ?? string.Empty;
 
-        if (speedText != null) speedText.text = $"{pass.Speed:F2}x";
-        if (dateText != null) dateText.text = RelativeTimeFormatter.ToRelativeTime(pass.CreatedAt);
-        if (scoreText != null) scoreText.text = $"{pass.ScoreV2:F1}";
+        accuracyText.text = $"{pass.accuracy * 100f:F2}%";
+        rankText.text = $"#{rank}";
 
-        if (playerText != null)
-        {
-            playerText.text = pass.Player?.Name ?? string.Empty;
-        }
+        GradesScore calculatedGrade = GetGradeFromAccuracy(pass.accuracy);
 
-        if (accuracyText != null) accuracyText.text = $"{pass.Accuracy * 100f:F2}%";
-        if (rankText != null) rankText.text = $"#{rank}";
+        grade.sprite = GetGradeSprite(calculatedGrade);
 
-        GradesScore calculatedGrade = GetGradeFromAccuracy(pass.Accuracy);
+        flag.sprite = Helper.GetFlagSprite(pass.player.country);
 
-        if (grade != null)
-        {
-            grade.sprite = GetGradeSprite(calculatedGrade);
-        }
-
-        if (flag != null && pass.Player != null)
-        {
-            flag.sprite = Helper.GetFlagSprite(pass.Player.Country);
-        }
-
-        if (leftRectangle != null)
-        {
-            Color baseColor = GradeColors.TryGetValue(calculatedGrade, out Color gradeColor)
+        Color baseColor = GradeColors.TryGetValue(calculatedGrade, out Color gradeColor)
                 ? gradeColor
                 : Color.white;
 
-            leftRectangle.color = new Color(baseColor.r, baseColor.g, baseColor.b, leftRectangle.color.a);
-        }
+        leftRectangle.color = new Color(baseColor.r, baseColor.g, baseColor.b, leftRectangle.color.a);
 
         UITransition.AnimateLeaderboardItem(this);
     }

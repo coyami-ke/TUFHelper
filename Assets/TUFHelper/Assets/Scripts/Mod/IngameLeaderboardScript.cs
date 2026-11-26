@@ -181,7 +181,7 @@ public class IngameLeaderboardScript : BasicIngameElement
     private LevelData _cachedLevelData;
     private Judgements _judgements;
     private CancellationTokenSource currentRequestToken;
-    private const int MAX_RANKS = 150;
+    private const int MAX_RANKS = 120;
     private bool isInit = false;
 
     #region Self-Contained Gameplay Event Hooks
