@@ -87,13 +87,6 @@ public class LeaderboardScript : MonoBehaviour
         token.ThrowIfCancellationRequested();
 
         Stopwatch stopwatch1 = Stopwatch.StartNew();
-        //List<PassesListInfoElementJson> passes = await Task.Run(() =>
-        //{
-        //    var levelDes = JsonConvert.DeserializeObject<PassesListInfoElementJson[]>(answer);
-        //    if (levelDes == null) return new List<PassesListInfoElementJson>();
-
-        //    return levelDes.ToList().OrderByDescending(p => p.ScoreV2).ToList();
-        //}, token);
         List<PassesListInfoElementJson> passes = new();
         try
         {

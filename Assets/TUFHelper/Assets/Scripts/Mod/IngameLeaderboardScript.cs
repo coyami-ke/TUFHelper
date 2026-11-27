@@ -348,14 +348,6 @@ public class IngameLeaderboardScript : BasicIngameElement
         }
 
         RankPrefabs = prefabs;
-
-        Main.Logger.Log("Prefabs:     " + RankPrefabs.Length);
-        Main.Logger.Log("Ranks:       " + ranks.Length);
-
-        foreach (var rank in RankPrefabs)
-        {
-            Main.Logger.Log($"{rank.rankText.text}: {new string(rank.PassInfo.player.name.Span)} Score: {rank.PassInfo.scoreV2} Accuracy: {rank.PassInfo.accuracy * 100:F2}");
-        }
     }
     private async Task<ReadOnlyMemory<IngameLeaderboardRank>> GetPassesAsync(int levelID)
     {
