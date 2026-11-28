@@ -122,7 +122,7 @@ public class LevelInPackScript : MonoBehaviour, IPointerClickHandler, IPointerEn
             case 0:
                 throw new Exception("adofai file was not found");
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0], lastLevel, PackID));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0].path, lastLevel, PackID));
                 break;
             default:
                 LevelSelector.instance.LevelInfo = lastLevel;

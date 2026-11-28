@@ -1,10 +1,12 @@
 using DG.Tweening;
+using DirectLevel;
 using System.Collections;
 using System.Collections.Generic;
 using TUFHelper;
 using TUFHelper.ModScripts.Json;
 using UnityEngine;
 using UnityEngine.UI;
+using static DirectLevel.LevelDownloader;
 
 public class LevelSelector : MonoBehaviour
 {
@@ -68,7 +70,7 @@ public class LevelSelector : MonoBehaviour
         characterRect.ScaleY(character_scale + ((1 + Mathf.Cos(progress * 4)) / 2 / 24f));
     }
 
-    public void LoadLevels(List<string> levels, LevelListInfoElementJson info, string packId = null, int packLevelID = -1)
+    public void LoadLevels(List<DownloadedLevel> levels, LevelListInfoElementJson info, string packId = null, int packLevelID = -1)
     {
         visualLevel.SetLevelInfo(info);
 
@@ -87,7 +89,7 @@ public class LevelSelector : MonoBehaviour
             GameObject obj = Instantiate(levelPrefab);
 
             SelectLevelPrefabScript prefabScript = obj.GetComponent<SelectLevelPrefabScript>();
-            prefabScript.SetLevel(levelPath, info, packId, packLevelID);
+            prefabScript.SetLevel(levelPath.path, levelPath.sizeInBytes, info, packId, packLevelID);
             prefabScript.levelName.DOText(prefabScript.levelName.text, 0.5f, false).From("").SetEase(Ease.Linear).SetDelay(count / 4);
 
             CanvasGroup canvasGroup = obj.GetComponent<CanvasGroup>();
@@ -105,7 +107,7 @@ public class LevelSelector : MonoBehaviour
         //contentRect.sizeDelta = new Vector2(contentRect.sizeDelta.x, count * 90f);
     }
 
-    public IEnumerator LoadLevelsCo(List<string> levels, LevelListInfoElementJson levelInfo, string packId = null, int packLevelID = -1)
+    public IEnumerator LoadLevelsCo(List<LevelDownloader.DownloadedLevel> levels, LevelListInfoElementJson levelInfo, string packId = null, int packLevelID = -1)
     {
         yield return new WaitUntil(() => TMPro.TMP_Settings.instance != null);
         yield return new WaitForEndOfFrame();

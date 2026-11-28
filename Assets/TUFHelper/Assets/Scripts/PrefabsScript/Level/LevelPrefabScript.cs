@@ -406,7 +406,7 @@ public class LevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEn
 
         if (args.Levels.Count == 1)
         {
-            UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0], levelInfo));
+            UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0].path, levelInfo));
         }
         else if (LevelSelector.instance != null)
         {

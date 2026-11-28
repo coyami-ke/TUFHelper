@@ -1,3 +1,4 @@
+using DirectLevel;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,9 +8,9 @@ namespace TUFHelper.ModScripts.Web
 {
     public class DownloadCompleteEventArgs : EventArgs
     {
-        public List<string> Levels { get; set; }
+        public List<LevelDownloader.DownloadedLevel> Levels { get; set; }
 
-        public DownloadCompleteEventArgs(List<string> levels)
+        public DownloadCompleteEventArgs(List<LevelDownloader.DownloadedLevel> levels)
         {
             Levels = levels;
         }

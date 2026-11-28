@@ -10,7 +10,7 @@ using Path = System.IO.Path;
 
 public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public TextMeshProUGUI levelName;
+    public TextMeshProUGUI levelName, size;
     public Image background;
 
     private string _fullPath;
@@ -34,12 +34,14 @@ public class SelectLevelPrefabScript : MonoBehaviour, IPointerClickHandler, IPoi
         background.DOColor(new Color(1f, 1f, 1f, 10f / 255f), 0.4f).SetEase(Ease.OutExpo);
     }
 
-    public void SetLevel(string path, LevelListInfoElementJson info, string packId = null, int packLevelId = -1)
+    public void SetLevel(string path, long sizeInBytes, LevelListInfoElementJson info, string packId = null, int packLevelId = -1)
     {
         _fullPath = path;
         _levelInfo = info;
         _packID = packId;
         _packLevelID = packLevelId;
+
+        size.text = $"{sizeInBytes / 1024} KB";
 
         levelName.text = Path.GetFileName(path);
         LanguageManager.ApplyChineseJapaneseFont(levelName);

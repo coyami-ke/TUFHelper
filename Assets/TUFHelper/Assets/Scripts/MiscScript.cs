@@ -282,7 +282,7 @@ public class MiscScript : MonoBehaviour
                 ExceptionCatch(new Exception("ADOFAI level file was not found in downloaded package."));
                 break;
             case 1:
-                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0], _lastLevel));
+                UIScript.SwipeToBlack(() => ADOFAIGameplayHandler.LaunchLevel(args.Levels[0].path, _lastLevel));
                 break;
             default:
                 if (LevelSelector.instance != null)

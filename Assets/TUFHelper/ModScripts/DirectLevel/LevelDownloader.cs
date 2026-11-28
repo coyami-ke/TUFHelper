@@ -16,6 +16,17 @@ namespace DirectLevel
 {
     public class LevelDownloader
     {
+        public struct DownloadedLevel
+        {
+            public readonly long sizeInBytes;
+            public readonly string path;
+
+            public DownloadedLevel(long sizeInBytes, string path)
+            {
+                this.sizeInBytes = sizeInBytes;
+                this.path = path;
+            }
+        }
         private LevelListInfoElementJson _levelInfo;
 
         public Action<Exception> ErrorHandler;
@@ -33,9 +44,9 @@ namespace DirectLevel
             _levelInfo = levelInfo;
         }
 
-        public static List<string> FindAdofaiFiles(string path)
+        public static List<DownloadedLevel> FindAdofaiFiles(string path)
         {
-            var result = new List<string>();
+            var result = new List<DownloadedLevel>();
 
             if (!Directory.Exists(path)) return result;
 
@@ -47,7 +58,7 @@ namespace DirectLevel
                 {
                     if (file.Name.Contains("backup")) continue;
 
-                    result.Add(file.FullName);
+                    result.Add(new(file.Length, file.FullName));
                 }
             }
             catch (UnauthorizedAccessException ex)
@@ -59,7 +70,7 @@ namespace DirectLevel
                 Main.Logger.Error($"Failed searching directories: {ex.Message}");
             }
 
-            return result.OrderByDescending(f => new FileInfo(f).Length).ToList();
+            return result.OrderByDescending(f => new FileInfo(new string(f.path)).Length).ToList();
         }
 
         private static readonly char[] InvalidFilenameChars = Path.GetInvalidFileNameChars();

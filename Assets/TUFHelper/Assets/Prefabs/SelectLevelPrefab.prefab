@@ -594,6 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelName: {fileID: 6773788408817512779}
+  size: {fileID: 8012444602583696557}
   background: {fileID: 5645069190405704958}
 --- !u!225 &8893808419496569555
 CanvasGroup:
