@@ -86,7 +86,6 @@ public class LeaderboardScript : MonoBehaviour
 
         token.ThrowIfCancellationRequested();
 
-        Stopwatch stopwatch1 = Stopwatch.StartNew();
         List<PassesListInfoElementJson> passes = new();
         try
         {
@@ -96,9 +95,6 @@ public class LeaderboardScript : MonoBehaviour
         {
             Main.Logger.LogException(ex);
         }
-        stopwatch1.Stop();
-
-        Main.Logger.Log(stopwatch1.ElapsedMilliseconds.ToString());
 
         passes = passes.GetRange(0, Math.Min(passes.Count, 100));
 

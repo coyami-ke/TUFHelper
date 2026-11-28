@@ -73,7 +73,7 @@ public class CurationTypesScript : MonoBehaviour, IPointerClickHandler
             string key = kvp.Key;
             Toggle toggle = kvp.Value;
 
-            toggle.isOn = Main.Setting.SelectedSpecialDiffs.Contains(key);
+            toggle.isOn = Main.Setting.SelectedCurationTypes.Contains(key);
             toggle.onValueChanged.AddListener(async _ => await UpdateLevelList());
         }
 

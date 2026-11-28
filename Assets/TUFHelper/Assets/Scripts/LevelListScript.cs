@@ -104,6 +104,7 @@ public class LevelListScript : MonoBehaviour
     public async void Start()
     {
         sortByDropdown.value = Main.Setting.SortBy;
+        sortByDropdown.RefreshShownValue();
         int sortOrder;
         if (Main.Setting.SortOrder == AscendingOrDescending.Ascending)
         {
@@ -114,6 +115,7 @@ public class LevelListScript : MonoBehaviour
             sortOrder = 1;
         }
         sortOrderDropdown.value = sortOrder;
+        sortOrderDropdown.RefreshShownValue();
         enableQRangeToggle.isOn = Main.Setting.EnableQRange;
         showOnlyDownloadedToggle.isOn = Main.Setting.ShowOnlyDownloaded;
         showOnlyFavoritesToggle.isOn = Main.Setting.ShowOnlyFavorites;
@@ -259,7 +261,7 @@ public class LevelListScript : MonoBehaviour
         Main.Setting.ShowOnlyFavorites = value;
         Main.Setting.Save(Main.ModEntry);
 
-        ViewModel.Clear();
+        ClearLevels();
         await UpdateLevelListAsync();
     }
 
@@ -272,15 +274,17 @@ public class LevelListScript : MonoBehaviour
     }
     public void OnLevelsCleared()
     {
+        cachedPrefabs.Clear();
+
         for (int i = levelListParent.transform.childCount - 1; i >= 0; i--)
         {
             Transform child = levelListParent.transform.GetChild(i);
-
             child.SetParent(null);
             Destroy(child.gameObject);
         }
 
-        verticalScroll.GetComponent<ScrollRect>().verticalNormalizedPosition = 1f;
+        if (VerticalScrollComponent != null)
+            VerticalScrollComponent.verticalNormalizedPosition = 1f;
     }
     public async void OnSortByChanged(int value)
     {
@@ -300,6 +304,9 @@ public class LevelListScript : MonoBehaviour
                 break;
         }
 
+        Main.Setting.SortBy = value;
+        Main.Setting.Save(Main.ModEntry);
+
         ClearLevels();
         await UpdateLevelListAsync();
     }
@@ -309,11 +316,15 @@ public class LevelListScript : MonoBehaviour
         {
             case 0:
                 DefaultRequest.SortAsc = AscendingOrDescending.Ascending;
+                Main.Setting.SortOrder = AscendingOrDescending.Ascending;
                 break;
             case 1:
                 DefaultRequest.SortAsc = AscendingOrDescending.Descending;
+                Main.Setting.SortOrder = AscendingOrDescending.Descending;
                 break;
         }
+
+        Main.Setting.Save(Main.ModEntry);
 
         ClearLevels();
         await UpdateLevelListAsync();
@@ -373,55 +384,14 @@ public class LevelListScript : MonoBehaviour
 
     public async void Update()
     {
-        //var levelPrefabs = GetLevelPrefabScripts();
-        //int selectedIndex = GetIndexSelected();
-
-        //if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-        //    var selected = EventSystem.current.currentSelectedGameObject;
-        //    var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-        //    bool isTyping = inputField != null && inputField.isFocused;
-
-        //    if (!isTyping && levelPrefabs.Length > 0)
-        //    {
-        //        if (selectedIndex == -1)
-        //        {
-        //            SelectIndex(levelPrefabs, 0);
-        //            return;
-        //        }
-
-        //        // Wrap to 0 if at last
-        //        int nextIndex = (selectedIndex + 1) % levelPrefabs.Length;
-        //        SelectIndex(levelPrefabs, nextIndex);
-        //    }
-        //}
-        //else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    var selected = EventSystem.current.currentSelectedGameObject;
-        //    var inputField = selected != null ? selected.GetComponent<TMP_InputField>() : null;
-        //    bool isTyping = inputField != null && inputField.isFocused;
-
-        //    if (!isTyping && levelPrefabs.Length > 0)
-        //    {
-        //        if (selectedIndex == -1)
-        //        {
-        //            SelectIndex(levelPrefabs, 0);
-        //            return;
-        //        }
-
-        //        // Wrap to last if at 0
-        //        int prevIndex = (selectedIndex - 1 + levelPrefabs.Length) % levelPrefabs.Length;
-        //        SelectIndex(levelPrefabs, prevIndex);
-        //    }
-        //}
-
-
-
-        // Handle Scroll-Based Pagination
-        if (!isLoading && !showOnlyDownloadedToggle.isOn && VerticalScrollComponent.verticalNormalizedPosition <= 0.01f && HasMore)
+        if (!isLoading &&
+            !showOnlyDownloadedToggle.isOn &&
+            VerticalScrollComponent != null &&
+            VerticalScrollComponent.verticalNormalizedPosition <= 0.01f &&
+            HasMore)
         {
             isLoading = true;
-            DefaultRequest.Offset = GetLevelPrefabScripts().Length;
+            DefaultRequest.Offset = ViewModel.LevelPrefabScripts.Count;
             await UpdateLevelListAsync();
         }
     }
@@ -458,10 +428,13 @@ public class LevelListScript : MonoBehaviour
 
     public async Task UpdateLevelListAsync()
     {
-        //DeselectAll();
         requestCancelToken?.Cancel();
+        requestCancelToken?.Dispose();
         requestCancelToken = new CancellationTokenSource();
         CancellationToken token = requestCancelToken.Token;
+
+        isLoading = true;
+        UITransition.Show(loadingIcon);
 
         if (showOnlyDownloadedToggle.isOn)
         {
@@ -473,17 +446,24 @@ public class LevelListScript : MonoBehaviour
 
             var sortedLevels = SortLevels(levels);
 
-            string query = searchField.text;
+            string query = searchField.text.Trim().ToLower();
             bool searchId = query.StartsWith("#");
             int queryId = 0;
-            if (searchId && int.TryParse(searchField.text[1..], out int id))
+            if (searchId && int.TryParse(query[1..], out int id))
                 queryId = id;
 
             var filteredLevels = sortedLevels.Where(level =>
             {
                 // Filter by #ID
-                if (searchId && level.ID != queryId)
-                    return false;
+                if (!searchId && !string.IsNullOrEmpty(query))
+                {
+                    string creator = (level.Creator ?? string.Empty).ToLower();
+                    string artist = (level.Artist ?? string.Empty).ToLower();
+                    string song = (level.Song ?? string.Empty).ToLower();
+
+                    if (!creator.Contains(query) && !artist.Contains(query) && !song.Contains(query))
+                        return false;
+                }
 
                 // Filter by difficulty
                 var diffName = DiffSpriteHelper.DiffIDRegister[level.DiffId];
@@ -568,15 +548,15 @@ public class LevelListScript : MonoBehaviour
             ViewModel.Clear();
             ViewModel.AddRange(filteredLevels.ToArray());
 
+            UITransition.Hide(loadingIcon);
+            isLoading = false;
+
             return;
         }
 
 
         try
         {
-            UITransition.Show(loadingIcon);
-            isLoading = true;
-
             if (DefaultRequest.Query.StartsWith("#"))
             {
                 string id = DefaultRequest.Query.Substring(1);
@@ -653,11 +633,10 @@ public class LevelListScript : MonoBehaviour
             Main.Logger.Error("Update failed: " + ex.Message);
             Main.Logger.Error(ex.Source);
         }
-        finally
-        {
-            UITransition.Hide(loadingIcon);
-            isLoading = false;
-        }
+
+
+        UITransition.Hide(loadingIcon);
+        isLoading = false;
     }
 
 

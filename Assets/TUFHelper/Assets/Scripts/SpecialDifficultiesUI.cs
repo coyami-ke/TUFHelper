@@ -47,7 +47,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    private async void Start()
+    private void Start()
     {
         menuTransform.sizeDelta = new(menuTransform.sizeDelta.x, 0);
         toggleMap = new Dictionary<string, Toggle>
@@ -63,7 +63,7 @@ public class SpecialDifficultiesUI : MonoBehaviour, IPointerClickHandler
             string key = kvp.Key;
             Toggle toggle = kvp.Value;
 
-            toggle.isOn = Main.Setting.SelectedTags.Contains(key);
+            toggle.isOn = Main.Setting.SelectedSpecialDiffs.Contains(key);
             toggle.onValueChanged.AddListener(_ =>  UpdateLevelList());
         }
 
